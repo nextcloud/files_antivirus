@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Host" => "Tenar",
-"Save" => "Lagre"
+"Save" => "Guardar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
