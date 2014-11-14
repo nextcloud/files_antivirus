@@ -1,4 +1,6 @@
 <?php
+use OC\Files\Storage\Temporary;
+
 /**
  * Copyright (c) 2014 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -7,16 +9,19 @@
  */
 
 
-require_once __DIR__ . '../../../../lib/base.php';
-
-
-class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
+class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
 	
 	const TEST_CLEAN_FILENAME = 'foo.txt';
 	const TEST_INFECTED_FILENAME = 'kitten.inf';
-	
+
+	/**
+	 * @var string
+	 */
 	private $user;
-	
+
+	/**
+	 * @var Temporary
+	 */
 	private $storage;
 	
 	private $config = array();
@@ -52,12 +57,6 @@ class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
 	public function tearDown() {
 		\OC_User::setUserId($this->user);
 
-		$cache = $this->storage->getCache();
-		$ids = $cache->getAll();
-		$permissionsCache = $this->storage->getPermissionsCache();
-		$permissionsCache->removeMultiple($ids, \OC_User::getUser());
-		$cache->clear();
-		
 		if (!is_null($this->config['av_mode'])){
 			\OCP\Config::setAppValue('files_antivirus', 'av_mode', $this->config['av_mode']);
 		}
