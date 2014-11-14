@@ -13,11 +13,18 @@ class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
 	const TEST_INFECTED = 1;
 	const TEST_ERROR = 40;
 	
+	public function setUp() {
+		\OC_App::enable('files_antivirus');
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus_status`');
+		$query->execute(array());
+		\OCA\Files_Antivirus\Status::init();
+	}
+	
 	public function testParseResponse(){
 		// Testing status codes
 		$testStatus = new \OCA\Files_Antivirus\Status();
 		
-		$testStatus->parseResponse('dummy', self::TEST_CLEAN);
+		$testStatus->parseResponse('dummy : OK', self::TEST_CLEAN);
 		$cleanScan = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_CLEAN, $cleanScan);
 		$this->assertEquals("", $testStatus->getDetails());
@@ -39,22 +46,22 @@ class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
 		$testStatus->parseResponse('');
 		$failedScan2 = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $failedScan2);
-		$this->assertEquals("unknown", $testStatus->getDetails());
+		$this->assertEquals('No matching rules. Please check antivirus rules.', $testStatus->getDetails());
 		
 		// No rules matched result is unknown too
 		$testStatus->parseResponse('123dc');
 		$failedScan3 = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $failedScan3);
-		$this->assertEquals('unknown', $testStatus->getDetails());
+		$this->assertEquals('No matching rules. Please check antivirus rules.', $testStatus->getDetails());
 		
 		// File is clean
 		$testStatus->parseResponse('Thu Oct 28 13:02:19 2010 -> /tmp/kitten : OK');
 		$cleanScan2 = $testStatus->getNumericStatus();
-		//$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_CLEAN, $cleanScan2);
-		//$this->assertEquals('', $testStatus->getDetails());
+		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_CLEAN, $cleanScan2);
+		$this->assertEquals('', $testStatus->getDetails());
 		
 		// File is infected
-		$testStatus->parseResponse('Thu Oct 28 13:02:19 2010 -> /tmp/kitten: Heuristics.Broken.Kitten  FOUND');
+		$testStatus->parseResponse('Thu Oct 28 13:02:19 2010 -> /tmp/kitten: Heuristics.Broken.Kitten FOUND');
 		$infectedScan2 = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_INFECTED, $infectedScan2);
 		$this->assertEquals('Heuristics.Broken.Kitten', $testStatus->getDetails());
