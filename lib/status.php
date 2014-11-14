@@ -58,6 +58,10 @@ class Status {
 		return $this->details;
 	}
 	
+	/**
+	 * @param string $rawResponse
+	 * @param integer $result
+	 */
 	public function parseResponse($rawResponse, $result = null){
 		$matches = array();
 		

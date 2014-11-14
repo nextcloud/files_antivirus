@@ -17,6 +17,9 @@ class External extends \OCA\Files_Antivirus\Scanner {
 	protected $useSocket;
 	
 	
+	/**
+	 * @param boolean $useSocket
+	 */
 	public function __construct($useSocket){
 		parent::__construct($useSocket);
 		$this->useSocket = $useSocket;

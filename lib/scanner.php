@@ -39,6 +39,9 @@ class Scanner {
 		$this->chunkSize = \OCP\Config::getAppValue('files_antivirus', 'av_chunk_size', '1024');
 	}
 	
+	/**
+	 * @return resource
+	 */
 	protected function getFileHandle($fileView, $filepath) {
 		$fhandler = $fileView->fopen($filepath, "r");
 		if(!$fhandler) {
