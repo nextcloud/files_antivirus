@@ -48,7 +48,7 @@ class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
 		
 		\OCP\Config::setAppValue('files_antivirus', 'av_mode', 'executable');
 		\OCP\Config::setAppValue('files_antivirus', 'av_path', __DIR__ . '/avir.sh');
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus_status`');
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
 		$query->execute(array());
 		\OCA\Files_Antivirus\Status::init();
 	}

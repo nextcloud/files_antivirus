@@ -37,7 +37,7 @@
 
 	<table>
 
-		<name>*dbprefix*files_antivirus_status</name>
+		<name>*dbprefix*files_avir_status</name>
 
 		<declaration>
 

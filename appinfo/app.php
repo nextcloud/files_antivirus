@@ -30,7 +30,7 @@ $avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
 
 if (empty($avBinary)){
 	try {
-		$query = \OCP\DB::prepare('SELECT count(`id`) AS `totalRules` FROM `*PREFIX*files_antivirus_status`');
+		$query = \OCP\DB::prepare('SELECT count(`id`) AS `totalRules` FROM `*PREFIX*files_avir_status`');
 		$result = $query->execute();
 		$result = $result->fetchRow();
 		if($result['totalRules'] == 0) {

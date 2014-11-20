@@ -15,7 +15,7 @@ class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
 	
 	public function setUp() {
 		\OC_App::enable('files_antivirus');
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus_status`');
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
 		$query->execute(array());
 		\OCA\Files_Antivirus\Status::init();
 	}
