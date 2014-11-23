@@ -67,7 +67,7 @@ class Status {
 		
 		if (is_null($result)){ // Daemon or socket mode
 			// Load rules
-			$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*files_antivirus_status` WHERE `status_type`=? and `status`=?');
+			$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `status`=?');
 			
 			try{
 				$infectedResult = $query->execute(array(self::STATUS_TYPE_MATCH, self::SCANRESULT_INFECTED));
@@ -123,7 +123,7 @@ class Status {
 			}
 			
 		} else { // Executable mode
-			$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*files_antivirus_status` WHERE `status_type`=? and `result`=?');
+			$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `result`=?');
 			$queryResult = $query->execute(array(self::STATUS_TYPE_CODE, $result));
 			$scanStatus = $queryResult->fetchRow();
 			if (is_array($scanStatus) && count($scanStatus)){
@@ -335,7 +335,7 @@ class Status {
 			),
 		);
 		
-		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus_status` (`group_id`, `status_type`, `result`, `match`, `description`, `status`) VALUES (?,?,?,?,?,?)');
+		$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_avir_status` (`group_id`, `status_type`, `result`, `match`, `description`, `status`) VALUES (?,?,?,?,?,?)');
 		foreach ($descriptions as $description){
 			$query->execute(array_values($description));
 		}

@@ -9,3 +9,7 @@ if (version_compare($installedVersion, '0.6', '<')) {
 		$deleteQuery->execute(array($row['fileid']));
 	}
 }
+if (version_compare($installedVersion, '0.6.1', '<')) {
+	$alterQuery = OC_DB::prepare( 'ALTER TABLE `*PREFIX*files_antivirus_status` RENAME TO `*PREFIX*files_avir_status`' );
+	$alterQuery->execute();
+}
