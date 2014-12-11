@@ -47,5 +47,6 @@ The App is not complete yet, the following works/is done:
 
 
 Authors:
-[Manuel Delgado López](https://github.com/valarauco/) :: manuel.delgado at ucr.ac.cr
+
+[Manuel Delgado López](https://github.com/valarauco/) :: manuel.delgado at ucr.ac.cr  
 [Bart Visscher](https://github.com/bartv2/)
