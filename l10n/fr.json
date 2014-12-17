@@ -3,7 +3,7 @@
     "Infected" : "Infecté",
     "Unchecked" : "Non coché",
     "Scanner exit status" : "État de sortie du scanner",
-    "Scanner output" : "Sortie de scanner",
+    "Scanner output" : "Sortie du scanner",
     "Malware detected" : "Logiciel malveillant détecté",
     "Virus detected! Can't upload the file %s" : "Virus détecté ! Impossible de télécharger le fichier %s",
     "Greetings {user}," : "Bienvenue {user},",
