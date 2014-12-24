@@ -10,7 +10,7 @@ OC.L10N.register(
     "Virus detected! Can't upload the file %s" : "Byl detekován virus! Nelze nahrát soubor %s",
     "Greetings {user}," : "Vítejte {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Bohužel byl v odeslaném souboru nalezen malware, soubor musel být odstraněn.",
-    "This email is a notification from {host}. Please, do not reply." : "Tento e-mail je oznámení od {host}. Prosím, neodpovídejte na něj.",
+    "This email is a notification from {host}. Please, do not reply." : "Tento email je oznámení od {host}. Prosím, neodpovídejte na něj.",
     "File uploaded: {file}" : "Soubor odeslán: {file}",
     "Antivirus Configuration" : "Nastavení antiviru",
     "Mode" : "Režim",
