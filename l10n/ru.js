@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Clean" : "Чисто",
+    "Clean" : "Проверен",
     "Infected" : "Заражён",
     "Unchecked" : "Не проверен",
     "Scanner exit status" : "Вывод статуса сканера",
@@ -9,7 +9,7 @@ OC.L10N.register(
     "Malware detected" : "Вредоносные программы обнаружены ",
     "Virus detected! Can't upload the file %s" : "Обнаружен вирус! Невозможно загрузить файл %s",
     "Greetings {user}," : "Приветствуем, {user},",
-    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Извините, но вредоносная программа была обнаружена в файле, который Вы пытаетесь скачать, и он был удалён.",
+    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "В файле, который вы пытаетесь скачать, обнаружена вредоносная программа, файл удалён.",
     "This email is a notification from {host}. Please, do not reply." : "Это письмо - уведомление от {host}. Пожалуйста, не отвечайте на него.",
     "File uploaded: {file}" : "Файл загружен: {file}",
     "Antivirus Configuration" : "Конфигурация антивируса",
