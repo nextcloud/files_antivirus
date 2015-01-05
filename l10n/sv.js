@@ -29,6 +29,7 @@ OC.L10N.register(
     "Path to clamscan" : "Sökväg till clamscan",
     "Path to clamscan executable." : "Sökväg till clamscan binär.",
     "Not required in Daemon Mode." : "Krävs inte i Demonläge.",
+    "Extra command line options (comma-separated)" : "Extra kommandoradsoptioner (kommaseparerade)",
     "Action for infected files found while scanning" : "Åtgärder för infekterade filer som hittades under skanning",
     "Only log" : "Bara logg",
     "Delete file" : "Radera fil",
