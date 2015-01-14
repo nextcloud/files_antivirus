@@ -25,9 +25,12 @@ class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
 	private $storage;
 	
 	private $config = array();
+	private $proxies = array();
 	
 	public function setUp() {
 		\OC_App::enable('files_antivirus');
+		$this->proxies = \OC_FileProxy::getProxies();
+		\OC_FileProxy::clearProxies();
 
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
@@ -35,6 +38,7 @@ class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
 
 		//login
 		\OC_User::createUser('test', 'test');
+		\OC::$server->getSession()->set('user_id', 'test');
 		
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::init('test', '');
@@ -54,6 +58,10 @@ class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
 	}
 	
 	public function tearDown() {
+		foreach ($this->proxies as $proxy){
+			\OC_FileProxy::register($proxy);
+		}
+		
 		if (!is_null($this->config['av_mode'])){
 			\OCP\Config::setAppValue('files_antivirus', 'av_mode', $this->config['av_mode']);
 		}
