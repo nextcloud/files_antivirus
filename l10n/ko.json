@@ -1,4 +1,11 @@
 { "translations": {
+    "Clean" : "감염되지 않음",
+    "Infected" : "감염됨",
+    "Unchecked" : "확인되지 않음",
+    "Scanner exit status" : "검사 도구 종료 결과",
+    "Scanner output" : "검사 도구 출력",
+    "Malware detected" : "멀웨어 감지됨",
+    "Virus detected! Can't upload the file %s" : "바이러스가 감지되었습니다! 파일 %s을(를) 업로드할 수 없습니다",
     "Greetings {user}," : "{user}님, 환영합니다",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "업로드하려고 시도한 파일에 악성 소프트웨어가 포함되어 있어서 삭제되었습니다.",
     "This email is a notification from {host}. Please, do not reply." : "이 이메일은 {host}에서 보낸 알림입니다. 답장하지 마십시오.",
@@ -20,11 +27,19 @@
     "Path to clamscan" : "clamscan 경로",
     "Path to clamscan executable." : "clamscan 실행 파일의 경로입니다.",
     "Not required in Daemon Mode." : "대몬 모드에서는 필요하지 않습니다.",
+    "Extra command line options (comma-separated)" : "추가 명령행 옵션(쉼표로 구분)",
     "Action for infected files found while scanning" : "감염된 파일이 발견되었을 때 동작",
     "Only log" : "기록만",
     "Delete file" : "파일 삭제",
     "Save" : "저장",
     "Advanced" : "고급",
-    "Description" : "종류"
+    "Rules" : "규칙",
+    "Clear All" : "모두 지우기",
+    "Reset to defaults" : "기본값 복원",
+    "Match by" : "다음으로 일치",
+    "Scanner exit status or signature to search" : "검사 도구 종료 결과 및 검색할 패턴",
+    "Description" : "종류",
+    "Mark as" : "다음으로 표시",
+    "Add a rule" : "규칙 추가"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
