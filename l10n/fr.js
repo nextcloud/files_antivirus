@@ -38,7 +38,7 @@ OC.L10N.register(
     "Rules" : "Règles",
     "Clear All" : "Tout effacer",
     "Reset to defaults" : "Réinitialisation",
-    "Match by" : "Correspond avec",
+    "Match by" : "Correspond à",
     "Scanner exit status or signature to search" : "Etat de sortie du scanner ou signature à rechercher",
     "Description" : "Description",
     "Mark as" : "Marquer comme",
