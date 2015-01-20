@@ -2,8 +2,6 @@
 
 files_antivirus is an antivirus app for [ownCloud](https://github.com/owncloud) based on [ClamAV](http://www.clamav.net).
 
-v0.3
-
 ##Details
 
 The idea is to check for virus at upload-time, notifying the user (on screen and/or email) and
@@ -35,9 +33,6 @@ The App is not complete yet, the following works/is done:
 
 * ownCloud 4
 * ClamAV (Binaries or a server running ClamAV in daemon mode)
-
-## 3rd party software used
-* Simplesocketclient for connecting to ClamAV file-socket: http://github.com/kijin/simplesocket
 
 
 ## Install
