@@ -75,26 +75,43 @@ class Scanner {
 			// we should have a file to work with, and the file shouldn't
 			// be empty
 			$fileExists = $filesView->file_exists($path);
-			if ($fileExists && $filesView->filesize($path) > 0) {
-				$fileStatus = self::scanFile($filesView, $path);
-				$result = $fileStatus->getNumericStatus();
-				switch($result) {
-					case Status::SCANRESULT_UNCHECKED:
-						//TODO: Show warning to the user: The file can not be checked
-						break;
-					case Status::SCANRESULT_INFECTED:
-						//remove file
-						$filesView->unlink($path);
-						Notification::sendMail($path);
-						$message = \OCP\Util::getL10N('files_antivirus')->t("Virus detected! Can't upload the file %s", array(basename($path)));
-						\OCP\JSON::error(array("data" => array( "message" => $message)));
-						exit();
-						break;
-
-					case Status::SCANRESULT_CLEAN:
-						//do nothing
-						break;
-				}
+			if (!$fileExists || !$filesView->filesize($path)) {
+				return;
+			}
+			
+			$fileStatus = self::scanFile($filesView, $path);
+			$result = $fileStatus->getNumericStatus();
+			$account = \OCP\User::getUser();
+			if (!$account){
+				$account = 'Guest';
+			}
+			switch($result) {
+				case Status::SCANRESULT_UNCHECKED:
+					//TODO: Show warning to the user: The file can not be checked
+					\OCP\Util::writeLog(
+						'files_antivirus', 
+						'Account:' . $account . ' .File:' . $path
+							. ' could not be scanned. Details: ' . $fileStatus->getDetails(),
+						\OCP\Util::WARN
+					);
+					break;
+				case Status::SCANRESULT_INFECTED:
+					\OCP\Util::writeLog(
+						'files_antivirus', 
+						'Virus(es) found: ' . $fileStatus->getDetails() 
+							. 'Account:' . $account . ' .File:' . $path,
+						\OCP\Util::WARN
+					);
+					//remove file
+					$filesView->unlink($path);
+					Notification::sendMail($path);
+					$message = \OCP\Util::getL10N('files_antivirus')->t("Virus detected! Can't upload the file %s", array(basename($path)));
+					\OCP\JSON::error(array("data" => array( "message" => $message)));
+					exit();
+					break;
+				case Status::SCANRESULT_CLEAN:
+					//do nothing
+					break;
 			}
 		}
 	}
