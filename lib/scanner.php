@@ -23,7 +23,9 @@
 
 namespace OCA\Files_Antivirus;
 
-class Scanner {
+use OC\Files\View;
+
+abstract class Scanner {
 	// null if not initialized
 	// false if an error occurred
 	// Scanner subclass if initialized
@@ -40,18 +42,22 @@ class Scanner {
 	}
 	
 	/**
-	 * @return resource
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return mixed
 	 */
-	protected function getFileHandle($fileView, $filepath) {
-		$fhandler = $fileView->fopen($filepath, "r");
-		if(!$fhandler) {
+	protected function getFileHandle($fileView, $filePath) {
+		$fileHandle = $fileView->fopen($filePath, "r");
+		if(!$fileHandle) {
 			\OCP\Util::writeLog('files_antivirus', 'File could not be open.', \OCP\Util::ERROR);
 			throw new \RuntimeException();
 		}
-		return $fhandler;
+		return $fileHandle;
 	}
-	
 
+	/**
+	 * @param string $path
+	 */
 	public static function av_scan($path) {
 		$path = $path[\OC\Files\Filesystem::signal_param_path];
 		if ($path != '') {
@@ -75,36 +81,59 @@ class Scanner {
 			// we should have a file to work with, and the file shouldn't
 			// be empty
 			$fileExists = $filesView->file_exists($path);
-			if ($fileExists && $filesView->filesize($path) > 0) {
-				$fileStatus = self::scanFile($filesView, $path);
-				$result = $fileStatus->getNumericStatus();
-				switch($result) {
-					case Status::SCANRESULT_UNCHECKED:
-						//TODO: Show warning to the user: The file can not be checked
-						break;
-					case Status::SCANRESULT_INFECTED:
-						//remove file
-						$filesView->unlink($path);
-						Notification::sendMail($path);
-						$message = \OCP\Util::getL10N('files_antivirus')->t("Virus detected! Can't upload the file %s", array(basename($path)));
-						\OCP\JSON::error(array("data" => array( "message" => $message)));
-						exit();
-						break;
-
-					case Status::SCANRESULT_CLEAN:
-						//do nothing
-						break;
-				}
+			if (!$fileExists || !$filesView->filesize($path)) {
+				return;
+			}
+			
+			$fileStatus = self::scanFile($filesView, $path);
+			$result = $fileStatus->getNumericStatus();
+			$account = \OCP\User::getUser();
+			if (!$account){
+				$account = 'Guest';
+			}
+			$result = Status::SCANRESULT_INFECTED;
+			switch($result) {
+				case Status::SCANRESULT_UNCHECKED:
+					//TODO: Show warning to the user: The file can not be checked
+					\OCP\Util::writeLog(
+						'files_antivirus', 
+						'Account:' . $account . ' .File:' . $path
+							. ' could not be scanned. Details: ' . $fileStatus->getDetails(),
+						\OCP\Util::WARN
+					);
+					break;
+				case Status::SCANRESULT_INFECTED:
+					\OCP\Util::writeLog(
+						'files_antivirus', 
+						'Virus(es) found: ' . $fileStatus->getDetails() 
+							. 'Account:' . $account . ' .File:' . $path,
+						\OCP\Util::WARN
+					);
+					//remove file
+					$filesView->unlink($path);
+					Notification::sendMail($path);
+					$message = \OCP\Util::getL10N('files_antivirus')->t("Virus detected! Can't upload the file %s", array(basename($path)));
+					\OCP\JSON::error(array("data" => array( "message" => $message)));
+					exit();
+					break;
+				case Status::SCANRESULT_CLEAN:
+					//do nothing
+					break;
 			}
 		}
 	}
 
-	public static function scanFile($fileView, $filepath) {
+	/**
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return Status
+	 */
+	public static function scanFile($fileView, $filePath) {
 		$instance = self::getInstance();
 
 		if ($instance instanceof Scanner){
 			try {
-				$instance->scan($fileView, $filepath);
+				$instance->scan($fileView, $filePath);
 			} catch (\Exception $e){
 				\OCP\Util::writeLog('files_antivirus', $e->getMessage(), \OCP\Util::ERROR);
 			}
@@ -149,5 +178,12 @@ class Scanner {
 		
 		return self::$instance;
 	}
+
+	/**
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return mixed
+	 */
+	abstract protected function scan($fileView, $filePath);
 
 }

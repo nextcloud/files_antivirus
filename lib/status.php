@@ -147,18 +147,6 @@ class Status {
 					$this->details = isset($scanStatus['description']) ? $scanStatus['description'] : 'No matching rule for exit code ' .  $this->numericStatus .'. Please check antivirus rules configuration.' ;
 			}
 		}
-		
-		//Log
-		switch($this->numericStatus) {
-				case self::SCANRESULT_CLEAN:
-					\OCP\Util::writeLog('files_antivirus', 'Result CLEAN!', \OCP\Util::DEBUG);
-					break;
-				case self::SCANRESULT_INFECTED:
-					\OCP\Util::writeLog('files_antivirus', 'Virus(es) found: '.$this->details, \OCP\Util::WARN);
-					break;
-				default:
-					\OCP\Util::writeLog('files_antivirus', 'File could not be scanned. Details: ' . $this->details, \OCP\Util::WARN);
-		}
 	}
 
 	public static function init(){
