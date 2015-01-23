@@ -23,7 +23,9 @@
 
 namespace OCA\Files_Antivirus;
 
-class Scanner {
+use OC\Files\View;
+
+abstract class Scanner {
 	// null if not initialized
 	// false if an error occurred
 	// Scanner subclass if initialized
@@ -40,18 +42,22 @@ class Scanner {
 	}
 	
 	/**
-	 * @return resource
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return mixed
 	 */
-	protected function getFileHandle($fileView, $filepath) {
-		$fhandler = $fileView->fopen($filepath, "r");
-		if(!$fhandler) {
+	protected function getFileHandle($fileView, $filePath) {
+		$fileHandle = $fileView->fopen($filePath, "r");
+		if(!$fileHandle) {
 			\OCP\Util::writeLog('files_antivirus', 'File could not be open.', \OCP\Util::ERROR);
 			throw new \RuntimeException();
 		}
-		return $fhandler;
+		return $fileHandle;
 	}
-	
 
+	/**
+	 * @param string $path
+	 */
 	public static function av_scan($path) {
 		$path = $path[\OC\Files\Filesystem::signal_param_path];
 		if ($path != '') {
@@ -85,6 +91,7 @@ class Scanner {
 			if (!$account){
 				$account = 'Guest';
 			}
+			$result = Status::SCANRESULT_INFECTED;
 			switch($result) {
 				case Status::SCANRESULT_UNCHECKED:
 					//TODO: Show warning to the user: The file can not be checked
@@ -116,12 +123,17 @@ class Scanner {
 		}
 	}
 
-	public static function scanFile($fileView, $filepath) {
+	/**
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return Status
+	 */
+	public static function scanFile($fileView, $filePath) {
 		$instance = self::getInstance();
 
 		if ($instance instanceof Scanner){
 			try {
-				$instance->scan($fileView, $filepath);
+				$instance->scan($fileView, $filePath);
 			} catch (\Exception $e){
 				\OCP\Util::writeLog('files_antivirus', $e->getMessage(), \OCP\Util::ERROR);
 			}
@@ -166,5 +178,12 @@ class Scanner {
 		
 		return self::$instance;
 	}
+
+	/**
+	 * @param View $fileView
+	 * @param string $filePath
+	 * @return mixed
+	 */
+	abstract protected function scan($fileView, $filePath);
 
 }
