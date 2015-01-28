@@ -91,7 +91,7 @@ abstract class Scanner {
 			if (!$account){
 				$account = 'Guest';
 			}
-			$result = Status::SCANRESULT_INFECTED;
+
 			switch($result) {
 				case Status::SCANRESULT_UNCHECKED:
 					//TODO: Show warning to the user: The file can not be checked
