@@ -21,7 +21,7 @@
 *
 */
 
-OCP\App::registerAdmin('files_antivirus', 'settings');
+OCP\App::registerAdmin('files_antivirus', 'admin');
 
 OCP\Util::connectHook('OC_Filesystem', 'post_write', '\OCA\Files_Antivirus\Scanner', 'av_scan');
 OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\BackgroundScanner', 'check');

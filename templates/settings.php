@@ -1,3 +1,7 @@
+<?php		
+style('files_antivirus', 'settings');
+script('files_antivirus', 'settings');
+?>
 <div class="section section-antivirus">
 	<form id="antivirus" action="#" method="post">
 		<fieldset class="personalblock">
@@ -18,8 +22,7 @@
 			<p class='infected_action'><label for="infected_action"><?php p($l->t('Action for infected files found while scanning'));?></label>
 				<select id="infected_action" name="infected_action"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['infected_action'])) ?></select>
 			</p>
-			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']);?>" />
-			<input type="submit" value="<?php p($l->t('Save'));?>" />
+			<input id="av_submit" type="submit" value="<?php p($l->t('Save'));?>" />
 		</fieldset>
 	</form>
 	<hr />
