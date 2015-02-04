@@ -30,11 +30,10 @@ $avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
 
 if (empty($avBinary)){
 	try {
-		$query = \OCP\DB::prepare('SELECT count(`id`) AS `totalRules` FROM `*PREFIX*files_avir_status`');
-		$result = $query->execute();
-		$result = $result->fetchRow();
-		if($result['totalRules'] == 0) {
-			\OCA\Files_Antivirus\Status::init();
+		$ruleMapper = new \OCA\Files_Antivirus\Db\RuleMapper();
+		$rules = $ruleMapper->findAll();
+		if(!count($rules)) {
+			$ruleMapper->populate();
 		}
 		\OCP\Config::setAppValue('files_antivirus', 'av_path', '/usr/bin/clamscan');
 	} catch (\Exception $e) {

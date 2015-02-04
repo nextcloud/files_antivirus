@@ -9,9 +9,11 @@
 namespace OCA\Files_Antivirus\AppInfo;
 
 use \OCP\AppFramework\App;
+
+use OCA\Files_Antivirus\Appconfig;
 use OCA\Files_Antivirus\Controller\RuleController;
 use OCA\Files_Antivirus\Controller\SettingsController;
-use OCA\Files_Antivirus\Appconfig;
+use OCA\Files_Antivirus\Db\RuleMapper;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
@@ -31,7 +33,8 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('Logger'),
-				$c->query('L10N')
+				$c->query('L10N'),
+				$c->query('RuleMapper')
 			);
 		});
 		$container->registerService('SettingsController', function($c) {
@@ -40,6 +43,11 @@ class Application extends App {
 				$c->query('Appconfig')
 			);
 		});
+        $container->registerService('RuleMapper', function($c) {
+			return new RuleMapper(
+				$c->query('ServerContainer')->getDb()
+			);
+        });
 		
 		/**
 		 * Core
@@ -53,5 +61,6 @@ class Application extends App {
         $container->registerService('L10N', function($c) {
             return $c->query('ServerContainer')->getL10N($c->query('AppName'));
         });
+		
 	}
 }

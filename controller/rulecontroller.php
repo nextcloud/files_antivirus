@@ -13,15 +13,20 @@ use \OCP\IRequest;
 use \OCP\IL10N;
 use OCP\AppFramework\Http\JSONResponse;
 
+use \OCA\Files_Antivirus\Db\Rule;
+use \OCA\Files_Antivirus\Db\RuleMapper;
+
 class RuleController extends Controller {
 	
 	private $logger;
 	private $l10n;
+	private $ruleMapper;
 	
-	public function __construct($appName, IRequest $request, $logger, IL10N $l10n) {
+	public function __construct($appName, IRequest $request, $logger, IL10N $l10n, RuleMapper $ruleMapper) {
 		parent::__construct($appName, $request);
 		$this->logger = $logger;
 		$this->l10n = $l10n;
+		$this->ruleMapper = $ruleMapper;
 	}
 	
 	/**
@@ -29,9 +34,7 @@ class RuleController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function listAll() {
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*files_avir_status`');
-		$result = $query->execute(array());
-		$statuses = $result->fetchAll();
+		$statuses = $this->ruleMapper->findAll();
 		return new JSONResponse(array('statuses'=>$statuses));
 	}
 	
@@ -40,8 +43,7 @@ class RuleController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function clear() {
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
-		$query->execute(array());
+		$this->ruleMapper->deleteAll();
 		return new JSONResponse();
 	}
 	
@@ -50,9 +52,8 @@ class RuleController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function reset() {
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
-		$query->execute(array());
-		\OCA\Files_Antivirus\Status::init();
+		$this->ruleMapper->deleteAll();
+		$this->ruleMapper->populate();
 		return new JSONResponse();
 	}
 	
@@ -66,33 +67,29 @@ class RuleController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function save($id, $statusType, $match, $description, $status) {
-		if ($statusType === \OCA\Files_Antivirus\Status::STATUS_TYPE_CODE){
-			$field = 'result';
+		if ($id) {
+			$rule = $this->ruleMapper->find($id);
 		} else {
-			$field = 'match';
-		}
-		$data = array(
-			intval($statusType),
-			$match,
-			$description,
-			intval($status)
-		);
-		if ($id){
-			$data[] = intval($id);
-			$query = \OCP\DB::prepare('UPDATE `*PREFIX*files_avir_status` SET `status_type`=(?),'
-				.' `'. $field .'`=(?), `description`=(?), `status`=(?) WHERE `id`=?');
-		} else {
-			$query = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_avir_status` (`status_type`,'
-				.' `'. $field .'`, `description`, `status`) VALUES (?, ?, ?, ?)');
+			$rule = new Rule();
 		}
 		
-		$query->execute($data);
-		$result = array();
-		if (!$id){
-			$result['id'] = \OCP\DB::insertid('`*PREFIX*files_avir_status`');
+		$rule->setStatusType($statusType);
+		$rule->setDescription($description);
+		$rule->setStatus($status);
+		
+		if ($statusType === \OCA\Files_Antivirus\Db\Rule::RULE_TYPE_CODE) {
+			$rule->setResult($match);
+		} else {
+			$rule->setMatch($match);
+		}
+			
+		if ($id) {
+			$newRule = $this->ruleMapper->update($rule);
+		} else {
+			$newRule = $this->ruleMapper->insert($rule);
 		}
 		
-		return new JSONResponse($result);
+		return new JSONResponse($newRule);
 	}
 	
 	/**
@@ -101,10 +98,12 @@ class RuleController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function delete($id) {
-		if($id){
-			$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status` WHERE `id`=?');
-			$query->execute(array($id));
+		try {
+			$rule = $this->ruleMapper->find($id);
+			$this->ruleMapper->delete($rule);
+		} catch (\Exception $e) {
+			//TODO: Handle
 		}
-		return new JSONResponse();
+		return new JSONResponse($rule);
 	}
 }
