@@ -1,6 +1,4 @@
 <?php
-use OC\Files\Storage\Temporary;
-
 /**
  * Copyright (c) 2014 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -8,82 +6,81 @@ use OC\Files\Storage\Temporary;
  * See the COPYING-README file.
  */
 
+use OCA\Files_Antivirus\AppInfo\Application;
+use \OCA\Files_Antivirus\Db\RuleMapper;
+use \OCA\Files_Antivirus\Item;
+use \OCA\Files_Antivirus\Scanner;
 
-class Test_Files_Antivirus_Scanner extends  \PHPUnit_Framework_TestCase {
+class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testbase {
 	
 	const TEST_CLEAN_FILENAME = 'foo.txt';
 	const TEST_INFECTED_FILENAME = 'kitten.inf';
 
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
-	 * @var Temporary
-	 */
-	private $storage;
+	protected $ruleMapper;
+	protected $view;
 	
-	private $config = array();
-	private $proxies = array();
+	protected $cleanItem;
+	protected $infectedItem;
 	
 	public function setUp() {
-		\OC_App::enable('files_antivirus');
-		$this->proxies = \OC_FileProxy::getProxies();
-		\OC_FileProxy::clearProxies();
+		parent::setUp();
+		$this->view = $this->getMockBuilder('\OC\Files\View')
+				->disableOriginalConstructor()
+				->getMock()
+		;
+		
+		$this->view->method('getOwner')->willReturn('Dummy');
+		$this->view->method('file_exists')->willReturn(true);
+		$this->view->method('filesize')->willReturn(42);
+		
+		$this->cleanItem = new Item($this->view, self::TEST_CLEAN_FILENAME, 42);
+		$this->infectedItem = new Item($this->view, self::TEST_INFECTED_FILENAME, 42);
 
-		\OC_User::clearBackends();
-		\OC_User::useBackend(new \OC_User_Dummy());
-		\OC\Files\Filesystem::clearMounts();
-
-		//login
-		\OC_User::createUser('test', 'test');
-		\OC::$server->getSession()->set('user_id', 'test');
-		
-		$this->storage = new \OC\Files\Storage\Temporary(array());
-		\OC\Files\Filesystem::init('test', '');
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->storage, array(), '/');
-		\OC\Files\Filesystem::file_put_contents(self::TEST_CLEAN_FILENAME, self::TEST_CLEAN_FILENAME);
-		\OC\Files\Filesystem::file_put_contents(self::TEST_INFECTED_FILENAME, self::TEST_INFECTED_FILENAME);
-		
-		$this->config['av_mode'] = \OCP\Config::getAppValue('files_antivirus', 'av_mode', null);
-		$this->config['av_path'] = \OCP\Config::getAppValue('files_antivirus', 'av_path', null);
-		
-		\OCP\Config::setAppValue('files_antivirus', 'av_mode', 'executable');
-		\OCP\Config::setAppValue('files_antivirus', 'av_path', __DIR__ . '/avir.sh');
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
-		$query->execute(array());
-		\OCA\Files_Antivirus\Status::init();
+		$this->ruleMapper = new RuleMapper($this->db);
+		$this->ruleMapper->deleteAll();
+		$this->ruleMapper->populate();
 	}
 	
-	public function tearDown() {
-		foreach ($this->proxies as $proxy){
-			\OC_FileProxy::register($proxy);
-		}
-		
-		if (!is_null($this->config['av_mode'])){
-			\OCP\Config::setAppValue('files_antivirus', 'av_mode', $this->config['av_mode']);
-		}
-		if (!is_null($this->config['av_path'])){
-			\OCP\Config::setAppValue('files_antivirus', 'av_path', $this->config['av_path']);
-		}
+	public function testBackgroundScan(){
+		$application = new Application();
+		$container = $application->getContainer();
+		$bgScan = $container->query('BackgroundScanner')->run();
+		$this->assertNull($bgScan);
 	}
 	
-	public function testScanFile(){
-		$fileView = new \OC\Files\View('');
+	public function testCleanFile() {
+		$handle = fopen(__DIR__ . '/data/foo.txt', 'r');
+		$this->view->method('fopen')->willReturn($handle);
+		$this->assertTrue($this->cleanItem->isValid());
 		
-		$cleanStatus = \OCA\Files_Antivirus\Scanner::scanFile($fileView, self::TEST_CLEAN_FILENAME);
+		$scanner = new Scanner($this->config);
+		
+		$scanner->scan($this->cleanItem);
+		$cleanStatus = $scanner->getStatus();
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $cleanStatus);
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_CLEAN, $cleanStatus->getNumericStatus());
+	}
+	
+	public function testNotExisting() {
+		$this->setExpectedException('RuntimeException');
 		
-		$unknownStatus = \OCA\Files_Antivirus\Scanner::scanFile($fileView, 'non-existing.file');
+		$fileView = new \OC\Files\View('');
+		$nonExistingItem = new Item($fileView, 'non-existing.file', 42);
+		$scanner = new Scanner($this->config);
+		$scanner->scan($nonExistingItem);
+		$unknownStatus = $scanner->scan($nonExistingItem);
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $unknownStatus);
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $unknownStatus->getNumericStatus());
-		
-		$infectedStatus = \OCA\Files_Antivirus\Scanner::scanFile($fileView, self::TEST_INFECTED_FILENAME);
+	}
+	
+	public function testInfected() {
+		$handle = fopen(__DIR__ . '/data/kitten.inf', 'r');
+		$this->view->method('fopen')->willReturn($handle);
+		$this->assertTrue($this->infectedItem->isValid());
+		$scanner = new Scanner($this->config);
+		$scanner->scan($this->infectedItem);
+		$infectedStatus = $scanner->getStatus();
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $infectedStatus);
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_INFECTED, $infectedStatus->getNumericStatus());
 	}
-	
 }
