@@ -9,7 +9,7 @@ OC.L10N.register(
     "Malware detected" : "マルウェアが検出されました",
     "Virus detected! Can't upload the file %s" : "ウイルスが検出されました！ファイル %s をアップロードすることはできません",
     "Greetings {user}," : "{user} 様へ、",
-    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "申し訳ありません。アップロードしようとしたファイルからマルウェアが検出されましたため、削除されました。",
+    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "すみませんが、アップロードしようとしたファイルからマルウェアが検出されましたため、削除されました。",
     "This email is a notification from {host}. Please, do not reply." : "このメールは {host} からの通知用です。返信しないでください。",
     "File uploaded: {file}" : "ファイルアップロード: {file}",
     "Antivirus Configuration" : "アンチウイルスの設定",
