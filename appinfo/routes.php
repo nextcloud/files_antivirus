@@ -16,8 +16,3 @@ $application->registerRoutes($this, array(
 		array('name' => 'settings#save', 'url' => 'settings/save', 'verb' => 'POST'),
 	)
 ));
-
-/** @var $this \OCP\Route\IRouter */
-$this->create('files_antivirus_settings', '')
-	->get()
-	->actionInclude('files_antivirus/settings.php');

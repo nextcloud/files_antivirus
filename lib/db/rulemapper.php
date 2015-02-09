@@ -14,7 +14,7 @@ use OCP\AppFramework\Db\Mapper;
 use OCA\Files_Antivirus\Db\Rule;
 
 class RuleMapper extends Mapper {
-	public function __construct($db) {
+	public function __construct(IDb $db) {
 		parent::__construct($db, 'files_avir_status', '\OCA\Files_Antivirus\Db\Rule');
 	}
 	
@@ -27,6 +27,11 @@ class RuleMapper extends Mapper {
 		return $this->execute($sql);
 	}
 	
+	/**
+	 * Find rule by id
+	 * @param int $id
+	 * @return Rule
+	 */
 	public function find($id){
         $sql = 'SELECT * FROM *PREFIX*files_avir_status WHERE id = ?';
         return $this->findEntity($sql, array($id));
@@ -51,7 +56,7 @@ class RuleMapper extends Mapper {
 	}
 	
 	/**
-	 * Get collection of rules of type 
+	 * Get collection of rules of type Match
 	 * @param int $status
 	 * @return array
 	 */
@@ -61,7 +66,7 @@ class RuleMapper extends Mapper {
 	}
 	
 	/**
-	 * Prepopulate the table for clamav rules
+	 * Fill the table with rules used with clamav
 	 */
 	public function populate(){
 		$descriptions = array(

@@ -19,8 +19,8 @@ script('files_antivirus', 'settings');
 			<p class="av_path">
 				<label for="av_cmd_options"><?php p($l->t('Extra command line options (comma-separated)'));?></label><input type="text" id="av_cmd_options" name="av_cmd_options" value="<?php p($_['av_cmd_options']); ?>" />
 			</p>
-			<p class='infected_action'><label for="infected_action"><?php p($l->t('Action for infected files found while scanning'));?></label>
-				<select id="infected_action" name="infected_action"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['infected_action'])) ?></select>
+			<p class="infected_action"><label for="av_infected_action"><?php p($l->t('Action for infected files found while scanning'));?></label>
+				<select id="av_infected_action" name="av_infected_action"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['av_infected_action'])) ?></select>
 			</p>
 			<input id="av_submit" type="submit" value="<?php p($l->t('Save'));?>" />
 		</fieldset>

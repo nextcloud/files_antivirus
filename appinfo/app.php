@@ -22,15 +22,15 @@
 */
 
 OCP\App::registerAdmin('files_antivirus', 'admin');
+OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\Cron\Task', 'run');
 
-OCP\Util::connectHook('OC_Filesystem', 'post_write', '\OCA\Files_Antivirus\Scanner', 'av_scan');
-OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\BackgroundScanner', 'check');
+$app = new \OCA\Files_Antivirus\AppInfo\Application();
+$app->getContainer()->query('FilesystemHooks')->register();
 
 $avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
-
 if (empty($avBinary)){
 	try {
-		$ruleMapper = new \OCA\Files_Antivirus\Db\RuleMapper();
+		$ruleMapper = $app->getContainer()->query('RuleMapper');
 		$rules = $ruleMapper->findAll();
 		if(!count($rules)) {
 			$ruleMapper->populate();

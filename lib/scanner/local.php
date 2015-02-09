@@ -10,38 +10,43 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\Status;
+use OCA\Files_Antivirus\Item;
 
 class Local extends \OCA\Files_Antivirus\Scanner{
 	
 	protected $avPath;
 	
-	public function __construct(){
-		parent::__construct();
-		
+	public function __construct($config){
+		$this->appConfig = $config;
 		// get the path to the executable
-		$avPath = \OCP\Config::getAppValue('files_antivirus', 'av_path', '/usr/bin/clamscan');
+		$this->avPath = $this->appConfig->getAvPath();
 
 		// check that the executable is available
-		if (!file_exists($avPath)) {
-			throw new \RuntimeException('The antivirus executable could not be found at '.$avPath);
+		if (!file_exists($this->avPath)) {
+			throw new \RuntimeException('The antivirus executable could not be found at '.$this->avPath);
 		}
-		
-		$this->avPath = $avPath;
 	} 
 
-	protected function scan($fileView, $filepath) {
+	/**
+	 * Scan a file
+	 * @param Item $item - item to scan
+	 * @return int
+	 * @throws \RuntimeException
+	 */
+	public function scan(Item $item) {
 		$this->status = new Status();
 		
-		$fhandler = $this->getFileHandle($fileView, $filepath);
-		\OCP\Util::writeLog('files_antivirus', 'Exec scan: '.$filepath, \OCP\Util::DEBUG);
-		
-		$avCmdOptions = \OCP\Config::getAppValue('files_antivirus', 'av_cmd_options', '');
-		$shellArgs = explode(',', $avCmdOptions);
-		$shellArgs = array_map(function($i){
-				return escapeshellarg($i);
-			},
-			$shellArgs
-		);
+		$avCmdOptions = $this->appConfig->getAvCmdOptions();
+		if ($avCmdOptions) {
+			$shellArgs = explode(',', $avCmdOptions);
+				$shellArgs = array_map(function($i){
+					return escapeshellarg($i);
+				},
+				$shellArgs
+			);
+		} else {
+			$shellArgs = array();
+		}
 		
 		$preparedArgs = '';
 		if (count($shellArgs)){
@@ -58,23 +63,17 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 		$pipes = array();
 		$process = proc_open($cmd, $descriptorSpec, $pipes);
 		if (!is_resource($process)) {
-			fclose($fhandler);
 			throw new \RuntimeException('Error starting process');
 		}
 
 		// write to stdin
 		$shandler = $pipes[0];
-
-		while (!feof($fhandler)) {
-			$chunk = fread($fhandler, $this->chunkSize);
+		while (false !== ($chunk = $item->fread())) {
 			fwrite($shandler, $chunk);
 		}
-
 		fclose($shandler);
-		fclose($fhandler);
 
 		$output = stream_get_contents($pipes[1]);
-
 		fclose($pipes[1]);
 
 		$result = proc_close($process);
@@ -83,5 +82,4 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 		
 		return $this->status->getNumericStatus();
 	}
-	
 }

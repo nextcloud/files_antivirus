@@ -13,21 +13,15 @@ use \OCP\AppFramework\App;
 use OCA\Files_Antivirus\Appconfig;
 use OCA\Files_Antivirus\Controller\RuleController;
 use OCA\Files_Antivirus\Controller\SettingsController;
+use OCA\Files_Antivirus\Hooks\FilesystemHooks;
 use OCA\Files_Antivirus\Db\RuleMapper;
+use OCA\Files_Antivirus\BackgroundScanner;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
 		parent::__construct('files_antivirus', $urlParams);
 		
 		$container = $this->getContainer();
-		$container->registerService('Appconfig', function($c) {
-			return new Appconfig(
-				$c->query('CoreConfig')
-			);
-		});
-		/**
-		 * Controllers
-		 */
 		$container->registerService('RuleController', function($c) {
 			return new RuleController(
 				$c->query('AppName'),
@@ -43,6 +37,23 @@ class Application extends App {
 				$c->query('Appconfig')
 			);
 		});
+		$container->registerService('Appconfig', function($c) {
+			return new Appconfig(
+				$c->query('CoreConfig')
+			);
+		});
+		
+        $container->registerService('BackgroundScanner', function($c) {
+			return new BackgroundScanner(
+				$c->query('ServerContainer')->getRootFolder()
+			);
+        });
+        $container->registerService('FilesystemHooks', function($c) {
+			return new FilesystemHooks(
+				$c->query('ServerContainer')->getRootFolder(),
+				$c->query('Appconfig')
+			);
+        });
         $container->registerService('RuleMapper', function($c) {
 			return new RuleMapper(
 				$c->query('ServerContainer')->getDb()

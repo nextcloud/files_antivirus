@@ -35,14 +35,25 @@ class Status {
 	 */
 	protected $details = "";
 	
+	protected $ruleMapper;
+	
 	public function __construct(){
 		$this->numericStatus = self::SCANRESULT_UNCHECKED;
+		$this->ruleMapper = new Db\RuleMapper(\OC::$server->getDb());
 	}
 	
+	/**
+	 * Get scan status as integer
+	 * @return int
+	 */
 	public function getNumericStatus(){
 		return $this->numericStatus;
 	}
 	
+	/**
+	 * Get scan status as string
+	 * @return string
+	 */
 	public function getDetails(){
 		return $this->details;
 	}
@@ -55,24 +66,14 @@ class Status {
 		$matches = array();
 		$ruleMapper = new Db\RuleMapper(\OC::$server->getDb());
 		if (is_null($result)){ // Daemon or socket mode
-			// Load rules
 			try{
-				$infectedRules = $ruleMapper->findAllMatchedByStatus(self::SCANRESULT_INFECTED);
-				$uncheckedRules = $ruleMapper->findAllMatchedByStatus(self::SCANRESULT_UNCHECKED);
-				$cleanRules = $ruleMapper->findAllMatchedByStatus(self::SCANRESULT_CLEAN);
+				$allRules = $this->getResponseRules();
 			} catch (\Exception $e){
 				\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
 				return;
 			}
 			
-			$infectedRules = $infectedRules ? $infectedRules : array();
-			$uncheckedRules = $uncheckedRules ? $uncheckedRules : array();
-			$cleanRules = $cleanRules ? $cleanRules : array();
-			
 			$isMatched = false;
-
-			// order: clean, infected, try to guess error
-			$allRules = array_merge($cleanRules, $infectedRules, $uncheckedRules);			
 			foreach ($allRules as $rule){
 				if (preg_match($rule->getMatch(), $rawResponse, $matches)){
 					$isMatched = true;
@@ -116,6 +117,34 @@ class Status {
 						$this->details = 'No matching rule for exit code ' .  $this->numericStatus .'. Please check antivirus rules configuration.' ;
 					}
 			}
+		}
+	}
+	
+	protected function getResponseRules(){
+		$infectedRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_INFECTED);
+		$uncheckedRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_UNCHECKED);
+		$cleanRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_CLEAN);
+		
+		$infectedRules = $infectedRules ? $infectedRules : array();
+		$uncheckedRules = $uncheckedRules ? $uncheckedRules : array();
+		$cleanRules = $cleanRules ? $cleanRules : array();
+		
+		// order: clean, infected, try to guess error
+		$allRules = array_merge($cleanRules, $infectedRules, $uncheckedRules);
+		return $allRules;
+	}
+	
+	public function dispatch($item, $isBackground = false){
+		switch($this->getNumericStatus()) {
+			case self::SCANRESULT_UNCHECKED:
+				$item->processUnchecked($this, $isBackground);
+				break;
+			case self::SCANRESULT_INFECTED:
+				$item->processInfected($this, $isBackground);
+				break;
+			case self::SCANRESULT_CLEAN:
+				$item->processClean($this, $isBackground);
+				break;
 		}
 	}
 }
