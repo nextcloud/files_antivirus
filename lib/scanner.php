@@ -101,7 +101,7 @@ class Scanner {
 
 	/**
 	 * @param Item $item
-	 * @return mixed
+	 * @return OCA\Files_Antivirus\Status
 	 */
 	public function scan(Item $item) {
 		return $this->instance->scan($item);

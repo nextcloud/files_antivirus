@@ -45,7 +45,8 @@ class Application extends App {
 		
         $container->registerService('BackgroundScanner', function($c) {
 			return new BackgroundScanner(
-				$c->query('ServerContainer')->getRootFolder()
+				$c->query('ServerContainer')->getRootFolder(),
+				$c->query('Appconfig')
 			);
         });
         $container->registerService('FilesystemHooks', function($c) {

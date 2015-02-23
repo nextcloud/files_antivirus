@@ -15,9 +15,11 @@ use OCA\Files_Antivirus\Item;
 class BackgroundScanner {
 	
 	private $rootFolder;
+	private $appConfig;
 	
-	public function __construct($rootFolder){
+	public function __construct($rootFolder, $config){
 		$this->rootFolder = $rootFolder;
+		$this->appConfig = $config;
 	}
 	
 	/**
@@ -48,15 +50,12 @@ class BackgroundScanner {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC_Util::setupFS();
+		\OC_Util::setupFS('D');
 		$view = new \OC\Files\View('/');
 		while ($row = $result->fetchRow()) {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
-				$application = new \OCA\Files_Antivirus\AppInfo\Application();
-				$appConfig = $application->getContainer()->query('Appconfig');
-				$scanner = new Scanner($appConfig);
-				
+				$scanner = new Scanner($this->appConfig);
 				$fileStatus = $scanner->scan(
 						new Item($view, $path, $row['fileid'])
 				);

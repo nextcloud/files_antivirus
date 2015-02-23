@@ -25,7 +25,7 @@ class External extends \OCA\Files_Antivirus\Scanner {
 	/**
 	 * Scan a file
 	 * @param Item $item - item to scan
-	 * @return int
+	 * @return OCA\Files_Antivirus\Status
 	 * @throws \RuntimeException
 	 */
 	public function scan(Item $item) {
@@ -59,6 +59,6 @@ class External extends \OCA\Files_Antivirus\Scanner {
 		
 		$this->status->parseResponse($response);
 		
-		return $this->status->getNumericStatus();
+		return $this->status;
 	}
 }

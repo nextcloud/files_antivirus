@@ -10,6 +10,26 @@ namespace OCA\Files_Antivirus;
 
 use \OCP\IConfig;
 
+	/**
+	 * @method string getAvMode()
+	 * @method string getAvSocket()
+	 * @method string getAvHost()
+	 * @method int getAvPort()
+	 * @method string getAvCmdOptions()
+	 * @method int getChunkSize()
+	 * @method string getAvPath()
+	 * @method string getAvInfectedAction()
+	 * 
+	 * @method null setAvMode(string $avMode)
+	 * @method null setAvSocket(string $avsocket)
+	 * @method null setAvHost(string $avHost)
+	 * @method null setAvPort(int $avPort)
+	 * @method null setAvCmdOptions(string $avCmdOptions)
+	 * @method null setChunkSize(int $chunkSize)
+	 * @method null setAvPath(string $avPath)
+	 * @method null setAvInfectedAction(string $avInfectedAction)
+	 */
+
 class Appconfig {
 	private $appName = 'files_antivirus';
 	private $config;
@@ -24,27 +44,6 @@ class Appconfig {
 		'av_path' => '/usr/bin/clamscan',
 		'av_infected_action' => 'only_log',
 	);
-
-	/**
-	 * @method string getAvMode()
-	 * @method string getAvSocket()
-	 * @method string getAvHost()
-	 * @method int getAvPort()
-	 * @method string getAvCmdOptions()
-	 * @method int getChunkSize()
-	 * @method string getAvPath()
-	 * @method string getAvInfectedAction()
-	 * 
-	 * @method null setAvMode()
-	 * @method null setAvSocket()
-	 * @method null setAvHost()
-	 * @method null setAvPort()
-	 * @method null setAvCmdOptions()
-	 * @method null setChunkSize()
-	 * @method null setAvPath()
-	 * @method null setAvInfectedAction()
-	 */
-
 	
 	public function __construct(IConfig $config) {
 		$this->config = $config;

@@ -30,7 +30,7 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 	/**
 	 * Scan a file
 	 * @param Item $item - item to scan
-	 * @return int
+	 * @return OCA\Files_Antivirus\Status
 	 * @throws \RuntimeException
 	 */
 	public function scan(Item $item) {
@@ -80,6 +80,6 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 
 		$this->status->parseResponse($output, $result);
 		
-		return $this->status->getNumericStatus();
+		return $this->status;
 	}
 }
