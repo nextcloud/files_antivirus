@@ -173,6 +173,9 @@ class Item {
 		}
 	}
 	
+	/**
+	 * @param string $message
+	 */
 	public function logDebug($message) {
 		$extra = ' File: ' . $this->id 
 				. 'Account: ' . $this->view->getOwner($this->path) 
@@ -180,6 +183,11 @@ class Item {
 		\OCP\Util::writeLog('files_antivirus', $message . $extra, \OCP\Util::DEBUG);
 	}
 	
+	/**
+	 * @param string $message
+	 * @param int $id optional
+	 * @param string $path optional
+	 */
 	public function logError($message, $id=null, $path=null) {
 		$ownerInfo = is_null($this->view) ? '' : 'Account: ' . $this->view->getOwner($path);
 		$extra = ' File: ' . (is_null($id) ? $this->id : $id)

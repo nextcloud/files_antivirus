@@ -39,6 +39,14 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
+		
+		//Bgscanner requires at least one user on the current instance
+		$userManager = \OC_User::getManager();
+		$results = $userManager->search('', 1, 0);
+
+		if (!count($results)) {
+			\OC_User::createUser('test', 'test');
+		}
 	}
 	
 	public function testBackgroundScan(){

@@ -27,6 +27,7 @@ class BackgroundScanner {
 	 * @return null
 	 */
 	public function run(){
+		$this->initFS();
 		// locate files that are not checked yet
 		$dirMimetype = $this->getDirectoryMimetype();
 		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `*PREFIX*storages`.*'
@@ -48,23 +49,34 @@ class BackgroundScanner {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
 			return;
 		}
-
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS('D');
+	
 		$view = new \OC\Files\View('/');
 		while ($row = $result->fetchRow()) {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
+				$item = new Item($view, $path, $row['fileid']);
 				$scanner = new Scanner($this->appConfig);
-				$fileStatus = $scanner->scan(
-						new Item($view, $path, $row['fileid'])
-				);
-				
-				$fileStatus->dispatch($item, true);
+				$status = $scanner->scan($item);					
+				$status->dispatch($item, true);
 			}
 		}
+		\OC_Util::tearDownFS();
 	}
 	
+	/**
+	 * A hack to access files amd views. Better than before.
+	 */
+	protected function initFS(){
+		//get a random user (needed to mount FS)
+		$userManager = \OC_User::getManager();
+		$results = $userManager->search('', 2, 0);
+		$anyUser = array_pop($results);
+
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($anyUser->getUID());
+	}
+
+
 	/**
 	 * Get a mimetypeId for httpd/unix-directory
 	 * @return int
@@ -80,7 +92,7 @@ class BackgroundScanner {
 	/**
 	 * @deprecated 
 	 */
-	public static function check() {
+	public static function check(){
 		return OCA\Files_Antivirus\Cron\Task::run();
 	}
 }
