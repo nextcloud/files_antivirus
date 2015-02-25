@@ -10,8 +10,16 @@
 namespace OCA\Files_Antivirus\Hooks;
 
 class FilesystemHooks {
-
+	
+	/**
+	 * @var \OCA\Files_Antivirus\Appconfig
+	 */
 	private $appConfig;
+	
+	/**
+	 *
+	 * @var type 
+	 */
 	private $rootFolder;
 
 	public function __construct($rootFolder, $appConfig) {

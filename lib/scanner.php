@@ -23,20 +23,34 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCP\IL10N;
 use OCA\Files_Antivirus\Item;
 
 class Scanner {
-	// null if not initialized
-	// false if an error occurred
-	// Scanner subclass if initialized
+
+	/**
+	 * A proper subclass
+	 * @var Scanner
+	 */
 	protected $instance = null;
 	
-	// Last scan status
+	/**
+	 * Scan result
+	 * @var \OCA\Files_Antivirus\Status
+	 */
 	protected $status;
 	
+	/**
+	 * @var \OCA\Files_Antivirus\Appconfig
+	 */
 	protected $appConfig;
 	
-	public function __construct($config){
+	/**
+	 * @var IL10N
+	 */
+	protected $l10n;
+	
+	public function __construct($config, IL10N $l10n){
 		$this->appConfig = $config;
 		try {
 			$avMode = $this->appConfig->getAvMode();
@@ -76,15 +90,16 @@ class Scanner {
 		}
 		
 		try {
-			$item = new Item($filesView, $path);
+			$application = new \OCA\Files_Antivirus\AppInfo\Application();
+			$appConfig = $application->getContainer()->query('Appconfig');
+			$l10n = $application->getContainer()->query('L10N');
+			
+			$item = new Item($l10n, $filesView, $path);
 			if (!$item->isValid()){
 				return;
 			}
 		
-			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('Appconfig');
-		
-			$scanner = new self($appConfig);
+			$scanner = new self($appConfig, $l10n);
 			$fileStatus = $scanner->scan($item);
 			$fileStatus->dispatch($item);
 		} catch (\Exception $e){

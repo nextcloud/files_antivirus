@@ -10,17 +10,27 @@ namespace OCA\Files_Antivirus\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
+use \OCP\IL10N;
 use \OCA\Files_Antivirus\Appconfig;
 
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Http\JSONResponse;
 
 class SettingsController extends Controller {
-	
+
+	/**
+	 * @var Appconfig
+	 */
 	private $settings;
 	
-	public function __construct(IRequest $request, Appconfig $appconfig) {
+	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+	
+	public function __construct(IRequest $request, Appconfig $appconfig, IL10N $l10n) {
 		$this->settings = $appconfig;
+		$this->l10n = $l10n;
 	}
 	
 	/**
@@ -34,26 +44,34 @@ class SettingsController extends Controller {
 	
 	/**
 	 * Save Parameters
-	 * @param string $av_mode - antivirus mode
-	 * @param string $av_socket - path to socket (Socket mode)
-	 * @param string $av_host - antivirus url
-	 * @param type $av_port - port
-	 * @param type $av_cmd_options - extra command line options
-	 * @param type $av_chunk_size - Size of one portion
-	 * @param type $av_path - path to antivirus executable (Executable mode)
-	 * @param type $av_infected_action - action performed on infected files
+	 * @param string $avMode - antivirus mode
+	 * @param string $avSocket - path to socket (Socket mode)
+	 * @param string $avHost - antivirus url
+	 * @param int $avPort - port
+	 * @param string $avCmdOptions - extra command line options
+	 * @param int $avChunkSize - Size of one portion
+	 * @param string $avPath - path to antivirus executable (Executable mode)
+	 * @param string $avInfectedAction - action performed on infected files
 	 * @return JSONResponse
 	 */
-	public function save($av_mode, $av_socket, $av_host, $av_port, $av_cmd_options, $av_chunk_size, $av_path, $av_infected_action) {
-		$this->settings->setAvMode($av_mode);
-		$this->settings->setAvSocket($av_socket);
-		$this->settings->setAvHost($av_host);
-		$this->settings->setAvPort($av_port);
-		$this->settings->setAvCmdOptions($av_cmd_options);
-		$this->settings->setAvChunkSize($av_chunk_size);
-		$this->settings->setAvPath($av_path);
-		$this->settings->setAvInfectedAction($av_infected_action);
+	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avChunkSize, $avPath, $avInfectedAction) {
+		$this->settings->setAvMode($avMode);
+		$this->settings->setAvSocket($avSocket);
+		$this->settings->setAvHost($avHost);
+		$this->settings->setAvPort($avPort);
+		$this->settings->setAvCmdOptions($avCmdOptions);
+		$this->settings->setAvChunkSize($avChunkSize);
+		$this->settings->setAvPath($avPath);
+		$this->settings->setAvInfectedAction($avInfectedAction);
 		
-		return new JSONResponse($this->settings->getAllValues());
+		return new JSONResponse(
+			array('data' =>
+				array('message' =>
+					(string) $this->l10n->t('Saved')
+				),
+				'status' => 'success',
+				'settings' => $this->settings->getAllValues()
+			)
+		);
 	}
 }

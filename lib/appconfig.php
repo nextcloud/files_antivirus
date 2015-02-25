@@ -56,7 +56,8 @@ class Appconfig {
 	public function getAllValues() {
 		$keys = array_keys($this->defaults);
 		$values = array_map(array($this, 'getAppValue'), $keys);
-		return array_combine($keys, $values);
+		$preparedKeys = array_map(array($this, 'camelCase'), $keys);
+		return array_combine($preparedKeys, $values);
 	}
 	
 	/**
@@ -108,6 +109,18 @@ class Appconfig {
 		} else {
 			throw new \BadFunctionCallException($key . ' is not a valid key');
 		}
+	}
+	
+	/**
+	 * Translates property_name into propertyName
+	 * @param string $property
+	 * @return string
+	 */
+	protected function camelCase($property){
+		$split = explode('_', $property);
+		$ucFirst = implode('', array_map('ucfirst', $split));
+		$camelCase = lcfirst($ucFirst);
+		return $camelCase;
 	}
 	
 	/**

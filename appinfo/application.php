@@ -34,7 +34,8 @@ class Application extends App {
 		$container->registerService('SettingsController', function($c) {
 			return new SettingsController(
 				$c->query('Request'),
-				$c->query('Appconfig')
+				$c->query('Appconfig'),
+				$c->query('L10N')	
 			);
 		});
 		$container->registerService('Appconfig', function($c) {
@@ -45,8 +46,9 @@ class Application extends App {
 		
         $container->registerService('BackgroundScanner', function($c) {
 			return new BackgroundScanner(
-				$c->query('ServerContainer')->getRootFolder(),
-				$c->query('Appconfig')
+				$c->query('Appconfig'),
+				$c->query('ServerContainer')->getUserManager(),
+				$c->query('L10N')
 			);
         });
         $container->registerService('FilesystemHooks', function($c) {

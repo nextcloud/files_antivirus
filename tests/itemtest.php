@@ -39,7 +39,7 @@ class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
 	}
 	
 	public function testRead() {
-		$item = new Item(new \OC\Files\View(''), '/file1');
+		$item = new Item($this->l10n, new \OC\Files\View(''), '/file1');
 		$this->assertTrue($item->isValid());
 		
 		$chunk = $item->fread();

@@ -8,20 +8,60 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 
 class Item {
+	/**
+	 * Scanned fileid (optional)
+	 * @var int
+	 */
 	protected $id;
+	
+	/**
+	 * File view
+	 * @var \OC\Files\View
+	 */
 	protected $view;
+	
+	/**
+	 * Path relative to the view
+	 * @var string
+	 */
 	protected $path;
+	
+	/**
+	 * Scan result
+	 * @var Status
+	 */
 	protected $status;
 	
+	/**
+	 * file handle, user to read from the file
+	 * @var resource
+	 */
 	protected $fileHandle;
+	
+	/**
+	 * Portion size
+	 * @var int
+	 */
 	protected $chunkSize;
 	
+	/**
+	 * Is filesize match the size conditions
+	 * @var bool
+	 */
 	protected $isValidSize;
 	
-	public function __construct($view, $path, $id = null) {
+	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+	
+	public function __construct(IL10N $l10n, $view, $path, $id = null) {
+		$this->l10n = $l10n;
+		
 		if (!is_object($view)){
 			$this->logError('Can\'t init filesystem view.', $id, $path);
 			throw new \RuntimeException();
@@ -97,12 +137,10 @@ class Item {
 			//remove file
 			$this->view->unlink($this->path);
 			Notification::sendMail($this->path);
-			$message = \OCP\Util::getL10N('files_antivirus')
-						->t(
-								"Virus detected! Can't upload the file %s", 
-								array(basename($this->path))
-							)
-			;
+			$message = $this->l10n->t(
+						"Virus detected! Can't upload the file %s", 
+						array(basename($this->path))
+			);
 			\OCP\JSON::error(array("data" => array( "message" => $message)));
 			exit();
 		}

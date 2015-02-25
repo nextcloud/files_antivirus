@@ -8,18 +8,36 @@
 
 namespace OCA\Files_Antivirus;
 
-use OCA\Files_Antivirus\AppInfo\Application;
+use OCP\IUserManager;
+use OCP\IL10N;
 use \OCA\Files_Antivirus\Scanner;
 use OCA\Files_Antivirus\Item;
 
 class BackgroundScanner {
-	
-	private $rootFolder;
+
+	/**
+	 * @var Appconfig
+	 */
 	private $appConfig;
 	
-	public function __construct($rootFolder, $config){
-		$this->rootFolder = $rootFolder;
+	/**
+	 * @var IUserManager 
+	 */
+	private $userManager;
+	
+	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+	
+	/**
+	 * A constructor
+	 * @param Appconfig $config
+	 */
+	public function __construct($config, IUserManager $userManager, IL10N $l10n){
 		$this->appConfig = $config;
+		$this->userManager = $userManager;
+		$this->l10n = $l10n;
 	}
 	
 	/**
@@ -54,8 +72,8 @@ class BackgroundScanner {
 		while ($row = $result->fetchRow()) {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
-				$item = new Item($view, $path, $row['fileid']);
-				$scanner = new Scanner($this->appConfig);
+				$item = new Item($this->l10n, $view, $path, $row['fileid']);
+				$scanner = new Scanner($this->appConfig, $this->l10n);
 				$status = $scanner->scan($item);					
 				$status->dispatch($item, true);
 			}
@@ -64,12 +82,11 @@ class BackgroundScanner {
 	}
 	
 	/**
-	 * A hack to access files amd views. Better than before.
+	 * A hack to access files and views. Better than before.
 	 */
 	protected function initFS(){
-		//get a random user (needed to mount FS)
-		$userManager = \OC_User::getManager();
-		$results = $userManager->search('', 2, 0);
+		//Need any valid user to mount FS
+		$results = $this->userManager->search('', 2, 0);
 		$anyUser = array_pop($results);
 
 		\OC_Util::tearDownFS();

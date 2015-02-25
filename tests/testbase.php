@@ -13,6 +13,7 @@ abstract class Testbase extends \PHPUnit_Framework_TestCase {
 
 	protected $db;
 	protected $config;
+	protected $l10n;
 
 	public function setUp(){
 		parent::setUp();
@@ -22,6 +23,8 @@ abstract class Testbase extends \PHPUnit_Framework_TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 		;
+		
+		$this->l10n = \OCP\Util::getL10N('files_antivirus');
 		
 		$this->config->method('__call')
 			->will($this->returnCallback(array($this, 'getAppValue')));

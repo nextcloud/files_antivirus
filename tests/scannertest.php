@@ -33,8 +33,8 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->view->method('file_exists')->willReturn(true);
 		$this->view->method('filesize')->willReturn(42);
 		
-		$this->cleanItem = new Item($this->view, self::TEST_CLEAN_FILENAME, 42);
-		$this->infectedItem = new Item($this->view, self::TEST_INFECTED_FILENAME, 42);
+		$this->cleanItem = new Item($this->l10n, $this->view, self::TEST_CLEAN_FILENAME, 42);
+		$this->infectedItem = new Item($this->l10n, $this->view, self::TEST_INFECTED_FILENAME, 42);
 
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
@@ -61,7 +61,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->view->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->cleanItem->isValid());
 		
-		$scanner = new Scanner($this->config);
+		$scanner = new Scanner($this->config, $this->l10n);
 		
 		$scanner->scan($this->cleanItem);
 		$cleanStatus = $scanner->getStatus();
@@ -73,7 +73,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->setExpectedException('RuntimeException');
 		
 		$fileView = new \OC\Files\View('');
-		$nonExistingItem = new Item($fileView, 'non-existing.file', 42);
+		$nonExistingItem = new Item($this->l10n, $fileView, 'non-existing.file', 42);
 		$scanner = new Scanner($this->config);
 		$scanner->scan($nonExistingItem);
 		$unknownStatus = $scanner->scan($nonExistingItem);
@@ -85,7 +85,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$handle = fopen(__DIR__ . '/data/kitten.inf', 'r');
 		$this->view->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->infectedItem->isValid());
-		$scanner = new Scanner($this->config);
+		$scanner = new Scanner($this->config, $this->l10n);
 		$scanner->scan($this->infectedItem);
 		$infectedStatus = $scanner->getStatus();
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $infectedStatus);
