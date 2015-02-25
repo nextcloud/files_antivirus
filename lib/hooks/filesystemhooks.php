@@ -9,10 +9,12 @@
 
 namespace OCA\Files_Antivirus\Hooks;
 
+use \OCA\Files_Antivirus\AppConfig;
+
 class FilesystemHooks {
 	
 	/**
-	 * @var \OCA\Files_Antivirus\Appconfig
+	 * @var AppConfig
 	 */
 	private $appConfig;
 	
@@ -22,7 +24,7 @@ class FilesystemHooks {
 	 */
 	private $rootFolder;
 
-	public function __construct($rootFolder, $appConfig) {
+	public function __construct($rootFolder, AppConfig $appConfig) {
 		$this->rootFolder = $rootFolder;
 		$this->appConfig = $appConfig;
 	}

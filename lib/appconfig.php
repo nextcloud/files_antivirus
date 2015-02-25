@@ -16,7 +16,7 @@ use \OCP\IConfig;
 	 * @method string getAvHost()
 	 * @method int getAvPort()
 	 * @method string getAvCmdOptions()
-	 * @method int getChunkSize()
+	 * @method int getAvChunkSize()
 	 * @method string getAvPath()
 	 * @method string getAvInfectedAction()
 	 * 
@@ -25,12 +25,12 @@ use \OCP\IConfig;
 	 * @method null setAvHost(string $avHost)
 	 * @method null setAvPort(int $avPort)
 	 * @method null setAvCmdOptions(string $avCmdOptions)
-	 * @method null setChunkSize(int $chunkSize)
+	 * @method null setAvChunkSize(int $chunkSize)
 	 * @method null setAvPath(string $avPath)
 	 * @method null setAvInfectedAction(string $avInfectedAction)
 	 */
 
-class Appconfig {
+class AppConfig {
 	private $appName = 'files_antivirus';
 	private $config;
 

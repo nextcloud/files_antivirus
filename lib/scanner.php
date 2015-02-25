@@ -41,7 +41,7 @@ class Scanner {
 	protected $status;
 	
 	/**
-	 * @var \OCA\Files_Antivirus\Appconfig
+	 * @var \OCA\Files_Antivirus\AppConfig
 	 */
 	protected $appConfig;
 	
@@ -91,7 +91,7 @@ class Scanner {
 		
 		try {
 			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('Appconfig');
+			$appConfig = $application->getContainer()->query('AppConfig');
 			$l10n = $application->getContainer()->query('L10N');
 			
 			$item = new Item($l10n, $filesView, $path);

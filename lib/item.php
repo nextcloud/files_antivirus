@@ -84,7 +84,7 @@ class Item {
 		$this->isValidSize = $view->filesize($path) > 0;
 		
 		$application = new \OCA\Files_Antivirus\AppInfo\Application();
-		$config = $application->getContainer()->query('Appconfig');
+		$config = $application->getContainer()->query('AppConfig');
 		$this->chunkSize = $config->getAvChunkSize();
 	}
 	
@@ -124,7 +124,7 @@ class Item {
 	public function processInfected(Status $status, $isBackground) {
 		if ($isBackground) {
 			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('Appconfig');
+			$appConfig = $application->getContainer()->query('AppConfig');
 			$infectedAction = $appConfig->getInfectedAction();
 			if ($infectedAction == 'delete') {
 				$this->logError('Infected file deleted. ' . $status->getDetails());

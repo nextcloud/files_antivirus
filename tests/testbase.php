@@ -18,16 +18,21 @@ abstract class Testbase extends \PHPUnit_Framework_TestCase {
 	public function setUp(){
 		parent::setUp();
 		\OC_App::enable('files_antivirus');
+		
 		$this->db = \OC::$server->getDb();
-		$this->config = $this->getMockBuilder('\OCA\Files_Antivirus\Appconfig')
+		
+		$this->config = $this->getMockBuilder('\OCA\Files_Antivirus\AppConfig')
 				->disableOriginalConstructor()
 				->getMock()
 		;
-		
-		$this->l10n = \OCP\Util::getL10N('files_antivirus');
-		
 		$this->config->method('__call')
 			->will($this->returnCallback(array($this, 'getAppValue')));
+		
+		$this->l10n = $this->getMockBuilder('\OC_L10N')
+				->disableOriginalConstructor()
+				->getMock()
+		;
+		$this->l10n->method('t')->will($this->returnArgument(0));
 	}
 	
 	public function getAppValue($methodName){

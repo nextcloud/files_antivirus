@@ -16,7 +16,7 @@ use OCA\Files_Antivirus\Item;
 class BackgroundScanner {
 
 	/**
-	 * @var Appconfig
+	 * @var AppConfig
 	 */
 	private $appConfig;
 	
@@ -32,9 +32,9 @@ class BackgroundScanner {
 	
 	/**
 	 * A constructor
-	 * @param Appconfig $config
+	 * @param AppConfig $config
 	 */
-	public function __construct($config, IUserManager $userManager, IL10N $l10n){
+	public function __construct(AppConfig $config, IUserManager $userManager, IL10N $l10n){
 		$this->appConfig = $config;
 		$this->userManager = $userManager;
 		$this->l10n = $l10n;

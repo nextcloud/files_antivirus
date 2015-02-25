@@ -11,7 +11,7 @@ namespace OCA\Files_Antivirus\Controller;
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
 use \OCP\IL10N;
-use \OCA\Files_Antivirus\Appconfig;
+use \OCA\Files_Antivirus\AppConfig;
 
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Http\JSONResponse;
@@ -19,7 +19,7 @@ use \OCP\AppFramework\Http\JSONResponse;
 class SettingsController extends Controller {
 
 	/**
-	 * @var Appconfig
+	 * @var AppConfig
 	 */
 	private $settings;
 	
@@ -28,7 +28,7 @@ class SettingsController extends Controller {
 	 */
 	private $l10n;
 	
-	public function __construct(IRequest $request, Appconfig $appconfig, IL10N $l10n) {
+	public function __construct(IRequest $request, AppConfig $appconfig, IL10N $l10n) {
 		$this->settings = $appconfig;
 		$this->l10n = $l10n;
 	}
