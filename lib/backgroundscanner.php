@@ -47,7 +47,7 @@ class BackgroundScanner {
 	public function run(){
 		$this->initFS();
 		// locate files that are not checked yet
-		$dirMimetype = $this->getDirectoryMimetype();
+		$dirMimetypeId = $this->getDirectoryMimetype();
 		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `*PREFIX*storages`.*'
 			.' FROM `*PREFIX*filecache`'
 			.' LEFT JOIN `*PREFIX*files_antivirus` ON `*PREFIX*files_antivirus`.`fileid` = `*PREFIX*filecache`.`fileid`'
@@ -58,7 +58,7 @@ class BackgroundScanner {
 			.' AND `path` LIKE ?';
 		$stmt = \OCP\DB::prepare($sql, 5);
 		try {
-			$result = $stmt->execute(array($dirMimetype, 'local::%', 'home::%', 'files/%'));
+			$result = $stmt->execute(array($dirMimetypeId, 'local::%', 'home::%', 'files/%'));
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('files_antivirus', __METHOD__. 'DB error: ' . \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return;
@@ -99,11 +99,10 @@ class BackgroundScanner {
 	 * @return int
 	 */
 	protected function getDirectoryMimetype(){
-		$query = \OCP\DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-		$result = $query->execute(array('httpd/unix-directory'));
-		$row = $result->fetchRow();
-		$dirMimetype = $row ? $row['id'] : 0;
-		return $dirMimetype;
+		$storage = \OC\Files\Filesystem::getStorage('');
+		$cache = $storage->getCache('');
+		$dirMimetypeId = $cache->getMimetypeId('httpd/unix-directory');
+		return $dirMimetypeId ? $dirMimetypeId : 0;
 	}
 	
 	/**
