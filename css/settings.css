@@ -1,5 +1,6 @@
 .section-antivirus .spoiler{
 	display:none;
+	width:100%;
 	margin-top: 14px;
 }
 
@@ -14,8 +15,14 @@
 	opacity: .3;
 }
 
-#antivirus-reset, #antivirus-clear{
-	float: right;
+.section-antivirus .spoiler{
+	position: relative;
+}
+
+#antivirus-buttons{
+	width: 100%;
+	margin-left:10px;
+	text-align:right;
 }
 
 #antivirus-add{
@@ -25,6 +32,5 @@
 }
 
 .section-antivirus h3{
-	float: left;
-	margin-top: 7px;
+	padding: 7px 0;
 }
