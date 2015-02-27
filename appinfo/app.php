@@ -21,20 +21,19 @@
 *
 */
 
-OCP\App::registerAdmin('files_antivirus', 'settings');
+OCP\App::registerAdmin('files_antivirus', 'admin');
+OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\Cron\Task', 'run');
 
-OCP\Util::connectHook('OC_Filesystem', 'post_write', '\OCA\Files_Antivirus\Scanner', 'av_scan');
-OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\BackgroundScanner', 'check');
+$app = new \OCA\Files_Antivirus\AppInfo\Application();
+$app->getContainer()->query('FilesystemHooks')->register();
 
 $avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
-
 if (empty($avBinary)){
 	try {
-		$query = \OCP\DB::prepare('SELECT count(`id`) AS `totalRules` FROM `*PREFIX*files_avir_status`');
-		$result = $query->execute();
-		$result = $result->fetchRow();
-		if($result['totalRules'] == 0) {
-			\OCA\Files_Antivirus\Status::init();
+		$ruleMapper = $app->getContainer()->query('RuleMapper');
+		$rules = $ruleMapper->findAll();
+		if(!count($rules)) {
+			$ruleMapper->populate();
 		}
 		\OCP\Config::setAppValue('files_antivirus', 'av_path', '/usr/bin/clamscan');
 	} catch (\Exception $e) {

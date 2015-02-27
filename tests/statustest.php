@@ -6,18 +6,24 @@
  * See the COPYING-README file.
  */
 
-class Test_Files_Antivirus_Status extends  \PHPUnit_Framework_TestCase {
+use \OCA\Files_Antivirus\Db\RuleMapper;
+
+class Test_Files_Antivirus_Status extends  \OCA\Files_Antivirus\Tests\Testbase {
 	
 	// See OCA\Files_Antivirus\Status::init for details
 	const TEST_CLEAN = 0;
 	const TEST_INFECTED = 1;
 	const TEST_ERROR = 40;
 	
+	protected $ruleMapper;
+
+
 	public function setUp() {
+		parent::setUp();
 		\OC_App::enable('files_antivirus');
-		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_avir_status`');
-		$query->execute(array());
-		\OCA\Files_Antivirus\Status::init();
+		$this->ruleMapper = new RuleMapper($this->db);
+		$this->ruleMapper->deleteAll();
+		$this->ruleMapper->populate();
 	}
 	
 	public function testParseResponse(){

@@ -10,47 +10,45 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\Status;
+use OCA\Files_Antivirus\Item;
 
 class External extends \OCA\Files_Antivirus\Scanner {
 	
 	// Daemon/socket mode
 	protected $useSocket;
 	
-	
-	/**
-	 * @param boolean $useSocket
-	 */
-	public function __construct($useSocket){
-		parent::__construct($useSocket);
-		$this->useSocket = $useSocket;
+	public function __construct($config){
+		$this->appConfig = $config;
+		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	
-
-	protected function scan($fileView, $filepath) {
+	/**
+	 * Scan a file
+	 * @param Item $item - item to scan
+	 * @return Status
+	 * @throws \RuntimeException
+	 */
+	public function scan(Item $item) {
 		$this->status = new Status();
 		
 		if ($this->useSocket){
-			$av_socket = \OCP\Config::getAppValue( 'files_antivirus', 'av_socket', '' );
+			$av_socket = $this->appConfig->getAvSocket();
 			$shandler = stream_socket_client('unix://' . $av_socket, $errno, $errstr, 5);
 			if (!$shandler) {
 				throw new \RuntimeException('Cannot connect to "' . $av_socket . '": ' . $errstr . ' (code ' . $errno . ')');
 			}
 		} else {
-			$av_host = \OCP\Config::getAppValue('files_antivirus', 'av_host', '');
-			$av_port = \OCP\Config::getAppValue('files_antivirus', 'av_port', '');
+			$av_host = $this->appConfig->getAvHost();
+			$av_port = $this->appConfig->getAvPort();
 			$shandler = ($av_host && $av_port) ? @fsockopen($av_host, $av_port) : false;
 			if (!$shandler) {
 				throw new \RuntimeException('The clamav module is not configured for daemon mode.');
 			}
 		}
-		
-		$fhandler = $this->getFileHandle($fileView, $filepath);
-		\OCP\Util::writeLog('files_antivirus', 'Exec scan: '.$filepath, \OCP\Util::DEBUG);
 
 		// request scan from the daemon
 		fwrite($shandler, "nINSTREAM\n");
-		while (!feof($fhandler)) {
-			$chunk = fread($fhandler, $this->chunkSize);
+		while (false !== $chunk = $item->fread()) {
 			$chunk_len = pack('N', strlen($chunk));
 			fwrite($shandler, $chunk_len.$chunk);
 		}
@@ -58,11 +56,9 @@ class External extends \OCA\Files_Antivirus\Scanner {
 		$response = fgets($shandler);
 		\OCP\Util::writeLog('files_antivirus', 'Response :: '.$response, \OCP\Util::DEBUG);
 		fclose($shandler);
-		fclose($fhandler);
 		
 		$this->status->parseResponse($response);
 		
-		return $this->status->getNumericStatus();
+		return $this->status;
 	}
-	
 }

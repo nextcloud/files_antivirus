@@ -10,7 +10,9 @@
 $installedVersion = \OCP\Config::getAppValue('files_antivirus', 'installed_version');
 
 if (version_compare($installedVersion, '0.5', '<')) {
-	\OCA\Files_Antivirus\Status::init();
+	$app = new \OCA\Files_Antivirus\AppInfo\Application();
+	$ruleMapper = $app->getContainer()->query('RuleMapper');
+	$ruleMapper->populate();
 }
 
 if (version_compare($installedVersion, '0.6', '<')) {

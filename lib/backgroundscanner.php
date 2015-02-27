@@ -8,22 +8,47 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCP\IUserManager;
+use OCP\IL10N;
+use \OCA\Files_Antivirus\Scanner;
+use OCA\Files_Antivirus\Item;
+
 class BackgroundScanner {
-	public static function check() {
-		if (!\OCP\App::isEnabled('files_antivirus')){
-			return;
-		}
-		
-		// get mimetype code for directory
-		$query = \OCP\DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
-		$result = $query->execute(array('httpd/unix-directory'));
-		if ($row = $result->fetchRow()) {
-			$dir_mimetype = $row['id'];
-		} else {
-			$dir_mimetype = 0;
-		}
+
+	/**
+	 * @var AppConfig
+	 */
+	private $appConfig;
+	
+	/**
+	 * @var IUserManager 
+	 */
+	private $userManager;
+	
+	/**
+	 * @var IL10N
+	 */
+	private $l10n;
+	
+	/**
+	 * A constructor
+	 * @param AppConfig $config
+	 */
+	public function __construct(AppConfig $config, IUserManager $userManager, IL10N $l10n){
+		$this->appConfig = $config;
+		$this->userManager = $userManager;
+		$this->l10n = $l10n;
+	}
+	
+	/**
+	 * Background scanner main job
+	 * @return null
+	 */
+	public function run(){
+		$this->initFS();
 		// locate files that are not checked yet
-		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `path`, `*PREFIX*storages`.`id`'
+		$dirMimetypeId = $this->getDirectoryMimetype();
+		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `*PREFIX*storages`.*'
 			.' FROM `*PREFIX*filecache`'
 			.' LEFT JOIN `*PREFIX*files_antivirus` ON `*PREFIX*files_antivirus`.`fileid` = `*PREFIX*filecache`.`fileid`'
 			.' JOIN `*PREFIX*storages` ON `*PREFIX*storages`.`numeric_id` = `*PREFIX*filecache`.`storage`'
@@ -33,7 +58,7 @@ class BackgroundScanner {
 			.' AND `path` LIKE ?';
 		$stmt = \OCP\DB::prepare($sql, 5);
 		try {
-			$result = $stmt->execute(array($dir_mimetype, 'local::%', 'home::%', 'files/%'));
+			$result = $stmt->execute(array($dirMimetypeId, 'local::%', 'home::%', 'files/%'));
 			if (\OCP\DB::isError($result)) {
 				\OCP\Util::writeLog('files_antivirus', __METHOD__. 'DB error: ' . \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return;
@@ -42,89 +67,48 @@ class BackgroundScanner {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
 			return;
 		}
-
-		$serverContainer = \OC::$server;
-		/** @var $serverContainer \OCP\IServerContainer */
-		$root = $serverContainer->getRootFolder();
-
-		// scan the found files
+	
+		$view = new \OC\Files\View('/');
 		while ($row = $result->fetchRow()) {
-			$file = $root->getById($row['fileid']); // this should always work ...
-			if (!empty($file)) {
-				$file = $file[0];
-				$storage = $file->getStorage();
-				$path = $file->getInternalPath();
-				self::scan($file->getId(), $path, $storage);
-			} else {
-				// ... but sometimes it doesn't, try to get the storage
-				$storage = self::getStorage($serverContainer, $row['id']);
-				if ($storage !== null && $storage->is_dir('')) {
-					self::scan($row['fileid'], $row['path'], $storage);
-				} else {
-					\OCP\Util::writeLog('files_antivirus', 'Can\'t get \OCP\Files\File for id "'.$row['fileid'].'"', \OCP\Util::ERROR);
-				}
+			$path = $view->getPath($row['fileid']);
+			if (!is_null($path)) {
+				$item = new Item($this->l10n, $view, $path, $row['fileid']);
+				$scanner = new Scanner($this->appConfig, $this->l10n);
+				$status = $scanner->scan($item);					
+				$status->dispatch($item, true);
 			}
 		}
+		\OC_Util::tearDownFS();
+	}
+	
+	/**
+	 * A hack to access files and views. Better than before.
+	 */
+	protected function initFS(){
+		//Need any valid user to mount FS
+		$results = $this->userManager->search('', 2, 0);
+		$anyUser = array_pop($results);
+
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($anyUser->getUID());
 	}
 
-	/*
-	* This function is a hack, it doesn't work if the $storage_id is a hash.
-	*/
-	protected static function getStorage($serverContainer, $storage_id) {
-		if (strpos($storage_id, 'local::') === 0) {
-			$arguments = array(
-				'datadir' => substr($storage_id, 7),
-			);
-			return new \OC\Files\Storage\Local($arguments);
-		}
-		if (strpos($storage_id, 'home::') === 0) {
-			$userid = substr($storage_id, 6);
-			$user = $serverContainer->getUserManager()->get($userid);
-			$arguments = array(
-				'user' => $user,
-			);
-			return new \OC\Files\Storage\Home($arguments);
-		}
-		return null;
-	}
 
-	public static function scan($id, $path, $storage) {
-		$fileStatus = \OCA\Files_Antivirus\Scanner::scanFile($storage, $path);
-		$result = $fileStatus->getNumericStatus();
-		
-		//TODO: Fix undefined $user here
-		switch($result) {
-			case \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED:
-				\OCP\Util::writeLog('files_antivirus', 'File "'.$path.'" with id "'.$id.'": is not checked', \OCP\Util::ERROR);
-				break;
-			case \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED:
-				$infected_action = \OCP\Config::getAppValue('files_antivirus', 'infected_action', 'only_log');
-				if ($infected_action == 'delete') {
-					\OCP\Util::writeLog('files_antivirus', 'File "'.$path.'" with id "'.$id.'": is infected, file deleted', \OCP\Util::ERROR);
-					$storage->unlink($path);
-				}
-				else {
-					\OCP\Util::writeLog('files_antivirus', 'File "'.$path.'" with id "'.$id.'": is infected', \OCP\Util::ERROR);
-				}
-				break;
-			case \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN:
-				try {
-					$stmt = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus` WHERE `fileid` = ?');
-					$result = $stmt->execute(array($id));
-					if (\OCP\DB::isError($result)) {
-						\OCP\Util::writeLog('files_antivirus', __METHOD__. ', DB error: ' . \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-						return;
-					}
-					$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
-					$result = $stmt->execute(array($id, time()));
-					if (\OCP\DB::isError($result)) {
-						\OCP\Util::writeLog('files_antivirus', __METHOD__. ', DB error: ' . \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
-						return;
-					}
-				} catch(\Exception $e) {
-					\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
-				}
-				break;
-		}
+	/**
+	 * Get a mimetypeId for httpd/unix-directory
+	 * @return int
+	 */
+	protected function getDirectoryMimetype(){
+		$storage = \OC\Files\Filesystem::getStorage('');
+		$cache = $storage->getCache('');
+		$dirMimetypeId = $cache->getMimetypeId('httpd/unix-directory');
+		return $dirMimetypeId ? $dirMimetypeId : 0;
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public static function check(){
+		return OCA\Files_Antivirus\Cron\Task::run();
 	}
 }

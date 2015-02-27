@@ -9,7 +9,7 @@ var antivirusSettings = antivirusSettings || {
 		{ value : 2, title : t('files_antivirus', 'Scanner output') },
 	],
 	init : function(){
-		$.post(OC.filePath('files_antivirus', 'ajax', 'settings.php'), {action : 'list'},
+		$.get(OC.generateUrl('apps/files_antivirus/settings/rule/listall'),
 			function onSuccess(response){
 				if (!response || !response.statuses){
 					return;
@@ -44,7 +44,6 @@ var antivirusSettings = antivirusSettings || {
 		var node = $(this),
 		row = $(node).parent(),
 		data = {
-			action : 'save',
 			id : row.data('id'),
 			status_type : row.find('.status-type select').val(),
 			match : row.children('.match').text(),
@@ -52,7 +51,7 @@ var antivirusSettings = antivirusSettings || {
 			status : row.find('.scan-result select').val()
 		};
 		
-		$.post(OC.filePath('files_antivirus', 'ajax', 'settings.php'), data,
+		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/save'), data,
 			function onSuccess(response){
 				if (response && response.id){
 					row.data('id', response.id);
@@ -103,7 +102,7 @@ var antivirusSettings = antivirusSettings || {
 	deleteRow : function(){
 		var row = $(this).parent();
 		row.hide();
-		$.post(OC.filePath('files_antivirus', 'ajax', 'settings.php'), {action : 'delete', id : row.data('id')},
+		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/delete'), {id : row.data('id')},
 			function onSuccess(response){
 				row.remove();
 			}
@@ -149,6 +148,19 @@ function av_mode_show_options(str){
 	}
 }
 $(document).ready(function() {
+	$('#av_submit').on('click', function(event){
+		event.preventDefault();
+		OC.msg.startAction('#antivirus_save_msg', t('files_antivirus', 'Saving...'));
+		$.post(
+				OC.generateUrl('apps/files_antivirus/settings/save'),
+				$('#antivirus').serializeArray(),
+				function(data){
+					OC.msg.finishedAction('#antivirus_save_msg', data);
+				}
+		
+		);
+	});
+	
 	$('#antivirus-advanced').on('click', function () {
 		$('.section-antivirus .spoiler').toggle();
 		antivirusSettings.init();
@@ -156,14 +168,14 @@ $(document).ready(function() {
 	
 	
 	$('#antivirus-reset').on('click', function (){
-		$.post(OC.filePath('files_antivirus', 'ajax', 'settings.php'), {action : 'reset'},
+		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/reset'),
 			function onSuccess(){
 				$('#antivirus-statuses tbody td').remove();
 				antivirusSettings.init();
 			});
 	});
 	$('#antivirus-clear').on('click', function (){
-		$.post(OC.filePath('files_antivirus', 'ajax', 'settings.php'), {action : 'clear'},
+		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/clear'),
 			function onSuccess(){
 				$('#antivirus-statuses tbody td').remove();
 				antivirusSettings.init();

@@ -5,6 +5,14 @@
  * See the COPYING-README file.
  */
 
-/** @var $this \OCP\Route\IRouter */
-$this->create('files_antivirus_ajax_settings', 'ajax/settings.php')
-	->actionInclude('files_antivirus/ajax/settings.php');
+$application = new \OCA\Files_Antivirus\AppInfo\Application();
+$application->registerRoutes($this, array(
+	'routes' => array(
+		array('name' => 'rule#listAll', 'url' => 'settings/rule/listall', 'verb' => 'GET'),
+		array('name' => 'rule#clear', 'url' => 'settings/rule/clear', 'verb' => 'POST'),
+		array('name' => 'rule#reset', 'url' => 'settings/rule/reset', 'verb' => 'POST'),
+		array('name' => 'rule#save', 'url' => 'settings/rule/save', 'verb' => 'POST'),
+		array('name' => 'rule#delete', 'url' => 'settings/rule/delete', 'verb' => 'POST'),
+		array('name' => 'settings#save', 'url' => 'settings/save', 'verb' => 'POST'),
+	)
+));
