@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Disimpan",
     "Clean" : "Bersihkan",
     "Infected" : "Terinfeksi",
     "Unchecked" : "Belum terperiksa",
     "Scanner exit status" : "Status keluar pemindai",
     "Scanner output" : "Keluaran pemindai",
+    "Saving..." : "Menyimpan...",
     "Virus detected! Can't upload the file %s" : "Virus terdeteksi! Tidak dapat mengunggah berkas %s",
     "Malware detected" : "Malware terdeteksi",
     "Greetings {user}," : "Salam {user},",

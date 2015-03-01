@@ -1,9 +1,11 @@
 { "translations": {
+    "Saved" : "Bewaard",
     "Clean" : "Schoon",
     "Infected" : "Geïnfecteerd",
     "Unchecked" : "Ongeselecteerd",
     "Scanner exit status" : "Scanner einde status",
     "Scanner output" : "Scanner output",
+    "Saving..." : "Opslaan",
     "Virus detected! Can't upload the file %s" : "Virus gedetecteerd! Kan bestand %s niet uploaden",
     "Malware detected" : "Malware gedetecteerd",
     "Greetings {user}," : "Hallo {user},",

@@ -1,9 +1,11 @@
 { "translations": {
+    "Saved" : "Salvo",
     "Clean" : "Limpo",
     "Infected" : "Infectado",
     "Unchecked" : "Não verificado",
     "Scanner exit status" : "Estado de saída do Scanner",
     "Scanner output" : "Saída do Scanner",
+    "Saving..." : "Salvando...",
     "Virus detected! Can't upload the file %s" : "Vírus detectado! Não é possível enviar o arquivo %s",
     "Malware detected" : "Malware detectado",
     "Greetings {user}," : "Saudações, {user},",

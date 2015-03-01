@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Salvestatud",
     "Clean" : "Puhas",
     "Infected" : "Nakatunud",
     "Unchecked" : "Kontrollimata",
     "Scanner exit status" : "Skaneerija lõpetamise staatus",
     "Scanner output" : "Skaneerija väljund",
+    "Saving..." : "Salvestamine...",
     "Virus detected! Can't upload the file %s" : "Leitud viirus! Ei saa üles laadida faili %s",
     "Malware detected" : "Leitud nuhkvara",
     "Greetings {user}," : "Tere {user},",

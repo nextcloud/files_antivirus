@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Gordeta",
     "Clean" : "Garbia",
     "Infected" : "Infektatuta",
     "Unchecked" : "Egiaztatu gabe",
     "Scanner exit status" : "Eskanerraren irteera egoera",
     "Scanner output" : "Eskanerraren irteera",
+    "Saving..." : "Gordetzen...",
     "Virus detected! Can't upload the file %s" : "Birus bat aurkitu da! Ezin da %s fitxategia igo",
     "Malware detected" : "Malwarea aurkitu da",
     "Greetings {user}," : "Kaixo {user},",

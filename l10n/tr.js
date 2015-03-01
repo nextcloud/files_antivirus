@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Kaydedildi",
     "Clean" : "Temiz",
     "Infected" : "Virüs bulaşmış",
     "Unchecked" : "İşaretli değil",
     "Scanner exit status" : "Tarayıcı çıkış durumu",
     "Scanner output" : "Tarayıcı çıktısı",
+    "Saving..." : "Kaydediliyor...",
     "Virus detected! Can't upload the file %s" : "Virüs bulundu! %s dosyası yüklenemez",
     "Malware detected" : "Zararlı yazılım bulundu",
     "Greetings {user}," : "Hoş geldiniz {user},",

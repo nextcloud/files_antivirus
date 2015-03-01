@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Uloženo",
     "Clean" : "Čisté",
     "Infected" : "Infikováno",
     "Unchecked" : "Nezkontrolováno",
     "Scanner exit status" : "Návratová hodnota skeneru",
     "Scanner output" : "Výstup skeneru",
+    "Saving..." : "Ukládám...",
     "Virus detected! Can't upload the file %s" : "Byl detekován virus! Nelze nahrát soubor %s",
     "Malware detected" : "Detekován škodlivý software",
     "Greetings {user}," : "Vítejte {user},",

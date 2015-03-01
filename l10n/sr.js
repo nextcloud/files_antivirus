@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Сачувано",
     "Clean" : "Чист",
     "Infected" : "Заражен",
     "Unchecked" : "Непроверен",
     "Scanner exit status" : "Излазно стање скенера",
     "Scanner output" : "Излаз скенера",
+    "Saving..." : "Уписујем...",
     "Virus detected! Can't upload the file %s" : "Откривен је вирус! Не могу да пошаљем %s",
     "Malware detected" : "Откривен малвер",
     "Greetings {user}," : "Поздрав, {user},",

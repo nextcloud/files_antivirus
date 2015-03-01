@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Saved",
     "Clean" : "Clean",
     "Infected" : "Infected",
     "Unchecked" : "Unchecked",
     "Scanner exit status" : "Scanner exit status",
     "Scanner output" : "Scanner output",
+    "Saving..." : "Saving...",
     "Virus detected! Can't upload the file %s" : "Virus detected! Can't upload the file %s",
     "Malware detected" : "Malware detected",
     "Greetings {user}," : "Hi {user},",

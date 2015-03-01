@@ -1,9 +1,11 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Tallennettu",
     "Clean" : "Puhdas",
     "Infected" : "Tartunnan saanut",
     "Unchecked" : "Tarkistamaton",
+    "Saving..." : "Tallennetaan...",
     "Virus detected! Can't upload the file %s" : "Virus havaittu! Tiedostoa %s ei voi lähettää",
     "Malware detected" : "Haittaohjelma havaittu",
     "Greetings {user}," : "Tervehdys {user},",

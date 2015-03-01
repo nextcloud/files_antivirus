@@ -1,8 +1,10 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Elmentve",
     "Clean" : "Tiszta",
     "Infected" : "Fertőzött",
+    "Saving..." : "Mentés...",
     "Virus detected! Can't upload the file %s" : "Vírus észlelve. Nem tölthető fel a következő file %s",
     "Malware detected" : "Kártevő észlelve",
     "Greetings {user}," : "Üdv {user},",

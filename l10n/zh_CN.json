@@ -1,9 +1,11 @@
 { "translations": {
+    "Saved" : "已保存",
     "Clean" : "正常",
     "Infected" : "被感染",
     "Unchecked" : "未检查",
     "Scanner exit status" : "扫描器退出状态",
     "Scanner output" : "扫描器输出",
+    "Saving..." : "保存中...",
     "Virus detected! Can't upload the file %s" : "发现病毒！无法上传 %s 文件",
     "Malware detected" : "发现恶意软件",
     "Greetings {user}," : "你好 {user},",

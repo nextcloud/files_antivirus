@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Сохранено",
     "Clean" : "Проверен",
     "Infected" : "Заражён",
     "Unchecked" : "Не проверен",
     "Scanner exit status" : "Вывод статуса сканера",
     "Scanner output" : "Вывод сканера",
+    "Saving..." : "Сохранение...",
     "Virus detected! Can't upload the file %s" : "Обнаружен вирус! Невозможно загрузить файл %s",
     "Malware detected" : "Обнаружена вредоносная программа",
     "Greetings {user}," : "Приветствуем, {user},",

@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Shranjeno",
     "Clean" : "Počisti",
     "Infected" : "Okuženo",
     "Unchecked" : "Neizbrano",
     "Scanner exit status" : "Stanje izhoda preiskovalnika",
     "Scanner output" : "Odvod preiskovalnika",
+    "Saving..." : "Poteka shranjevanje ...",
     "Virus detected! Can't upload the file %s" : "V datoteki je zaznan virus! Datoteke %s ni mogoče poslati v oblak!",
     "Malware detected" : "Zaznana je zlonamerna programska oprema",
     "Greetings {user}," : "Pozdravljeni, {user},",

@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "保存されました",
     "Clean" : "クリーン",
     "Infected" : "感染",
     "Unchecked" : "チェックをはずす",
     "Scanner exit status" : "スキャナーの終了ステータス",
     "Scanner output" : "スキャナーの出力",
+    "Saving..." : "保存中...",
     "Virus detected! Can't upload the file %s" : "ウイルスが検出されました！ファイル %s をアップロードすることはできません",
     "Malware detected" : "マルウェアが検出されました",
     "Greetings {user}," : "{user} 様へ、",

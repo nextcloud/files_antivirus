@@ -1,11 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Αποθηκεύτηκαν",
     "Clean" : "Καθαρό",
     "Infected" : "Μολυνσμένο",
     "Unchecked" : "Μη-ελεγμένο",
     "Scanner exit status" : "Κατάσταση εξόδου ανιχνευτή",
     "Scanner output" : "Έξοδος ανιχνευτή",
+    "Saving..." : "Γίνεται αποθήκευση...",
     "Virus detected! Can't upload the file %s" : "Εντοπίστηκε ιός! Αδυναμία μεταφόρτωσης του αρχείου %s",
     "Malware detected" : "Ανιχνεύθηκε κακόβουλο λογισμικό",
     "Greetings {user}," : "Καλωσόρισες {user},",
