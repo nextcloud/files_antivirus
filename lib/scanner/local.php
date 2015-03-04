@@ -10,7 +10,7 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\Status;
-use OCA\Files_Antivirus\Item;
+use OCA\Files_Antivirus\IScannable;
 
 class Local extends \OCA\Files_Antivirus\Scanner{
 	
@@ -25,15 +25,15 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 		if (!file_exists($this->avPath)) {
 			throw new \RuntimeException('The antivirus executable could not be found at '.$this->avPath);
 		}
-	} 
+	}
 
 	/**
 	 * Scan a file
-	 * @param Item $item - item to scan
+	 * @param IScannable $item - item to scan
 	 * @return Status
 	 * @throws \RuntimeException
 	 */
-	public function scan(Item $item) {
+	public function scan(IScannable $item) {
 		$this->status = new Status();
 		
 		$avCmdOptions = $this->appConfig->getAvCmdOptions();

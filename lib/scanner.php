@@ -115,10 +115,10 @@ class Scanner {
 	}
 
 	/**
-	 * @param Item $item
+	 * @param IScannable $item
 	 * @return Status
 	 */
-	public function scan(Item $item) {
+	public function scan(IScannable $item) {
 		if ($this->instance instanceof Scanner) {
 			return $this->instance->scan($item);
 		}
