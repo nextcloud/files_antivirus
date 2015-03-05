@@ -10,7 +10,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<shipped>true</shipped>
 	<licence>AGPL</licence>
 	<author>Manuel Delgado, Bart Visscher, thinksilicon.de</author>
-	<requiremin>6</requiremin>
+	<requiremin>7</requiremin>
 	<types>
 		<filesystem/>
 	</types>
