@@ -4,8 +4,8 @@
 	<name>Antivirus App for files</name>
 	<version>0.6</version>
 	<description>
-	This application enables ownCloud to lock files while reading or writing to and from backend storage. The purpose of the app is to avoid file corruption during normal operation. Operating at a very low level in the ownCloud app, this application requests and respects file system locks. For example, when ownCloud is writing an uploaded file to the server, ownCloud requests a write lock. If the underlying storage supports locking, ownCloud will request and maintain an exclusive write lock for the duration of this write operation. When completed, ownCloud will then release the lock through the file system.
-If the file system does not support locking, there is no need to enable this application as any lock requested by ownCloud will not be honored in the underlying file system. More information is available in the File Locking documentation.
+	This application inspects files that are uploaded to ownCloud for viruses before they are written to the ownCloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points ownCloud to when configuring the application. 
+For this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation.
 	</description>
 	<shipped>true</shipped>
 	<licence>AGPL</licence>
