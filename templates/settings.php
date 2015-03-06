@@ -30,7 +30,10 @@ script('files_antivirus', 'settings');
 	<button id="antivirus-advanced"><?php p($l->t('Advanced')) ?></button>
 	<div class="spoiler">
 		<h3><?php p($l->t('Rules')) ?></h3>
-		<button id="antivirus-clear"><?php p($l->t('Clear All')) ?></button><button id="antivirus-reset"><?php p($l->t('Reset to defaults')) ?></button>
+		<div id="antivirus-buttons">
+			<button id="antivirus-clear"><?php p($l->t('Clear All')) ?></button>
+			<button id="antivirus-reset"><?php p($l->t('Reset to defaults')) ?></button>
+		</div>
 		<table id="antivirus-statuses" class="grid">
 			<thead>
 			<tr>
