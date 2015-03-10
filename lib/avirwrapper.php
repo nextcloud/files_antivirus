@@ -11,11 +11,48 @@ namespace OCA\Files_Antivirus;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Scanner;
 use OCA\Files_Antivirus\Content;
+use Icewind\Streams\CallbackWrapper;
 
 class AvirWrapper extends Wrapper{
 	
+	/**
+	 * Modes that are used for writing 
+	 * @var array 
+	 */
+	private $writingModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
+	
+	public function fopen($path, $mode){
+		$stream = $this->storage->fopen($path, $mode);
+		if (is_resource($stream)
+				&& $this->file_exists($path) 
+				&& $this->is_file($path) 
+				&& $this->isWritingMode($mode)
+		) {
+			try {
+				$application = new \OCA\Files_Antivirus\AppInfo\Application();
+				$config = $application->getContainer()->query('AppConfig');
+				$l10n = $application->getContainer()->query('L10N');
+				$scanner = new Scanner($config, $l10n);
+				$scanner->initAsyncScan();
+				return CallBackWrapper::wrap(
+					$stream, 
+					null,
+					function ($data) use ($scanner){
+						$scanner->onAsyncData($data);
+					}, 
+					function () use ($scanner) {
+						$status = $scanner->completeAsyncScan();
+					}
+				);
+			} catch (\Exception $e){
+				
+			}
+		}
+		return $stream;
+	}
+		/*
 	public function file_put_contents($path, $data){
-		if (!$this->storage->is_dir($path)) {
+	if (!$this->storage->is_dir($path)) {
 			$application = new \OCA\Files_Antivirus\AppInfo\Application();
 			$appConfig = $application->getContainer()->query('AppConfig');
 			$l10n = $application->getContainer()->query('L10N');
@@ -24,11 +61,11 @@ class AvirWrapper extends Wrapper{
 			
 			$scanner = new Scanner($appConfig, $l10n);
 			$status = $scanner->scan($content);
-		}
+		} 
 		return $this->storage->file_put_contents($path, $data);
-	}
+	} */
 	
-	public static function setupWrapper() {
+	public static function setupWrapper(){
 		\OC\Files\Filesystem::addStorageWrapper('oc_avir', function ($mountPoint, $storage) {
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
@@ -39,5 +76,9 @@ class AvirWrapper extends Wrapper{
 				return $storage;
 			}
 		});
+	}
+	
+	private function isWritingMode($mode){
+		return in_array($mode, $this->writingModes);
 	}
 }

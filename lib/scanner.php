@@ -68,7 +68,6 @@ class Scanner {
 					break;
 			}
 		} catch (\Exception $e){
-
 		}
 	}
 
@@ -115,14 +114,73 @@ class Scanner {
 	}
 
 	/**
+	 * Synchronous scan
 	 * @param IScannable $item
 	 * @return Status
 	 */
 	public function scan(IScannable $item) {
-		if ($this->instance instanceof Scanner) {
-			return $this->instance->scan($item);
+		$this->instance->initScanner();
+
+		while (false !== ($chunk = $item->fread())) {
+			fwrite(
+					$this->instance->getWriteHandle(), 
+					$this->instance->prepareChunk($chunk)
+			);
 		}
 		
-		return new Status();
+		$this->instance->shutdownScanner();
+		return $this->getStatus();
+	}
+	
+	/**
+	 * Async scan - prepare resources
+	 */
+	public function initAsyncScan(){
+		$this->instance->initScanner();
+	}
+	
+	/**
+	 * Async scan - new portion of data is available
+	 * @param string $data
+	 */
+	public function onAsyncData($data){
+		fwrite(
+				$this->instance->getWriteHandle(),
+				$this->instance->prepareChunk($data)
+		);
+	}
+	
+	/**
+	 * Async scan - resource is closed
+	 * @return Status
+	 */
+	public function completeAsyncScan(){
+		$this->instance->shutdownScanner();
+		return $this->getStatus();
+	}
+	
+	/**
+	 * Open write handle. etc
+	 */
+	protected function initScanner(){
+		$this->status = new Status();
+	}
+
+	/**
+	 * Close used resources
+	 */
+	protected function shutdownScanner(){
+	}
+	
+	/**
+	 * Get a resource to write data into
+	 */
+	protected function getWriteHandle(){
+	}
+
+	/**
+	 * Prepare chunk (if required)
+	 */
+	protected function prepareChunk($data){
 	}
 }

@@ -50,6 +50,30 @@ class AppConfig {
 	}
 	
 	/**
+	 * Get full commandline
+	 * @return string
+	 */
+	public function getCmdline(){
+		$avCmdOptions = $this->getAvCmdOptions();
+		
+		$shellArgs = array();
+		if ($avCmdOptions) {
+			$shellArgs = explode(',', $avCmdOptions);
+				$shellArgs = array_map(function($i){
+					return escapeshellarg($i);
+				},
+				$shellArgs
+			);
+		}
+		
+		$preparedArgs = '';
+		if (count($shellArgs)){
+			$preparedArgs = implode(' ', $shellArgs);
+		}
+		return $preparedArgs;
+	}
+	
+	/**
 	 * Get all setting values as an array
 	 * @return array
 	 */

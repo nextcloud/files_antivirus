@@ -9,56 +9,55 @@
 
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\Status;
-use OCA\Files_Antivirus\IScannable;
-
 class External extends \OCA\Files_Antivirus\Scanner {
 	
 	// Daemon/socket mode
-	protected $useSocket;
+	private $useSocket;
+	
+	private $writeHandle;
 	
 	public function __construct($config){
 		$this->appConfig = $config;
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	
-	/**
-	 * Scan a file
-	 * @param IScannable $item - item to scan
-	 * @return Status
-	 * @throws \RuntimeException
-	 */
-	public function scan(IScannable $item) {
-		$this->status = new Status();
+	protected function initScanner(){
+		parent::initScanner();
 		
 		if ($this->useSocket){
-			$av_socket = $this->appConfig->getAvSocket();
-			$shandler = stream_socket_client('unix://' . $av_socket, $errno, $errstr, 5);
-			if (!$shandler) {
-				throw new \RuntimeException('Cannot connect to "' . $av_socket . '": ' . $errstr . ' (code ' . $errno . ')');
+			$avSocket = $this->appConfig->getAvSocket();
+			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
+			if (!$this->writeHandle) {
+				throw new \RuntimeException('Cannot connect to "' . $avSocket . '": ' . $errstr . ' (code ' . $errno . ')');
 			}
 		} else {
-			$av_host = $this->appConfig->getAvHost();
-			$av_port = $this->appConfig->getAvPort();
-			$shandler = ($av_host && $av_port) ? @fsockopen($av_host, $av_port) : false;
-			if (!$shandler) {
+			$avHost = $this->appConfig->getAvHost();
+			$avPort = $this->appConfig->getAvPort();
+			$this->writeHandle = ($avHost && $avPort) ? @fsockopen($avHost, $avPort) : false;
+			if (!$this->writeHandle) {
 				throw new \RuntimeException('The clamav module is not configured for daemon mode.');
 			}
 		}
 
 		// request scan from the daemon
-		fwrite($shandler, "nINSTREAM\n");
-		while (false !== $chunk = $item->fread()) {
-			$chunk_len = pack('N', strlen($chunk));
-			fwrite($shandler, $chunk_len.$chunk);
-		}
-		fwrite($shandler, pack('N', 0));
-		$response = fgets($shandler);
+		fwrite($this->writeHandle, "nINSTREAM\n");
+	}
+	
+	protected function shutdownScanner(){
+		fwrite($this->writeHandle, pack('N', 0));
+		$response = fgets($this->writeHandle);
 		\OCP\Util::writeLog('files_antivirus', 'Response :: '.$response, \OCP\Util::DEBUG);
-		fclose($shandler);
+		fclose($this->writeHandle);
 		
 		$this->status->parseResponse($response);
-		
-		return $this->status;
+	}
+	
+	protected function getWriteHandle(){
+		return $this->writeHandle;
+	}
+	
+	protected function prepareChunk($data){
+		$chunk_len = pack('N', strlen($data));
+		return $chunk_len.$data;
 	}
 }

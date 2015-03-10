@@ -9,76 +9,54 @@
 
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\Status;
-use OCA\Files_Antivirus\IScannable;
-
 class Local extends \OCA\Files_Antivirus\Scanner{
 	
 	protected $avPath;
 	
+	private $pipes = array();
+	private $process;
+	
 	public function __construct($config){
 		$this->appConfig = $config;
 		// get the path to the executable
-		$this->avPath = $this->appConfig->getAvPath();
+		$this->avPath = escapeshellcmd($this->appConfig->getAvPath());
 
 		// check that the executable is available
 		if (!file_exists($this->avPath)) {
 			throw new \RuntimeException('The antivirus executable could not be found at '.$this->avPath);
 		}
 	}
-
-	/**
-	 * Scan a file
-	 * @param IScannable $item - item to scan
-	 * @return Status
-	 * @throws \RuntimeException
-	 */
-	public function scan(IScannable $item) {
-		$this->status = new Status();
+	
+	public function initScanner(){
+		parent::initScanner();
 		
-		$avCmdOptions = $this->appConfig->getAvCmdOptions();
-		if ($avCmdOptions) {
-			$shellArgs = explode(',', $avCmdOptions);
-				$shellArgs = array_map(function($i){
-					return escapeshellarg($i);
-				},
-				$shellArgs
-			);
-		} else {
-			$shellArgs = array();
-		}
-		
-		$preparedArgs = '';
-		if (count($shellArgs)){
-			$preparedArgs = implode(' ', $shellArgs);
-		}
-
 		// using 2>&1 to grab the full command-line output.
-		$cmd = escapeshellcmd($this->avPath) . " " . $preparedArgs ." - 2>&1";
+		$cmd = $this->avPath . " " . $this->appConfig->getCmdline() ." - 2>&1";
 		$descriptorSpec = array(
 			0 => array("pipe","r"), // STDIN
 			1 => array("pipe","w")  // STDOUT
 		);
 		
-		$pipes = array();
-		$process = proc_open($cmd, $descriptorSpec, $pipes);
-		if (!is_resource($process)) {
+		$this->process = proc_open($cmd, $descriptorSpec, $this->pipes);
+		if (!is_resource($this->process)) {
 			throw new \RuntimeException('Error starting process');
 		}
-
-		// write to stdin
-		$shandler = $pipes[0];
-		while (false !== ($chunk = $item->fread())) {
-			fwrite($shandler, $chunk);
-		}
-		fclose($shandler);
-
-		$output = stream_get_contents($pipes[1]);
-		fclose($pipes[1]);
-
-		$result = proc_close($process);
-
+	}
+	
+	protected function shutdownScanner(){
+		fclose($this->pipes[0]);
+		$output = stream_get_contents($this->pipes[1]);
+		fclose($this->pipes[1]);
+		
+		$result = proc_close($this->process);
 		$this->status->parseResponse($output, $result);
-		return $this->status;
+	}
+	
+	protected function getWriteHandle(){
+		return $this->pipes[0];
+	}
+	
+	protected function prepareChunk($data){
+		return $data;
 	}
 }
