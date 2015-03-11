@@ -16,6 +16,7 @@ use OCA\Files_Antivirus\Controller\SettingsController;
 use OCA\Files_Antivirus\Hooks\FilesystemHooks;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use OCA\Files_Antivirus\BackgroundScanner;
+use \OCA\Files_Antivirus\AvirWrapper;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
@@ -76,5 +77,28 @@ class Application extends App {
             return $c->query('ServerContainer')->getL10N($c->query('AppName'));
         });
 		
+	}
+	
+	/**
+	 * Wrapper for local storages
+	 */
+	public static function setupWrapper(){
+		\OC\Files\Filesystem::addStorageWrapper('oc_avir', function ($mountPoint, $storage) {
+			/**
+			 * @var \OC\Files\Storage\Storage $storage
+			 */
+			if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
+				$application = new self();
+				$config = $application->getContainer()->query('AppConfig');
+				$l10n = $application->getContainer()->query('L10N');
+				return new AvirWrapper([
+					'storage' => $storage,
+					'config' => $config,
+					'l10n' => $l10n
+				]);
+			} else {
+				return $storage;
+			}
+		});
 	}
 }

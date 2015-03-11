@@ -70,41 +70,6 @@ class Scanner {
 		} catch (\Exception $e){
 		}
 	}
-
-	/**
-	 * Static FS hook entry point
-	 * @param string $path
-	 */
-	public static function avScan($path) {
-		$path = $path[\OC\Files\Filesystem::signal_param_path];
-		if (empty($path)) {
-			return;
-		}
-				
-		if (isset($_POST['dirToken'])){
-			//Public upload case
-			$filesView = \OC\Files\Filesystem::getView();
-		} else {
-			$filesView = \OCP\Files::getStorage("files");
-		}
-		
-		try {
-			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('AppConfig');
-			$l10n = $application->getContainer()->query('L10N');
-			
-			$item = new Item($l10n, $filesView, $path);
-			if (!$item->isValid()){
-				return;
-			}
-		
-			$scanner = new self($appConfig, $l10n);
-			$fileStatus = $scanner->scan($item);
-			$fileStatus->dispatch($item);
-		} catch (\Exception $e){
-			\OCP\Util::writeLog('files_antivirus', $e->getMessage(), \OCP\Util::ERROR);
-		}
-	}
 	
 	public function getStatus(){
 		if ($this->instance->status instanceof Status){

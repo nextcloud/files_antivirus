@@ -25,8 +25,7 @@ OCP\App::registerAdmin('files_antivirus', 'admin');
 OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\Cron\Task', 'run');
 
 $app = new \OCA\Files_Antivirus\AppInfo\Application();
-OCP\Util::connectHook('OC_Filesystem', 'setup', '\OCA\Files_Antivirus\AvirWrapper', 'setupWrapper');
-//$app->getContainer()->query('FilesystemHooks')->register();
+OCP\Util::connectHook('OC_Filesystem', 'setup', '\OCA\Files_Antivirus\AppInfo\Application', 'setupWrapper');
 
 $avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
 if (empty($avBinary)){
