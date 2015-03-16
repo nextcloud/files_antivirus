@@ -10,6 +10,7 @@ use OCA\Files_Antivirus\AppInfo\Application;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
 use \OCA\Files_Antivirus\Scanner;
+use \OCA\Files_Antivirus\BackgroundScanner;
 
 class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testbase {
 	
@@ -52,7 +53,13 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 	public function testBackgroundScan(){
 		$application = new Application();
 		$container = $application->getContainer();
-		$bgScan = $container->query('BackgroundScanner')->run();
+		
+		$backgroudScanner = new BackgroundScanner(
+				$this->config,
+				$container->query('ServerContainer')->getUserManager(),
+				$this->l10n
+		);
+		$bgScan = $backgroudScanner->run();
 		$this->assertNull($bgScan);
 	}
 	
