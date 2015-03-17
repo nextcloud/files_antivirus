@@ -80,17 +80,16 @@ class Application extends App {
 	}
 	
 	/**
-	 * Wrapper for local storages
+	 * Add wrapper for local storages
 	 */
-	public static function setupWrapper(){
+	public function setupWrapper(){
 		\OC\Files\Filesystem::addStorageWrapper('oc_avir', function ($mountPoint, $storage) {
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
 			 */
 			if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
-				$application = new self();
-				$config = $application->getContainer()->query('AppConfig');
-				$l10n = $application->getContainer()->query('L10N');
+				$config = $this->getContainer()->query('AppConfig');
+				$l10n = $this->getContainer()->query('L10N');
 				return new AvirWrapper([
 					'storage' => $storage,
 					'config' => $config,
