@@ -11,9 +11,21 @@ namespace OCA\Files_Antivirus\Scanner;
 
 class Local extends \OCA\Files_Antivirus\Scanner{
 	
+	/**
+	 * @var string
+	 */
 	protected $avPath;
 	
+	/**
+	 * STDIN and STDOUT descriptors
+	 * @var array of resources
+	 */
 	private $pipes = array();
+	
+	/**
+	 * Process handle
+	 * @var resource
+	 */
 	private $process;
 	
 	public function __construct($config){

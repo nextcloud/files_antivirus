@@ -90,10 +90,12 @@ class Application extends App {
 			if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
 				$config = $this->getContainer()->query('AppConfig');
 				$l10n = $this->getContainer()->query('L10N');
+				$logger = $this->getContainer()->query('Logger');
 				return new AvirWrapper([
 					'storage' => $storage,
 					'config' => $config,
-					'l10n' => $l10n
+					'l10n' => $l10n,
+					'logger' => $logger
 				]);
 			} else {
 				return $storage;

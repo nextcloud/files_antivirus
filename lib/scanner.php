@@ -24,7 +24,6 @@
 namespace OCA\Files_Antivirus;
 
 use OCP\IL10N;
-use OCA\Files_Antivirus\Item;
 
 class Scanner {
 

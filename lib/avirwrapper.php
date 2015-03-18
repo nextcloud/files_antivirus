@@ -10,11 +10,10 @@ namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Scanner;
-use OCA\Files_Antivirus\Content;
-use Icewind\Streams\CallbackWrapper;
 
 use \OCP\IConfig;
 use \OCP\IL10N;
+use \OCP\ILogger;
 use \OCP\Files\InvalidContentException;
 
 
@@ -37,12 +36,18 @@ class AvirWrapper extends Wrapper{
 	protected $l10n;
 	
 	/**
+	 * @var ILogger;
+	 */
+	protected $logger;
+
+	/**
 	 * @param array $parameters
 	 */
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->config = $parameters['config'];
 		$this->l10n = $parameters['l10n'];
+		$this->logger = $parameters['logger'];
 	}
 	
 	/**
@@ -73,30 +78,11 @@ class AvirWrapper extends Wrapper{
 					}
 				);
 			} catch (\Exception $e){
-				
+				$message = 	implode(' ', [ __CLASS__, __METHOD__, $e->getMessage()]);
+				$this->logger->warning($message);
 			}
 		}
 		return $stream;
-	}
-
-	/**
-	 * Scan content on-the-fly
-	 * @param string $path
-	 * @param string $data
-	 * @return bool
-	 */
-	public function file_put_contents($path, $data){
-	/*	if (!$this->storage->is_dir($path)) {
-			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('AppConfig');
-			$l10n = $application->getContainer()->query('L10N');
-			
-			$content = new Content($data, $this->storage);
-			
-			$scanner = new Scanner($appConfig, $l10n);
-			$status = $scanner->scan($content);
-		} */
-		return $this->storage->file_put_contents($path, $data);
 	}
 	
 	/**

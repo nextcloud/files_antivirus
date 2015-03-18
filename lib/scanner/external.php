@@ -14,6 +14,10 @@ class External extends \OCA\Files_Antivirus\Scanner {
 	// Daemon/socket mode
 	private $useSocket;
 	
+	/**
+	 * Handle to write data into
+	 * @var resource 
+	 */
 	private $writeHandle;
 	
 	public function __construct($config){
