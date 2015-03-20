@@ -9,12 +9,12 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
-use OCA\Files_Antivirus\Scanner;
 
 use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\ILogger;
 use \OCP\Files\InvalidContentException;
+use Icewind\Streams\CallbackWrapper;
 
 
 class AvirWrapper extends Wrapper{
@@ -26,9 +26,9 @@ class AvirWrapper extends Wrapper{
 	private $writingModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
 	
 	/**
-	 * @var IConfig 
+	 * @var OCA\Files_Antivirus\ScannerFactory
 	 */
-	protected $config;
+	protected $scannerFactory;
 	
 	/**
 	 * @var IL10N 
@@ -45,7 +45,7 @@ class AvirWrapper extends Wrapper{
 	 */
 	public function __construct($parameters) {
 		parent::__construct($parameters);
-		$this->config = $parameters['config'];
+		$this->scannerFactory = $parameters['scannerFactory'];
 		$this->l10n = $parameters['l10n'];
 		$this->logger = $parameters['logger'];
 	}
@@ -60,19 +60,18 @@ class AvirWrapper extends Wrapper{
 		$stream = $this->storage->fopen($path, $mode);
 		if (is_resource($stream) && $this->isWritingMode($mode)) {
 			try {
-				$storage = $this;
-				$scanner = new Scanner($this->config, $this->l10n);
+				$scanner = $this->scannerFactory->getScanner();
 				$scanner->initAsyncScan();
 				return CallBackWrapper::wrap(
-					$stream, 
+					$stream,
 					null,
 					function ($data) use ($scanner){
 						$scanner->onAsyncData($data);
 					}, 
-					function () use ($scanner, $storage, $path) {
+					function () use ($scanner, $path) {
 						$status = $scanner->completeAsyncScan();
 						if ($status->getNumericStatus() == \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
-							$storage->unlink($path);
+							$this->unlink($path);
 							throw new InvalidContentException($status->getDetails());
 						}
 					}

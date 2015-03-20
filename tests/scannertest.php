@@ -6,10 +6,9 @@
  * See the COPYING-README file.
  */
 
-use OCA\Files_Antivirus\AppInfo\Application;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
-use \OCA\Files_Antivirus\Scanner;
+use \OCA\Files_Antivirus\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
 
 class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testbase {
@@ -22,6 +21,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 	
 	protected $cleanItem;
 	protected $infectedItem;
+	protected $scannerFactory;
 	
 	public function setUp() {
 		parent::setUp();
@@ -48,15 +48,16 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		if (!count($results)) {
 			\OC_User::createUser('test', 'test');
 		}
+		$this->scannerFactory = new ScannerFactory(
+				$this->config,
+				$this->container->query('Logger')
+		);
 	}
 	
 	public function testBackgroundScan(){
-		$application = new Application();
-		$container = $application->getContainer();
-		
 		$backgroudScanner = new BackgroundScanner(
-				$this->config,
-				$container->query('ServerContainer')->getUserManager(),
+				$this->scannerFactory,
+				$this->container->query('ServerContainer')->getUserManager(),
 				$this->l10n
 		);
 		$bgScan = $backgroudScanner->run();
@@ -68,7 +69,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->view->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->cleanItem->isValid());
 		
-		$scanner = new Scanner($this->config, $this->l10n);
+		$scanner = $this->scannerFactory->getScanner();
 		
 		$scanner->scan($this->cleanItem);
 		$cleanStatus = $scanner->getStatus();
@@ -81,7 +82,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		
 		$fileView = new \OC\Files\View('');
 		$nonExistingItem = new Item($this->l10n, $fileView, 'non-existing.file', 42);
-		$scanner = new Scanner($this->config);
+		$scanner = $this->scannerFactory->getScanner();
 		$scanner->scan($nonExistingItem);
 		$unknownStatus = $scanner->scan($nonExistingItem);
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $unknownStatus);
@@ -92,7 +93,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$handle = fopen(__DIR__ . '/data/kitten.inf', 'r');
 		$this->view->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->infectedItem->isValid());
-		$scanner = new Scanner($this->config, $this->l10n);
+		$scanner = $this->scannerFactory->getScanner();
 		$scanner->scan($this->infectedItem);
 		$infectedStatus = $scanner->getStatus();
 		$this->assertInstanceOf('\OCA\Files_Antivirus\Status', $infectedStatus);

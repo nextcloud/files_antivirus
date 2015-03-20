@@ -9,17 +9,25 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
+use OCA\Files_Antivirus\AppInfo\Application;
+
 abstract class Testbase extends \PHPUnit_Framework_TestCase {
 
 	protected $db;
+	protected $application;
+	protected $container;
 	protected $config;
 	protected $l10n;
+	
 
 	public function setUp(){
 		parent::setUp();
 		\OC_App::enable('files_antivirus');
 		
 		$this->db = \OC::$server->getDb();
+		
+		$this->application = new Application();
+		$this->container = $this->application->getContainer();
 		
 		$this->config = $this->getMockBuilder('\OCA\Files_Antivirus\AppConfig')
 				->disableOriginalConstructor()

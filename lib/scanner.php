@@ -23,15 +23,7 @@
 
 namespace OCA\Files_Antivirus;
 
-use OCP\IL10N;
-
-class Scanner {
-
-	/**
-	 * A proper subclass
-	 * @var Scanner
-	 */
-	protected $instance = null;
+abstract class Scanner {
 	
 	/**
 	 * Scan result
@@ -45,34 +37,18 @@ class Scanner {
 	protected $appConfig;
 	
 	/**
-	 * @var IL10N
+	 * Close used resources
 	 */
-	protected $l10n;
+	abstract protected function shutdownScanner();
 	
-	public function __construct($config, IL10N $l10n){
-		$this->appConfig = $config;
-		try {
-			$avMode = $this->appConfig->getAvMode();
-			switch($avMode) {
-				case 'daemon':
-				case 'socket':
-					$this->instance = new \OCA\Files_Antivirus\Scanner\External($this->appConfig);
-					break;
-				case 'executable':
-					$this->instance = new \OCA\Files_Antivirus\Scanner\Local($this->appConfig);
-					break;
-				default:
-					$this->instance = false;
-					\OCP\Util::writeLog('files_antivirus', 'Unknown mode: ' . $avMode, \OCP\Util::WARN);
-					break;
-			}
-		} catch (\Exception $e){
-		}
-	}
+	/**
+	 * Get a resource to write data into
+	 */
+	abstract protected function getWriteHandle();
 	
 	public function getStatus(){
-		if ($this->instance->status instanceof Status){
-			return $this->instance->status;
+		if ($this->status instanceof Status){
+			return $this->status;
 		}
 		return new Status();
 	}
@@ -83,16 +59,16 @@ class Scanner {
 	 * @return Status
 	 */
 	public function scan(IScannable $item) {
-		$this->instance->initScanner();
+		$this->initScanner();
 
 		while (false !== ($chunk = $item->fread())) {
 			fwrite(
-					$this->instance->getWriteHandle(), 
-					$this->instance->prepareChunk($chunk)
+					$this->getWriteHandle(), 
+					$this->prepareChunk($chunk)
 			);
 		}
 		
-		$this->instance->shutdownScanner();
+		$this->shutdownScanner();
 		return $this->getStatus();
 	}
 	
@@ -100,7 +76,7 @@ class Scanner {
 	 * Async scan - prepare resources
 	 */
 	public function initAsyncScan(){
-		$this->instance->initScanner();
+		$this->initScanner();
 	}
 	
 	/**
@@ -109,8 +85,8 @@ class Scanner {
 	 */
 	public function onAsyncData($data){
 		fwrite(
-				$this->instance->getWriteHandle(),
-				$this->instance->prepareChunk($data)
+				$this->getWriteHandle(),
+				$this->prepareChunk($data)
 		);
 	}
 	
@@ -119,7 +95,7 @@ class Scanner {
 	 * @return Status
 	 */
 	public function completeAsyncScan(){
-		$this->instance->shutdownScanner();
+		$this->shutdownScanner();
 		return $this->getStatus();
 	}
 	
@@ -131,20 +107,9 @@ class Scanner {
 	}
 
 	/**
-	 * Close used resources
-	 */
-	protected function shutdownScanner(){
-	}
-	
-	/**
-	 * Get a resource to write data into
-	 */
-	protected function getWriteHandle(){
-	}
-
-	/**
 	 * Prepare chunk (if required)
 	 */
 	protected function prepareChunk($data){
+		return $data;
 	}
 }

@@ -16,6 +16,8 @@ use OCA\Files_Antivirus\Controller\SettingsController;
 use OCA\Files_Antivirus\Hooks\FilesystemHooks;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use OCA\Files_Antivirus\BackgroundScanner;
+use OCA\Files_Antivirus\ScannerFactory;
+
 use \OCA\Files_Antivirus\AvirWrapper;
 
 class Application extends App {
@@ -45,9 +47,16 @@ class Application extends App {
 			);
 		});
 		
+        $container->registerService('ScannerFactory', function($c) {
+			return new ScannerFactory(
+				$c->query('AppConfig'),
+				$c->query('Logger')
+			);
+        });
+		
         $container->registerService('BackgroundScanner', function($c) {
 			return new BackgroundScanner(
-				$c->query('AppConfig'),
+				$c->query('ScannerFactory'),
 				$c->query('ServerContainer')->getUserManager(),
 				$c->query('L10N')
 			);
@@ -88,12 +97,12 @@ class Application extends App {
 			 * @var \OC\Files\Storage\Storage $storage
 			 */
 			if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
-				$config = $this->getContainer()->query('AppConfig');
+				$scannerFactory = $this->getContainer()->query('ScannerFactory');
 				$l10n = $this->getContainer()->query('L10N');
 				$logger = $this->getContainer()->query('Logger');
 				return new AvirWrapper([
 					'storage' => $storage,
-					'config' => $config,
+					'scannerFactory' => $scannerFactory,
 					'l10n' => $l10n,
 					'logger' => $logger
 				]);

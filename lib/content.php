@@ -18,12 +18,10 @@ class Content implements IScannable{
 	
 	protected $chunkSize;
 	
-	public function __construct($content, $storage){
+	public function __construct($content, $storage, $chunkSize){
 		$this->content = $content;
 		$this->storage = $storage;
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
-		$config = $application->getContainer()->query('AppConfig');
-		$this->chunkSize = $config->getAvChunkSize();
+		$this->chunkSize = $chunkSize;
 	}
 	
 	public function fread(){
