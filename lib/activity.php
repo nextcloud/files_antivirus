@@ -164,14 +164,14 @@ class Activity implements IExtension {
 	public function getNavigation() {
 		$l = $this->getL10N();
 		return [
-			'apps' => [],
-			'top' => [
+			'apps' => [
 				self::FILTER_AVIR => [
 					'id' => self::FILTER_AVIR,
 					'name' => (string) $l->t('Antivirus'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_AVIR]),
 				],
 			],
+			'top' => []
 		];
 	}
 
