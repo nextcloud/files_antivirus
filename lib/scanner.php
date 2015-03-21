@@ -23,16 +23,7 @@
 
 namespace OCA\Files_Antivirus;
 
-use OCP\IL10N;
-use OCA\Files_Antivirus\Item;
-
-class Scanner {
-
-	/**
-	 * A proper subclass
-	 * @var Scanner
-	 */
-	protected $instance = null;
+abstract class Scanner {
 	
 	/**
 	 * Scan result
@@ -46,83 +37,79 @@ class Scanner {
 	protected $appConfig;
 	
 	/**
-	 * @var IL10N
+	 * Close used resources
 	 */
-	protected $l10n;
+	abstract protected function shutdownScanner();
 	
-	public function __construct($config, IL10N $l10n){
-		$this->appConfig = $config;
-		try {
-			$avMode = $this->appConfig->getAvMode();
-			switch($avMode) {
-				case 'daemon':
-				case 'socket':
-					$this->instance = new \OCA\Files_Antivirus\Scanner\External($this->appConfig);
-					break;
-				case 'executable':
-					$this->instance = new \OCA\Files_Antivirus\Scanner\Local($this->appConfig);
-					break;
-				default:
-					$this->instance = false;
-					\OCP\Util::writeLog('files_antivirus', 'Unknown mode: ' . $avMode, \OCP\Util::WARN);
-					break;
-			}
-		} catch (\Exception $e){
-
-		}
-	}
-
 	/**
-	 * Static FS hook entry point
-	 * @param string $path
+	 * Get a resource to write data into
 	 */
-	public static function avScan($path) {
-		$path = $path[\OC\Files\Filesystem::signal_param_path];
-		if (empty($path)) {
-			return;
-		}
-				
-		if (isset($_POST['dirToken'])){
-			//Public upload case
-			$filesView = \OC\Files\Filesystem::getView();
-		} else {
-			$filesView = \OCP\Files::getStorage("files");
-		}
-		
-		try {
-			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('AppConfig');
-			$l10n = $application->getContainer()->query('L10N');
-			
-			$item = new Item($l10n, $filesView, $path);
-			if (!$item->isValid()){
-				return;
-			}
-		
-			$scanner = new self($appConfig, $l10n);
-			$fileStatus = $scanner->scan($item);
-			$fileStatus->dispatch($item);
-		} catch (\Exception $e){
-			\OCP\Util::writeLog('files_antivirus', $e->getMessage(), \OCP\Util::ERROR);
-		}
-	}
+	abstract protected function getWriteHandle();
 	
 	public function getStatus(){
-		if ($this->instance->status instanceof Status){
-			return $this->instance->status;
+		if ($this->status instanceof Status){
+			return $this->status;
 		}
 		return new Status();
 	}
 
 	/**
-	 * @param Item $item
+	 * Synchronous scan
+	 * @param IScannable $item
 	 * @return Status
 	 */
-	public function scan(Item $item) {
-		if ($this->instance instanceof Scanner) {
-			return $this->instance->scan($item);
+	public function scan(IScannable $item) {
+		$this->initScanner();
+
+		while (false !== ($chunk = $item->fread())) {
+			fwrite(
+					$this->getWriteHandle(), 
+					$this->prepareChunk($chunk)
+			);
 		}
 		
-		return new Status();
+		$this->shutdownScanner();
+		return $this->getStatus();
+	}
+	
+	/**
+	 * Async scan - prepare resources
+	 */
+	public function initAsyncScan(){
+		$this->initScanner();
+	}
+	
+	/**
+	 * Async scan - new portion of data is available
+	 * @param string $data
+	 */
+	public function onAsyncData($data){
+		fwrite(
+				$this->getWriteHandle(),
+				$this->prepareChunk($data)
+		);
+	}
+	
+	/**
+	 * Async scan - resource is closed
+	 * @return Status
+	 */
+	public function completeAsyncScan(){
+		$this->shutdownScanner();
+		return $this->getStatus();
+	}
+	
+	/**
+	 * Open write handle. etc
+	 */
+	protected function initScanner(){
+		$this->status = new Status();
+	}
+
+	/**
+	 * Prepare chunk (if required)
+	 */
+	protected function prepareChunk($data){
+		return $data;
 	}
 }

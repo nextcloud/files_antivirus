@@ -10,15 +10,15 @@ namespace OCA\Files_Antivirus;
 
 use OCP\IUserManager;
 use OCP\IL10N;
-use \OCA\Files_Antivirus\Scanner;
+
 use OCA\Files_Antivirus\Item;
 
 class BackgroundScanner {
 
 	/**
-	 * @var AppConfig
+	 * @var ScannerFactory
 	 */
-	private $appConfig;
+	private $scannerFactory;
 	
 	/**
 	 * @var IUserManager 
@@ -34,8 +34,8 @@ class BackgroundScanner {
 	 * A constructor
 	 * @param AppConfig $config
 	 */
-	public function __construct(AppConfig $config, IUserManager $userManager, IL10N $l10n){
-		$this->appConfig = $config;
+	public function __construct(ScannerFactory $scannerFactory, IUserManager $userManager, IL10N $l10n){
+		$this->scannerFactory = $scannerFactory;
 		$this->userManager = $userManager;
 		$this->l10n = $l10n;
 	}
@@ -73,7 +73,7 @@ class BackgroundScanner {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
 				$item = new Item($this->l10n, $view, $path, $row['fileid']);
-				$scanner = new Scanner($this->appConfig, $this->l10n);
+				$scanner = $this->scannerFactory->getScanner();
 				$status = $scanner->scan($item);					
 				$status->dispatch($item, true);
 			}
@@ -88,7 +88,6 @@ class BackgroundScanner {
 		//Need any valid user to mount FS
 		$results = $this->userManager->search('', 2, 0);
 		$anyUser = array_pop($results);
-
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($anyUser->getUID());
 	}

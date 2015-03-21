@@ -11,7 +11,7 @@ namespace OCA\Files_Antivirus;
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 
-class Item {
+class Item implements iScannable{
 	/**
 	 * Scanned fileid (optional)
 	 * @var int
@@ -29,12 +29,6 @@ class Item {
 	 * @var string
 	 */
 	protected $path;
-	
-	/**
-	 * Scan result
-	 * @var Status
-	 */
-	protected $status;
 	
 	/**
 	 * file handle, user to read from the file
