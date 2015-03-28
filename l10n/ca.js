@@ -31,6 +31,7 @@ OC.L10N.register(
     "Path to clamscan" : "Camí a clamscan",
     "Path to clamscan executable." : "Camí a l'executable de clamscan.",
     "Not required in Daemon Mode." : "No requerit en mode dimoni.",
+    "Extra command line options (comma-separated)" : "Opcions extra de la línia de comandos (separades per comes)",
     "Action for infected files found while scanning" : "Acció per als fitxers infectats trobats durant l'escanneig",
     "Only log" : "Només registra",
     "Delete file" : "Elimina el fitxer",
