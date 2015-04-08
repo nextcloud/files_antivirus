@@ -10,6 +10,7 @@ namespace OCA\Files_Antivirus;
 
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
+use OCA\Files_Antivirus\Activity;
 
 class Item implements iScannable{
 	/**
@@ -116,11 +117,28 @@ class Item implements iScannable{
 	 * @param boolean $isBackground
 	 */
 	public function processInfected(Status $status, $isBackground) {
+		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$appConfig = $application->getContainer()->query('AppConfig');
+		$infectedAction = $appConfig->getAvInfectedAction();
+		
+		$shouldDelete = !$isBackground || ($isBackground && $infectedAction === 'delete');
+		
+		$message = $shouldDelete ? Activity::MESSAGE_FILE_DELETED : '';
+		
+		\OC::$server->getActivityManager()->publishActivity(
+					'files_antivirus',
+					Activity::SUBJECT_VIRUS_DETECTED,
+					array($this->path, $status->getDetails()),
+					$message,
+					array(),
+					$this->path, 
+					'', 
+					$this->view->getOwner($this->path),
+					Activity::TYPE_VIRUS_DETECTED, 
+					Activity::PRIORITY_HIGH
+				);
 		if ($isBackground) {
-			$application = new \OCA\Files_Antivirus\AppInfo\Application();
-			$appConfig = $application->getContainer()->query('AppConfig');
-			$infectedAction = $appConfig->getInfectedAction();
-			if ($infectedAction == 'delete') {
+			if ($shouldDelete) {
 				$this->logError('Infected file deleted. ' . $status->getDetails());
 				$this->view->unlink($this->path);
 			} else {
