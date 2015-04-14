@@ -10,6 +10,8 @@ OC.L10N.register(
     "Saving..." : "Enregistrement...",
     "<strong>Infected file</strong> has been <strong>found</strong>" : "<strong>Un fichier infecté</strong> a été  <strong>trouvé</strong>",
     "File %s is infected with %s" : "Le fichier %s est infecté par %s",
+    "It is going to be deleted" : "Il va être supprimé",
+    "Antivirus" : "Antivirus",
     "Virus detected! Can't upload the file %s" : "Virus détecté ! Impossible de télécharger le fichier %s",
     "Malware detected" : "Logiciel malveillant détecté",
     "Greetings {user}," : "Bonjour {user},",
