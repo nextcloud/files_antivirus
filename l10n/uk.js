@@ -8,6 +8,7 @@ OC.L10N.register(
     "Scanner exit status" : "Статус виходу сканера",
     "Scanner output" : "Вихідні дані сканеру",
     "Saving..." : "Зберігаю...",
+    "Antivirus" : "Антивірус",
     "Virus detected! Can't upload the file %s" : "Виявлений Вірус ! Неможливо завантажити файл %s",
     "Malware detected" : "Malware виявлено",
     "Greetings {user}," : "Вітаємо {user},",
