@@ -60,7 +60,7 @@ class BackgroundScanner {
 		try {
 			$result = $stmt->execute(array($dirMimetypeId, 'local::%', 'home::%', 'files/%'));
 			if (\OCP\DB::isError($result)) {
-				\OCP\Util::writeLog('files_antivirus', __METHOD__. 'DB error: ' . \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('files_antivirus', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
 				return;
 			}
 		} catch(\Exception $e) {
