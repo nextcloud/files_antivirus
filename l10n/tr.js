@@ -8,6 +8,7 @@ OC.L10N.register(
     "Scanner exit status" : "Tarayıcı çıkış durumu",
     "Scanner output" : "Tarayıcı çıktısı",
     "Saving..." : "Kaydediliyor...",
+    "Antivirus" : "Antivirüs",
     "Virus detected! Can't upload the file %s" : "Virüs bulundu! %s dosyası yüklenemez",
     "Malware detected" : "Zararlı yazılım bulundu",
     "Greetings {user}," : "Hoş geldiniz {user},",
