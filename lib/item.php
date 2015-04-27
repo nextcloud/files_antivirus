@@ -182,12 +182,12 @@ class Item implements iScannable{
 			$result = $stmt->execute(array($this->id));
 			if (\OCP\DB::isError($result)) {
 				//TODO: Use logger
-				$this->logError(__METHOD__. ', DB error: ' . \OC_DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
 			}
 			$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
 			$result = $stmt->execute(array($this->id, time()));
 			if (\OCP\DB::isError($result)) {
-				$this->logError(__METHOD__. ', DB error: ' . \OC_DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
 			}
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);

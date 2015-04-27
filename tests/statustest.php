@@ -20,7 +20,6 @@ class Test_Files_Antivirus_Status extends  \OCA\Files_Antivirus\Tests\Testbase {
 
 	public function setUp() {
 		parent::setUp();
-		\OC_App::enable('files_antivirus');
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
