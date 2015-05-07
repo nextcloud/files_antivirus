@@ -54,16 +54,6 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		);
 	}
 	
-	public function testBackgroundScan(){
-		$backgroudScanner = new BackgroundScanner(
-				$this->scannerFactory,
-				$this->container->query('ServerContainer')->getUserManager(),
-				$this->l10n
-		);
-		$bgScan = $backgroudScanner->run();
-		$this->assertNull($bgScan);
-	}
-	
 	public function testCleanFile() {
 		$handle = fopen(__DIR__ . '/data/foo.txt', 'r');
 		$this->view->method('fopen')->willReturn($handle);
