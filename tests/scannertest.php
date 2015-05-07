@@ -42,7 +42,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->ruleMapper->populate();
 		
 		//Bgscanner requires at least one user on the current instance
-		$userManager = \OC_User::getManager();
+		$userManager = $this->application->getContainer()->query('ServerContainer')->getUserManager();
 		$results = $userManager->search('', 1, 0);
 
 		if (!count($results)) {
