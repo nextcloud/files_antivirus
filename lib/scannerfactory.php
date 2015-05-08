@@ -23,7 +23,7 @@ class ScannerFactory{
 	protected $logger;
 	
 	/**
-	 * @var OCA\Files_Antivirus\Scanner
+	 * @var string
 	 */
 	protected $scannerClass;
 	
