@@ -32,7 +32,9 @@ class BackgroundScanner {
 	
 	/**
 	 * A constructor
-	 * @param AppConfig $config
+	 * @param \OCA\Files_Antivirus\ScannerFactory $scannerFactory
+	 * @param IUserManager $userManager
+	 * @param IL10N $l10n
 	 */
 	public function __construct(ScannerFactory $scannerFactory, IUserManager $userManager, IL10N $l10n){
 		$this->scannerFactory = $scannerFactory;

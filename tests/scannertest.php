@@ -42,7 +42,7 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 		$this->ruleMapper->populate();
 		
 		//Bgscanner requires at least one user on the current instance
-		$userManager = \OC_User::getManager();
+		$userManager = $this->application->getContainer()->query('ServerContainer')->getUserManager();
 		$results = $userManager->search('', 1, 0);
 
 		if (!count($results)) {
@@ -52,16 +52,6 @@ class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testba
 				$this->config,
 				$this->container->query('Logger')
 		);
-	}
-	
-	public function testBackgroundScan(){
-		$backgroudScanner = new BackgroundScanner(
-				$this->scannerFactory,
-				$this->container->query('ServerContainer')->getUserManager(),
-				$this->l10n
-		);
-		$bgScan = $backgroudScanner->run();
-		$this->assertNull($bgScan);
 	}
 	
 	public function testCleanFile() {
