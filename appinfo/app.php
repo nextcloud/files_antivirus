@@ -25,7 +25,7 @@ OCP\App::registerAdmin('files_antivirus', 'admin');
 OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\Cron\Task', 'run');
 
 $app = new \OCA\Files_Antivirus\AppInfo\Application();
-OCP\Util::connectHook('OC_Filesystem', 'setup', $app, 'setupWrapper');
+OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
 
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Antivirus\Activity(
