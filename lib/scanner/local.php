@@ -61,6 +61,8 @@ class Local extends \OCA\Files_Antivirus\Scanner{
 		fclose($this->pipes[1]);
 		
 		$result = proc_close($this->process);
+		
+		\OCP\Util::writeLog('files_antivirus', 'Exit code :: ' . $result . ' Response :: ' . $output, \OCP\Util::DEBUG);
 		$this->status->parseResponse($output, $result);
 	}
 	
