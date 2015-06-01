@@ -51,7 +51,7 @@ class AvirWrapper extends Wrapper{
 	}
 	
 	/**
-	 * Asyncronously scan data that are written to the file
+	 * Asynchronously scan data that are written to the file
 	 * @param string $path
 	 * @param string $mode
 	 * @return resource | bool
