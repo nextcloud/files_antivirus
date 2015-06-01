@@ -26,7 +26,7 @@ class AvirWrapper extends Wrapper{
 	private $writingModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
 	
 	/**
-	 * @var OCA\Files_Antivirus\ScannerFactory
+	 * @var \OCA\Files_Antivirus\ScannerFactory
 	 */
 	protected $scannerFactory;
 	
