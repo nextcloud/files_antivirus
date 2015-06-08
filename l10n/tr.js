@@ -9,7 +9,7 @@ OC.L10N.register(
     "Scanner output" : "Tarayıcı çıktısı",
     "Saving..." : "Kaydediliyor...",
     "<strong>Infected file</strong> has been <strong>found</strong>" : "<strong>Virüslü</strong> dosya <strong>bulundu</strong>",
-    "File %s is infected with %s" : "%s dosyasına %s bulaşmış",
+    "File %s is infected with %s" : "%s dosyasına %s virüsü bulaşmış",
     "It is going to be deleted" : "Silinecek",
     "Antivirus" : "Antivirüs",
     "Virus detected! Can't upload the file %s" : "Virüs bulundu! %s dosyası yüklenemez",
