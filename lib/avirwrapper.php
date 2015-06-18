@@ -26,7 +26,7 @@ class AvirWrapper extends Wrapper{
 	private $writingModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
 	
 	/**
-	 * @var OCA\Files_Antivirus\ScannerFactory
+	 * @var \OCA\Files_Antivirus\ScannerFactory
 	 */
 	protected $scannerFactory;
 	
@@ -51,7 +51,7 @@ class AvirWrapper extends Wrapper{
 	}
 	
 	/**
-	 * Asyncronously scan data that are written to the file
+	 * Asynchronously scan data that are written to the file
 	 * @param string $path
 	 * @param string $mode
 	 * @return resource | bool
