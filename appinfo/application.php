@@ -98,7 +98,7 @@ class Application extends App {
 				/**
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
-				if ($storage->instanceOfStorage('OC\Files\Storage\Local') && !$storage->instanceOfStorage('\OC\Files\Storage\MappedLocal')) {
+				if ($storage instanceof \OC\Files\Storage\Storage) {
 					$scannerFactory = $this->getContainer()->query('ScannerFactory');
 					$l10n = $this->getContainer()->query('L10N');
 					$logger = $this->getContainer()->query('Logger');
