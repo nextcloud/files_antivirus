@@ -6,6 +6,8 @@
     "Scanner exit status" : "Kód, ktorý vrátil antivírus",
     "Scanner output" : "Výstup skenera",
     "Saving..." : "Ukladám...",
+    "File %s is infected with %s" : "Súbor %s je infikovaný %s",
+    "Antivirus" : "Antivírus",
     "Virus detected! Can't upload the file %s" : "Detekovaný vírus! Súbor nemôžete nahrať %s",
     "Malware detected" : "Detekovaný malvér",
     "Greetings {user}," : "Vitajte {user},",
