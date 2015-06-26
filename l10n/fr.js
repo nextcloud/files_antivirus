@@ -18,7 +18,7 @@ OC.L10N.register(
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Désolé, un logiciel malveillant été détecté dans un fichier que vous avez essayé d'envoyer : il a dû être supprimé.",
     "This email is a notification from {host}. Please, do not reply." : "Ceci est un message de notification envoyé de {host}. Merci de ne pas y répondre.",
     "File uploaded: {file}" : "Fichier envoyé : {file}",
-    "Antivirus Configuration" : "Configuration de l'antivirus",
+    "Antivirus Configuration" : "Antivirus",
     "Mode" : "Mode",
     "Executable" : "Exécutable",
     "Daemon" : "Démon",
