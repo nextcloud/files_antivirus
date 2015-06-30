@@ -90,6 +90,12 @@ class AvirWrapper extends Wrapper{
 	 * @return bool
 	 */
 	private function isWritingMode($mode){
-		return in_array($mode, $this->writingModes);
+		// Strip unessential binary/text flags
+		$cleanMode = str_replace(
+			['t', 'b'],
+			['', ''],
+			$mode
+		);
+		return in_array($cleanMode, $this->writingModes);
 	}
 }
