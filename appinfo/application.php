@@ -92,23 +92,27 @@ class Application extends App {
 	 * Add wrapper for local storages
 	 */
 	public function setupWrapper(){
-		\OC\Files\Filesystem::addStorageWrapper('oc_avir', function ($mountPoint, $storage) {
-			/**
-			 * @var \OC\Files\Storage\Storage $storage
-			 */
-			if ($storage instanceof \OC\Files\Storage\Storage && $storage->isLocal()) {
-				$scannerFactory = $this->getContainer()->query('ScannerFactory');
-				$l10n = $this->getContainer()->query('L10N');
-				$logger = $this->getContainer()->query('Logger');
-				return new AvirWrapper([
-					'storage' => $storage,
-					'scannerFactory' => $scannerFactory,
-					'l10n' => $l10n,
-					'logger' => $logger
-				]);
-			} else {
-				return $storage;
-			}
-		});
+		\OC\Files\Filesystem::addStorageWrapper(
+			'oc_avir',
+			function ($mountPoint, $storage) {
+				/**
+				 * @var \OC\Files\Storage\Storage $storage
+				 */
+				if ($storage instanceof \OC\Files\Storage\Storage) {
+					$scannerFactory = $this->getContainer()->query('ScannerFactory');
+					$l10n = $this->getContainer()->query('L10N');
+					$logger = $this->getContainer()->query('Logger');
+					return new AvirWrapper([
+						'storage' => $storage,
+						'scannerFactory' => $scannerFactory,
+						'l10n' => $l10n,
+						'logger' => $logger
+					]);
+				} else {
+					return $storage;
+				}
+			},
+			1
+		);
 	}
 }

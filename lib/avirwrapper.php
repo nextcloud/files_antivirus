@@ -72,7 +72,12 @@ class AvirWrapper extends Wrapper{
 						$status = $scanner->completeAsyncScan();
 						if ($status->getNumericStatus() == \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
 							$this->unlink($path);
-							throw new InvalidContentException($status->getDetails());
+							throw new InvalidContentException(
+								$this->l10n->t(
+									'Virus %s is detected in the file. Upload cannot be completed.',
+									$status->getDetails()
+								)
+							);
 						}
 					}
 				);
@@ -90,6 +95,12 @@ class AvirWrapper extends Wrapper{
 	 * @return bool
 	 */
 	private function isWritingMode($mode){
-		return in_array($mode, $this->writingModes);
+		// Strip unessential binary/text flags
+		$cleanMode = str_replace(
+			['t', 'b'],
+			['', ''],
+			$mode
+		);
+		return in_array($cleanMode, $this->writingModes);
 	}
 }
