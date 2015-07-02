@@ -12,6 +12,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "ファイル %s は %s に感染しています",
     "It is going to be deleted" : "削除されます",
     "Antivirus" : "アンチウイルス",
+    "Virus %s is detected in the file. Upload cannot be completed." : "ファイルからウィルス %s が検出されました。アップロードを完了することができません。",
     "Virus detected! Can't upload the file %s" : "ウイルスが検出されました！ファイル %s をアップロードすることはできません",
     "Malware detected" : "マルウェアが検出されました",
     "Greetings {user}," : "{user} 様へ、",

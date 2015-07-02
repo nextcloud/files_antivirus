@@ -7,6 +7,8 @@
     "<strong>Infected file</strong> has been <strong>found</strong>" : "<strong>Saastunut tiedosto</strong> on <strong>löytynyt</strong>",
     "File %s is infected with %s" : "Tiedoston %s on saastuttanut %s",
     "It is going to be deleted" : "Se poistetaan",
+    "Antivirus" : "Virustorjunta",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s on havaittu tiedostossa. Lähetystä ei voi suorittaa.",
     "Virus detected! Can't upload the file %s" : "Virus havaittu! Tiedostoa %s ei voi lähettää",
     "Malware detected" : "Haittaohjelma havaittu",
     "Greetings {user}," : "Tervehdys {user},",

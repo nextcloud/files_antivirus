@@ -12,6 +12,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "Le fichier %s est infecté par %s",
     "It is going to be deleted" : "Il va être supprimé",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Le virus %s a été détecté dans ce fichier. Le téléversement ne peut pas être finalisé.",
     "Virus detected! Can't upload the file %s" : "Virus détecté ! Impossible de télécharger le fichier %s",
     "Malware detected" : "Logiciel malveillant détecté",
     "Greetings {user}," : "Bonjour {user},",

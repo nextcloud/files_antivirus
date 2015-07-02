@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Fil %s er infisert med %s",
     "It is going to be deleted" : "Den vil bli slettet",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s er oppdaget i filen. Opplasting kan ikke fullføres.",
     "Virus detected! Can't upload the file %s" : "Virus oppdaget! Kan ikke laste opp filen %s",
     "Malware detected" : "Skadevare oppdaget",
     "Greetings {user}," : "Hei {user},",
