@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Fail %s on nakatunud viirusega %s",
     "It is going to be deleted" : "See kustutatakse",
     "Antivirus" : "Viirusetõrje",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Failis tuvastati viirus %s. Üleslaadimist ei saa lõpetada.",
     "Virus detected! Can't upload the file %s" : "Leitud viirus! Ei saa üles laadida faili %s",
     "Malware detected" : "Leitud nuhkvara",
     "Greetings {user}," : "Tere {user},",
