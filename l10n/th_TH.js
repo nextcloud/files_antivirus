@@ -12,6 +12,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "ไฟล์ %s ติดไวรัสกับ %s",
     "It is going to be deleted" : "มันจะถูกลบออก",
     "Antivirus" : "ป้องกันไวรัส",
+    "Virus %s is detected in the file. Upload cannot be completed." : "ตรวจพบไวรัสในไฟล์ %s ตัว การอัพโหลดไม่สำเร็จ",
     "Virus detected! Can't upload the file %s" : "ตรวจพบไวรัส! ไม่สามารถอัพโหลดไฟล์ %s",
     "Malware detected" : "ตรวจพบมัลแวร์",
     "Greetings {user}," : "สวัสดีค่ะ {user}",
