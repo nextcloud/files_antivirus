@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Soubor %s infikován %s",
     "It is going to be deleted" : "Bude smazáno",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "V souboru byl detekován virus %s. Nahrání nelze dokončit.",
     "Virus detected! Can't upload the file %s" : "Byl detekován virus! Nelze nahrát soubor %s",
     "Malware detected" : "Detekován škodlivý software",
     "Greetings {user}," : "Vítejte {user},",
