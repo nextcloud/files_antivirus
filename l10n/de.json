@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Datei %s ist infiziert mit %s",
     "It is going to be deleted" : "Sie wird gelöscht",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Der Virus %s wurde in der Datei gefunden. Das Hochladen konnte nicht abgeschlossen werden.",
     "Virus detected! Can't upload the file %s" : "Virus gefunden! Datei %s kann nicht hochgeladen werden",
     "Malware detected" : "Malware gefunden",
     "Greetings {user}," : "Herzlich Willkommen {user},",
