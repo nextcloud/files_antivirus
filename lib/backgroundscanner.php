@@ -47,7 +47,9 @@ class BackgroundScanner {
 	 * @return null
 	 */
 	public function run(){
-		$this->initFS();
+		if (!$this->initFS()) {
+			return;
+		}
 		// locate files that are not checked yet
 		$dirMimetypeId = $this->getDirectoryMimetype();
 		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `*PREFIX*storages`.*'
@@ -90,8 +92,13 @@ class BackgroundScanner {
 		//Need any valid user to mount FS
 		$results = $this->userManager->search('', 2, 0);
 		$anyUser = array_pop($results);
+		if (is_null($anyUser)) {
+			\OCP\Util::writeLog('files_antivirus', "Failed to setup file system", \OCP\Util::ERROR);
+			return false;
+		}
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($anyUser->getUID());
+		return true;
 	}
 
 
