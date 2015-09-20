@@ -51,7 +51,7 @@ class BackgroundScanner {
 			return;
 		}
 		// locate files that are not checked yet
-		$dirMimetypeId = $this->getDirectoryMimetype();
+		$dirMimetypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
 		$sql = 'SELECT `*PREFIX*filecache`.`fileid`, `*PREFIX*storages`.*'
 			.' FROM `*PREFIX*filecache`'
 			.' LEFT JOIN `*PREFIX*files_antivirus` ON `*PREFIX*files_antivirus`.`fileid` = `*PREFIX*filecache`.`fileid`'
@@ -101,17 +101,6 @@ class BackgroundScanner {
 		return true;
 	}
 
-
-	/**
-	 * Get a mimetypeId for httpd/unix-directory
-	 * @return int
-	 */
-	protected function getDirectoryMimetype(){
-		$storage = \OC\Files\Filesystem::getStorage('');
-		$cache = $storage->getCache('');
-		$dirMimetypeId = $cache->getMimetypeId('httpd/unix-directory');
-		return $dirMimetypeId ? $dirMimetypeId : 0;
-	}
 	
 	/**
 	 * @deprecated 
