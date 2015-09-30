@@ -9,7 +9,7 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
-
+use \OCP\App;
 use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\ILogger;
@@ -71,7 +71,17 @@ class AvirWrapper extends Wrapper{
 					function () use ($scanner, $path) {
 						$status = $scanner->completeAsyncScan();
 						if ($status->getNumericStatus() == \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
+							//prevent from going to trashbin
+							if (App::isEnabled('files_trashbin')) {
+								\OCA\Files_Trashbin\Storage::preRenameHook([]);
+							}
+
 							$this->unlink($path);
+
+							if (App::isEnabled('files_trashbin')) {
+								\OCA\Files_Trashbin\Storage::postRenameHook([]);
+							}
+											
 							throw new InvalidContentException(
 								$this->l10n->t(
 									'Virus %s is detected in the file. Upload cannot be completed.',

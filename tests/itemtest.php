@@ -9,6 +9,7 @@
 use OC\Files\Storage\Temporary;
 use \OCA\Files_Antivirus\Item;
 
+
 class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
 	
 	/**
@@ -22,7 +23,7 @@ class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
 		parent::setUp();
 		
 		\OC_User::clearBackends();
-		\OC_User::useBackend(new \OC_User_Dummy());
+		\OC_User::useBackend(new \Test\Util\User\Dummy());
 		\OC\Files\Filesystem::clearMounts();
 
 		//login
