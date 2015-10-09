@@ -14,6 +14,15 @@ class Notification {
 			return;
 		}
 		$email = \OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', '');
+		if (\OCP\App::isEnabled(user_ldap)){
+                        $user  = \OCP\Config::getUserValue(\OCP\User::getUser(), 'user_ldap', 'displayName', '');
+                        if (empty($user)) {
+                                $user = \OCP\User::getUser();
+                        }
+                }
+                else {
+                        $user = \OCP\User::getUser();
+                };
 		\OCP\Util::writeLog('files_antivirus', 'Email: '.$email, \OCP\Util::DEBUG);
 		if (!empty($email)) {
 			$defaults = new \OCP\Defaults();
@@ -25,7 +34,7 @@ class Notification {
 			$from = \OCP\Util::getDefaultEmailAddress('security-noreply');
 			\OCP\Util::sendMail(
 					$email,
-					\OCP\User::getUser(),
+					$user,
 					\OCP\Util::getL10N('files_antivirus')->t('Malware detected'),
 					$msg,
 					$from,
