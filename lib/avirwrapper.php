@@ -75,12 +75,26 @@ class AvirWrapper extends Wrapper{
 							if (App::isEnabled('files_trashbin')) {
 								\OCA\Files_Trashbin\Storage::preRenameHook([]);
 							}
-
+							
+							$owner = $this->getOwner($path);
 							$this->unlink($path);
 
 							if (App::isEnabled('files_trashbin')) {
 								\OCA\Files_Trashbin\Storage::postRenameHook([]);
 							}
+							
+							\OC::$server->getActivityManager()->publishActivity(
+								'files_antivirus',
+								Activity::SUBJECT_VIRUS_DETECTED,
+								[$path, $status->getDetails()],
+								Activity::MESSAGE_FILE_DELETED,
+								[],
+								$path,
+								'',
+								$owner,
+								Activity::TYPE_VIRUS_DETECTED,
+								Activity::PRIORITY_HIGH
+							);
 											
 							throw new InvalidContentException(
 								$this->l10n->t(
