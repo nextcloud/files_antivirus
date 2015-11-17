@@ -77,6 +77,9 @@ class BackgroundScanner {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
 				$item = new Item($this->l10n, $view, $path, $row['fileid']);
+				if (!$item->isValid()){
+					continue;
+				}
 				$scanner = $this->scannerFactory->getScanner();
 				$status = $scanner->scan($item);					
 				$status->dispatch($item, true);
