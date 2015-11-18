@@ -59,7 +59,8 @@ class BackgroundScanner {
 			.' WHERE `mimetype` != ?'
 			.' AND (`*PREFIX*storages`.`id` LIKE ? OR `*PREFIX*storages`.`id` LIKE ?)'
 			.' AND (`*PREFIX*files_antivirus`.`fileid` IS NULL OR `mtime` > `check_time`)'
-			.' AND `path` LIKE ?';
+			.' AND `path` LIKE ?'
+			.' AND `*PREFIX*filecache`.`size` != 0';
 		$stmt = \OCP\DB::prepare($sql, 5);
 		try {
 			$result = $stmt->execute(array($dirMimetypeId, 'local::%', 'home::%', 'files/%'));
@@ -77,9 +78,6 @@ class BackgroundScanner {
 			$path = $view->getPath($row['fileid']);
 			if (!is_null($path)) {
 				$item = new Item($this->l10n, $view, $path, $row['fileid']);
-				if (!$item->isValid()){
-					continue;
-				}
 				$scanner = $this->scannerFactory->getScanner();
 				$status = $scanner->scan($item);					
 				$status->dispatch($item, true);
