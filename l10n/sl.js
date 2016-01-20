@@ -12,6 +12,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "Datoteka %s je okužena z %s",
     "It is going to be deleted" : "Datoteka bo izbrisana.",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "V datoteki je zaznan je virus %s. Pošiljanje v oblak je zaustavljeno.",
     "Virus detected! Can't upload the file %s" : "V datoteki je zaznan virus! Datoteke %s ni mogoče poslati v oblak!",
     "Malware detected" : "Zaznana je zlonamerna programska oprema",
     "Greetings {user}," : "Pozdravljeni, {user},",
