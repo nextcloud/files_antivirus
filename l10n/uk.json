@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Файл %s заражений %s",
     "It is going to be deleted" : "Його буде видалено",
     "Antivirus" : "Антивірус",
+    "Virus %s is detected in the file. Upload cannot be completed." : "У файлі знайдено вірус %s. Завантаження не може бути завершено.",
     "Virus detected! Can't upload the file %s" : "Виявлений Вірус ! Неможливо завантажити файл %s",
     "Malware detected" : "Malware виявлено",
     "Greetings {user}," : "Вітаємо {user},",

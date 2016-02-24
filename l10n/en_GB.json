@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "File %s is infected with %s",
     "It is going to be deleted" : "It is going to be deleted",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s is detected in the file. Upload cannot be completed.",
     "Virus detected! Can't upload the file %s" : "Virus detected! Can't upload the file %s",
     "Malware detected" : "Malware detected",
     "Greetings {user}," : "Hi {user},",
