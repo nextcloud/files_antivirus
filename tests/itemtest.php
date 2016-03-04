@@ -27,7 +27,7 @@ class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
 		\OC\Files\Filesystem::clearMounts();
 
 		//login
-		\OC_User::createUser('test', 'test');
+		\OC::$server->getUserManager()->createUser('test', 'test');
 		\OC::$server->getSession()->set('user_id', 'test');
 		
 		$this->storage = new \OC\Files\Storage\Temporary(array());

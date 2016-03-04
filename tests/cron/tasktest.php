@@ -19,7 +19,7 @@ class Test_Files_Antivirus_Cron_TaskTest extends \OCA\Files_Antivirus\Tests\Test
 		$results = $userManager->search('', 1, 0);
 
 		if (!count($results)) {
-			\OC_User::createUser('test', 'test');
+			\OC::$server->getUserManager()->createUser('test', 'test');
 		}
 		$this->scannerFactory = new ScannerFactory(
 				$this->config,
