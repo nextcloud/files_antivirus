@@ -10,6 +10,7 @@
     "File %s is infected with %s" : "Plik %s jest zainfekowany przez %s",
     "It is going to be deleted" : "Ma zostać usunięty",
     "Antivirus" : "Antywirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Wykryto wirus %s w pliku. Upload pliku nie może zostać dokończony.",
     "Virus detected! Can't upload the file %s" : "Znaleziono wirusa! Nie można wysłać pliku %s",
     "Malware detected" : "Znaleziono malware",
     "Greetings {user}," : "Witaj {user}, ",
