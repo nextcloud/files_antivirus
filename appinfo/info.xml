@@ -11,6 +11,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<licence>AGPL</licence>
 	<author>Manuel Delgado, Bart Visscher, thinksilicon.de, Victor Dubiniuk</author>
 	<requiremin>8</requiremin>
+	<version>0.8.0.0</version>
 	<types>
 		<filesystem/>
 	</types>
