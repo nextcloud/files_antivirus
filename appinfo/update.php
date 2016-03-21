@@ -25,3 +25,5 @@ if (version_compare($installedVersion, '0.6', '<')) {
 			$jobList->remove($job);
 	}
 }
+
+\OC::$server->getJobList()->add('OCA\Files_Antivirus\Cron\Task');
