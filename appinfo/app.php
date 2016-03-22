@@ -22,7 +22,6 @@
 */
 
 OCP\App::registerAdmin('files_antivirus', 'admin');
-OCP\BackgroundJob::AddRegularTask('OCA\Files_Antivirus\Cron\Task', 'run');
 
 $app = new \OCA\Files_Antivirus\AppInfo\Application();
 OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
