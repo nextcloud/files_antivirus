@@ -104,9 +104,8 @@ class BackgroundScanner {
 
 	
 	/**
-	 * @deprecated 
+	 * @deprecated since  v8.0.0
 	 */
 	public static function check(){
-		return \OCA\Files_Antivirus\Cron\Task::run();
 	}
 }
