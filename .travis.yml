@@ -47,4 +47,5 @@ matrix:
       env: DB=oracle
   allow_failures:
     - php: hhvm
+    - env: DB=oracle # until it is fixed
   fast_finish: true
