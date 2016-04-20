@@ -12,6 +12,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "L'arxiu %s està infectat amb %s",
     "It is going to be deleted" : "Serà esborrat",
     "Antivirus" : "Antivirus",
+    "Virus %s is detected in the file. Upload cannot be completed." : "S'ha detectat el virus %s al fitxer. No es pot completar la càrrega.",
     "Virus detected! Can't upload the file %s" : "S'ha detectat un virus! El fitxer %s no es pot pujar",
     "Malware detected" : "S'ha detectat programari maliciós",
     "Greetings {user}," : "Benvingut {user},",
