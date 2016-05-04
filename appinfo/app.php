@@ -32,16 +32,3 @@ OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
 			\OC::$server->getURLGenerator()
 		);
 });
-
-$avBinary = \OCP\Config::getAppValue('files_antivirus', 'av_path', '');
-if (empty($avBinary)){
-	try {
-		$ruleMapper = $app->getContainer()->query('RuleMapper');
-		$rules = $ruleMapper->findAll();
-		if(!count($rules)) {
-			$ruleMapper->populate();
-		}
-		\OCP\Config::setAppValue('files_antivirus', 'av_path', '/usr/bin/clamscan');
-	} catch (\Exception $e) {
-	}
-}
