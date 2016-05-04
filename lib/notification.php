@@ -13,34 +13,36 @@ class Notification {
 		if (!\OCP\User::isLoggedIn()){
 			return;
 		}
-		$email = \OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', '');
+		$config = \OC::$server->getConfig();
+		$user = \OC::$server->getUserSession()->getUser();
+		$email = $user->getEMailAddress();
+		$displayName = $user->getDisplayName();
 		if (\OCP\App::isEnabled('user_ldap')){
-                        $user  = \OCP\Config::getUserValue(\OCP\User::getUser(), 'user_ldap', 'displayName', '');
-                        if (empty($user)) {
-                                $user = \OCP\User::getUser();
-                        }
-                }
-                else {
-                        $user = \OCP\User::getUser();
-                };
+			$displayName = $config->getUserValue($user->getUID(), 'user_ldap', 'displayName', '');
+		}
+		if (empty($displayName)) {
+			$displayName = $user->getUID();
+		}
 		\OCP\Util::writeLog('files_antivirus', 'Email: '.$email, \OCP\Util::DEBUG);
 		if (!empty($email)) {
-			$defaults = new \OCP\Defaults();
-			$tmpl = new \OCP\Template('files_antivirus', 'notification');
-			$tmpl->assign('file', $path);
-			$tmpl->assign('host', \OCP\Util::getServerHost());
-			$tmpl->assign('user', \OCP\User::getDisplayName());
-			$msg = $tmpl->fetchPage();
-			$from = \OCP\Util::getDefaultEmailAddress('security-noreply');
-			\OCP\Util::sendMail(
-					$email,
-					$user,
-					\OCP\Util::getL10N('files_antivirus')->t('Malware detected'),
-					$msg,
-					$from,
-					$defaults->getName(),
-					true
-			);
+			try {
+				$tmpl = new \OCP\Template('files_antivirus', 'notification');
+				$tmpl->assign('file', $path);
+				$tmpl->assign('host', \OC::$server->getRequest()->getServerHost());
+				$tmpl->assign('user', $displayName);
+				$msg = $tmpl->fetchPage();
+				$from = \OCP\Util::getDefaultEmailAddress('security-noreply');
+				$mailer = \OC::$server->getMailer();
+				$message = $mailer->createMessage();
+				$message->setSubject(\OCP\Util::getL10N('files_antivirus')->t('Malware detected'));
+				$message->setFrom([$from => 'ownCloud Notifier']);
+				$message->setTo([$email => $displayName]);
+				$message->setPlainBody($msg);
+				$message->setHtmlBody($msg);
+				$mailer->send($message);
+			} catch (\Exception $e){
+				\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+			}
 		}
 	}
 }

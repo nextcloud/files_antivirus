@@ -7,11 +7,11 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_Antivirus\Tests;
+namespace OCA\Files_antivirus\Tests;
 
 use OCA\Files_Antivirus\AppInfo\Application;
 
-abstract class Testbase extends \PHPUnit_Framework_TestCase {
+abstract class TestBase extends \PHPUnit_Framework_TestCase {
 
 	protected $db;
 	protected $application;

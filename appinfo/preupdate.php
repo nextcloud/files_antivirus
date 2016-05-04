@@ -1,6 +1,6 @@
 <?php
 
-$installedVersion=OCP\Config::getAppValue('files_antivirus', 'installed_version');
+$installedVersion = \OC::$server->getConfig()->getAppValue('files_antivirus', 'installed_version');
 if (version_compare($installedVersion, '0.6', '<')) {
 	$query = OCP\DB::prepare( 'SELECT COUNT(*) AS `count`, `fileid` FROM `*PREFIX*files_antivirus` GROUP BY `fileid` HAVING COUNT(*) > 1' );
 	$result = $query->execute();

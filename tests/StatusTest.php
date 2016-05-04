@@ -6,9 +6,11 @@
  * See the COPYING-README file.
  */
 
+namespace OCA\Files_antivirus\Tests;
+
 use \OCA\Files_Antivirus\Db\RuleMapper;
 
-class Test_Files_Antivirus_Status extends  \OCA\Files_Antivirus\Tests\Testbase {
+class StatusTest extends TestBase {
 	
 	// See OCA\Files_Antivirus\Status::init for details
 	const TEST_CLEAN = 0;
