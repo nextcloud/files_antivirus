@@ -14,7 +14,7 @@ class Notification {
 			return;
 		}
 		$email = \OCP\Config::getUserValue(\OCP\User::getUser(), 'settings', 'email', '');
-		if (\OCP\App::isEnabled(user_ldap)){
+		if (\OCP\App::isEnabled('user_ldap')){
                         $user  = \OCP\Config::getUserValue(\OCP\User::getUser(), 'user_ldap', 'displayName', '');
                         if (empty($user)) {
                                 $user = \OCP\User::getUser();
