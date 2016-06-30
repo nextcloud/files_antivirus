@@ -82,11 +82,11 @@ class BackgroundScanner {
 					$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
 				)
 				->andWhere(
-					$qb->expr()->neq('fc.size', '?1')
+					$qb->expr()->neq('fc.size', '0')
 				)
 				->setMaxResults(5)
 			;
-			$result = $qb->execute([0]);
+			$result = $qb->execute();
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			return;

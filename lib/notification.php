@@ -17,10 +17,7 @@ class Notification {
 		$user = \OC::$server->getUserSession()->getUser();
 		$email = $user->getEMailAddress();
 		$displayName = $user->getDisplayName();
-		if (\OCP\App::isEnabled('user_ldap')){
-			$displayName = $config->getUserValue($user->getUID(), 'user_ldap', 'displayName', '');
-		}
-		if (empty($displayName)) {
+		if ( strval($displayName) ==='' ) {
 			$displayName = $user->getUID();
 		}
 		\OCP\Util::writeLog('files_antivirus', 'Email: '.$email, \OCP\Util::DEBUG);
