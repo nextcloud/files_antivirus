@@ -69,13 +69,14 @@ class Rule extends Entity implements JsonSerializable{
 	 * @return array
 	 */
 	public function jsonSerialize() {
-		return array(
+		return [
+			'id' => $this->id,
 			'group_id' => $this->groupId,
 			'status_type' => $this->statusType,
 			'result' => $this->result,
 			'match' => $this->match,
 			'description' => $this->description,
 			'status' => $this->status
-		);
+		];
 	}
 }

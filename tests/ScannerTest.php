@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace OCA\Files_antivirus\Tests;
+
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
 use \OCA\Files_Antivirus\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
 
-class Test_Files_Antivirus_ScannerTest extends \OCA\Files_Antivirus\Tests\Testbase {
+class ScannerTest extends TestBase {
 	
 	const TEST_CLEAN_FILENAME = 'foo.txt';
 	const TEST_INFECTED_FILENAME = 'kitten.inf';

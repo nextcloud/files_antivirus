@@ -6,11 +6,15 @@
  * See the COPYING-README file.
  */
 
+namespace OCA\Files_antivirus\Tests;
+
 use OC\Files\Storage\Temporary;
-use \OCA\Files_Antivirus\Item;
+use OCA\Files_Antivirus\Item;
 
+// mmm. IDK why autoloader fails on this class
+include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
-class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
+class ItemTest extends TestBase {
 	
 	/**
 	 * @var Temporary
@@ -28,19 +32,21 @@ class Test_Files_Antivirus_Item extends \OCA\Files_Antivirus\Tests\Testbase {
 
 		//login
 		\OC::$server->getUserManager()->createUser('test', 'test');
+		\OC::$server->getUserSession()->login('test', 'test');
 		\OC::$server->getSession()->set('user_id', 'test');
+		\OC::$server->getUserFolder('test');
+		\OC_Util::setupFS('test');
 		
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::init('test', '');
-		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount($this->storage, array(), '/');
-		\OC\Files\Filesystem::file_put_contents('file1', self::CONTENT);
-		
+		$view = new \OC\Files\View('/test/files');
+		$view->file_put_contents('file1', self::CONTENT);
 		$this->config->method('getAvChunkSize')->willReturn('1024');
 	}
 	
 	public function testRead() {
-		$item = new Item($this->l10n, new \OC\Files\View(''), '/file1');
+		$view = new \OC\Files\View('/test/files');
+		$item = new Item($this->l10n, $view, '/file1');
 		$this->assertTrue($item->isValid());
 		
 		$chunk = $item->fread();

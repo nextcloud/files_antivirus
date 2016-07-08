@@ -78,7 +78,7 @@ class Status {
 				if (preg_match($rule->getMatch(), $rawResponse, $matches)){
 					$isMatched = true;
 					$this->numericStatus = $rule->getStatus();
-					if ($rule->getStatus()==self::SCANRESULT_CLEAN){
+					if (intval($rule->getStatus())===self::SCANRESULT_CLEAN){
 						$this->details = '';
 					} else {
 						$this->details = isset($matches[1]) ? $matches[1] : 'unknown';

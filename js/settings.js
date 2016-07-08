@@ -45,7 +45,7 @@ var antivirusSettings = antivirusSettings || {
 		row = $(node).parent(),
 		data = {
 			id : row.data('id'),
-			status_type : row.find('.status-type select').val(),
+			statusType : row.find('.status-type select').val(),
 			match : row.children('.match').text(),
 			description : row.children('.description').text(),
 			status : row.find('.scan-result select').val()

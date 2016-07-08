@@ -6,12 +6,15 @@
  * See the COPYING-README file.
  */
 
+namespace OCA\Files_antivirus\Tests\Cron;
+
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
 use \OCA\Files_Antivirus\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
+use OCA\Files_antivirus\Tests\TestBase;
 
-class Test_Files_Antivirus_Cron_TaskTest extends \OCA\Files_Antivirus\Tests\Testbase {
+class TaskTest extends TestBase {
 	public function setUp(){
 		parent::setUp();
 		//Bgscanner requires at least one user on the current instance
@@ -28,12 +31,12 @@ class Test_Files_Antivirus_Cron_TaskTest extends \OCA\Files_Antivirus\Tests\Test
 	}
 	
 	public function testRun(){
-		$backgroudScanner = new BackgroundScanner(
+		$backgroundScanner = new BackgroundScanner(
 				$this->scannerFactory,
 				$this->container->query('ServerContainer')->getUserManager(),
 				$this->l10n
 		);
-		$bgScan = $backgroudScanner->run();
+		$bgScan = $backgroundScanner->run();
 		$this->assertNull($bgScan);
 	}
 }

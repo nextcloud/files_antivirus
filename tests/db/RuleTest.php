@@ -6,11 +6,13 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_Antivirus\Cron;
+namespace OCA\Files_antivirus\Tests\Db;
 
 use OCA\Files_Antivirus\Db\Rule;
+use OCA\Files_Antivirus\Status;
+use OCA\Files_antivirus\Tests\TestBase;
 
-class Test_Files_Antivirus_Db_RuleTest extends \OCA\Files_Antivirus\Tests\Testbase {
+class RuleTest extends TestBase {
 	public function testJsonSerialize(){
 		$data = [
 			'groupId' => 0,
@@ -18,7 +20,7 @@ class Test_Files_Antivirus_Db_RuleTest extends \OCA\Files_Antivirus\Tests\Testba
 			'result' => 0,
 			'match' => '',
 			'description' => "",
-			'status' => \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN
+			'status' => Status::SCANRESULT_CLEAN
 		];
 		$expected = [
 			'group_id' => 0,
@@ -26,13 +28,16 @@ class Test_Files_Antivirus_Db_RuleTest extends \OCA\Files_Antivirus\Tests\Testba
 			'result' => 0,
 			'match' => '',
 			'description' => "",
-			'status' => \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN
+			'status' => Status::SCANRESULT_CLEAN
 		];
 		
 		$rule = Rule::fromParams($data);
+		$actual = $rule->jsonSerialize();
+		$this->assertArrayHasKey('id', $actual);
+		unset($actual['id']);
 		$this->assertEquals(
 				$expected,
-				$rule->jsonSerialize()
+				$actual
 		);
 	}
 }
