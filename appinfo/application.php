@@ -13,7 +13,6 @@ use \OCP\AppFramework\App;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Controller\RuleController;
 use OCA\Files_Antivirus\Controller\SettingsController;
-use OCA\Files_Antivirus\Hooks\FilesystemHooks;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_Antivirus\ScannerFactory;
@@ -57,16 +56,12 @@ class Application extends App {
         $container->registerService('BackgroundScanner', function($c) {
 			return new BackgroundScanner(
 				$c->query('ScannerFactory'),
-				$c->query('ServerContainer')->getUserManager(),
-				$c->query('L10N')
+				$c->query('L10N'),
+				$c->getServer()->getRootFolder(),
+				$c->getServer()->getUserSession()
 			);
         });
-        $container->registerService('FilesystemHooks', function($c) {
-			return new FilesystemHooks(
-				$c->query('ServerContainer')->getRootFolder(),
-				$c->query('AppConfig')
-			);
-        });
+
         $container->registerService('RuleMapper', function($c) {
 			return new RuleMapper(
 				$c->query('ServerContainer')->getDb()
