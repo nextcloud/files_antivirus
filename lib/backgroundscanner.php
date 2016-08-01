@@ -82,7 +82,7 @@ class BackgroundScanner {
 					$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
 				)
 				->andWhere(
-					$qb->expr()->neq('fc.size', '0')
+					$qb->expr()->neq('fc.size', $qb->expr()->literal('0'))
 				)
 				->setMaxResults(5)
 			;
