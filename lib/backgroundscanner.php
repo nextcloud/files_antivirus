@@ -9,10 +9,9 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Filesystem;
-use OC\Files\View;
 use OCP\IL10N;
-use OCP\IUser;
 use OCP\Files\IRootFolder;
+use OCP\IUser;
 use OCP\IUserSession;
 
 class BackgroundScanner {
@@ -100,7 +99,6 @@ class BackgroundScanner {
 				->andWhere(
 					$qb->expr()->neq('fc.size', $qb->expr()->literal('0'))
 				)
-				->setMaxResults(self::BATCH_SIZE)
 			;
 			$result = $qb->execute();
 		} catch(\Exception $e) {
@@ -108,15 +106,16 @@ class BackgroundScanner {
 			return;
 		}
 
-		try {
-			while ($row = $result->fetch()) {
+		$cnt = 0;
+		while ($row = $result->fetch() && $cnt < self::BATCH_SIZE) {
+			try {
 				$fileId = $row['fileid'];
 				$owner = $this->getOwner($fileId);
 				if (!$owner){
 					continue;
 				}
 				$this->initFilesystemForUser($owner);
-				$view = \OC\Files\Filesystem::getView();
+				$view = Filesystem::getView();
 				$path = $view->getPath($fileId);
 				if (!is_null($path)) {
 					$item = new Item($this->l10n, $view, $path, $fileId);
@@ -124,11 +123,13 @@ class BackgroundScanner {
 					$status = $scanner->scan($item);
 					$status->dispatch($item, true);
 				}
+				// increased only for successfully scanned files
+				$cnt = $cnt + 1;
+			} catch (\Exception $e){
+				\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
-		} catch (\Exception $e){
-			\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 		}
-		\OC_Util::tearDownFS();
+		$this->tearDownFilesystem();
 	}
 
 	protected function getOwner($fileId){
@@ -161,13 +162,21 @@ class BackgroundScanner {
 	protected function initFilesystemForUser(IUser $user) {
 		if ($this->currentFilesystemUser !== $user->getUID()) {
 			if ($this->currentFilesystemUser !== '') {
-				Filesystem::tearDown();
+				$this->tearDownFilesystem();
 			}
 			Filesystem::init($user->getUID(), '/' . $user->getUID() . '/files');
 			$this->userSession->setUser($user);
 			$this->currentFilesystemUser = $user->getUID();
-			\OC\Files\Filesystem::initMountPoints($user->getUID());
+			Filesystem::initMountPoints($user->getUID());
 		}
+	}
+
+	/**
+	 *
+	 */
+	protected function tearDownFilesystem(){
+		$this->userSession->setUser(null);
+		\OC_Util::tearDownFS();
 	}
 
 	/**
