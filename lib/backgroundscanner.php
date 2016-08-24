@@ -111,7 +111,8 @@ class BackgroundScanner {
 			try {
 				$fileId = $row['fileid'];
 				$owner = $this->getOwner($fileId);
-				if (!$owner){
+				/** @var IUser $owner */
+				if (!$owner instanceof IUser){
 					continue;
 				}
 				$this->initFilesystemForUser($owner);
@@ -132,6 +133,10 @@ class BackgroundScanner {
 		$this->tearDownFilesystem();
 	}
 
+	/**
+	 * @param int $fileId
+	 * @return IUser|null
+	 */
 	protected function getOwner($fileId){
 		$mountProviderCollection = \OC::$server->getMountProviderCollection();
 		$mountCache = $mountProviderCollection->getMountCache();
@@ -142,6 +147,7 @@ class BackgroundScanner {
 				return $user;
 			}
 		}
+		return null;
 	}
 
 	/**
