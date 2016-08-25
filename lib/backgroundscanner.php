@@ -107,7 +107,7 @@ class BackgroundScanner {
 		}
 
 		$cnt = 0;
-		while ($row = $result->fetch() && $cnt < self::BATCH_SIZE) {
+		while (($row = $result->fetch()) && $cnt < self::BATCH_SIZE) {
 			try {
 				$fileId = $row['fileid'];
 				$owner = $this->getOwner($fileId);
