@@ -15,9 +15,12 @@ use \OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_antivirus\Tests\TestBase;
 
 class TaskTest extends TestBase {
+	/** @var  ScannerFactory */
+	protected $scannerFactory;
+
 	public function setUp(){
 		parent::setUp();
-		//Bgscanner requires at least one user on the current instance
+		//Background scanner requires at least one user on the current instance
 		$userManager = $this->application->getContainer()->query('ServerContainer')->getUserManager();
 		$results = $userManager->search('', 1, 0);
 
@@ -33,8 +36,9 @@ class TaskTest extends TestBase {
 	public function testRun(){
 		$backgroundScanner = new BackgroundScanner(
 				$this->scannerFactory,
-				$this->container->query('ServerContainer')->getUserManager(),
-				$this->l10n
+				$this->l10n,
+				$this->container->getServer()->getRootFolder(),
+				$this->container->getServer()->getUserSession()
 		);
 		$bgScan = $backgroundScanner->run();
 		$this->assertNull($bgScan);
