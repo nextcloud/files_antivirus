@@ -10,7 +10,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<repository type="git">http://github.com/owncloud/files_antivirus.git</repository>
 	<licence>AGPL</licence>
 	<author>Manuel Delgado, Bart Visscher, thinksilicon.de, Victor Dubiniuk</author>
-	<version>0.9.0.0</version>
+	<version>0.10.0.0</version>
 	<types>
 		<filesystem/>
 	</types>
