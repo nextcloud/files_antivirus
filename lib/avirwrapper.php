@@ -96,7 +96,7 @@ class AvirWrapper extends Wrapper{
 								Activity::PRIORITY_HIGH
 							);
 
-							\OC::$server->getLogger()->error('Infected file deleted. ' . $status->getDetails() . 
+							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
 							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
 
 							throw new InvalidContentException(
