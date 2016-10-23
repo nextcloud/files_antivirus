@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCP\App;
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\Activity;
@@ -140,14 +141,14 @@ class Item implements IScannable{
 		if ($isBackground) {
 			if ($shouldDelete) {
 				$this->logError('Infected file deleted. ' . $status->getDetails());
-				$this->view->unlink($this->path);
+				$this->deleteFile();
 			} else {
 				$this->logError('File is infected. '  . $status->getDetails());
 			}
 		} else {
 			$this->logError('Virus(es) found: ' . $status->getDetails());
 			//remove file
-			$this->view->unlink($this->path);
+			$this->deleteFile();
 			Notification::sendMail($this->path);
 			$message = $this->l10n->t(
 						"Virus detected! Can't upload the file %s", 
@@ -220,6 +221,20 @@ class Item implements IScannable{
 		} else {
 			$this->logDebug('Scan started');
 			$this->fileHandle = $fileHandle;
+		}
+	}
+
+	/**
+	 * Delete infected file
+	 */
+	private function deleteFile() {
+		//prevent from going to trashbin
+		if (App::isEnabled('files_trashbin')) {
+			\OCA\Files_Trashbin\Storage::preRenameHook([]);
+		}
+		$this->view->unlink($this->path);
+		if (App::isEnabled('files_trashbin')) {
+			\OCA\Files_Trashbin\Storage::postRenameHook([]);
 		}
 	}
 	
