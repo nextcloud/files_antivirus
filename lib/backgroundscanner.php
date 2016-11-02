@@ -24,16 +24,14 @@ class BackgroundScanner {
 	/** @var \OCP\Files\Folder[] */
 	protected $userFolders;
 
-	/**
-	 * @var ScannerFactory
-	 */
+	/** @var ScannerFactory */
 	private $scannerFactory;
 
-	
-	/**
-	 * @var IL10N
-	 */
+	/** @var IL10N */
 	private $l10n;
+
+	/** @var  AppConfig  */
+	private $appConfig;
 
 	/** @var string */
 	protected $currentFilesystemUser;
@@ -46,17 +44,20 @@ class BackgroundScanner {
 	 *
 	 * @param \OCA\Files_Antivirus\ScannerFactory $scannerFactory
 	 * @param IL10N $l10n
+	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(ScannerFactory $scannerFactory,
 								IL10N $l10n,
+								AppConfig $appConfig,
 								IRootFolder $rootFolder,
 								IUserSession $userSession
 	){
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
 		$this->l10n = $l10n;
+		$this->appConfig = $appConfig;
 		$this->userSession = $userSession;
 	}
 	
@@ -69,6 +70,17 @@ class BackgroundScanner {
 		$dirMimeTypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
 		try {
 			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+			$sizeLimit = intval($this->appConfig);
+			if ( $sizeLimit === -1 ){
+				$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
+			} else {
+				$sizeLimitExpr = $qb->expr()->andX(
+					$qb->expr()->neq('fc.size', $qb->expr()->literal('0')),
+					$qb->expr()->lt('fc.size', $qb->expr()->literal((string) $sizeLimit))
+				);
+			}
+
 			$qb->select(['fc.fileid'])
 				->from('filecache', 'fc')
 				->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
@@ -96,9 +108,7 @@ class BackgroundScanner {
 				->andWhere(
 					$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
 				)
-				->andWhere(
-					$qb->expr()->neq('fc.size', $qb->expr()->literal('0'))
-				)
+				->andWhere( $sizeLimitExpr )
 			;
 			$result = $qb->execute();
 		} catch(\Exception $e) {

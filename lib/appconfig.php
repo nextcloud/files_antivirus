@@ -15,6 +15,7 @@ use \OCP\IConfig;
 	 * @method string getAvSocket()
 	 * @method string getAvHost()
 	 * @method int getAvPort()
+	 * @method int getAvMaxFileSize()
 	 * @method string getAvCmdOptions()
 	 * @method int getAvChunkSize()
 	 * @method string getAvPath()
@@ -24,6 +25,7 @@ use \OCP\IConfig;
 	 * @method null setAvSocket(string $avsocket)
 	 * @method null setAvHost(string $avHost)
 	 * @method null setAvPort(int $avPort)
+	 * @method null setAvMaxFileSize(int $fileSize)
 	 * @method null setAvCmdOptions(string $avCmdOptions)
 	 * @method null setAvChunkSize(int $chunkSize)
 	 * @method null setAvPath(string $avPath)
@@ -32,9 +34,11 @@ use \OCP\IConfig;
 
 class AppConfig {
 	private $appName = 'files_antivirus';
+
+	/** @var IConfig  */
 	private $config;
 
-	private $defaults = array(
+	private $defaults = [
 		'av_mode' => 'executable',
 		'av_socket' => '/var/run/clamav/clamd.ctl',
 		'av_host' => '',
@@ -42,9 +46,15 @@ class AppConfig {
 		'av_cmd_options' => '',
 		'av_chunk_size' => '1024',
 		'av_path' => '/usr/bin/clamscan',
+		'av_max_file_size' => -1,
 		'av_infected_action' => 'only_log',
-	);
-	
+	];
+
+	/**
+	 * AppConfig constructor.
+	 *
+	 * @param IConfig $config
+	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
@@ -56,7 +66,7 @@ class AppConfig {
 	public function getCmdline(){
 		$avCmdOptions = $this->getAvCmdOptions();
 		
-		$shellArgs = array();
+		$shellArgs = [];
 		if ($avCmdOptions) {
 			$shellArgs = explode(',', $avCmdOptions);
 				$shellArgs = array_map(function($i){
@@ -103,7 +113,7 @@ class AppConfig {
 	 * @param string $value
 	 * @return string
 	 */
-	public function setAppvalue($key, $value) {
+	public function setAppValue($key, $value) {
 		return $this->config->setAppValue($this->appName, $key, $value);
 	}
 	
@@ -115,7 +125,7 @@ class AppConfig {
 	 */
 	protected function setter($key, $args) {
 		if (array_key_exists($key, $this->defaults)) {
-			$this->setAppvalue($key, $args[0]);
+			$this->setAppValue($key, $args[0]);
 		} else {
 			throw new \BadFunctionCallException($key . ' is not a valid key');
 		}

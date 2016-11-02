@@ -31,27 +31,27 @@ class External extends \OCA\Files_Antivirus\Scanner {
 		if ($this->useSocket){
 			$avSocket = $this->appConfig->getAvSocket();
 			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
-			if (!$this->writeHandle) {
+			if (!$this->getWriteHandle()) {
 				throw new \RuntimeException('Cannot connect to "' . $avSocket . '": ' . $errstr . ' (code ' . $errno . ')');
 			}
 		} else {
 			$avHost = $this->appConfig->getAvHost();
 			$avPort = $this->appConfig->getAvPort();
 			$this->writeHandle = ($avHost && $avPort) ? @fsockopen($avHost, $avPort) : false;
-			if (!$this->writeHandle) {
+			if (!$this->getWriteHandle()) {
 				throw new \RuntimeException('The clamav module is not configured for daemon mode.');
 			}
 		}
 
 		// request scan from the daemon
-		fwrite($this->writeHandle, "nINSTREAM\n");
+		fwrite($this->getWriteHandle(), "nINSTREAM\n");
 	}
 	
 	protected function shutdownScanner(){
-		fwrite($this->writeHandle, pack('N', 0));
-		$response = fgets($this->writeHandle);
+		fwrite($this->getWriteHandle(), pack('N', 0));
+		$response = fgets($this->getWriteHandle());
 		\OCP\Util::writeLog('files_antivirus', 'Response :: '.$response, \OCP\Util::DEBUG);
-		fclose($this->writeHandle);
+		fclose($this->getWriteHandle());
 		
 		$this->status->parseResponse($response);
 	}

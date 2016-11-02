@@ -41,9 +41,10 @@ class SettingsController extends Controller {
 		$data = $this->settings->getAllValues();
 		return new TemplateResponse('files_antivirus', 'settings', $data, 'blank');
 	}
-	
+
 	/**
 	 * Save Parameters
+	 *
 	 * @param string $avMode - antivirus mode
 	 * @param string $avSocket - path to socket (Socket mode)
 	 * @param string $avHost - antivirus url
@@ -52,9 +53,10 @@ class SettingsController extends Controller {
 	 * @param int $avChunkSize - Size of one portion
 	 * @param string $avPath - path to antivirus executable (Executable mode)
 	 * @param string $avInfectedAction - action performed on infected files
+	 * @param int $avMaxFileSize - file size limit
 	 * @return JSONResponse
 	 */
-	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avChunkSize, $avPath, $avInfectedAction) {
+	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avChunkSize, $avPath, $avInfectedAction, $avMaxFileSize) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
 		$this->settings->setAvHost($avHost);
@@ -63,6 +65,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvChunkSize($avChunkSize);
 		$this->settings->setAvPath($avPath);
 		$this->settings->setAvInfectedAction($avInfectedAction);
+		$this->settings->setAvMaxFileSize($avMaxFileSize);
 		
 		return new JSONResponse(
 			array('data' =>
