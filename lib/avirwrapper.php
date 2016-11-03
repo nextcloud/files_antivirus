@@ -61,7 +61,7 @@ class AvirWrapper extends Wrapper{
 		if (is_resource($stream) && $this->isWritingMode($mode)) {
 			try {
 				$scanner = $this->scannerFactory->getScanner();
-				$scanner->initAsyncScan();
+				$scanner->initScanner();
 				return CallBackWrapper::wrap(
 					$stream,
 					null,

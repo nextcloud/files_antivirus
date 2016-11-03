@@ -67,50 +67,8 @@ class BackgroundScanner {
 	 */
 	public function run(){
 		// locate files that are not checked yet
-		$dirMimeTypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
 		try {
-			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-
-			$sizeLimit = intval($this->appConfig);
-			if ( $sizeLimit === -1 ){
-				$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
-			} else {
-				$sizeLimitExpr = $qb->expr()->andX(
-					$qb->expr()->neq('fc.size', $qb->expr()->literal('0')),
-					$qb->expr()->lt('fc.size', $qb->expr()->literal((string) $sizeLimit))
-				);
-			}
-
-			$qb->select(['fc.fileid'])
-				->from('filecache', 'fc')
-				->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
-				->innerJoin(
-					'fc',
-					'storages',
-					'ss',
-					$qb->expr()->andX(
-						$qb->expr()->eq('fc.storage', 'ss.numeric_id'),
-						$qb->expr()->orX(
-							$qb->expr()->like('ss.id', $qb->expr()->literal('local::%')),
-							$qb->expr()->like('ss.id', $qb->expr()->literal('home::%'))
-						)
-					)
-				)
-				->where(
-					$qb->expr()->neq('fc.mimetype', $qb->expr()->literal($dirMimeTypeId))
-				)
-				->andWhere(
-					$qb->expr()->orX(
-						$qb->expr()->isNull('fa.fileid'),
-						$qb->expr()->gt('fc.mtime', 'fa.check_time')
-					)
-				)
-				->andWhere(
-					$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
-				)
-				->andWhere( $sizeLimitExpr )
-			;
-			$result = $qb->execute();
+			$result = $this->getFilesForScan();
 		} catch(\Exception $e) {
 			\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			return;
@@ -125,15 +83,7 @@ class BackgroundScanner {
 				if (!$owner instanceof IUser){
 					continue;
 				}
-				$this->initFilesystemForUser($owner);
-				$view = Filesystem::getView();
-				$path = $view->getPath($fileId);
-				if (!is_null($path)) {
-					$item = new Item($this->l10n, $view, $path, $fileId);
-					$scanner = $this->scannerFactory->getScanner();
-					$status = $scanner->scan($item);
-					$status->dispatch($item, true);
-				}
+				$this->scanOneFile($owner, $fileId);
 				// increased only for successfully scanned files
 				$cnt = $cnt + 1;
 			} catch (\Exception $e){
@@ -141,6 +91,68 @@ class BackgroundScanner {
 			}
 		}
 		$this->tearDownFilesystem();
+	}
+
+	protected function getFilesForScan(){
+		$dirMimeTypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+		$sizeLimit = intval($this->appConfig->getAvMaxFileSize());
+		if ( $sizeLimit === -1 ){
+			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
+		} else {
+			$sizeLimitExpr = $qb->expr()->andX(
+				$qb->expr()->neq('fc.size', $qb->expr()->literal('0')),
+				$qb->expr()->lt('fc.size', $qb->expr()->literal((string) $sizeLimit))
+			);
+		}
+
+		$qb->select(['fc.fileid'])
+			->from('filecache', 'fc')
+			->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
+			->innerJoin(
+				'fc',
+				'storages',
+				'ss',
+				$qb->expr()->andX(
+					$qb->expr()->eq('fc.storage', 'ss.numeric_id'),
+					$qb->expr()->orX(
+						$qb->expr()->like('ss.id', $qb->expr()->literal('local::%')),
+						$qb->expr()->like('ss.id', $qb->expr()->literal('home::%'))
+					)
+				)
+			)
+			->where(
+				$qb->expr()->neq('fc.mimetype', $qb->expr()->literal($dirMimeTypeId))
+			)
+			->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->isNull('fa.fileid'),
+					$qb->expr()->gt('fc.mtime', 'fa.check_time')
+				)
+			)
+			->andWhere(
+				$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
+			)
+			->andWhere( $sizeLimitExpr )
+		;
+		return $qb->execute();
+	}
+
+	/**
+	 * @param IUser $owner
+	 * @param int $fileId
+	 */
+	protected function scanOneFile($owner, $fileId){
+		$this->initFilesystemForUser($owner);
+		$view = Filesystem::getView();
+		$path = $view->getPath($fileId);
+		if (!is_null($path)) {
+			$item = new Item($this->l10n, $view, $path, $fileId);
+			$scanner = $this->scannerFactory->getScanner();
+			$status = $scanner->scan($item);
+			$status->dispatch($item, true);
+		}
 	}
 
 	/**

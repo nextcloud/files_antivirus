@@ -14,18 +14,12 @@ class External extends \OCA\Files_Antivirus\Scanner {
 	// Daemon/socket mode
 	private $useSocket;
 	
-	/**
-	 * Handle to write data into
-	 * @var resource 
-	 */
-	private $writeHandle;
-	
 	public function __construct($config){
 		$this->appConfig = $config;
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	
-	protected function initScanner(){
+	public function initScanner(){
 		parent::initScanner();
 		
 		if ($this->useSocket){
@@ -44,24 +38,23 @@ class External extends \OCA\Files_Antivirus\Scanner {
 		}
 
 		// request scan from the daemon
-		fwrite($this->getWriteHandle(), "nINSTREAM\n");
+		@fwrite($this->getWriteHandle(), "nINSTREAM\n");
 	}
 	
 	protected function shutdownScanner(){
-		fwrite($this->getWriteHandle(), pack('N', 0));
+		@fwrite($this->getWriteHandle(), pack('N', 0));
 		$response = fgets($this->getWriteHandle());
-		\OCP\Util::writeLog('files_antivirus', 'Response :: '.$response, \OCP\Util::DEBUG);
-		fclose($this->getWriteHandle());
+		\OC::$server->getLogger()->debug(
+			'Response :: ' . $response,
+			['app' => 'files_antivirus']
+		);
+		@fclose($this->getWriteHandle());
 		
 		$this->status->parseResponse($response);
 	}
 	
-	protected function getWriteHandle(){
-		return $this->writeHandle;
-	}
-	
 	protected function prepareChunk($data){
-		$chunk_len = pack('N', strlen($data));
-		return $chunk_len.$data;
+		$chunkLength = pack('N', strlen($data));
+		return $chunkLength . $data;
 	}
 }
