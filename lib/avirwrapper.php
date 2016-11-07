@@ -95,7 +95,10 @@ class AvirWrapper extends Wrapper{
 								Activity::TYPE_VIRUS_DETECTED,
 								Activity::PRIORITY_HIGH
 							);
-											
+
+							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
+							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
+
 							throw new InvalidContentException(
 								$this->l10n->t(
 									'Virus %s is detected in the file. Upload cannot be completed.',
