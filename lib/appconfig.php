@@ -16,6 +16,7 @@ use \OCP\IConfig;
 	 * @method string getAvHost()
 	 * @method int getAvPort()
 	 * @method int getAvMaxFileSize()
+	 * @method int getAvStreamMaxLength()
 	 * @method string getAvCmdOptions()
 	 * @method int getAvChunkSize()
 	 * @method string getAvPath()
@@ -26,6 +27,7 @@ use \OCP\IConfig;
 	 * @method null setAvHost(string $avHost)
 	 * @method null setAvPort(int $avPort)
 	 * @method null setAvMaxFileSize(int $fileSize)
+	 * @method null setAvStreamMaxLength(int $streamMaxLength)
 	 * @method null setAvCmdOptions(string $avCmdOptions)
 	 * @method null setAvChunkSize(int $chunkSize)
 	 * @method null setAvPath(string $avPath)
@@ -44,9 +46,10 @@ class AppConfig {
 		'av_host' => '',
 		'av_port' => '',
 		'av_cmd_options' => '',
-		'av_chunk_size' => '1024',
+		'av_chunk_size' => '8192',
 		'av_path' => '/usr/bin/clamscan',
 		'av_max_file_size' => -1,
+		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
 	];
 

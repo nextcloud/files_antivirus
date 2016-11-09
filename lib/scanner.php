@@ -27,9 +27,16 @@ abstract class Scanner {
 	
 	/**
 	 * Scan result
-	 * @var \OCA\Files_Antivirus\Status
+	 * @var Status
 	 */
 	protected $status;
+
+	/**
+	 * If scanning was done part by part
+	 * the first detected infected part is stored here
+	 * @var Status
+	 */
+	protected $infectedStatus;
 
 	/** @var  int */
 	protected $byteCount;
@@ -40,8 +47,14 @@ abstract class Scanner {
 	/** @var \OCA\Files_Antivirus\AppConfig */
 	protected $appConfig;
 
+	/** @var string */
+	protected $lastChunk;
+
 	/** @var bool */
-	protected $isLogUsed;
+	protected $isLogUsed = false;
+
+	/** @var bool */
+	protected $isAborted = false;
 
 	/**
 	 * Close used resources
@@ -50,6 +63,9 @@ abstract class Scanner {
 
 
 	public function getStatus(){
+		if ($this->infectedStatus instanceof Status){
+			return $this->infectedStatus;
+		}
 		if ($this->status instanceof Status){
 			return $this->status;
 		}
@@ -94,6 +110,9 @@ abstract class Scanner {
 	 */
 	public function initScanner(){
 		$this->byteCount = 0;
+		if ($this->status instanceof Status && $this->status->getNumericStatus() === Status::SCANRESULT_INFECTED){
+			$this->infectedStatus = clone $this->status;
+		}
 		$this->status = new Status();
 	}
 
@@ -110,28 +129,53 @@ abstract class Scanner {
 	 * @param string $data
 	 */
 	protected final function fwrite($data){
+		if ($this->isAborted){
+			return;
+		}
+
 		$dataLength = strlen($data);
-		$fileSizeLimit = intval($this->appConfig->getAvMaxFileSize());
-		if ($fileSizeLimit !== -1 && $this->byteCount + $dataLength > $fileSizeLimit){
+		$streamSizeLimit = intval($this->appConfig->getAvStreamMaxLength());
+		if ($this->byteCount + $dataLength > $streamSizeLimit){
+			\OC::$server->getLogger()->debug(
+				'reinit scanner',
+				['app' => 'files_antivirus']
+			);
 			$this->shutdownScanner();
 			$this->initScanner();
 		}
 
-		$bytesWritten = @fwrite($this->getWriteHandle(), $data);
-		if ($bytesWritten === false || $bytesWritten < $dataLength){
+		if (!$this->writeRaw($data)){
 			if (!$this->isLogUsed) {
 				$this->isLogUsed = true;
 				\OC::$server->getLogger()->warning(
-					'Failed to write a chunk. File is too big?',
+					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in ClamAV daemon settings',
 					['app' => 'files_antivirus']
 				);
 			}
-			// retry
+			// retry on error
 			$this->initScanner();
-			@fwrite($this->getWriteHandle(), $data);
-		} else {
-			$this->byteCount += $bytesWritten;
+			if (!is_null($this->lastChunk)) {
+				$isRetrySuccessful = $this->writeRaw($this->lastChunk) && $this->writeRaw($data);
+			} else {
+				$isRetrySuccessful = $this->writeRaw($data);
+			}
+			$this->isAborted = !$isRetrySuccessful;
 		}
+	}
+
+	/**
+	 * @param $data
+	 * @return bool
+	 */
+	protected function writeRaw($data){
+		$dataLength = strlen($data);
+		$bytesWritten = @fwrite($this->getWriteHandle(), $data);
+		if ($bytesWritten === $dataLength){
+			$this->byteCount += $bytesWritten;
+			$this->lastChunk = $data;
+			return true;
+		}
+		return false;
 	}
 
 	/**

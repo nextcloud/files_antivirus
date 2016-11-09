@@ -12,7 +12,24 @@ script('files_antivirus', 'settings');
 		    <p class="av_socket"><label for="av_socket"><?php p($l->t('Socket'));?></label><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('Clamav Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></p>
 			<p class="av_host"><label for="av_host"><?php p($l->t('Host'));?></label><input type="text" id="av_host" name="avHost" value="<?php p($_['avHost']); ?>" title="<?php p($l->t('Address of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></p>
 			<p class="av_port"><label for="av_port"><?php p($l->t('Port'));?></label><input type="text" id="av_port" name="avPort" value="<?php p($_['avPort']); ?>" title="<?php p($l->t('Port number of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></p>
-			<p class="av_chunk_size"><label for="av_chunk_size"><?php p($l->t('Stream Length'));?></label><input type="text" id="av_chunk_size" name="avChunkSize" value="<?php p($_['avChunkSize']); ?>" title="<?php p($l->t('ClamAV StreamMaxLength value in bytes.')). ' ' .$l->t('Not required in Executable Mode.');?>"> bytes</p>
+			<p class="av_chunk_size">
+				<label for="av_chunk_size">
+					<?php p($l->t('Chunk Size'));?>
+				</label>
+				<input type="text" id="av_chunk_size" name="avChunkSize" value="<?php p($_['avChunkSize']); ?>"
+					   title="<?php p($l->t('Chunk size')). ' ' .$l->t('Not required in Executable Mode.');?>"
+				/>
+				<label for="av_chunk_size" class="a-left"><?php p($l->t('bytes'))?></label>
+			</p>
+			<p class="av_stream_max_length">
+				<label for="av_stream_max_length">
+					<?php p($l->t('Stream Length'));?>
+				</label>
+				<input type="text" id="av_stream_max_length" name="avStreamMaxLength" value="<?php p($_['avStreamMaxLength']); ?>"
+					   title="<?php p($l->t('ClamAV StreamMaxLength value in bytes.')). ' ' .$l->t('Not required in Executable Mode.');?>"
+				/>
+				<label for="av_stream_max_length" class="a-left"><?php p($l->t('bytes'))?></label>
+			</p>
 			<p class="av_path">
 				<label for="av_path"><?php p($l->t('Path to clamscan'));?></label><input type="text" id="av_path" name="avPath" value="<?php p($_['avPath']); ?>" title="<?php p($l->t('Path to clamscan executable.')). ' ' .$l->t('Not required in Daemon Mode.');?>" />
 			</p>
@@ -20,9 +37,11 @@ script('files_antivirus', 'settings');
 				<label for="av_cmd_options"><?php p($l->t('Extra command line options (comma-separated)'));?></label><input type="text" id="av_cmd_options" name="avCmdOptions" value="<?php p($_['avCmdOptions']); ?>" />
 			</p>
 			<p class="av_max_file_size">
-				<label for="av_max_file_size"><?php p($l->t('File size limit in bytes, -1 means no limit'));?></label>
-				<input type="text" id="av_max_file_size" name="avMaxFileSize" value="<?php p($_['avMaxFileSize']); ?>" title="<?php p($l->t('File size limit in bytes, -1 means no limit'));?>">
-				bytes
+				<label for="av_max_file_size"><?php p($l->t('File size limit, -1 means no limit'));?></label>
+				<input type="text" id="av_max_file_size" name="avMaxFileSize" value="<?php p($_['avMaxFileSize']); ?>"
+					   title="<?php p($l->t('File size limit in bytes, -1 means no limit'));?>"
+				/>
+				<label for="av_max_file_size" class="a-left"><?php p($l->t('bytes'))?></label>
 			</p>
 			<p class="infected_action"><label for="av_infected_action"><?php p($l->t('Action for infected files found while scanning'));?></label>
 				<select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['avInfectedAction'])) ?></select>
