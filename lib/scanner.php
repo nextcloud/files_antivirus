@@ -140,11 +140,12 @@ abstract class Scanner {
 				'reinit scanner',
 				['app' => 'files_antivirus']
 			);
-			$this->shutdownScanner();
-			$this->initScanner();
+			$isReopenSuccessful = $this->retry();
+		} else {
+			$isReopenSuccessful = true;
 		}
 
-		if (!$this->writeRaw($data)){
+		if (!$isReopenSuccessful || !$this->writeRaw($data)){
 			if (!$this->isLogUsed) {
 				$this->isLogUsed = true;
 				\OC::$server->getLogger()->warning(
@@ -153,14 +154,20 @@ abstract class Scanner {
 				);
 			}
 			// retry on error
-			$this->initScanner();
-			if (!is_null($this->lastChunk)) {
-				$isRetrySuccessful = $this->writeRaw($this->lastChunk) && $this->writeRaw($data);
-			} else {
-				$isRetrySuccessful = $this->writeRaw($data);
-			}
+			$isRetrySuccessful = $this->retry() && $this->writeRaw($data);
 			$this->isAborted = !$isRetrySuccessful;
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function retry(){
+		$this->initScanner();
+		if (!is_null($this->lastChunk)) {
+			return $this->writeRaw($this->lastChunk);
+		}
+		return true;
 	}
 
 	/**
