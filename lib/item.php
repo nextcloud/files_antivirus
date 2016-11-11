@@ -78,7 +78,7 @@ class Item implements IScannable{
 		
 		$this->isValidSize = $view->filesize($path) > 0;
 		
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$config = $application->getContainer()->query('AppConfig');
 		$this->chunkSize = $config->getAvChunkSize();
 	}
@@ -117,7 +117,7 @@ class Item implements IScannable{
 	 * @param boolean $isBackground
 	 */
 	public function processInfected(Status $status, $isBackground) {
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$appConfig = $application->getContainer()->query('AppConfig');
 		$infectedAction = $appConfig->getAvInfectedAction();
 		

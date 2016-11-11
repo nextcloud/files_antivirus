@@ -140,6 +140,7 @@ abstract class Scanner {
 				'reinit scanner',
 				['app' => 'files_antivirus']
 			);
+			$this->shutdownScanner();
 			$isReopenSuccessful = $this->retry();
 		} else {
 			$isReopenSuccessful = true;

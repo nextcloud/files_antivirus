@@ -18,10 +18,9 @@ use \OCP\IConfig;
 	 * @method int getAvMaxFileSize()
 	 * @method int getAvStreamMaxLength()
 	 * @method string getAvCmdOptions()
-	 * @method int getAvChunkSize()
 	 * @method string getAvPath()
 	 * @method string getAvInfectedAction()
-	 * 
+	 *
 	 * @method null setAvMode(string $avMode)
 	 * @method null setAvSocket(string $avsocket)
 	 * @method null setAvHost(string $avHost)
@@ -29,7 +28,6 @@ use \OCP\IConfig;
 	 * @method null setAvMaxFileSize(int $fileSize)
 	 * @method null setAvStreamMaxLength(int $streamMaxLength)
 	 * @method null setAvCmdOptions(string $avCmdOptions)
-	 * @method null setAvChunkSize(int $chunkSize)
 	 * @method null setAvPath(string $avPath)
 	 * @method null setAvInfectedAction(string $avInfectedAction)
 	 */
@@ -46,7 +44,6 @@ class AppConfig {
 		'av_host' => '',
 		'av_port' => '',
 		'av_cmd_options' => '',
-		'av_chunk_size' => '8192',
 		'av_path' => '/usr/bin/clamscan',
 		'av_max_file_size' => -1,
 		'av_stream_max_length' => '26214400',
@@ -60,6 +57,12 @@ class AppConfig {
 	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
+	}
+
+	public function getAvChunkSize(){
+		// See http://php.net/manual/en/function.stream-wrapper-register.php#74765
+		// and \OC_Helper::streamCopy
+		return 8192;
 	}
 	
 	/**

@@ -47,8 +47,6 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
 		switch ($methodName){
 			case 'getAvPath':
 				return  __DIR__ . '/avir.sh';
-			case 'getAvChunkSize':
-				return 1024;
 			case 'getAvMode':
 				return 'executable';
 		}

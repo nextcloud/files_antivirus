@@ -41,12 +41,6 @@ class ItemTest extends TestBase {
 		\OC\Files\Filesystem::init('test', '');
 		$view = new \OC\Files\View('/test/files');
 		$view->file_put_contents('file1', self::CONTENT);
-		$this->config->method('__call')
-			->with(
-				$this->equalTo('getAvChunkSize')
-			)
-			->willReturn('1024')
-		;
 	}
 	
 	public function testRead() {

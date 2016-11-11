@@ -12,15 +12,6 @@ script('files_antivirus', 'settings');
 		    <p class="av_socket"><label for="av_socket"><?php p($l->t('Socket'));?></label><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('Clamav Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></p>
 			<p class="av_host"><label for="av_host"><?php p($l->t('Host'));?></label><input type="text" id="av_host" name="avHost" value="<?php p($_['avHost']); ?>" title="<?php p($l->t('Address of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></p>
 			<p class="av_port"><label for="av_port"><?php p($l->t('Port'));?></label><input type="text" id="av_port" name="avPort" value="<?php p($_['avPort']); ?>" title="<?php p($l->t('Port number of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></p>
-			<p class="av_chunk_size">
-				<label for="av_chunk_size">
-					<?php p($l->t('Chunk Size'));?>
-				</label>
-				<input type="text" id="av_chunk_size" name="avChunkSize" value="<?php p($_['avChunkSize']); ?>"
-					   title="<?php p($l->t('Chunk size')). ' ' .$l->t('Not required in Executable Mode.');?>"
-				/>
-				<label for="av_chunk_size" class="a-left"><?php p($l->t('bytes'))?></label>
-			</p>
 			<p class="av_stream_max_length">
 				<label for="av_stream_max_length">
 					<?php p($l->t('Stream Length'));?>

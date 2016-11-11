@@ -50,20 +50,18 @@ class SettingsController extends Controller {
 	 * @param string $avHost - antivirus url
 	 * @param int $avPort - port
 	 * @param string $avCmdOptions - extra command line options
-	 * @param int $avChunkSize - Size of one portion
 	 * @param string $avPath - path to antivirus executable (Executable mode)
 	 * @param string $avInfectedAction - action performed on infected files
 	 * @param $avStreamMaxLength - reopen socket after bytes
 	 * @param int $avMaxFileSize - file size limit
 	 * @return JSONResponse
 	 */
-	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avChunkSize, $avPath, $avInfectedAction, $avStreamMaxLength, $avMaxFileSize) {
+	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avPath, $avInfectedAction, $avStreamMaxLength, $avMaxFileSize) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
 		$this->settings->setAvHost($avHost);
 		$this->settings->setAvPort($avPort);
 		$this->settings->setAvCmdOptions($avCmdOptions);
-		$this->settings->setAvChunkSize($avChunkSize);
 		$this->settings->setAvPath($avPath);
 		$this->settings->setAvInfectedAction($avInfectedAction);
 		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
