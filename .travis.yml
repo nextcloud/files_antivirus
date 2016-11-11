@@ -29,6 +29,7 @@ script:
 
   # Run phpunit tests
   - cd tests
+  - php avirserver.php &
   - phpunit --configuration phpunit.xml
 
   # Create coverage report

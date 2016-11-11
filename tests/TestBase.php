@@ -17,6 +17,7 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
 	protected $application;
 	protected $container;
 	protected $config;
+	protected $streamConfig;
 	protected $l10n;
 	
 
@@ -35,20 +36,39 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
 		;
 		$this->config->method('__call')
 			->will($this->returnCallback(array($this, 'getAppValue')));
-		
+
+		$this->streamConfig = $this->getMockBuilder('\OCA\Files_Antivirus\AppConfig')
+			->disableOriginalConstructor()
+			->getMock()
+		;
+		$this->streamConfig->method('__call')
+			->will($this->returnCallback(array($this, 'getAppStreamValue')));
+
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
 				->disableOriginalConstructor()
 				->getMock()
 		;
 		$this->l10n->method('t')->will($this->returnArgument(0));
 	}
-	
+
 	public function getAppValue($methodName){
 		switch ($methodName){
 			case 'getAvPath':
 				return  __DIR__ . '/avir.sh';
 			case 'getAvMode':
 				return 'executable';
+		}
+	}
+	public function getAppStreamValue($methodName){
+		switch ($methodName){
+			case 'getAvHost':
+				return '127.0.0.1';
+			case 'getAvPort':
+				return 5555;
+			case 'getAvStreamMaxLength':
+				return DummyClam::TEST_STREAM_SIZE;
+			case 'getAvMode':
+				return 'daemon';
 		}
 	}
 }

@@ -51,4 +51,9 @@ class ItemTest extends TestBase {
 		$chunk = $item->fread();
 		$this->assertEquals(self::CONTENT, $chunk);
 	}
+
+	public function tearDown() {
+		parent::tearDown();
+		\OC_Util::tearDownFS();
+	}
 }
