@@ -15,7 +15,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="10.0" max-version="10.0" />
+		<nextcloud min-version="11" max-version="11" />
 	</dependencies>
 	<ocsid>157439</ocsid>
 </info>
