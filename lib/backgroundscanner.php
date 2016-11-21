@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Antivirus;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Filesystem;
 use OCP\IL10N;
 use OCP\Files\IRootFolder;
@@ -99,13 +100,15 @@ class BackgroundScanner {
 
 		$dbConnection = \OC::$server->getDatabaseConnection();
 		$qb = $dbConnection->getQueryBuilder();
-		$concat = $dbConnection->getDatabasePlatform()->getConcatExpression(
-			"'/'", 'mnt.user_id'
-		);
-		$lastConcat = $dbConnection->getDatabasePlatform()->getConcatExpression(
- 				' ',
- 				$qb->expr()->literal('/')
-		);
+		if ($dbConnection->getDatabasePlatform() instanceof MySqlPlatform) {
+			$concatFunction = $qb->createFunction(
+				"CONCAT('/', mnt.user_id, '/')"
+			);
+		} else {
+			$concatFunction = $qb->createFunction(
+				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/')"
+			);
+		}
 
 		$sizeLimit = intval($this->appConfig->getAvMaxFileSize());
 		if ( $sizeLimit === -1 ){
@@ -126,7 +129,7 @@ class BackgroundScanner {
 				'mnt',
 				$qb->expr()->andX(
 					$qb->expr()->eq('fc.storage', 'mnt.storage_id'),
-					$qb->expr()->eq('mnt.mount_point', $concat) . $lastConcat
+					$qb->expr()->eq('mnt.mount_point', $concatFunction)
 				)
 			)
 			->where(
