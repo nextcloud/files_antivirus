@@ -12,96 +12,89 @@ namespace OCA\Files_antivirus\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
-use OC\Files\Storage\Temporary;
-use OC\Files\View;
-use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\AvirWrapper;
-use OCA\Files_Antivirus\ScannerFactory;
+use OCA\Files_antivirus\Tests\Mock\Config;
 use Test\Util\User\Dummy;
 
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
 class AvirWrapperTest extends TestBase {
-	/**
-	 * @var Temporary
-	 */
-	private $storage;
+	
+	const UID = 'testo';
+	const PWD = 'test';
 
 	protected $scannerFactory;
 
 	protected $isWrapperRegistered = false;
 
-	public function setUp() {
-		parent::setUp();
-		$logger = $this->container->query('Logger');
-		$this->scannerFactory = new ScannerFactory(
-			$this->streamConfig,
- 			$logger
-		);
-
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new Dummy());
-		Filesystem::clearMounts();
+	}
 
-		//login
-		\OC::$server->getUserManager()->createUser('testo', 'test');
-		\OC::$server->getUserSession()->login('testo', 'test');
-		\OC::$server->getSession()->set('user_id', 'testo');
-		\OC::$server->getUserFolder('testo');
-		\OC_Util::setupFS('testo');
+	public function setUp() {
+		parent::setUp();
+		if (!\OC::$server->getUserManager()->get(self::UID)) {
+			\OC::$server->getUserManager()->createUser(self::UID, self::PWD);
+		}
 
-		$this->storage = new Temporary(array());
+		$this->scannerFactory = new Mock\ScannerFactory(
+			new Mock\Config($this->container->query('CoreConfig')),
+			$this->container->query('Logger')
+		);
+
 		if (!$this->isWrapperRegistered) {
 			Filesystem::addStorageWrapper(
 				'oc_avir_test',
-				function ($mountPoint, $storage) use ($logger) {
-					/**
-					 * @var Storage $storage
-					 */
-					if ($storage instanceof Storage) {
-						return new AvirWrapper([
-							'storage' => $storage,
-							'scannerFactory' => $this->scannerFactory,
-							'l10n' => $this->l10n,
-							'logger' => $logger
-						]);
-					} else {
-						return $storage;
-					}
-				},
-				1
+				[$this, 'wrapperCallback'],
+				2
 			);
 			$this->isWrapperRegistered = true;
 		}
-		Filesystem::init('testo', '');
+
+		\OC::$server->getUserSession()->login(self::UID, self::PWD);
+		\OC::$server->getSession()->set('user_id', self::UID);
+		\OC::$server->getUserFolder(self::UID);
 	}
 
 	/**
 	 * @expectedException \OCP\Files\InvalidContentException
 	 */
-	/*public function testInfected(){
+	public function testInfected(){
 		$fd = Filesystem::fopen('killing bee', 'w+');
 		@fwrite($fd, 'it ' . DummyClam::TEST_SIGNATURE);
-		@fclose($fd);
-		Filesystem::unlink('killing kee');
-	}*/
+	}
 
 	/**
 	 * @expectedException \OCP\Files\InvalidContentException
 	 */
 	public function testBigInfected(){
 		$fd = Filesystem::fopen('killing whale', 'w+');
-		@fwrite($fd, str_repeat('0', DummyClam::TEST_STREAM_SIZE-2));
+		@fwrite($fd, str_repeat('0', DummyClam::TEST_STREAM_SIZE-2) . DummyClam::TEST_SIGNATURE );
 		@fwrite($fd, DummyClam::TEST_SIGNATURE);
-		@fclose($fd);
-		Filesystem::unlink('killing whale');
 	}
 
-	public function tearDown() {
-		parent::tearDown();
-		Filesystem::tearDown();
-		\OC_Util::tearDownFS();
-		\OC::$server->getUserManager()->get('testo')->delete();
+	public function wrapperCallback($mountPoint, $storage){
+		/**
+		 * @var Storage $storage
+		 */
+		if ($storage instanceof Storage) {
+			return new AvirWrapper([
+				'storage' => $storage,
+				'scannerFactory' => $this->scannerFactory,
+				'l10n' => $this->l10n,
+				'logger' => $this->container->query('Logger')
+			]);
+		} else {
+			return $storage;
+		}
+	}
+
+	public static function tearDownAfterClassClass() {
+		parent::tearDownAfterClass();
+		\OC::$server->getUserManager()->get(self::UID)->delete();
+		\OC_User::clearBackends();
 	}
 }

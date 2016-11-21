@@ -32,9 +32,9 @@ class DummyClam {
 		}
 		// listen
 		while (true){
-			$connection = @stream_socket_accept($this->socket);
+			$connection = @stream_socket_accept($this->socket, -1);
 			if (is_resource($connection)){
-				stream_set_blocking($connection, false);
+				//echo 'connected' . PHP_EOL;
 				$this->handleConnection($connection);
 				@fclose($connection);
 			}
@@ -43,26 +43,42 @@ class DummyClam {
 	protected function handleConnection($connection){
 		$buffer = '';
 		$isAborted = false;
+		$command  =  fread($connection, 10);
+		//starts from INSTREAM\n from the first packet;
+
+		if ($command !== "nINSTREAM\n"){
+			return;
+		}
+		//echo $command;
 		do {
-			$chunk = fread($connection, $this->chunkSize);
-			$nextBufferSize = strlen($buffer) + strlen($chunk);
+			$binaryChunkSize = @fread($connection, 4);
+			$chunkSizeArray = unpack('Nlength', $binaryChunkSize);
+			$chunkSize = $chunkSizeArray['length'];
+			if ($chunkSize === 0){
+				break;
+			}
+
+			$dataChunk = '';
+			do {
+				$dataChunk .= @fread($connection, $chunkSize);
+			} while (is_resource($connection) && strlen($dataChunk) !== $chunkSize);
+
+			$nextBufferSize = strlen($buffer) + strlen($dataChunk);
 			if ($nextBufferSize > self::TEST_STREAM_SIZE){
 				$isAborted = true;
 				break;
 			}
-			$buffer = $buffer . $chunk;
-		} while (!$this->shouldCloseConnection($buffer));
+
+			$buffer = $buffer . $dataChunk;
+		} while (true);
+
 		if (!$isAborted){
-			//echo $buffer;
 			$response = strpos($buffer, self::TEST_SIGNATURE) !== false
-				? 'Ohoho: Criminal.Joboholic FOUND'
+				? "Ohoho: Criminal.Joboholic FOUND"
 				: 'Scanned OK'
 			;
+			//echo str_replace('0', '', $buffer) . $response;
 			fwrite($connection, $response);
 		}
-	}
-	protected function shouldCloseConnection($buffer){
-		$needle = pack('N', 0);
-		return substr($buffer,-strlen($needle)) == $needle;
 	}
 }
