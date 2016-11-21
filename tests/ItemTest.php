@@ -8,52 +8,55 @@
 
 namespace OCA\Files_antivirus\Tests;
 
-use OC\Files\Storage\Temporary;
+use OC\Files\Filesystem;
+use OC\Files\View;
 use OCA\Files_Antivirus\Item;
 
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
 class ItemTest extends TestBase {
-	
-	/**
-	 * @var Temporary
-	 */
-	private $storage;
-	
+
+	const UID = 'testo';
+	const PWD = 'test';
 	const CONTENT = 'LoremIpsum';
-	
-	public function setUp() {
-		parent::setUp();
-		
+
+	protected $view;
+
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \Test\Util\User\Dummy());
-		\OC\Files\Filesystem::clearMounts();
+	}
+
+	public function setUp() {
+		parent::setUp();
 
 		//login
-		\OC::$server->getUserManager()->createUser('test', 'test');
-		\OC::$server->getUserSession()->login('test', 'test');
-		\OC::$server->getSession()->set('user_id', 'test');
-		\OC::$server->getUserFolder('test');
-		\OC_Util::setupFS('test');
+		if (!\OC::$server->getUserManager()->get(self::UID)) {
+			\OC::$server->getUserManager()->createUser(self::UID, self::PWD);
+		}
+		\OC::$server->getUserSession()->login(self::UID, self::PWD);
+		\OC::$server->getSession()->set('user_id', self::UID);
+		\OC::$server->getUserFolder(self::UID);
+		\OC_Util::setupFS(self::UID);
 		
-		$this->storage = new \OC\Files\Storage\Temporary(array());
-		\OC\Files\Filesystem::init('test', '');
-		$view = new \OC\Files\View('/test/files');
-		$view->file_put_contents('file1', self::CONTENT);
+		$this->view = new View('/' . self::UID . '/files');
+		$this->view->file_put_contents('file1', self::CONTENT);
 	}
 	
 	public function testRead() {
-		$view = new \OC\Files\View('/test/files');
-		$item = new Item($this->l10n, $view, '/file1');
+		$item = new Item($this->l10n, $this->view, '/file1');
 		$this->assertTrue($item->isValid());
 		
 		$chunk = $item->fread();
 		$this->assertEquals(self::CONTENT, $chunk);
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public static function tearDownAfterClass() {
+		parent::tearDownAfterClass();
 		\OC_Util::tearDownFS();
+		\OC::$server->getUserManager()->get(self::UID)->delete();
+		\OC_User::clearBackends();
 	}
 }
