@@ -77,7 +77,7 @@ class Status {
 			foreach ($allRules as $rule){
 				if (preg_match($rule->getMatch(), $rawResponse, $matches)){
 					$isMatched = true;
-					$this->numericStatus = $rule->getStatus();
+					$this->numericStatus = intval($rule->getStatus());
 					if (intval($rule->getStatus())===self::SCANRESULT_CLEAN){
 						$this->details = '';
 					} else {
@@ -95,7 +95,7 @@ class Status {
 		} else { // Executable mode
 			$scanStatus = $ruleMapper->findByResult($result);
 			if (is_array($scanStatus) && count($scanStatus)){
-				$this->numericStatus = $scanStatus[0]->getStatus();
+				$this->numericStatus = intval($scanStatus[0]->getStatus());
 				$this->details = $scanStatus[0]->getDescription();
 			}
 			

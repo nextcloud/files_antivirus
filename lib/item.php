@@ -12,7 +12,7 @@ use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\Activity;
 
-class Item implements iScannable{
+class Item implements IScannable{
 	/**
 	 * Scanned fileid (optional)
 	 * @var int
@@ -78,7 +78,7 @@ class Item implements iScannable{
 		
 		$this->isValidSize = $view->filesize($path) > 0;
 		
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$config = $application->getContainer()->query('AppConfig');
 		$this->chunkSize = $config->getAvChunkSize();
 	}
@@ -117,7 +117,7 @@ class Item implements iScannable{
 	 * @param boolean $isBackground
 	 */
 	public function processInfected(Status $status, $isBackground) {
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$appConfig = $application->getContainer()->query('AppConfig');
 		$infectedAction = $appConfig->getAvInfectedAction();
 		
@@ -182,12 +182,12 @@ class Item implements iScannable{
 			$result = $stmt->execute(array($this->id));
 			if (\OCP\DB::isError($result)) {
 				//TODO: Use logger
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
 			$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
 			$result = $stmt->execute(array($this->id, time()));
 			if (\OCP\DB::isError($result)) {
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);

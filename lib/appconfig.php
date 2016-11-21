@@ -15,38 +15,54 @@ use \OCP\IConfig;
 	 * @method string getAvSocket()
 	 * @method string getAvHost()
 	 * @method int getAvPort()
+	 * @method int getAvMaxFileSize()
+	 * @method int getAvStreamMaxLength()
 	 * @method string getAvCmdOptions()
-	 * @method int getAvChunkSize()
 	 * @method string getAvPath()
 	 * @method string getAvInfectedAction()
-	 * 
+	 *
 	 * @method null setAvMode(string $avMode)
 	 * @method null setAvSocket(string $avsocket)
 	 * @method null setAvHost(string $avHost)
 	 * @method null setAvPort(int $avPort)
+	 * @method null setAvMaxFileSize(int $fileSize)
+	 * @method null setAvStreamMaxLength(int $streamMaxLength)
 	 * @method null setAvCmdOptions(string $avCmdOptions)
-	 * @method null setAvChunkSize(int $chunkSize)
 	 * @method null setAvPath(string $avPath)
 	 * @method null setAvInfectedAction(string $avInfectedAction)
 	 */
 
 class AppConfig {
 	private $appName = 'files_antivirus';
+
+	/** @var IConfig  */
 	private $config;
 
-	private $defaults = array(
+	private $defaults = [
 		'av_mode' => 'executable',
 		'av_socket' => '/var/run/clamav/clamd.ctl',
 		'av_host' => '',
 		'av_port' => '',
 		'av_cmd_options' => '',
-		'av_chunk_size' => '1024',
 		'av_path' => '/usr/bin/clamscan',
+		'av_max_file_size' => -1,
+		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
-	);
-	
+	];
+
+	/**
+	 * AppConfig constructor.
+	 *
+	 * @param IConfig $config
+	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
+	}
+
+	public function getAvChunkSize(){
+		// See http://php.net/manual/en/function.stream-wrapper-register.php#74765
+		// and \OC_Helper::streamCopy
+		return 8192;
 	}
 	
 	/**
@@ -56,7 +72,7 @@ class AppConfig {
 	public function getCmdline(){
 		$avCmdOptions = $this->getAvCmdOptions();
 		
-		$shellArgs = array();
+		$shellArgs = [];
 		if ($avCmdOptions) {
 			$shellArgs = explode(',', $avCmdOptions);
 				$shellArgs = array_map(function($i){
@@ -103,7 +119,7 @@ class AppConfig {
 	 * @param string $value
 	 * @return string
 	 */
-	public function setAppvalue($key, $value) {
+	public function setAppValue($key, $value) {
 		return $this->config->setAppValue($this->appName, $key, $value);
 	}
 	
@@ -115,7 +131,7 @@ class AppConfig {
 	 */
 	protected function setter($key, $args) {
 		if (array_key_exists($key, $this->defaults)) {
-			$this->setAppvalue($key, $args[0]);
+			$this->setAppValue($key, $args[0]);
 		} else {
 			throw new \BadFunctionCallException($key . ' is not a valid key');
 		}

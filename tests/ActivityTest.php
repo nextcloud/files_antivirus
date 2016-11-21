@@ -7,11 +7,11 @@
  */
 
 namespace OCA\Files_antivirus\Tests;
-//namespace OCA\Files_Antivirus\Cron;
 
 use OCA\Files_Antivirus\Activity;
 
 class ActivityTest extends TestBase {
+	/** @var  Activity */
 	protected $activity;
 	
 	public function setUp(){

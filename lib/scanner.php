@@ -27,26 +27,45 @@ abstract class Scanner {
 	
 	/**
 	 * Scan result
-	 * @var \OCA\Files_Antivirus\Status
+	 * @var Status
 	 */
 	protected $status;
-	
+
 	/**
-	 * @var \OCA\Files_Antivirus\AppConfig
+	 * If scanning was done part by part
+	 * the first detected infected part is stored here
+	 * @var Status
 	 */
+	protected $infectedStatus;
+
+	/** @var  int */
+	protected $byteCount;
+
+	/** @var  resource */
+	protected $writeHandle;
+
+	/** @var \OCA\Files_Antivirus\AppConfig */
 	protected $appConfig;
-	
+
+	/** @var string */
+	protected $lastChunk;
+
+	/** @var bool */
+	protected $isLogUsed = false;
+
+	/** @var bool */
+	protected $isAborted = false;
+
 	/**
 	 * Close used resources
 	 */
 	abstract protected function shutdownScanner();
-	
-	/**
-	 * Get a resource to write data into
-	 */
-	abstract protected function getWriteHandle();
-	
+
+
 	public function getStatus(){
+		if ($this->infectedStatus instanceof Status){
+			return $this->infectedStatus;
+		}
 		if ($this->status instanceof Status){
 			return $this->status;
 		}
@@ -62,10 +81,7 @@ abstract class Scanner {
 		$this->initScanner();
 
 		while (false !== ($chunk = $item->fread())) {
-			fwrite(
-					$this->getWriteHandle(), 
-					$this->prepareChunk($chunk)
-			);
+			$this->writeChunk($chunk);
 		}
 		
 		$this->shutdownScanner();
@@ -73,21 +89,11 @@ abstract class Scanner {
 	}
 	
 	/**
-	 * Async scan - prepare resources
-	 */
-	public function initAsyncScan(){
-		$this->initScanner();
-	}
-	
-	/**
 	 * Async scan - new portion of data is available
 	 * @param string $data
 	 */
 	public function onAsyncData($data){
-		fwrite(
-				$this->getWriteHandle(),
-				$this->prepareChunk($data)
-		);
+		$this->writeChunk($data);
 	}
 	
 	/**
@@ -102,12 +108,96 @@ abstract class Scanner {
 	/**
 	 * Open write handle. etc
 	 */
-	protected function initScanner(){
+	public function initScanner(){
+		$this->byteCount = 0;
+		if ($this->status instanceof Status && $this->status->getNumericStatus() === Status::SCANRESULT_INFECTED){
+			$this->infectedStatus = clone $this->status;
+		}
 		$this->status = new Status();
 	}
 
 	/**
+	 * @param string $chunk
+	 */
+	protected function writeChunk($chunk){
+		$this->fwrite(
+			$this->prepareChunk($chunk)
+		);
+	}
+
+	/**
+	 * @param string $data
+	 */
+	protected final function fwrite($data){
+		if ($this->isAborted){
+			return;
+		}
+
+		$dataLength = strlen($data);
+		$streamSizeLimit = intval($this->appConfig->getAvStreamMaxLength());
+		if ($this->byteCount + $dataLength > $streamSizeLimit){
+			\OC::$server->getLogger()->debug(
+				'reinit scanner',
+				['app' => 'files_antivirus']
+			);
+			$this->shutdownScanner();
+			$isReopenSuccessful = $this->retry();
+		} else {
+			$isReopenSuccessful = true;
+		}
+
+		if (!$isReopenSuccessful || !$this->writeRaw($data)){
+			if (!$this->isLogUsed) {
+				$this->isLogUsed = true;
+				\OC::$server->getLogger()->warning(
+					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in ClamAV daemon settings',
+					['app' => 'files_antivirus']
+				);
+			}
+			// retry on error
+			$isRetrySuccessful = $this->retry() && $this->writeRaw($data);
+			$this->isAborted = !$isRetrySuccessful;
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function retry(){
+		$this->initScanner();
+		if (!is_null($this->lastChunk)) {
+			return $this->writeRaw($this->lastChunk);
+		}
+		return true;
+	}
+
+	/**
+	 * @param $data
+	 * @return bool
+	 */
+	protected function writeRaw($data){
+		$dataLength = strlen($data);
+		$bytesWritten = @fwrite($this->getWriteHandle(), $data);
+		if ($bytesWritten === $dataLength){
+			$this->byteCount += $bytesWritten;
+			$this->lastChunk = $data;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get a resource to write data into
+	 * @return resource
+	 */
+	protected function getWriteHandle(){
+		return $this->writeHandle;
+	}
+
+	/**
 	 * Prepare chunk (if required)
+	 * @param string $data
+	 * @return string
 	 */
 	protected function prepareChunk($data){
 		return $data;

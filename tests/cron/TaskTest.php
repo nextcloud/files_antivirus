@@ -37,6 +37,7 @@ class TaskTest extends TestBase {
 		$backgroundScanner = new BackgroundScanner(
 				$this->scannerFactory,
 				$this->l10n,
+				$this->container->query('AppConfig'),
 				$this->container->getServer()->getRootFolder(),
 				$this->container->getServer()->getUserSession()
 		);

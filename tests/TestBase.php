@@ -35,20 +35,19 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
 		;
 		$this->config->method('__call')
 			->will($this->returnCallback(array($this, 'getAppValue')));
-		
-		$this->l10n = $this->getMockBuilder('\OC_L10N')
+
+
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
 				->disableOriginalConstructor()
 				->getMock()
 		;
 		$this->l10n->method('t')->will($this->returnArgument(0));
 	}
-	
+
 	public function getAppValue($methodName){
 		switch ($methodName){
 			case 'getAvPath':
 				return  __DIR__ . '/avir.sh';
-			case 'getAvChunkSize':
-				return 1024;
 			case 'getAvMode':
 				return 'executable';
 		}

@@ -57,6 +57,7 @@ class Application extends App {
 			return new BackgroundScanner(
 				$c->query('ScannerFactory'),
 				$c->query('L10N'),
+				$c->query('AppConfig'),
 				$c->getServer()->getRootFolder(),
 				$c->getServer()->getUserSession()
 			);
