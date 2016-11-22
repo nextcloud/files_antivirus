@@ -82,7 +82,12 @@ class AvirWrapper extends Wrapper{
 							if (App::isEnabled('files_trashbin')) {
 								\OCA\Files_Trashbin\Storage::postRenameHook([]);
 							}
-							
+							$this->logger->warning(
+								'Infected file deleted. ' . $status->getDetails()
+								. ' Account: ' . $owner . ' Path: ' . $path,
+								['app' => 'files_antivirus']
+							);
+
 							\OC::$server->getActivityManager()->publishActivity(
 								'files_antivirus',
 								Activity::SUBJECT_VIRUS_DETECTED,
