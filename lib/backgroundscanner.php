@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Antivirus;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Filesystem;
 use OCP\IL10N;
 use OCP\Files\IRootFolder;
@@ -78,8 +79,9 @@ class BackgroundScanner {
 		while (($row = $result->fetch()) && $cnt < self::BATCH_SIZE) {
 			try {
 				$fileId = $row['fileid'];
-				$owner = $this->getOwner($fileId);
+				$userId = $row['user_id'];
 				/** @var IUser $owner */
+				$owner = \OC::$server->getUserManager()->get($userId);
 				if (!$owner instanceof IUser){
 					continue;
 				}
@@ -95,7 +97,18 @@ class BackgroundScanner {
 
 	protected function getFilesForScan(){
 		$dirMimeTypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+
+		$dbConnection = \OC::$server->getDatabaseConnection();
+		$qb = $dbConnection->getQueryBuilder();
+		if ($dbConnection->getDatabasePlatform() instanceof MySqlPlatform) {
+			$concatFunction = $qb->createFunction(
+				"CONCAT('/', mnt.user_id, '/')"
+			);
+		} else {
+			$concatFunction = $qb->createFunction(
+				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/')"
+			);
+		}
 
 		$sizeLimit = intval($this->appConfig->getAvMaxFileSize());
 		if ( $sizeLimit === -1 ){
@@ -107,19 +120,16 @@ class BackgroundScanner {
 			);
 		}
 
-		$qb->select(['fc.fileid'])
+		$qb->select(['fc.fileid, mnt.user_id'])
 			->from('filecache', 'fc')
 			->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
 			->innerJoin(
 				'fc',
-				'storages',
-				'ss',
+				'mounts',
+				'mnt',
 				$qb->expr()->andX(
-					$qb->expr()->eq('fc.storage', 'ss.numeric_id'),
-					$qb->expr()->orX(
-						$qb->expr()->like('ss.id', $qb->expr()->literal('local::%')),
-						$qb->expr()->like('ss.id', $qb->expr()->literal('home::%'))
-					)
+					$qb->expr()->eq('fc.storage', 'mnt.storage_id'),
+					$qb->expr()->eq('mnt.mount_point', $concatFunction)
 				)
 			)
 			->where(
@@ -153,23 +163,6 @@ class BackgroundScanner {
 			$status = $scanner->scan($item);
 			$status->dispatch($item, true);
 		}
-	}
-
-	/**
-	 * @param int $fileId
-	 * @return IUser|null
-	 */
-	protected function getOwner($fileId){
-		$mountProviderCollection = \OC::$server->getMountProviderCollection();
-		$mountCache = $mountProviderCollection->getMountCache();
-		$mounts = $mountCache->getMountsForFileId($fileId);
-		if (!empty($mounts)) {
-			$user = $mounts[0]->getUser();
-			if ($user instanceof IUser) {
-				return $user;
-			}
-		}
-		return null;
 	}
 
 	/**
