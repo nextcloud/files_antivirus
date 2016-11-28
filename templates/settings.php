@@ -30,11 +30,11 @@ script('files_antivirus', 'settings');
 			<p class="av_max_file_size">
 				<label for="av_max_file_size"><?php p($l->t('File size limit, -1 means no limit'));?></label>
 				<input type="text" id="av_max_file_size" name="avMaxFileSize" value="<?php p($_['avMaxFileSize']); ?>"
-					   title="<?php p($l->t('File size limit in bytes, -1 means no limit'));?>"
+					   title="<?php p($l->t('Background scan file size limit in bytes, -1 means no limit'));?>"
 				/>
 				<label for="av_max_file_size" class="a-left"><?php p($l->t('bytes'))?></label>
 			</p>
-			<p class="infected_action"><label for="av_infected_action"><?php p($l->t('Action for infected files found while scanning'));?></label>
+			<p class="infected_action"><label for="av_infected_action"><?php p($l->t('When infected files were found during a background scan'));?></label>
 				<select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['avInfectedAction'])) ?></select>
 			</p>
 			<input id="av_submit" type="submit" value="<?php p($l->t('Save'));?>" />
