@@ -118,7 +118,7 @@ class AppConfig {
 	 * @param string $key
 	 * @param string $value
 	 */
-	public function setAppvalue($key, $value) {
+	public function setAppValue($key, $value) {
 		$this->config->setAppValue($this->appName, $key, $value);
 	}
 	
