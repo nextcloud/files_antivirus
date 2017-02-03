@@ -101,10 +101,9 @@ class AppConfig {
 	 * Set a value by key
 	 * @param string $key
 	 * @param string $value
-	 * @return string
 	 */
 	public function setAppvalue($key, $value) {
-		return $this->config->setAppValue($this->appName, $key, $value);
+		$this->config->setAppValue($this->appName, $key, $value);
 	}
 	
 	/**
