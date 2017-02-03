@@ -64,7 +64,7 @@ class AppConfig {
 		// and \OC_Helper::streamCopy
 		return 8192;
 	}
-	
+
 	/**
 	 * Get full commandline
 	 * @return string
@@ -117,10 +117,9 @@ class AppConfig {
 	 * Set a value by key
 	 * @param string $key
 	 * @param string $value
-	 * @return string
 	 */
-	public function setAppValue($key, $value) {
-		return $this->config->setAppValue($this->appName, $key, $value);
+	public function setAppvalue($key, $value) {
+		$this->config->setAppValue($this->appName, $key, $value);
 	}
 	
 	/**

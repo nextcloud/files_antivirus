@@ -18,13 +18,14 @@ use OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_Antivirus\ScannerFactory;
 
 use \OCA\Files_Antivirus\AvirWrapper;
+use OCP\AppFramework\IAppContainer;
 
 class Application extends App {
 	public function __construct (array $urlParams = array()) {
 		parent::__construct('files_antivirus', $urlParams);
 		
 		$container = $this->getContainer();
-		$container->registerService('RuleController', function($c) {
+		$container->registerService('RuleController', function(IAppContainer $c) {
 			return new RuleController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -33,27 +34,27 @@ class Application extends App {
 				$c->query('RuleMapper')
 			);
 		});
-		$container->registerService('SettingsController', function($c) {
+		$container->registerService('SettingsController', function(IAppContainer $c) {
 			return new SettingsController(
 				$c->query('Request'),
 				$c->query('AppConfig'),
 				$c->query('L10N')	
 			);
 		});
-		$container->registerService('AppConfig', function($c) {
+		$container->registerService('AppConfig', function(IAppContainer $c) {
 			return new AppConfig(
 				$c->query('CoreConfig')
 			);
 		});
 		
-        $container->registerService('ScannerFactory', function($c) {
+        $container->registerService('ScannerFactory', function(IAppContainer $c) {
 			return new ScannerFactory(
 				$c->query('AppConfig'),
 				$c->query('Logger')
 			);
         });
 		
-        $container->registerService('BackgroundScanner', function($c) {
+        $container->registerService('BackgroundScanner', function(IAppContainer $c) {
 			return new BackgroundScanner(
 				$c->query('ScannerFactory'),
 				$c->query('L10N'),
@@ -63,9 +64,9 @@ class Application extends App {
 			);
         });
 
-        $container->registerService('RuleMapper', function($c) {
+        $container->registerService('RuleMapper', function(IAppContainer $c) {
 			return new RuleMapper(
-				$c->query('ServerContainer')->getDb()
+				$c->getServer()->getDatabaseConnection()
 			);
         });
 		
