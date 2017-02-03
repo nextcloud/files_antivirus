@@ -9,12 +9,14 @@
 
 namespace OCA\Files_Antivirus\Scanner;
 
+use OCA\Files_Antivirus\AppConfig;
+
 class External extends \OCA\Files_Antivirus\Scanner {
 	
 	// Daemon/socket mode
 	private $useSocket;
 	
-	public function __construct($config){
+	public function __construct(AppConfig $config){
 		$this->appConfig = $config;
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
@@ -31,6 +33,9 @@ class External extends \OCA\Files_Antivirus\Scanner {
 		} else {
 			$avHost = $this->appConfig->getAvHost();
 			$avPort = $this->appConfig->getAvPort();
+			if (!($avHost && $avPort)) {
+				throw new \RuntimeException('The clamav port and host are not configured.');
+			}
 			$this->writeHandle = ($avHost && $avPort) ? @fsockopen($avHost, $avPort) : false;
 			if (!$this->getWriteHandle()) {
 				throw new \RuntimeException('The clamav module is not configured for daemon mode.');

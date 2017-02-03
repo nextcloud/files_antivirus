@@ -6,30 +6,41 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests\Cron;
+namespace OCA\Files_Antivirus\Tests\Cron;
 
-use \OCA\Files_Antivirus\Db\RuleMapper;
-use \OCA\Files_Antivirus\Item;
+use OC\User\Manager;
 use \OCA\Files_Antivirus\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_antivirus\Tests\TestBase;
+use OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUserManager;
+use Test\Util\User\Dummy;
 
+/**
+ * @group DB
+ */
 class TaskTest extends TestBase {
-	/** @var  ScannerFactory */
-	protected $scannerFactory;
+	/** @var ScannerFactory */
+	private $scannerFactory;
+
+	/** @var IUserManager */
+	private $userManager;
 
 	public function setUp(){
 		parent::setUp();
-		//Background scanner requires at least one user on the current instance
-		$userManager = $this->application->getContainer()->query('ServerContainer')->getUserManager();
-		$results = $userManager->search('', 1, 0);
 
-		if (!count($results)) {
-			\OC::$server->getUserManager()->createUser('test', 'test');
-		}
+		/** @var IConfig $config */
+		$config = $this->createMock(IConfig::class);
+		$this->userManager = new Manager($config);
+		$this->userManager->registerBackend(new Dummy());
+
+		/** @var ILogger $logger */
+		$logger = $this->createMock(ILogger::class);
+
 		$this->scannerFactory = new ScannerFactory(
 				$this->config,
-				$this->container->query('Logger')
+				$logger
 		);
 	}
 	

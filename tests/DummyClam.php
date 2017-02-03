@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
 class DummyClam {
 	const TEST_STREAM_SIZE = 524288; // 512K
