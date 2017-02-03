@@ -12,11 +12,10 @@ use OCP\IDb;
 use OCP\AppFramework\Db\Mapper;
 
 use OCA\Files_Antivirus\Db\Item;
+use OCP\IDBConnection;
 
 class ItemMapper extends Mapper {
-	public function __construct(IDb $db) {
+	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'files_antivirus', '\OCA\Files_Antivirus\Db\Item');
 	}
-	
-	
 }

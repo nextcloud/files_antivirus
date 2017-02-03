@@ -102,7 +102,7 @@ class AppConfig {
 	 * @param string $key
 	 * @param string $value
 	 */
-	public function setAppvalue($key, $value) {
+	public function setAppValue($key, $value) {
 		$this->config->setAppValue($this->appName, $key, $value);
 	}
 	
@@ -114,7 +114,7 @@ class AppConfig {
 	 */
 	protected function setter($key, $args) {
 		if (array_key_exists($key, $this->defaults)) {
-			$this->setAppvalue($key, $args[0]);
+			$this->setAppValue($key, $args[0]);
 		} else {
 			throw new \BadFunctionCallException($key . ' is not a valid key');
 		}
