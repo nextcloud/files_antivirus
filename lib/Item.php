@@ -8,12 +8,13 @@
 
 namespace OCA\Files_Antivirus;
 
+use OC\Files\View;
 use OCP\App;
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\Activity;
 
-class Item implements iScannable{
+class Item implements IScannable{
 	/**
 	 * Scanned fileid (optional)
 	 * @var int
@@ -55,7 +56,7 @@ class Item implements iScannable{
 	 */
 	private $l10n;
 	
-	public function __construct(IL10N $l10n, $view, $path, $id = null) {
+	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
 		$this->l10n = $l10n;
 		
 		if (!is_object($view)){
@@ -99,7 +100,7 @@ class Item implements iScannable{
 	 */
 	public function fread() {
 		if (!$this->isValid()) {
-			return;
+			return false;
 		}
 		if (is_null($this->fileHandle)) {
 			$this->getFileHandle();

@@ -6,16 +6,23 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\Item;
+use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
 
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
+/**
+ * @group DB
+ */
 class ItemTest extends TestBase {
-	
+	use UserTrait;
+	use MountProviderTrait;
+
 	/**
 	 * @var Temporary
 	 */
@@ -25,20 +32,11 @@ class ItemTest extends TestBase {
 	
 	public function setUp() {
 		parent::setUp();
-		
-		\OC_User::clearBackends();
-		\OC_User::useBackend(new \Test\Util\User\Dummy());
-		\OC\Files\Filesystem::clearMounts();
-
-		//login
-		\OC::$server->getUserManager()->createUser('test', 'test');
-		\OC::$server->getUserSession()->login('test', 'test');
-		\OC::$server->getSession()->set('user_id', 'test');
-		\OC::$server->getUserFolder('test');
-		\OC_Util::setupFS('test');
+		$this->createUser('test', 'test');
 		
 		$this->storage = new \OC\Files\Storage\Temporary(array());
-		\OC\Files\Filesystem::init('test', '');
+		$this->registerMount('test', $this->storage, '/test/files');
+		\OC_Util::setupFS('test');
 		$view = new \OC\Files\View('/test/files');
 		$view->file_put_contents('file1', self::CONTENT);
 	}

@@ -6,23 +6,33 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
+use OC\Files\View;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
 use \OCA\Files_Antivirus\ScannerFactory;
-use \OCA\Files_Antivirus\BackgroundScanner;
+use Test\Traits\UserTrait;
 
+/**
+ * @group DB
+ */
 class ScannerTest extends TestBase {
+	use UserTrait;
 	
 	const TEST_CLEAN_FILENAME = 'foo.txt';
 	const TEST_INFECTED_FILENAME = 'kitten.inf';
 
+	/** @var RuleMapper */
 	protected $ruleMapper;
+	/** @var View|\PHPUnit_Framework_MockObject_MockObject */
 	protected $view;
-	
+
+	/** @var Item */
 	protected $cleanItem;
+	/** @var Item */
 	protected $infectedItem;
+	/** @var ScannerFactory */
 	protected $scannerFactory;
 	
 	public function setUp() {
@@ -32,9 +42,9 @@ class ScannerTest extends TestBase {
 				->getMock()
 		;
 		
-		$this->view->method('getOwner')->willReturn('Dummy');
-		$this->view->method('file_exists')->willReturn(true);
-		$this->view->method('filesize')->willReturn(42);
+		$this->view->expects($this->any())->method('getOwner')->willReturn('Dummy');
+		$this->view->expects($this->any())->method('file_exists')->willReturn(true);
+		$this->view->expects($this->any())->method('filesize')->willReturn(42);
 		
 		$this->cleanItem = new Item($this->l10n, $this->view, self::TEST_CLEAN_FILENAME, 42);
 		$this->infectedItem = new Item($this->l10n, $this->view, self::TEST_INFECTED_FILENAME, 42);
@@ -42,14 +52,9 @@ class ScannerTest extends TestBase {
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
-		
-		//Bgscanner requires at least one user on the current instance
-		$userManager = $this->application->getContainer()->query('ServerContainer')->getUserManager();
-		$results = $userManager->search('', 1, 0);
 
-		if (!count($results)) {
-			\OC::$server->getUserManager()->createUser('test', 'test');
-		}
+		$this->createUser('test', 'test');
+
 		$this->scannerFactory = new ScannerFactory(
 				$this->config,
 				$this->container->query('Logger')
@@ -58,7 +63,7 @@ class ScannerTest extends TestBase {
 	
 	public function testCleanFile() {
 		$handle = fopen(__DIR__ . '/data/foo.txt', 'r');
-		$this->view->method('fopen')->willReturn($handle);
+		$this->view->expects($this->any())->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->cleanItem->isValid());
 		
 		$scanner = $this->scannerFactory->getScanner();
@@ -83,7 +88,7 @@ class ScannerTest extends TestBase {
 	
 	public function testInfected() {
 		$handle = fopen(__DIR__ . '/data/kitten.inf', 'r');
-		$this->view->method('fopen')->willReturn($handle);
+		$this->view->expects($this->any())->method('fopen')->willReturn($handle);
 		$this->assertTrue($this->infectedItem->isValid());
 		$scanner = $this->scannerFactory->getScanner();
 		$scanner->scan($this->infectedItem);
