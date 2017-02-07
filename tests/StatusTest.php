@@ -6,10 +6,13 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
 use \OCA\Files_Antivirus\Db\RuleMapper;
 
+/**
+ * @group DB
+ */
 class StatusTest extends TestBase {
 	
 	// See OCA\Files_Antivirus\Status::init for details

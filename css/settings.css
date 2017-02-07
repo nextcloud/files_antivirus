@@ -11,6 +11,10 @@
 	text-align: right;
 }
 
+.section-antivirus .a-left{
+	text-align: left;
+}
+
 .shaded{
 	opacity: .3;
 }

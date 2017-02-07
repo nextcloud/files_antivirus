@@ -1,3 +1,5 @@
+/build
+
 # just sane ignores
 .*.sw[po]
 *.bak

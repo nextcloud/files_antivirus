@@ -8,11 +8,13 @@
 
 namespace OCA\Files_Antivirus;
 
+use OC\Files\View;
+use OCP\App;
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\Activity;
 
-class Item implements iScannable{
+class Item implements IScannable{
 	/**
 	 * Scanned fileid (optional)
 	 * @var int
@@ -54,7 +56,7 @@ class Item implements iScannable{
 	 */
 	private $l10n;
 	
-	public function __construct(IL10N $l10n, $view, $path, $id = null) {
+	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
 		$this->l10n = $l10n;
 		
 		if (!is_object($view)){
@@ -78,7 +80,7 @@ class Item implements iScannable{
 		
 		$this->isValidSize = $view->filesize($path) > 0;
 		
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$config = $application->getContainer()->query('AppConfig');
 		$this->chunkSize = $config->getAvChunkSize();
 	}
@@ -98,7 +100,7 @@ class Item implements iScannable{
 	 */
 	public function fread() {
 		if (!$this->isValid()) {
-			return;
+			return false;
 		}
 		if (is_null($this->fileHandle)) {
 			$this->getFileHandle();
@@ -117,7 +119,7 @@ class Item implements iScannable{
 	 * @param boolean $isBackground
 	 */
 	public function processInfected(Status $status, $isBackground) {
-		$application = new \OCA\Files_Antivirus\AppInfo\Application();
+		$application = new AppInfo\Application();
 		$appConfig = $application->getContainer()->query('AppConfig');
 		$infectedAction = $appConfig->getAvInfectedAction();
 		
@@ -140,14 +142,14 @@ class Item implements iScannable{
 		if ($isBackground) {
 			if ($shouldDelete) {
 				$this->logError('Infected file deleted. ' . $status->getDetails());
-				$this->view->unlink($this->path);
+				$this->deleteFile();
 			} else {
 				$this->logError('File is infected. '  . $status->getDetails());
 			}
 		} else {
 			$this->logError('Virus(es) found: ' . $status->getDetails());
 			//remove file
-			$this->view->unlink($this->path);
+			$this->deleteFile();
 			Notification::sendMail($this->path);
 			$message = $this->l10n->t(
 						"Virus detected! Can't upload the file %s", 
@@ -182,12 +184,12 @@ class Item implements iScannable{
 			$result = $stmt->execute(array($this->id));
 			if (\OCP\DB::isError($result)) {
 				//TODO: Use logger
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
 			$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
 			$result = $stmt->execute(array($this->id, time()));
 			if (\OCP\DB::isError($result)) {
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage($result));
+				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
@@ -220,6 +222,20 @@ class Item implements iScannable{
 		} else {
 			$this->logDebug('Scan started');
 			$this->fileHandle = $fileHandle;
+		}
+	}
+
+	/**
+	 * Delete infected file
+	 */
+	private function deleteFile() {
+		//prevent from going to trashbin
+		if (App::isEnabled('files_trashbin')) {
+			\OCA\Files_Trashbin\Storage::preRenameHook([]);
+		}
+		$this->view->unlink($this->path);
+		if (App::isEnabled('files_trashbin')) {
+			\OCA\Files_Trashbin\Storage::postRenameHook([]);
 		}
 	}
 	

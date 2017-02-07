@@ -1,15 +1,12 @@
 language: php
-sudo: false
 php:
-  - 5.4
-  - 5.5
   - 5.6
   - 7
 
 env:
   global:
     - CORE_BRANCH=master
-    - APP_NAME=files_antivirus
+    - APP=files_antivirus
   matrix:
     - DB=sqlite
 
@@ -19,18 +16,21 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 before_install:
-  - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
-  - bash ./before_install.sh $APP_NAME $CORE_BRANCH $DB
-  - cd ../core
-  - php occ app:enable $APP_NAME
+  - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
+  - bash ./before_install.sh $APP $CORE_BRANCH $DB
+  - cd ../server
+  - php occ app:enable $APP
+
+before_script:
+  - cd apps/$APP
 
 script:
   # Test lint
-  - cd ../core/apps/$APP_NAME
-  - sh -c "if [ '$DB' = 'sqlite' ]; then ant test; fi"
+  - find . -name \*.php -not -path './vendor/*' -exec php -l "{}" \;
 
   # Run phpunit tests
   - cd tests
+  - php avirserver.php &
   - phpunit --configuration phpunit.xml
 
   # Create coverage report
@@ -39,13 +39,10 @@ script:
 
 matrix:
   include:
-    - php: 5.4
+    - php: 7
       env: DB=mysql
-    - php: 5.4
+    - php: 7
       env: DB=pgsql
-    - php: 5.4
-      env: DB=oracle
   allow_failures:
     - php: hhvm
-    - env: DB=oracle # until it is fixed
   fast_finish: true
