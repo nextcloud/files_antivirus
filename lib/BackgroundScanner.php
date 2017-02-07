@@ -120,7 +120,7 @@ class BackgroundScanner {
 			);
 		}
 
-		$qb->select(['fc.fileid, mnt.user_id'])
+		$qb->select(['fc.fileid', 'mnt.user_id'])
 			->from('filecache', 'fc')
 			->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
 			->innerJoin(
