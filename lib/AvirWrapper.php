@@ -61,7 +61,7 @@ class AvirWrapper extends Wrapper{
 		if (is_resource($stream) && $this->isWritingMode($mode)) {
 			try {
 				$scanner = $this->scannerFactory->getScanner();
-				$scanner->initAsyncScan();
+				$scanner->initScanner();
 				return CallBackWrapper::wrap(
 					$stream,
 					null,
@@ -73,16 +73,27 @@ class AvirWrapper extends Wrapper{
 						if (intval($status->getNumericStatus()) === \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
 							//prevent from going to trashbin
 							if (App::isEnabled('files_trashbin')) {
-								\OCA\Files_Trashbin\Storage::preRenameHook([]);
+								\OCA\Files_Trashbin\Storage::preRenameHook([
+									'oldpath' => '',
+									'newpath' => ''
+								]);
 							}
 							
 							$owner = $this->getOwner($path);
 							$this->unlink($path);
 
 							if (App::isEnabled('files_trashbin')) {
-								\OCA\Files_Trashbin\Storage::postRenameHook([]);
+								\OCA\Files_Trashbin\Storage::preRenameHook([
+									'oldpath' => '',
+									'newpath' => ''
+								]);
 							}
-							
+							$this->logger->warning(
+								'Infected file deleted. ' . $status->getDetails()
+								. ' Account: ' . $owner . ' Path: ' . $path,
+								['app' => 'files_antivirus']
+							);
+
 							\OC::$server->getActivityManager()->publishActivity(
 								'files_antivirus',
 								Activity::SUBJECT_VIRUS_DETECTED,
@@ -95,7 +106,10 @@ class AvirWrapper extends Wrapper{
 								Activity::TYPE_VIRUS_DETECTED,
 								Activity::PRIORITY_HIGH
 							);
-											
+
+							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
+							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
+
 							throw new InvalidContentException(
 								$this->l10n->t(
 									'Virus %s is detected in the file. Upload cannot be completed.',
@@ -106,8 +120,8 @@ class AvirWrapper extends Wrapper{
 					}
 				);
 			} catch (\Exception $e){
-				$message = 	implode(' ', [ __CLASS__, __METHOD__, $e->getMessage()]);
-				$this->logger->warning($message);
+				var_dump($e->getMessage());
+				$this->logger->logException($e);
 			}
 		}
 		return $stream;

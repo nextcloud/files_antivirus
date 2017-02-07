@@ -45,8 +45,7 @@ class ScannerFactory{
 						break;
 				}
 			} catch (\Exception $e){
-				$message = 	implode(' ', [ __CLASS__, __METHOD__, $e->getMessage()]);
-				$logger->warning($message);
+				$logger->logException($e);
 			}
 	}
 	

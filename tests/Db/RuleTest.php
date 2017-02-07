@@ -6,12 +6,15 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_antivirus\Tests\Db;
+namespace OCA\Files_Antivirus\Tests\Db;
 
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_antivirus\Tests\TestBase;
 
+/**
+ * @group DB
+ */
 class RuleTest extends TestBase {
 	public function testJsonSerialize(){
 		$data = [

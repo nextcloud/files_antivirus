@@ -13,7 +13,6 @@ class Notification {
 		if (!\OCP\User::isLoggedIn()){
 			return;
 		}
-		$config = \OC::$server->getConfig();
 		$user = \OC::$server->getUserSession()->getUser();
 		$email = $user->getEMailAddress();
 		$displayName = $user->getDisplayName();

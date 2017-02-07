@@ -8,6 +8,8 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCA\Files_Antivirus\Db\Rule;
+
 class Status {
 	
 	/*
@@ -39,7 +41,7 @@ class Status {
 	
 	public function __construct(){
 		$this->numericStatus = self::SCANRESULT_UNCHECKED;
-		$this->ruleMapper = new Db\RuleMapper(\OC::$server->getDb());
+		$this->ruleMapper = new Db\RuleMapper(\OC::$server->getDatabaseConnection());
 	}
 	
 	/**
@@ -64,7 +66,7 @@ class Status {
 	 */
 	public function parseResponse($rawResponse, $result = null){
 		$matches = array();
-		$ruleMapper = new Db\RuleMapper(\OC::$server->getDb());
+		$ruleMapper = new Db\RuleMapper(\OC::$server->getDatabaseConnection());
 		if (is_null($result)){ // Daemon or socket mode
 			try{
 				$allRules = $this->getResponseRules();
@@ -77,7 +79,7 @@ class Status {
 			foreach ($allRules as $rule){
 				if (preg_match($rule->getMatch(), $rawResponse, $matches)){
 					$isMatched = true;
-					$this->numericStatus = $rule->getStatus();
+					$this->numericStatus = intval($rule->getStatus());
 					if (intval($rule->getStatus())===self::SCANRESULT_CLEAN){
 						$this->details = '';
 					} else {
@@ -95,7 +97,7 @@ class Status {
 		} else { // Executable mode
 			$scanStatus = $ruleMapper->findByResult($result);
 			if (is_array($scanStatus) && count($scanStatus)){
-				$this->numericStatus = $scanStatus[0]->getStatus();
+				$this->numericStatus = intval($scanStatus[0]->getStatus());
 				$this->details = $scanStatus[0]->getDescription();
 			}
 			
@@ -119,7 +121,10 @@ class Status {
 			}
 		}
 	}
-	
+
+	/**
+	 * @return Rule[]
+	 */
 	protected function getResponseRules(){
 		$infectedRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_INFECTED);
 		$uncheckedRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_UNCHECKED);

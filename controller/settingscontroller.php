@@ -41,28 +41,31 @@ class SettingsController extends Controller {
 		$data = $this->settings->getAllValues();
 		return new TemplateResponse('files_antivirus', 'settings', $data, 'blank');
 	}
-	
+
 	/**
 	 * Save Parameters
+	 *
 	 * @param string $avMode - antivirus mode
 	 * @param string $avSocket - path to socket (Socket mode)
 	 * @param string $avHost - antivirus url
 	 * @param int $avPort - port
 	 * @param string $avCmdOptions - extra command line options
-	 * @param int $avChunkSize - Size of one portion
 	 * @param string $avPath - path to antivirus executable (Executable mode)
 	 * @param string $avInfectedAction - action performed on infected files
+	 * @param $avStreamMaxLength - reopen socket after bytes
+	 * @param int $avMaxFileSize - file size limit
 	 * @return JSONResponse
 	 */
-	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avChunkSize, $avPath, $avInfectedAction) {
+	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avPath, $avInfectedAction, $avStreamMaxLength, $avMaxFileSize) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
 		$this->settings->setAvHost($avHost);
 		$this->settings->setAvPort($avPort);
 		$this->settings->setAvCmdOptions($avCmdOptions);
-		$this->settings->setAvChunkSize($avChunkSize);
 		$this->settings->setAvPath($avPath);
 		$this->settings->setAvInfectedAction($avInfectedAction);
+		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
+		$this->settings->setAvMaxFileSize($avMaxFileSize);
 		
 		return new JSONResponse(
 			array('data' =>
