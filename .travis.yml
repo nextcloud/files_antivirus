@@ -10,11 +10,6 @@ env:
   matrix:
     - DB=sqlite
 
-branches:
-  only:
-    - master
-    - /^stable\d+(\.\d+)?$/
-
 before_install:
   - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
   - bash ./before_install.sh $APP $CORE_BRANCH $DB
