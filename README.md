@@ -2,7 +2,7 @@
 
 files_antivirus is an antivirus app for [Nextcloud](https://github.com/nextcloud) based on [ClamAV](http://www.clamav.net).
 
-##Details
+## Details
 
 The idea is to check for virus at upload-time, notifying the user (on screen and/or email) and
 remove the file if it's infected.
@@ -13,7 +13,7 @@ remove the file if it's infected.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
 
-##Status
+## Status
 
 The App is not complete yet, the following works/is done:
 * It can be configured to work with the executable or the daemon mode of ClamAV
@@ -24,11 +24,11 @@ The App is not complete yet, the following works/is done:
 * Tested in Linux only
 * Background Job to scan all files
 
-##In progress
+## In progress
 
 * Test uploading from clients
 
-##ToDo
+## ToDo
 
 * File size limit
 * Configurations Tuneups
