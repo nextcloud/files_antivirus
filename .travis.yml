@@ -1,7 +1,8 @@
 language: php
 php:
   - 5.6
-  - 7
+  - 7.0
+  - 7.1
 
 env:
   global:
@@ -17,7 +18,7 @@ branches:
 
 before_install:
   - wget https://raw.githubusercontent.com/nextcloud/travis_ci/master/before_install.sh
-  - bash ./before_install.sh $APP $CORE_BRANCH $DB
+  - . ./before_install.sh $APP $CORE_BRANCH $DB
   - cd ../server
   - php occ app:enable $APP
 
@@ -39,9 +40,9 @@ script:
 
 matrix:
   include:
-    - php: 7
+    - php: 7.0
       env: DB=mysql
-    - php: 7
+    - php: 7.0
       env: DB=pgsql
   allow_failures:
     - php: hhvm
