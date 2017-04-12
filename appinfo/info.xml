@@ -19,4 +19,8 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 		<nextcloud min-version="11" max-version="12" />
 	</dependencies>
 	<ocsid>157439</ocsid>
+
+	<background-jobs>
+		<job>OCA\Files_Antivirus\Cron\Task</job>
+	</background-jobs>
 </info>
