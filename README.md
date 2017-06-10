@@ -51,7 +51,7 @@ The App is not complete yet, the following works/is done:
 
 * Install and enable the App  
  * Make sure ClamAV is installed and running on your server.  
-  * (for example, in ubuntu 16.04)  
+   * (for example, in ubuntu 16.04)  
 ```sudo apt-get update && sudo apt-get install -y clamav-daemon```  
 ```sudo <dpkg-reconfigure clamav-freshclam```  
  * choose an appropriate update server and the interval.  
@@ -79,5 +79,4 @@ The App is not complete yet, the following works/is done:
 Authors:
 
 [Manuel Delgado López](https://github.com/valarauco/) :: manuel.delgado at ucr.ac.cr  
-[Bart Visscher](https://github.com/bartv2/)
-[Install instructions] (https://github.com/gdgeorge/files_antivirus):: jerry at echo4golf.com
+[Bart Visscher](https://github.com/bartv2/)  
