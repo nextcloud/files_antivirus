@@ -106,7 +106,7 @@ class BackgroundScanner {
 			);
 		} else {
 			$concatFunction = $qb->createFunction(
-				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/')"
+				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/'"
 			);
 		}
 
