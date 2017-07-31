@@ -10,10 +10,11 @@ namespace OCA\Files_Antivirus;
 
 class Notification {
 	public static function sendMail($path){
-		if (!\OCP\User::isLoggedIn()){
+		$userSession = \OC::$server->getUserSession();
+		if (!$userSession->isLoggedIn()){
 			return;
 		}
-		$user = \OC::$server->getUserSession()->getUser();
+		$user = $userSession->getUser();
 		$email = $user->getEMailAddress();
 		$displayName = $user->getDisplayName();
 		if ( strval($displayName) ==='' ) {
