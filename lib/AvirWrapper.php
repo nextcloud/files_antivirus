@@ -120,7 +120,6 @@ class AvirWrapper extends Wrapper{
 					}
 				);
 			} catch (\Exception $e){
-				var_dump($e->getMessage());
 				$this->logger->logException($e);
 			}
 		}
