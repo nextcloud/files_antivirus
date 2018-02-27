@@ -2,8 +2,8 @@
 host = https://www.transifex.com
 lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
 
-[owncloud.files_antivirus]
-file_filter = <lang>/files_antivirus.po
-source_file = templates/files_antivirus.pot
+[nextcloud.files_antivirus]
+file_filter = translationfiles/<lang>/files_antivirus.po
+source_file = translationfiles/templates/files_antivirus.pot
 source_lang = en
 type = PO
