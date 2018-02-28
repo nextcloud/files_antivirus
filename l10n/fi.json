@@ -1,0 +1,27 @@
+{ "translations": {
+    "Saved" : "Tallennettu",
+    "Clean" : "Puhdas",
+    "Infected" : "Saastunut",
+    "Saving..." : "Tallennetaan...",
+    "<strong>Infected file</strong> has been <strong>found</strong>" : "<strong>Saastunut tiedosto</strong> on <strong>löydetty</strong>",
+    "File %s is infected with %s" : "Tiedosto %s on saastunut viruksella %s",
+    "It is going to be deleted" : "Se poistetaan",
+    "Antivirus" : "Virustorjunta",
+    "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s havaittiin tiedostossa. Lähetystä ei voi suorittaa loppuun.",
+    "Virus detected! Can't upload the file %s" : "Virus havaittu! Ei voi lähettää tiedostoa %s",
+    "Antivirus App for files" : "Virustorjuntasovellus tiedostoille",
+    "Greetings {user}," : "Hei {user},",
+    "File uploaded: {file}" : "Tiedosto lähetetty: {file}",
+    "Antivirus Configuration" : "Virustorjunnan asetukset",
+    "Mode" : "Tila",
+    "Port" : "Portti",
+    "bytes" : "tavua",
+    "Path to clamscan" : "Clamscanin polku",
+    "Delete file" : "Poista tiedosto",
+    "Save" : "Tallenna",
+    "Rules" : "Säännöt",
+    "Reset to defaults" : "Palauta oletusarvot",
+    "Description" : "Kuvaus",
+    "Add a rule" : "Lisää sääntö"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
