@@ -8,82 +8,15 @@
 
 namespace OCA\Files_Antivirus\AppInfo;
 
-use \OCP\AppFramework\App;
-
-use OCA\Files_Antivirus\AppConfig;
-use OCA\Files_Antivirus\Controller\RuleController;
-use OCA\Files_Antivirus\Controller\SettingsController;
-use OCA\Files_Antivirus\Db\RuleMapper;
-use OCA\Files_Antivirus\BackgroundScanner;
+use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\ScannerFactory;
-
-use \OCA\Files_Antivirus\AvirWrapper;
-use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\App;
+use OCP\IL10N;
+use OCP\ILogger;
 
 class Application extends App {
-	public function __construct (array $urlParams = array()) {
+	public function __construct (array $urlParams = []) {
 		parent::__construct('files_antivirus', $urlParams);
-		
-		$container = $this->getContainer();
-		$container->registerService('RuleController', function(IAppContainer $c) {
-			return new RuleController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('Logger'),
-				$c->query('L10N'),
-				$c->query('RuleMapper')
-			);
-		});
-		$container->registerService('SettingsController', function(IAppContainer $c) {
-			return new SettingsController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('AppConfig'),
-				$c->query('L10N')	
-			);
-		});
-		$container->registerService('AppConfig', function(IAppContainer $c) {
-			return new AppConfig(
-				$c->query('CoreConfig')
-			);
-		});
-		
-        $container->registerService('ScannerFactory', function(IAppContainer $c) {
-			return new ScannerFactory(
-				$c->query('AppConfig'),
-				$c->query('Logger')
-			);
-        });
-		
-        $container->registerService('BackgroundScanner', function(IAppContainer $c) {
-			return new BackgroundScanner(
-				$c->query('ScannerFactory'),
-				$c->query('L10N'),
-				$c->query('AppConfig'),
-				$c->getServer()->getRootFolder(),
-				$c->getServer()->getUserSession()
-			);
-        });
-
-        $container->registerService('RuleMapper', function(IAppContainer $c) {
-			return new RuleMapper(
-				$c->getServer()->getDatabaseConnection()
-			);
-        });
-		
-		/**
-		 * Core
-		 */
-		$container->registerService('Logger', function($c) {
-			return $c->query('ServerContainer')->getLogger();
-		});
-        $container->registerService('CoreConfig', function($c) {
-            return $c->query('ServerContainer')->getConfig();
-        });
-        $container->registerService('L10N', function($c) {
-            return $c->query('ServerContainer')->getL10N($c->query('AppName'));
-        });
-		
 	}
 	
 	/**
@@ -97,9 +30,9 @@ class Application extends App {
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
 				if ($storage instanceof \OC\Files\Storage\Storage) {
-					$scannerFactory = $this->getContainer()->query('ScannerFactory');
-					$l10n = $this->getContainer()->query('L10N');
-					$logger = $this->getContainer()->query('Logger');
+					$scannerFactory = $this->getContainer()->query(ScannerFactory::class);
+					$l10n = $this->getContainer()->query(IL10N::class);
+					$logger = $this->getContainer()->query(ILogger::class);
 					return new AvirWrapper([
 						'storage' => $storage,
 						'scannerFactory' => $scannerFactory,
