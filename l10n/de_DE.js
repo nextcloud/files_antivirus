@@ -1,4 +1,6 @@
-{ "translations": {
+OC.L10N.register(
+    "files_antivirus",
+    {
     "Saved" : "Gespeichert",
     "Clean" : "Bereinigt",
     "Infected" : "Infiziert",
@@ -16,7 +18,7 @@
     "Antivirus App for files" : "Antivirus-App für Dateien",
     "Greetings {user}," : "Willkommen {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Entschuldigung, aber in einer hochzuladenden Datei wurde Malware gefunden und diese daher gelöscht.",
-    "This email is a notification from {host}. Please, do not reply." : "Diese E-Mail ist eine Benachrichtigung von {host}. Bitte antworte nicht darauf.",
+    "This email is a notification from {host}. Please, do not reply." : "Diese E-Mail ist eine Benachrichtigung von {host}. Bitte antworten Sie nicht darauf.",
     "File uploaded: {file}" : "Datei hochgeladen: {file}",
     "Antivirus Configuration" : "Antivirus-Einstellungen",
     "Mode" : "Modus",
@@ -52,5 +54,5 @@
     "Description" : "Beschreibung",
     "Mark as" : "Markieren als",
     "Add a rule" : "Eine Regel hinzufügen"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
-}
+},
+"nplurals=2; plural=(n != 1);");
