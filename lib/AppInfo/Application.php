@@ -36,6 +36,7 @@ class Application extends App {
 		});
 		$container->registerService('SettingsController', function(IAppContainer $c) {
 			return new SettingsController(
+				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('AppConfig'),
 				$c->query('L10N')	
