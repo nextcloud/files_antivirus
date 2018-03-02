@@ -23,4 +23,9 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<background-jobs>
 		<job>OCA\Files_Antivirus\Cron\Task</job>
 	</background-jobs>
+	<repair-steps>
+		<install>
+			<step>OCA\Files_Antivirus\Migration\Install</step>
+		</install>
+	</repair-steps>
 </info>
