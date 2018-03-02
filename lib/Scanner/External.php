@@ -10,8 +10,9 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Scanner;
 
-class External extends \OCA\Files_Antivirus\Scanner {
+class External extends Scanner {
 	
 	// Daemon/socket mode
 	private $useSocket;

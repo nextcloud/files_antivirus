@@ -35,7 +35,7 @@ class RuleController extends Controller {
 	 */
 	public function listAll() {
 		$statuses = $this->ruleMapper->findAll();
-		return new JSONResponse(array('statuses'=>$statuses));
+		return new JSONResponse(['statuses'=>$statuses]);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ class RuleController extends Controller {
 		$rule->setDescription($description);
 		$rule->setStatus($status);
 		
-		if ($statusType === \OCA\Files_Antivirus\Db\Rule::RULE_TYPE_CODE) {
+		if ($statusType === Rule::RULE_TYPE_CODE) {
 			$rule->setResult($match);
 		} else {
 			$rule->setMatch($match);

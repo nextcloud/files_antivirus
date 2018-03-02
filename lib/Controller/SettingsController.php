@@ -70,13 +70,13 @@ class SettingsController extends Controller {
 		$this->settings->setAvMaxFileSize($avMaxFileSize);
 		
 		return new JSONResponse(
-			array('data' =>
-				array('message' =>
-					(string) $this->l10n->t('Saved')
-				),
+			['data' =>
+				['message' =>
+					$this->l10n->t('Saved')
+				],
 				'status' => 'success',
 				'settings' => $this->settings->getAllValues()
-			)
+			]
 		);
 	}
 }

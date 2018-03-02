@@ -10,7 +10,6 @@ namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
 use \OCP\App;
-use \OCP\IConfig;
 use \OCP\IL10N;
 use \OCP\ILogger;
 use \OCP\Files\InvalidContentException;
@@ -23,7 +22,7 @@ class AvirWrapper extends Wrapper{
 	 * Modes that are used for writing 
 	 * @var array 
 	 */
-	private $writingModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
+	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
 	
 	/**
 	 * @var \OCA\Files_Antivirus\ScannerFactory
@@ -62,7 +61,7 @@ class AvirWrapper extends Wrapper{
 			try {
 				$scanner = $this->scannerFactory->getScanner();
 				$scanner->initScanner();
-				return CallBackWrapper::wrap(
+				return CallbackWrapper::wrap(
 					$stream,
 					null,
 					function ($data) use ($scanner){
@@ -70,7 +69,7 @@ class AvirWrapper extends Wrapper{
 					}, 
 					function () use ($scanner, $path) {
 						$status = $scanner->completeAsyncScan();
-						if (intval($status->getNumericStatus()) === \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
+						if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED){
 							//prevent from going to trashbin
 							if (App::isEnabled('files_trashbin')) {
 								\OCA\Files_Trashbin\Storage::preRenameHook([
