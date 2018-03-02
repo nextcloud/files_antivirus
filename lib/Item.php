@@ -9,6 +9,8 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\View;
+use OCA\Files_Antivirus\Activity\Provider;
+use OCA\Files_Antivirus\AppInfo\Application;
 use OCP\App;
 use OCP\IL10N;
 
@@ -120,16 +122,16 @@ class Item implements IScannable{
 		
 		$shouldDelete = !$isBackground || ($isBackground && $infectedAction === 'delete');
 		
-		$message = $shouldDelete ? Activity::MESSAGE_FILE_DELETED : '';
+		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
 		$activityManager = \OC::$server->getActivityManager();
 		$activity = $activityManager->generateEvent();
-		$activity->setApp('files_antivirus')
-			->setSubject(Activity::SUBJECT_VIRUS_DETECTED, [$this->path, $status->getDetails()])
+		$activity->setApp(Application::APP_NAME)
+			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->path, $status->getDetails()])
 			->setMessage($message)
 			->setObject('', 0, $this->path)
 			->setAffectedUser($this->view->getOwner($this->path))
-			->setType(Activity::TYPE_VIRUS_DETECTED);
+			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$activityManager->publish($activity);
 
 		if ($isBackground) {

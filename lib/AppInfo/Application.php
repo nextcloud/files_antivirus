@@ -15,8 +15,11 @@ use OCP\IL10N;
 use OCP\ILogger;
 
 class Application extends App {
+
+	const APP_NAME = 'files_antivirus';
+
 	public function __construct (array $urlParams = []) {
-		parent::__construct('files_antivirus', $urlParams);
+		parent::__construct(self::APP_NAME, $urlParams);
 	}
 	
 	/**
