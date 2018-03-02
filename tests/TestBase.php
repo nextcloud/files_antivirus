@@ -62,7 +62,7 @@ abstract class TestBase extends TestCase {
 			->method('getAvPort')
 			->will($this->returnValue('5555'));
 
-		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+		$this->l10n = $this->getMockBuilder(IL10N::class)
 				->disableOriginalConstructor()
 				->getMock();
 		$this->l10n->method('t')->will($this->returnArgument(0));

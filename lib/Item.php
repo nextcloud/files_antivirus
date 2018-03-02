@@ -81,7 +81,7 @@ class Item implements IScannable{
 		$this->isValidSize = $view->filesize($path) > 0;
 		
 		$application = new AppInfo\Application();
-		$config = $application->getContainer()->query('AppConfig');
+		$config = $application->getContainer()->query(AppConfig::class);
 		$this->chunkSize = $config->getAvChunkSize();
 	}
 	
