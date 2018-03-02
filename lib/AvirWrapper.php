@@ -94,18 +94,16 @@ class AvirWrapper extends Wrapper{
 								['app' => 'files_antivirus']
 							);
 
-							\OC::$server->getActivityManager()->publishActivity(
-								'files_antivirus',
-								Activity::SUBJECT_VIRUS_DETECTED,
-								[$path, $status->getDetails()],
-								Activity::MESSAGE_FILE_DELETED,
-								[],
-								$path,
-								'',
-								$owner,
-								Activity::TYPE_VIRUS_DETECTED,
-								Activity::PRIORITY_HIGH
-							);
+							$activityManager = \OC::$server->getActivityManager();
+
+							$activity = $activityManager->generateEvent();
+							$activity->setApp('files_antivirus')
+								->setSubject(Activity::SUBJECT_VIRUS_DETECTED, [$path, $status->getDetails()])
+								->setMessage(Activity::MESSAGE_FILE_DELETED)
+								->setObject('', 0, $path)
+								->setAffectedUser($owner)
+								->setType(Activity::TYPE_VIRUS_DETECTED);
+							$activityManager->publish($activity);
 
 							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
 							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
