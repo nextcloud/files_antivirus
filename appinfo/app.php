@@ -21,8 +21,6 @@
 *
 */
 
-OCP\App::registerAdmin('files_antivirus', 'admin');
-
 $app = new \OCA\Files_Antivirus\AppInfo\Application();
 OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
 

@@ -7,7 +7,7 @@
 	This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.
 For this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation.
 	</description>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<licence>agpl</licence>
 	<author>Manuel Delgado, Bart Visscher, thinksilicon.de, Victor Dubiniuk</author>
 	<namespace>Files_Antivirus</namespace>
@@ -28,4 +28,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 			<step>OCA\Files_Antivirus\Migration\Install</step>
 		</install>
 	</repair-steps>
+	<settings>
+		<admin>OCA\Files_Antivirus\Settings\Admin</admin>
+	</settings>
 </info>
