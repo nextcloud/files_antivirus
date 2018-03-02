@@ -39,9 +39,9 @@ class Application extends App {
 						'l10n' => $l10n,
 						'logger' => $logger
 					]);
-				} else {
-					return $storage;
 				}
+
+				return $storage;
 			},
 			1
 		);

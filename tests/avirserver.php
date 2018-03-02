@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
 include __DIR__ . '/DummyClam.php';
 

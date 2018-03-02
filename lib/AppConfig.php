@@ -17,7 +17,6 @@ use \OCP\IConfig;
  * @method int getAvPort()
  * @method int getAvMaxFileSize()
  * @method string getAvCmdOptions()
- * @method int getAvChunkSize()
  * @method string getAvPath()
  * @method string getAvInfectedAction()
  *
@@ -94,8 +93,8 @@ class AppConfig {
 	 */
 	public function getAllValues() {
 		$keys = array_keys($this->defaults);
-		$values = array_map(array($this, 'getAppValue'), $keys);
-		$preparedKeys = array_map(array($this, 'camelCase'), $keys);
+		$values = array_map([$this, 'getAppValue'], $keys);
+		$preparedKeys = array_map([$this, 'camelCase'], $keys);
 		return array_combine($preparedKeys, $values);
 	}
 	
@@ -144,9 +143,9 @@ class AppConfig {
 	protected function getter($key) {
 		if (array_key_exists($key, $this->defaults)) {
 			return $this->getAppValue($key);
-		} else {
-			throw new \BadFunctionCallException($key . ' is not a valid key');
 		}
+
+		throw new \BadFunctionCallException($key . ' is not a valid key');
 	}
 	
 	/**
@@ -157,8 +156,7 @@ class AppConfig {
 	protected function camelCase($property){
 		$split = explode('_', $property);
 		$ucFirst = implode('', array_map('ucfirst', $split));
-		$camelCase = lcfirst($ucFirst);
-		return $camelCase;
+		return lcfirst($ucFirst);
 	}
 	
 	/**

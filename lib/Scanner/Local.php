@@ -10,8 +10,9 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Scanner;
 
-class Local extends \OCA\Files_Antivirus\Scanner{
+class Local extends Scanner{
 	
 	/**
 	 * @var string

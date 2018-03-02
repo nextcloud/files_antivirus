@@ -11,8 +11,6 @@ namespace OCA\Files_Antivirus;
 use OC\Files\View;
 use OCP\App;
 use OCP\IL10N;
-use OCA\Files_Antivirus\Status;
-use OCA\Files_Antivirus\Activity;
 
 class Item implements IScannable{
 	/**
@@ -68,13 +66,12 @@ class Item implements IScannable{
 			$this->logError('File does not exist.', $id, $path);
 			throw new \RuntimeException();
 		}
-		
+
+		$this->id = $id;
 		if (is_null($id)){
 			$this->id = $view->getFileInfo($path)->getId();
-		} else {
-			$this->id = $id;
 		}
-		
+
 		$this->view = $view;
 		$this->path = $path;
 		
@@ -90,8 +87,7 @@ class Item implements IScannable{
 	 * @return boolean
 	 */
 	public function isValid() {
-		$isValid = !$this->view->is_dir($this->path) && $this->isValidSize;
-		return $isValid;
+		return !$this->view->is_dir($this->path) && $this->isValidSize;
 	}
 	
 	/**
@@ -107,8 +103,7 @@ class Item implements IScannable{
 		}
 		
 		if (!is_null($this->fileHandle) && !$this->feof()) {
-			$chunk = fread($this->fileHandle, $this->chunkSize);
-			return $chunk;
+			return fread($this->fileHandle, $this->chunkSize);
 		}
 		return false;
 	}
@@ -130,9 +125,9 @@ class Item implements IScannable{
 		\OC::$server->getActivityManager()->publishActivity(
 					'files_antivirus',
 					Activity::SUBJECT_VIRUS_DETECTED,
-					array($this->path, $status->getDetails()),
+					[$this->path, $status->getDetails()],
 					$message,
-					array(),
+					[],
 					$this->path, 
 					'', 
 					$this->view->getOwner($this->path),
@@ -153,9 +148,9 @@ class Item implements IScannable{
 			Notification::sendMail($this->path);
 			$message = $this->l10n->t(
 						"Virus detected! Can't upload the file %s", 
-						array(basename($this->path))
+						[basename($this->path)]
 			);
-			\OCP\JSON::error(array("data" => array( "message" => $message)));
+			\OCP\JSON::error(['data' => ['message' => $message]]);
 			exit();
 		}
 	}
@@ -181,13 +176,13 @@ class Item implements IScannable{
 		}
 		try {
 			$stmt = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus` WHERE `fileid` = ?');
-			$result = $stmt->execute(array($this->id));
+			$result = $stmt->execute([$this->id]);
 			if (\OCP\DB::isError($result)) {
 				//TODO: Use logger
 				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
 			$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
-			$result = $stmt->execute(array($this->id, time()));
+			$result = $stmt->execute([$this->id, time()]);
 			if (\OCP\DB::isError($result)) {
 				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
 			}
@@ -215,14 +210,14 @@ class Item implements IScannable{
 	 * @throws \RuntimeException
 	 */
 	private function getFileHandle() {
-		$fileHandle = $this->view->fopen($this->path, "r");
+		$fileHandle = $this->view->fopen($this->path, 'r');
 		if ($fileHandle === false) {
 			$this->logError('Can not open for reading.', $this->id, $this->path);
 			throw new \RuntimeException();
-		} else {
-			$this->logDebug('Scan started');
-			$this->fileHandle = $fileHandle;
 		}
+
+		$this->logDebug('Scan started');
+		$this->fileHandle = $fileHandle;
 	}
 
 	/**

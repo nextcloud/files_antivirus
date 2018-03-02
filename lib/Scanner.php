@@ -128,13 +128,13 @@ abstract class Scanner {
 	/**
 	 * @param string $data
 	 */
-	protected final function fwrite($data){
+	final protected function fwrite($data){
 		if ($this->isAborted){
 			return;
 		}
 
 		$dataLength = strlen($data);
-		$streamSizeLimit = intval($this->appConfig->getAvStreamMaxLength());
+		$streamSizeLimit = (int)$this->appConfig->getAvStreamMaxLength();
 		if ($this->byteCount + $dataLength > $streamSizeLimit){
 			\OC::$server->getLogger()->debug(
 				'reinit scanner',

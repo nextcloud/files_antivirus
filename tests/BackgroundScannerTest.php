@@ -8,7 +8,7 @@
  */
 
 
-namespace OCA\Files_antivirus\Tests;
+namespace OCA\Files_Antivirus\Tests;
 
 use OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_Antivirus\ScannerFactory;

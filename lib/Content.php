@@ -29,7 +29,7 @@ class Content implements IScannable{
 			return false;
 		}
 		$chunk = substr($this->content, $this->currentPosition, $this->chunkSize);
-		$this->currentPosition = $this->currentPosition + $this->chunkSize;
+		$this->currentPosition += $this->chunkSize;
 		
 		return $chunk;
 	}

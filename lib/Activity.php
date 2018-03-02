@@ -67,7 +67,7 @@ class Activity implements IExtension {
 		$l = $this->getL10N($languageCode);
 
 		return [
-			self::TYPE_VIRUS_DETECTED => (string) $l->t('<strong>Infected file</strong> has been <strong>found</strong>'),
+			self::TYPE_VIRUS_DETECTED => $l->t('<strong>Infected file</strong> has been <strong>found</strong>'),
 		];
 	}
 
@@ -79,11 +79,9 @@ class Activity implements IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		$defaultTypes = [
+		return [
 			self::TYPE_VIRUS_DETECTED,
 		];
-
-		return $defaultTypes;
 	}
 
 	/**
@@ -119,9 +117,9 @@ class Activity implements IExtension {
 		if ($app === self::APP_NAME) {
 			switch ($text) {
 				case self::SUBJECT_VIRUS_DETECTED:
-					return (string) $l->t('File %s is infected with %s', $params);
+					return $l->t('File %s is infected with %s', $params);
 				case self::MESSAGE_FILE_DELETED:
-					return (string) $l->t('It is going to be deleted', $params);
+					return $l->t('It is going to be deleted', $params);
 			}
 		}
 
@@ -167,7 +165,7 @@ class Activity implements IExtension {
 			'apps' => [
 				self::FILTER_AVIR => [
 					'id' => self::FILTER_AVIR,
-					'name' => (string) $l->t('Antivirus'),
+					'name' => $l->t('Antivirus'),
 					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::FILTER_AVIR]),
 				],
 			],

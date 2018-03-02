@@ -17,7 +17,7 @@ class Notification {
 		$user = $userSession->getUser();
 		$email = $user->getEMailAddress();
 		$displayName = $user->getDisplayName();
-		if ( strval($displayName) ==='' ) {
+		if ( (string)$displayName ==='' ) {
 			$displayName = $user->getUID();
 		}
 		\OCP\Util::writeLog('files_antivirus', 'Email: '.$email, \OCP\Util::DEBUG);

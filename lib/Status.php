@@ -35,7 +35,7 @@ class Status {
 	/*
 	 * Virus name or error message
 	 */
-	protected $details = "";
+	protected $details = '';
 	
 	protected $ruleMapper;
 	
@@ -65,7 +65,7 @@ class Status {
 	 * @param integer $result
 	 */
 	public function parseResponse($rawResponse, $result = null){
-		$matches = array();
+		$matches = [];
 		$ruleMapper = new Db\RuleMapper(\OC::$server->getDatabaseConnection());
 		if (is_null($result)){ // Daemon or socket mode
 			try{
@@ -79,8 +79,8 @@ class Status {
 			foreach ($allRules as $rule){
 				if (preg_match($rule->getMatch(), $rawResponse, $matches)){
 					$isMatched = true;
-					$this->numericStatus = intval($rule->getStatus());
-					if (intval($rule->getStatus())===self::SCANRESULT_CLEAN){
+					$this->numericStatus = (int)$rule->getStatus();
+					if ((int)$rule->getStatus() ===self::SCANRESULT_CLEAN){
 						$this->details = '';
 					} else {
 						$this->details = isset($matches[1]) ? $matches[1] : 'unknown';
@@ -97,13 +97,13 @@ class Status {
 		} else { // Executable mode
 			$scanStatus = $ruleMapper->findByResult($result);
 			if (is_array($scanStatus) && count($scanStatus)){
-				$this->numericStatus = intval($scanStatus[0]->getStatus());
+				$this->numericStatus = (int)$scanStatus[0]->getStatus();
 				$this->details = $scanStatus[0]->getDescription();
 			}
 			
 			switch($this->numericStatus) {
 				case self::SCANRESULT_INFECTED:
-					$report = array();
+					$report = [];
 					$rawResponse = explode("\n", $rawResponse);
 					
 					foreach ($rawResponse as $line){	
@@ -130,13 +130,12 @@ class Status {
 		$uncheckedRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_UNCHECKED);
 		$cleanRules = $this->ruleMapper->findAllMatchedByStatus(self::SCANRESULT_CLEAN);
 		
-		$infectedRules = $infectedRules ? $infectedRules : array();
-		$uncheckedRules = $uncheckedRules ? $uncheckedRules : array();
-		$cleanRules = $cleanRules ? $cleanRules : array();
+		$infectedRules = $infectedRules ? $infectedRules : [];
+		$uncheckedRules = $uncheckedRules ? $uncheckedRules : [];
+		$cleanRules = $cleanRules ? $cleanRules : [];
 		
 		// order: clean, infected, try to guess error
-		$allRules = array_merge($cleanRules, $infectedRules, $uncheckedRules);
-		return $allRules;
+		return array_merge($cleanRules, $infectedRules, $uncheckedRules);
 	}
 	
 	public function dispatch($item, $isBackground = false){
