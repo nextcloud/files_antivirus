@@ -3,6 +3,7 @@
     "Clean" : "Nettoyer",
     "Infected" : "Infecté",
     "Unchecked" : "Non contrôlé",
+    "Scanner exit status" : "État de sortie du scanner",
     "Scanner output" : "Résultat du scan",
     "Saving..." : "Enregistrement…",
     "<strong>Infected file</strong> has been <strong>found</strong>" : "<strong>Un fichier infecté</strong> a été <strong>trouvé</strong>",
@@ -35,6 +36,7 @@
     "Path to clamscan" : "Chemin de clamscan",
     "Path to clamscan executable." : "Chemin de l'exécutable clamscan",
     "Not required in Daemon Mode." : "Non requis dans le mode processus.",
+    "Extra command line options (comma-separated)" : "Options de ligne de commande supplémentaires (séparées par des virgules)",
     "File size limit, -1 means no limit" : "Taille limite, -1 signifie aucune",
     "Background scan file size limit in bytes, -1 means no limit" : "Taille limite en octets des fichiers scannés en arrière plan, -1 signifie aucune limite.",
     "When infected files were found during a background scan" : "Lorsque des fichiers infectés sont détectés durant un scan en arrière plan",
@@ -46,6 +48,7 @@
     "Clear All" : "Effacer tout",
     "Reset to defaults" : "Réinitialiser aux valeurs par défaut",
     "Match by" : "Trier par",
+    "Scanner exit status or signature to search" : "État de sortie du scanner ou signature à rechercher",
     "Description" : "Description",
     "Mark as" : "Marqué comme",
     "Add a rule" : "Ajouter une règle"
