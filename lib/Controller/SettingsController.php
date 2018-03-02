@@ -34,15 +34,6 @@ class SettingsController extends Controller {
 		$this->settings = $appconfig;
 		$this->l10n = $l10n;
 	}
-	
-	/**
-	 * Print config section
-	 * @return TemplateResponse
-	 */
-	public function index() {
-		$data = $this->settings->getAllValues();
-		return new TemplateResponse('files_antivirus', 'settings', $data, 'blank');
-	}
 
 	/**
 	 * Save Parameters
