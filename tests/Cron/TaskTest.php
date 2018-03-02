@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus\Tests\Cron;
 
 use OC\User\Manager;
+use OCA\Files_Antivirus\AppConfig;
 use \OCA\Files_Antivirus\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_antivirus\Tests\TestBase;
@@ -48,7 +49,7 @@ class TaskTest extends TestBase {
 		$backgroundScanner = new BackgroundScanner(
 				$this->scannerFactory,
 				$this->l10n,
-				$this->container->query('AppConfig'),
+				$this->container->query(AppConfig::class),
 				$this->container->getServer()->getRootFolder(),
 				$this->container->getServer()->getUserSession()
 		);
