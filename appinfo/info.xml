@@ -2,23 +2,24 @@
 <info>
 	<id>files_antivirus</id>
 	<name>Antivirus App for files</name>
+	<summary>Scan the files in your Nextcloud for viruses</summary>
 	<description>
 	This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.
 For this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation.
 	</description>
-	<bugs>https://github.com/nextcloud/files_antivirus/issues</bugs>
-	<repository type="git">http://github.com/nextcloud/files_antivirus.git</repository>
-	<licence>AGPL</licence>
+	<version>1.1.0</version>
+	<licence>agpl</licence>
 	<author>Manuel Delgado, Bart Visscher, thinksilicon.de, Victor Dubiniuk</author>
 	<namespace>Files_Antivirus</namespace>
-	<version>1.1.0</version>
 	<types>
 		<filesystem/>
 	</types>
+	<category>tools</category>
+	<bugs>https://github.com/nextcloud/files_antivirus/issues</bugs>
+	<repository type="git">http://github.com/nextcloud/files_antivirus.git</repository>
 	<dependencies>
 		<nextcloud min-version="12" max-version="14" />
 	</dependencies>
-
 	<background-jobs>
 		<job>OCA\Files_Antivirus\Cron\Task</job>
 	</background-jobs>
