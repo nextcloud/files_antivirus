@@ -10,7 +10,7 @@ namespace OCA\Files_Antivirus\Tests\Cron;
 
 use OC\User\Manager;
 use OCA\Files_Antivirus\AppConfig;
-use \OCA\Files_Antivirus\ScannerFactory;
+use \OCA\Files_Antivirus\Scanner\ScannerFactory;
 use \OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_antivirus\Tests\TestBase;
 use OCP\IConfig;

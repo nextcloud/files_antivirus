@@ -11,7 +11,7 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use OCA\Files_Antivirus\BackgroundScanner;
-use OCA\Files_Antivirus\ScannerFactory;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use Doctrine\DBAL\Driver\PDOStatement;
 
 class BackgroundScannerTest extends TestBase {

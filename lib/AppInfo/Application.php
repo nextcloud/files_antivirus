@@ -9,7 +9,7 @@
 namespace OCA\Files_Antivirus\AppInfo;
 
 use OCA\Files_Antivirus\AvirWrapper;
-use OCA\Files_Antivirus\ScannerFactory;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\AppFramework\App;
 use OCP\IL10N;
 use OCP\ILogger;

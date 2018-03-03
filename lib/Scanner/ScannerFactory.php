@@ -6,14 +6,15 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_Antivirus;
+namespace OCA\Files_Antivirus\Scanner;
 
-use \OCP\ILogger;
+use OCA\Files_Antivirus\AppConfig;
+use OCP\ILogger;
 
 class ScannerFactory{
 	
 	/**
-	 * @var \OCA\Files_Antivirus\AppConfig
+	 * @var AppConfig
 	 */
 	protected $appConfig;
 	
@@ -51,7 +52,7 @@ class ScannerFactory{
 	
 	/**
 	 * Produce a scanner instance 
-	 * @return \OCA\Files_Antivirus\ScannerBase
+	 * @return ScannerBase
 	 */
 	public function getScanner(){
 		return new $this->scannerClass($this->appConfig);

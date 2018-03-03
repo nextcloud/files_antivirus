@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OC\Files\Filesystem;
 use OCP\IL10N;
 use OCP\Files\IRootFolder;
@@ -43,7 +44,7 @@ class BackgroundScanner {
 	/**
 	 * A constructor
 	 *
-	 * @param \OCA\Files_Antivirus\ScannerFactory $scannerFactory
+	 * @param ScannerFactory $scannerFactory
 	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder

@@ -23,6 +23,9 @@
 
 namespace OCA\Files_Antivirus\Scanner;
 
+use OCA\Files_Antivirus\IScannable;
+use OCA\Files_Antivirus\Status;
+
 abstract class ScannerBase {
 	
 	/**
