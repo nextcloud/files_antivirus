@@ -29,6 +29,7 @@ use \OCP\IConfig;
  * @method null setAvChunkSize(int $chunkSize)
  * @method null setAvPath(string $avPath)
  * @method null setAvInfectedAction(string $avInfectedAction)
+ * @method null setAvStreamMaxLength(int $length)
  */
 class AppConfig {
 	private $appName = 'files_antivirus';

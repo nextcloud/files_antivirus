@@ -18,14 +18,11 @@ use \OCA\Files_Antivirus\Db\RuleMapper;
 
 class RuleController extends Controller {
 	
-	private $logger;
-	private $l10n;
+	/** @var RuleMapper */
 	private $ruleMapper;
 	
-	public function __construct($appName, IRequest $request, $logger, IL10N $l10n, RuleMapper $ruleMapper) {
+	public function __construct($appName, IRequest $request, RuleMapper $ruleMapper) {
 		parent::__construct($appName, $request);
-		$this->logger = $logger;
-		$this->l10n = $l10n;
 		$this->ruleMapper = $ruleMapper;
 	}
 	

@@ -11,6 +11,17 @@ namespace OCA\Files_Antivirus\Db;
 use OCP\AppFramework\Db\Entity;
 use JsonSerializable;
 
+/**
+ * Class Rule
+ *
+ * @package OCA\Files_Antivirus\Db
+ *
+ * @method setStatusType(int $type)
+ * @method setDescription(string $description)
+ * @method setStatus(int $status)
+ * @method setResult(int $result)
+ * @method setMatch(string $mach)
+ */
 class Rule extends Entity implements JsonSerializable{
 	
 	/*
