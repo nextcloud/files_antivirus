@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Guardado",
     "Clean" : "Limpiar",
     "Infected" : "Infectado",
     "Unchecked" : "Desmarcado",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "It is going to be deleted" : "Va a ser eliminado",
     "Antivirus" : "Antivirus",
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s se ha detectado en el archivo. No se ha podido completar la subida.",
+    "Saved" : "Guardado",
     "Virus detected! Can't upload the file %s" : "Virus detectado! No se puede subir el archivo %s",
     "Malware detected" : "Malware detectado",
     "Antivirus App for files" : "App Antivirus para archivos",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Opciones extra de línea de comandos (separados por coma)",
     "File size limit, -1 means no limit" : "Tamaño límite de archivo, -1 para ningún límite",
     "Background scan file size limit in bytes, -1 means no limit" : "Tamaño en bytes del límite de la búsqueda en segundo plano, -1 para ningún límite",
-    "When infected files were found during a background scan" : "Cuando archivos infectadores sean encontrados durante la búsqueda en segundo plano",
     "Only log" : "Solo registro",
     "Delete file" : "Borrar archivo",
     "Save" : "Guardar",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Guardado",
     "Clean" : "Limpiar",
     "Infected" : "Infectado",
     "Scanner output" : "Salida del scanner",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "It is going to be deleted" : "Se va a borrar",
     "Antivirus" : "Antivirus",
     "Virus %s is detected in the file. Upload cannot be completed." : "Se detectó el virus %s en el archivo. La carga no puede ser completada.",
+    "Saved" : "Guardado",
     "Virus detected! Can't upload the file %s" : "¡Virus detectado! No se puede cargar el archivo %s",
     "Malware detected" : "Malware detectado",
     "Antivirus App for files" : "Aplicación Antivirus para archivos",
@@ -27,7 +27,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Ruta al ejecutable de clamscan.",
     "Extra command line options (comma-separated)" : "Opciones adicionales de la línea de comandos (separados por coma)",
     "File size limit, -1 means no limit" : "Límite de tamaño de archivo, -1 significa que no hay límite",
-    "When infected files were found during a background scan" : "Cuando se encuentren archivos infectaso durante un escaneo de fondo",
     "Only log" : "Solo bitácora",
     "Delete file" : "Borrar archivo",
     "Save" : "Guardar",

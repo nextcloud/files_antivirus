@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Kaydedildi",
     "Clean" : "Temiz",
     "Infected" : "Enfekte",
     "Unchecked" : "Denetlenmemiş",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "It is going to be deleted" : "Silinecek",
     "Antivirus" : "Antivirus",
     "Virus %s is detected in the file. Upload cannot be completed." : "Dosyada %s virusu bulundu. Yükleme tamamlanamadı.",
+    "Saved" : "Kaydedildi",
     "Virus detected! Can't upload the file %s" : "Virus algılandı! %s dosyası yüklenemedi",
     "Malware detected" : "Malware algılandı",
     "Antivirus App for files" : "Dosyalar için antivirus uygulaması",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Ek komut satırı seçenekleri (virgül ile ayırarak yazın)",
     "File size limit, -1 means no limit" : "Dosya boyutu sınırı, -1 sınır olmadığı anlamına gelir",
     "Background scan file size limit in bytes, -1 means no limit" : "Bayt cinsinden art alanda dosya tarama boyutu, -1 sınır olmadığı anlamına gelir",
-    "When infected files were found during a background scan" : "Art alan taraması sırasında enfekte olmuş dosyalar bulunduğunda",
     "Only log" : "Yalnız günlük kaydı tutulsun",
     "Delete file" : "Dosya silinsin",
     "Save" : "Kaydet",

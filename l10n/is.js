@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Vistað",
     "Clean" : "Hreint",
     "Infected" : "Smitað",
     "Unchecked" : "Ekki skoðað",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "It is going to be deleted" : "Henni verður eytt",
     "Antivirus" : "Vírusvörn",
     "Virus %s is detected in the file. Upload cannot be completed." : "Vírusinn %s finnst í skránni. Ekki er hægt að ljúka innsendingu.",
+    "Saved" : "Vistað",
     "Virus detected! Can't upload the file %s" : "Vírus fannst! Get ekki sent inn skrána %s",
     "Malware detected" : "Spilliforrit fannst",
     "Antivirus App for files" : "Vírusvarnarforrit fyrir skrár",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Auka skipanalínurofar (aðskilið með kommu)",
     "File size limit, -1 means no limit" : "Stærðartakmörk skráa, -1 þýðir engin takmörk",
     "Background scan file size limit in bytes, -1 means no limit" : "Stærðartakmörk bakgrunnsskönnunar skráa í bætum, -1 þýðir engin takmörk",
-    "When infected files were found during a background scan" : "Þegar smitaðar skrár finnast við bakgrunnsskönnun",
     "Only log" : "Aðeins skrá í annál",
     "Delete file" : "Eyða skrá",
     "Save" : "Vista",

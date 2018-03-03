@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "已保存",
     "Clean" : "清除",
     "Infected" : "已被感染",
     "Unchecked" : "未选中",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "It is going to be deleted" : "它将被删除",
     "Antivirus" : "反病毒",
     "Virus %s is detected in the file. Upload cannot be completed." : "在文件中检测到病毒 %s。上传未能完成。",
+    "Saved" : "已保存",
     "Virus detected! Can't upload the file %s" : "检测到病毒！未能上传文件 %s",
     "Malware detected" : "检测到恶意软件",
     "Antivirus App for files" : "面向文件的反病毒应用",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "额外的命令行参数（逗号分隔）",
     "File size limit, -1 means no limit" : "文件大小限制，-1 意味着没有限制",
     "Background scan file size limit in bytes, -1 means no limit" : "后台扫描文件大小限制（字节），-1 意味着没有限制",
-    "When infected files were found during a background scan" : "当后台扫描发现被感染文件时",
     "Only log" : "仅日志",
     "Delete file" : "删除文件",
     "Save" : "保存",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Zapisano",
     "Clean" : "Wyczyść",
     "Infected" : "Zainfekowany",
     "Saving..." : "Zapisywanie...",
     "File %s is infected with %s" : "Plik %s jest zainfekowany przez %s",
     "Antivirus" : "Antywirus",
     "Virus %s is detected in the file. Upload cannot be completed." : "Wirus %s został wykryty w pliku. Nie można ukończyć wysyłania.",
+    "Saved" : "Zapisano",
     "Virus detected! Can't upload the file %s" : "Znaleziono wirusa! Nie można wysłać pliku %s",
     "Malware detected" : "Znaleziono malware",
     "Antivirus App for files" : "Antywirus dla plików",

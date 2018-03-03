@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "შენახულია",
     "Clean" : "გასუფთავება",
     "Infected" : "დაზიანებულია",
     "Unchecked" : "შეუმოწმებელია",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "It is going to be deleted" : "ეს გაუქმდება",
     "Antivirus" : "ანტივირუსი",
     "Virus %s is detected in the file. Upload cannot be completed." : "ფაილში აღმოჩენილია ვირუსი %s. ატვირთვა ვერ დასრულდება.",
+    "Saved" : "შენახულია",
     "Virus detected! Can't upload the file %s" : "აღმოჩენილია ვირუსი. %s ფაილის ატვირთვა ვერ ხერხდება",
     "Malware detected" : "აღმოჩენილია ვირუსი",
     "Antivirus App for files" : "Antivirus აპლიკაცია ფაილებისთვის",
@@ -41,7 +41,6 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "ექსტრა კონსოლის პარამეტრი (გამოყოფილი-მძიმით)",
     "File size limit, -1 means no limit" : "ფაილის ზომის ლიმიტი, -1 აღნიშნავს ულიმიტობას",
     "Background scan file size limit in bytes, -1 means no limit" : "ფონური რეჟიმის სკანირების ფაილის ზომის ლიმიტი ბაიტებში, -1 აღნიშნავს ულიმიტობას",
-    "When infected files were found during a background scan" : "როდესაც დაზიანებული ფაილები მოიძებნება ფონური რეჟიმის სკანირებისას",
     "Only log" : "მხოლოდ ჩაიწეროს ლოგი",
     "Delete file" : "გაუქმდეს ფაილი",
     "Save" : "შენახვა",

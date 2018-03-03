@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Gemt",
     "Clean" : "Ren",
     "Infected" : "Inficeret",
     "Unchecked" : "Ukontrolleret",
@@ -10,6 +9,7 @@ OC.L10N.register(
     "File %s is infected with %s" : "Fil %sinficeret med %s ",
     "Antivirus" : "Antivirus",
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %ser fundet i fil. Upload kan ikke fortsætte.",
+    "Saved" : "Gemt",
     "Virus detected! Can't upload the file %s" : "Virus opdaget! Kan ikke uploade fil%s",
     "Malware detected" : "Malware opdaget",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Beklager, men der blev fundet malware i en fil du forsøgte at uploade, og den blev slettet.",

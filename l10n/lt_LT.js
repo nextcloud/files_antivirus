@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saved" : "Įrašyta",
     "Clean" : "Švarus",
     "Infected" : "Užkrėstas",
     "Saving..." : "Įrašoma...",
@@ -10,6 +9,7 @@ OC.L10N.register(
     "It is going to be deleted" : "Jis bus ištrintas",
     "Antivirus" : "Antivirusinė",
     "Virus %s is detected in the file. Upload cannot be completed." : "Faile yra aptiktas virusas %s. Įkėlimas negali būti užbaigtas.",
+    "Saved" : "Įrašyta",
     "Virus detected! Can't upload the file %s" : "Aptiktas virusas! Negalima įkelti failą %s",
     "Malware detected" : "Aptikta kenkimo programinė įranga",
     "Greetings {user}," : "Sveiki {user},",
