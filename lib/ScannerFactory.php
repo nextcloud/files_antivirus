@@ -51,7 +51,7 @@ class ScannerFactory{
 	
 	/**
 	 * Produce a scanner instance 
-	 * @return \OCA\Files_Antivirus\Scanner
+	 * @return \OCA\Files_Antivirus\ScannerBase
 	 */
 	public function getScanner(){
 		return new $this->scannerClass($this->appConfig);

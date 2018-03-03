@@ -21,9 +21,9 @@
 *
 */
 
-namespace OCA\Files_Antivirus;
+namespace OCA\Files_Antivirus\Scanner;
 
-abstract class Scanner {
+abstract class ScannerBase {
 	
 	/**
 	 * Scan result
