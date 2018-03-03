@@ -36,10 +36,10 @@ class ScannerFactory{
 				switch($avMode) {
 					case 'daemon':
 					case 'socket':
-						$this->scannerClass = 'OCA\Files_Antivirus\Scanner\External';
+						$this->scannerClass = External::class;
 						break;
 					case 'executable':
-						$this->scannerClass = 'OCA\Files_Antivirus\Scanner\Local';
+						$this->scannerClass = Local::class;
 						break;
 					default:
 						$this->logger->warning('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
