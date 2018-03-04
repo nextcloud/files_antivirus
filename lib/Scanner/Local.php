@@ -10,28 +10,31 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCP\ILogger;
 
 class Local extends ScannerBase{
-	
+
 	/**
 	 * @var string
 	 */
 	protected $avPath;
-	
+
 	/**
 	 * STDIN and STDOUT descriptors
 	 * @var array of resources
 	 */
 	private $pipes = [];
-	
+
 	/**
 	 * Process handle
 	 * @var resource
 	 */
 	private $process;
-	
-	public function __construct(AppConfig $config){
+
+	public function __construct(AppConfig $config, ILogger $logger){
 		$this->appConfig = $config;
+		$this->logger = $logger;
+
 		// get the path to the executable
 		$this->avPath = escapeshellcmd($this->appConfig->getAvPath());
 
@@ -45,10 +48,10 @@ class Local extends ScannerBase{
 		parent::initScanner();
 		
 		// using 2>&1 to grab the full command-line output.
-		$cmd = $this->avPath . " " . $this->appConfig->getCmdline() ." - 2>&1";
+		$cmd = $this->avPath . ' ' . $this->appConfig->getCmdline() . ' - 2>&1';
 		$descriptorSpec = array(
-			0 => ["pipe","r"], // STDIN
-			1 => ["pipe","w"]  // STDOUT
+			0 => ['pipe', 'r'], // STDIN
+			1 => ['pipe', 'w']  // STDOUT
 		);
 		
 		$this->process = proc_open($cmd, $descriptorSpec, $this->pipes);
@@ -64,7 +67,7 @@ class Local extends ScannerBase{
 		@fclose($this->pipes[1]);
 		
 		$result = proc_close($this->process);
-		\OC::$server->getLogger()->debug(
+		$this->logger->debug(
 			'Exit code :: ' . $result . ' Response :: ' . $output,
 			['app' => 'files_antivirus']
 		);
