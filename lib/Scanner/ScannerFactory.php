@@ -6,14 +6,15 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_Antivirus;
+namespace OCA\Files_Antivirus\Scanner;
 
-use \OCP\ILogger;
+use OCA\Files_Antivirus\AppConfig;
+use OCP\ILogger;
 
 class ScannerFactory{
 	
 	/**
-	 * @var \OCA\Files_Antivirus\AppConfig
+	 * @var AppConfig
 	 */
 	protected $appConfig;
 	
@@ -35,10 +36,10 @@ class ScannerFactory{
 				switch($avMode) {
 					case 'daemon':
 					case 'socket':
-						$this->scannerClass = 'OCA\Files_Antivirus\Scanner\External';
+						$this->scannerClass = External::class;
 						break;
 					case 'executable':
-						$this->scannerClass = 'OCA\Files_Antivirus\Scanner\Local';
+						$this->scannerClass = Local::class;
 						break;
 					default:
 						$this->logger->warning('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
@@ -51,7 +52,7 @@ class ScannerFactory{
 	
 	/**
 	 * Produce a scanner instance 
-	 * @return \OCA\Files_Antivirus\Scanner
+	 * @return ScannerBase
 	 */
 	public function getScanner(){
 		return new $this->scannerClass($this->appConfig);

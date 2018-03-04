@@ -11,7 +11,7 @@ namespace OCA\Files_Antivirus\Tests;
 use OC\Files\View;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 use \OCA\Files_Antivirus\Item;
-use \OCA\Files_Antivirus\ScannerFactory;
+use \OCA\Files_Antivirus\Scanner\ScannerFactory;
 use Test\Traits\UserTrait;
 
 /**

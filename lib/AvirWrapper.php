@@ -9,10 +9,11 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
-use \OCP\App;
-use \OCP\IL10N;
-use \OCP\ILogger;
-use \OCP\Files\InvalidContentException;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\App;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\Files\InvalidContentException;
 use Icewind\Streams\CallbackWrapper;
 
 
@@ -25,7 +26,7 @@ class AvirWrapper extends Wrapper{
 	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
 	
 	/**
-	 * @var \OCA\Files_Antivirus\ScannerFactory
+	 * @var ScannerFactory
 	 */
 	protected $scannerFactory;
 	

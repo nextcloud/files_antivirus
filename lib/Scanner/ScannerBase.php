@@ -21,9 +21,12 @@
 *
 */
 
-namespace OCA\Files_Antivirus;
+namespace OCA\Files_Antivirus\Scanner;
 
-abstract class Scanner {
+use OCA\Files_Antivirus\IScannable;
+use OCA\Files_Antivirus\Status;
+
+abstract class ScannerBase {
 	
 	/**
 	 * Scan result

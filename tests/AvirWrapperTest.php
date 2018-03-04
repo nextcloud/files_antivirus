@@ -16,7 +16,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\External;
-use OCA\Files_Antivirus\ScannerFactory;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use Test\Traits\UserTrait;
 use Test\Util\User\Dummy;
 
