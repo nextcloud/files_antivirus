@@ -55,6 +55,6 @@ class ScannerFactory{
 	 * @return ScannerBase
 	 */
 	public function getScanner(){
-		return new $this->scannerClass($this->appConfig);
+		return new $this->scannerClass($this->appConfig, $this->logger);
 	}
 }

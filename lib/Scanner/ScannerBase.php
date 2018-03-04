@@ -23,8 +23,10 @@
 
 namespace OCA\Files_Antivirus\Scanner;
 
+use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\IScannable;
 use OCA\Files_Antivirus\Status;
+use OCP\ILogger;
 
 abstract class ScannerBase {
 	
@@ -47,8 +49,11 @@ abstract class ScannerBase {
 	/** @var  resource */
 	protected $writeHandle;
 
-	/** @var \OCA\Files_Antivirus\AppConfig */
+	/** @var AppConfig */
 	protected $appConfig;
+
+	/** @var ILogger */
+	protected $logger;
 
 	/** @var string */
 	protected $lastChunk;

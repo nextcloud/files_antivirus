@@ -10,14 +10,16 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCP\ILogger;
 
 class External extends ScannerBase {
 	
 	// Daemon/socket mode
 	private $useSocket;
 	
-	public function __construct(AppConfig $config){
+	public function __construct(AppConfig $config, ILogger $logger){
 		$this->appConfig = $config;
+		$this->logger = $logger;
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	
@@ -49,7 +51,7 @@ class External extends ScannerBase {
 	protected function shutdownScanner(){
 		@fwrite($this->getWriteHandle(), pack('N', 0));
 		$response = fgets($this->getWriteHandle());
-		\OC::$server->getLogger()->debug(
+		$this->logger->debug(
 			'Response :: ' . $response,
 			['app' => 'files_antivirus']
 		);

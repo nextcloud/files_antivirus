@@ -17,6 +17,7 @@ use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\External;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\ILogger;
 use Test\Traits\UserTrait;
 use Test\Util\User\Dummy;
 
@@ -40,6 +41,9 @@ class AvirWrapperTest extends TestBase {
 	/** @var Temporary */
 	protected $storage;
 
+	/** @var ILogger */
+	protected $logger;
+
 	/** @var AvirWrapper */
 	protected $wrappedStorage;
 
@@ -48,8 +52,9 @@ class AvirWrapperTest extends TestBase {
 		$this->createUser(self::UID, self::PWD);
 
 		$this->storage = new Temporary([]);
+		$this->logger = $this->createMock(ILogger::class);
 
-		$scanner = new External($this->config);
+		$scanner = new External($this->config, $this->logger);
 		$this->scannerFactory = $this->getMockBuilder(ScannerFactory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -64,7 +69,7 @@ class AvirWrapperTest extends TestBase {
 			'storage' => $this->storage,
 			'scannerFactory' => $this->scannerFactory,
 			'l10n' => $this->l10n,
-			'logger' => $this->container->query('Logger')
+			'logger' => $this->logger
 		]);
 
 		$this->config->expects($this->any())
