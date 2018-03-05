@@ -86,12 +86,11 @@ class Item implements IScannable{
 	/**
 	 * Action to take if this item is infected
 	 * @param Status $status
-	 * @param boolean $isBackground
 	 */
-	public function processInfected(Status $status, $isBackground) {
+	public function processInfected(Status $status) {
 		$infectedAction = $this->config->getAvInfectedAction();
 		
-		$shouldDelete = !$isBackground || ($isBackground && $infectedAction === 'delete');
+		$shouldDelete = $infectedAction === 'delete';
 		
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
@@ -104,24 +103,11 @@ class Item implements IScannable{
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
-		if ($isBackground) {
-			if ($shouldDelete) {
-				$this->logError('Infected file deleted. ' . $status->getDetails());
-				$this->deleteFile();
-			} else {
-				$this->logError('File is infected. '  . $status->getDetails());
-			}
-		} else {
-			$this->logError('Virus(es) found: ' . $status->getDetails());
-			//remove file
+		if ($shouldDelete) {
+			$this->logError('Infected file deleted. ' . $status->getDetails());
 			$this->deleteFile();
-			Notification::sendMail($this->file->getPath());
-			$message = $this->l10n->t(
-						"Virus detected! Can't upload the file %s", 
-						[$this->file->getName()]
-			);
-			\OCP\JSON::error(['data' => ['message' => $message]]);
-			exit();
+		} else {
+			$this->logError('File is infected. '  . $status->getDetails());
 		}
 	}
 
@@ -130,7 +116,7 @@ class Item implements IScannable{
 	 * @param Status $status
 	 * @param boolean $isBackground
 	 */
-	public function processUnchecked(Status $status, $isBackground) {
+	public function processUnchecked(Status $status) {
 		//TODO: Show warning to the user: The file can not be checked
 		$this->logError('Not Checked. ' . $status->getDetails());
 	}

@@ -179,6 +179,6 @@ class BackgroundScanner {
 		$item = $this->itemFactory->newItem($file);
 		$scanner = $this->scannerFactory->getScanner();
 		$status = $scanner->scan($item);
-		$status->dispatch($item, true);
+		$status->dispatch($item);
 	}
 }
