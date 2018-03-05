@@ -16,6 +16,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IL10N;
+use OCP\ILogger;
 
 class Item implements IScannable{
 	/**
@@ -60,6 +61,9 @@ class Item implements IScannable{
 	/** @var ItemMapper */
 	private $itemMapper;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
 		$this->l10n = $l10n;
 		
@@ -87,6 +91,7 @@ class Item implements IScannable{
 		$this->config = $application->getContainer()->query(AppConfig::class);
 		$this->activityManager = \OC::$server->getActivityManager();
 		$this->itemMapper = $application->getContainer()->query(ItemMapper::class);
+		$this->logger = \OC::$server->getLogger();
 	}
 	
 	/**
@@ -189,7 +194,7 @@ class Item implements IScannable{
 			$item->setCheckTime(time());
 			$this->itemMapper->insert($item);
 		} catch(\Exception $e) {
-			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
+			$this->logger->error(__METHOD__.', exception: '.$e->getMessage(), ['app' => 'files_antivirus']);
 		}
 	}
 
@@ -243,7 +248,7 @@ class Item implements IScannable{
 		$extra = ' File: ' . $this->id 
 				. 'Account: ' . $this->view->getOwner($this->path) 
 				. ' Path: ' . $this->path;
-		\OCP\Util::writeLog('files_antivirus', $message . $extra, \OCP\Util::DEBUG);
+		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
 	}
 	
 	/**
@@ -256,10 +261,7 @@ class Item implements IScannable{
 		$extra = ' File: ' . (is_null($id) ? $this->id : $id)
 				. $ownerInfo 
 				. ' Path: ' . (is_null($path) ? $this->path : $path);
-		\OCP\Util::writeLog(
-				'files_antivirus',
-				$message . $extra,
-				\OCP\Util::ERROR
+		$this->logger->error($message . $extra, ['app' => 'files_antivirus']);
 		);
 	}
 }
