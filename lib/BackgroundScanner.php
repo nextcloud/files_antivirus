@@ -46,6 +46,9 @@ class BackgroundScanner {
 	/** @var IMimeTypeLoader */
 	protected $mimeTypeLoader;
 
+	/** @var ItemFactory */
+	protected $itemFactory;
+
 	/**
 	 * A constructor
 	 *
@@ -57,6 +60,7 @@ class BackgroundScanner {
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $db
 	 * @param IMimeTypeLoader $mimeTypeLoader
+	 * @param ItemFactory $itemFactory
 	 */
 	public function __construct(ScannerFactory $scannerFactory,
 								IL10N $l10n,
@@ -65,7 +69,8 @@ class BackgroundScanner {
 								ILogger $logger,
 								IUserManager $userManager,
 								IDBConnection $db,
-								IMimeTypeLoader $mimeTypeLoader
+								IMimeTypeLoader $mimeTypeLoader,
+								ItemFactory $itemFactory
 	){
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
@@ -75,6 +80,7 @@ class BackgroundScanner {
 		$this->userManager = $userManager;
 		$this->db = $db;
 		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->itemFactory = $itemFactory;
 	}
 	
 	/**
@@ -170,7 +176,7 @@ class BackgroundScanner {
 			return;
 		}
 
-		$item = new Item($this->l10n, $file);
+		$item = $this->itemFactory->newItem($file);
 		$scanner = $this->scannerFactory->getScanner();
 		$status = $scanner->scan($item);
 		$status->dispatch($item, true);
