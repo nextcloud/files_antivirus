@@ -11,6 +11,7 @@ namespace OCA\Files_Antivirus;
 use OC\Files\View;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\IL10N;
 
@@ -38,24 +39,22 @@ class Item implements IScannable{
 	 * @var resource
 	 */
 	protected $fileHandle;
-	
-	/**
-	 * Portion size
-	 * @var int
-	 */
-	protected $chunkSize;
-	
+
 	/**
 	 * Is filesize match the size conditions
 	 * @var bool
 	 */
 	protected $isValidSize;
-	
-	/**
-	 * @var IL10N
-	 */
+
+	/** @var IL10N */
 	private $l10n;
-	
+
+	/** @var AppConfig */
+	private $config;
+
+	/** @var ActivityManager */
+	private $activityManager;
+
 	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
 		$this->l10n = $l10n;
 		
@@ -80,8 +79,8 @@ class Item implements IScannable{
 		$this->isValidSize = $view->filesize($path) > 0;
 		
 		$application = new AppInfo\Application();
-		$config = $application->getContainer()->query(AppConfig::class);
-		$this->chunkSize = $config->getAvChunkSize();
+		$this->config = $application->getContainer()->query(AppConfig::class);
+		$this->activityManager = \OC::$server->getActivityManager();
 	}
 	
 	/**
@@ -105,7 +104,7 @@ class Item implements IScannable{
 		}
 		
 		if (!is_null($this->fileHandle) && !$this->feof()) {
-			return fread($this->fileHandle, $this->chunkSize);
+			return fread($this->fileHandle, $this->config->getAvChunkSize());
 		}
 		return false;
 	}
@@ -116,23 +115,20 @@ class Item implements IScannable{
 	 * @param boolean $isBackground
 	 */
 	public function processInfected(Status $status, $isBackground) {
-		$application = new AppInfo\Application();
-		$appConfig = $application->getContainer()->query('AppConfig');
-		$infectedAction = $appConfig->getAvInfectedAction();
+		$infectedAction = $this->config->getAvInfectedAction();
 		
 		$shouldDelete = !$isBackground || ($isBackground && $infectedAction === 'delete');
 		
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
-		$activityManager = \OC::$server->getActivityManager();
-		$activity = $activityManager->generateEvent();
+		$activity = $this->activityManager->generateEvent();
 		$activity->setApp(Application::APP_NAME)
 			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->path, $status->getDetails()])
 			->setMessage($message)
 			->setObject('', 0, $this->path)
 			->setAffectedUser($this->view->getOwner($this->path))
 			->setType(Provider::TYPE_VIRUS_DETECTED);
-		$activityManager->publish($activity);
+		$this->activityManager->publish($activity);
 
 		if ($isBackground) {
 			if ($shouldDelete) {
