@@ -8,11 +8,23 @@
 
 namespace OCA\Files_Antivirus\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\IDBConnection;
 
 class ItemMapper extends Mapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'files_antivirus', Item::class);
+	}
+
+	/**
+	 * Find rule by id
+	 * @param int $fileid
+	 * @return Rule
+	 * @throws DoesNotExistException
+	 */
+	public function findByFileId($fileid){
+		$sql = 'SELECT * FROM ' . $this->getTableName() .' WHERE id = ?';
+		return $this->findEntity($sql, [$fileid]);
 	}
 }

@@ -11,8 +11,10 @@ namespace OCA\Files_Antivirus;
 use OC\Files\View;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IL10N;
 
 class Item implements IScannable{
@@ -55,6 +57,9 @@ class Item implements IScannable{
 	/** @var ActivityManager */
 	private $activityManager;
 
+	/** @var ItemMapper */
+	private $itemMapper;
+
 	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
 		$this->l10n = $l10n;
 		
@@ -81,6 +86,7 @@ class Item implements IScannable{
 		$application = new AppInfo\Application();
 		$this->config = $application->getContainer()->query(AppConfig::class);
 		$this->activityManager = \OC::$server->getActivityManager();
+		$this->itemMapper = $application->getContainer()->query(ItemMapper::class);
 	}
 	
 	/**
@@ -171,17 +177,17 @@ class Item implements IScannable{
 			return;
 		}
 		try {
-			$stmt = \OCP\DB::prepare('DELETE FROM `*PREFIX*files_antivirus` WHERE `fileid` = ?');
-			$result = $stmt->execute([$this->id]);
-			if (\OCP\DB::isError($result)) {
-				//TODO: Use logger
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
+			try {
+				$item = $this->itemMapper->findByFileId($this->id);
+				$this->itemMapper->delete($item);
+			} catch (DoesNotExistException $e) {
+				//Just ignore
 			}
-			$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*files_antivirus` (`fileid`, `check_time`) VALUES (?, ?)');
-			$result = $stmt->execute([$this->id, time()]);
-			if (\OCP\DB::isError($result)) {
-				$this->logError(__METHOD__. ', DB error: ' . \OCP\DB::getErrorMessage());
-			}
+
+			$item = new \OCA\Files_Antivirus\Db\Item();
+			$item->setFileid($this->id);
+			$item->setCheckTime(time());
+			$this->itemMapper->insert($item);
 		} catch(\Exception $e) {
 			\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
 		}
