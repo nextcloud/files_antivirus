@@ -43,17 +43,20 @@ class Item implements IScannable{
 	/** @var File */
 	private $file;
 
-	public function __construct(IL10N $l10n, File $file) {
+	public function __construct(IL10N $l10n,
+								AppConfig $appConfig,
+								ActivityManager $activityManager,
+								ItemMapper $itemMapper,
+								ILogger $logger,
+								File $file) {
 		$this->l10n = $l10n;
+		$this->config = $appConfig;
+		$this->activityManager = $activityManager;
+		$this->itemMapper = $itemMapper;
+		$this->logger = $logger;
 		$this->file = $file;
-
-		$application = new AppInfo\Application();
-		$this->config = $application->getContainer()->query(AppConfig::class);
-		$this->activityManager = \OC::$server->getActivityManager();
-		$this->itemMapper = $application->getContainer()->query(ItemMapper::class);
-		$this->logger = \OC::$server->getLogger();
 	}
-	
+
 	/**
 	 * Is this file good for scanning? 
 	 * @return boolean
@@ -61,7 +64,7 @@ class Item implements IScannable{
 	public function isValid() {
 		return $this->file->getSize() > 0;
 	}
-	
+
 	/**
 	 * Reads a file portion by portion until the very end
 	 * @return string|boolean
@@ -79,7 +82,7 @@ class Item implements IScannable{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Action to take if this item is infected
 	 * @param Status $status
@@ -131,7 +134,7 @@ class Item implements IScannable{
 		//TODO: Show warning to the user: The file can not be checked
 		$this->logError('Not Checked. ' . $status->getDetails());
 	}
-	
+
 	/**
 	 * Action to take if this item status is not infected
 	 * @param Status $status
@@ -171,7 +174,7 @@ class Item implements IScannable{
 		}
 		return $isDone;
 	}
-	
+
 	/**
 	 * Opens a file for reading
 	 * @throws \RuntimeException
@@ -200,7 +203,7 @@ class Item implements IScannable{
 			\OCA\Files_Trashbin\Storage::postRenameHook([]);
 		}
 	}
-	
+
 	/**
 	 * @param string $message
 	 */
@@ -210,7 +213,7 @@ class Item implements IScannable{
 				. ' Path: ' . $this->file->getPath();
 		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
 	}
-	
+
 	/**
 	 * @param string $message
 	 */
