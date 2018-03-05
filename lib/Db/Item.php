@@ -10,17 +10,26 @@ namespace OCA\Files_Antivirus\Db;
 
 use OCP\AppFramework\Db\Entity;
 
-class Item extends Entity{
+/**
+ * Class Item
+ *
+ * @package OCA\Files_Antivirus\Db
+ *
+ * @method int getFileid()
+ * @method setFileid(int $id)
+ * @method int getCheckTime()
+ * @method setCheckTime(int $time)
+ */
+class Item extends Entity {
 	/**
 	 * fileid that was scanned
 	 * @var int
 	 */
 	protected $fileid;
-	
+
 	/**
 	 * Timestamp of the check
 	 * @var int
 	 */
 	protected $checkTime;
-	
 }

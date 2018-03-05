@@ -8,18 +8,15 @@
 
 namespace OCA\Files_Antivirus;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
-use OC\Files\Filesystem;
+use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 
 class BackgroundScanner {
 
@@ -27,9 +24,6 @@ class BackgroundScanner {
 
 	/** @var IRootFolder */
 	protected $rootFolder;
-
-	/** @var Folder[] */
-	protected $userFolders;
 
 	/** @var ScannerFactory */
 	private $scannerFactory;
@@ -39,12 +33,6 @@ class BackgroundScanner {
 
 	/** @var  AppConfig  */
 	private $appConfig;
-
-	/** @var string */
-	protected $currentFilesystemUser;
-
-	/** @var IUserSession */
-	protected $userSession;
 
 	/** @var ILogger */
 	protected $logger;
@@ -65,7 +53,6 @@ class BackgroundScanner {
 	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder
-	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $db
@@ -75,7 +62,6 @@ class BackgroundScanner {
 								IL10N $l10n,
 								AppConfig $appConfig,
 								IRootFolder $rootFolder,
-								IUserSession $userSession,
 								ILogger $logger,
 								IUserManager $userManager,
 								IDBConnection $db,
@@ -85,7 +71,6 @@ class BackgroundScanner {
 		$this->scannerFactory = $scannerFactory;
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
-		$this->userSession = $userSession;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->db = $db;
@@ -121,22 +106,12 @@ class BackgroundScanner {
 				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
-		$this->tearDownFilesystem();
 	}
 
 	protected function getFilesForScan(){
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		$qb = $this->db->getQueryBuilder();
-		if ($this->db->getDatabasePlatform() instanceof MySqlPlatform) {
-			$concatFunction = $qb->createFunction(
-				"CONCAT('/', mnt.user_id, '/')"
-			);
-		} else {
-			$concatFunction = $qb->createFunction(
-				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/'"
-			);
-		}
 
 		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
 		if ( $sizeLimit === -1 ){
@@ -144,7 +119,7 @@ class BackgroundScanner {
 		} else {
 			$sizeLimitExpr = $qb->expr()->andX(
 				$qb->expr()->neq('fc.size', $qb->expr()->literal('0')),
-				$qb->expr()->lt('fc.size', $qb->expr()->literal((string) $sizeLimit))
+				$qb->expr()->lt('fc.size', $qb->createNamedParameter($sizeLimit))
 			);
 		}
 
@@ -156,8 +131,7 @@ class BackgroundScanner {
 				'mounts',
 				'mnt',
 				$qb->expr()->andX(
-					$qb->expr()->eq('fc.storage', 'mnt.storage_id'),
-					$qb->expr()->eq('mnt.mount_point', $concatFunction)
+					$qb->expr()->eq('fc.storage', 'mnt.storage_id')
 				)
 			)
 			->where(
@@ -181,56 +155,24 @@ class BackgroundScanner {
 	 * @param IUser $owner
 	 * @param int $fileId
 	 */
-	protected function scanOneFile($owner, $fileId){
-		$this->initFilesystemForUser($owner);
-		$view = Filesystem::getView();
-		$path = $view->getPath($fileId);
-		if (!is_null($path)) {
-			$item = new Item($this->l10n, $view, $path, $fileId);
-			$scanner = $this->scannerFactory->getScanner();
-			$status = $scanner->scan($item);
-			$status->dispatch($item, true);
+	protected function scanOneFile(IUser $owner, $fileId){
+		$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+		$files = $userFolder->getById($fileId);
+
+		if (count($files) === 0) {
+			return;
 		}
-	}
 
-	/**
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Folder
-	 */
-	protected function getUserFolder(IUser $user) {
-		if (!isset($this->userFolders[$user->getUID()])) {
-			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-			$this->userFolders[$user->getUID()] = $userFolder;
+		/** @var File $file */
+		$file = array_pop($files);
+
+		if (!($file instanceof File)) {
+			return;
 		}
-		return $this->userFolders[$user->getUID()];
-	}
 
-	/**
-	 * @param IUser $user
-	 */
-	protected function initFilesystemForUser(IUser $user) {
-		if ($this->currentFilesystemUser !== $user->getUID()) {
-			if ($this->currentFilesystemUser !== '') {
-				$this->tearDownFilesystem();
-			}
-			Filesystem::init($user->getUID(), '/' . $user->getUID() . '/files');
-			$this->userSession->setUser($user);
-			$this->currentFilesystemUser = $user->getUID();
-			Filesystem::initMountPoints($user->getUID());
-		}
-	}
-
-	/**
-	 *
-	 */
-	protected function tearDownFilesystem(){
-		$this->userSession->setUser(null);
-		\OC_Util::tearDownFS();
-	}
-
-	/**
-	 * @deprecated since  v8.0.0
-	 */
-	public static function check(){
+		$item = new Item($this->l10n, $file);
+		$scanner = $this->scannerFactory->getScanner();
+		$status = $scanner->scan($item);
+		$status->dispatch($item, true);
 	}
 }
