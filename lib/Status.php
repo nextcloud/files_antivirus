@@ -138,7 +138,7 @@ class Status {
 		return array_merge($cleanRules, $infectedRules, $uncheckedRules);
 	}
 	
-	public function dispatch($item, $isBackground = false){
+	public function dispatch(Item $item, $isBackground = false){
 		switch($this->getNumericStatus()) {
 			case self::SCANRESULT_UNCHECKED:
 				$item->processUnchecked($this, $isBackground);

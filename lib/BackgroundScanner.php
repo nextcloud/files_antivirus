@@ -184,18 +184,6 @@ class BackgroundScanner {
 	}
 
 	/**
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Folder
-	 */
-	protected function getUserFolder(IUser $user) {
-		if (!isset($this->userFolders[$user->getUID()])) {
-			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-			$this->userFolders[$user->getUID()] = $userFolder;
-		}
-		return $this->userFolders[$user->getUID()];
-	}
-
-	/**
 	 * @param IUser $user
 	 */
 	protected function initFilesystemForUser(IUser $user) {
