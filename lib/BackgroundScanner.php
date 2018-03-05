@@ -187,17 +187,10 @@ class BackgroundScanner {
 			return;
 		}
 
-
-
-		$this->initFilesystemForUser($owner);
-		$view = Filesystem::getView();
-		$path = $view->getPath($fileId);
-		if (!is_null($path)) {
-			$item = new Item($this->l10n, $view, $path, $file);
-			$scanner = $this->scannerFactory->getScanner();
-			$status = $scanner->scan($item);
-			$status->dispatch($item, true);
-		}
+		$item = new Item($this->l10n, $file);
+		$scanner = $this->scannerFactory->getScanner();
+		$status = $scanner->scan($item);
+		$status->dispatch($item, true);
 	}
 
 	/**

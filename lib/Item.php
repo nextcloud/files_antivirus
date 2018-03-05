@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Antivirus;
 
-use OC\Files\View;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Db\ItemMapper;
@@ -20,30 +19,11 @@ use OCP\IL10N;
 use OCP\ILogger;
 
 class Item implements IScannable{
-
-	/**
-	 * File view
-	 * @var \OC\Files\View
-	 */
-	protected $view;
-	
-	/**
-	 * Path relative to the view
-	 * @var string
-	 */
-	protected $path;
-	
 	/**
 	 * file handle, user to read from the file
 	 * @var resource
 	 */
 	protected $fileHandle;
-
-	/**
-	 * Is filesize match the size conditions
-	 * @var bool
-	 */
-	protected $isValidSize;
 
 	/** @var IL10N */
 	private $l10n;
@@ -63,25 +43,10 @@ class Item implements IScannable{
 	/** @var File */
 	private $file;
 
-	public function __construct(IL10N $l10n, View $view, $path, File $file) {
+	public function __construct(IL10N $l10n, File $file) {
 		$this->l10n = $l10n;
 		$this->file = $file;
-		
-		if (!is_object($view)){
-			$this->logError('Can\'t init filesystem view.', $path);
-			throw new \RuntimeException();
-		}
-		
-		if(!$view->file_exists($path)) {
-			$this->logError('File does not exist.', $path);
-			throw new \RuntimeException();
-		}
 
-		$this->view = $view;
-		$this->path = $path;
-		
-		$this->isValidSize = $view->filesize($path) > 0;
-		
 		$application = new AppInfo\Application();
 		$this->config = $application->getContainer()->query(AppConfig::class);
 		$this->activityManager = \OC::$server->getActivityManager();
@@ -94,7 +59,7 @@ class Item implements IScannable{
 	 * @return boolean
 	 */
 	public function isValid() {
-		return !$this->view->is_dir($this->path) && $this->isValidSize;
+		return $this->file->getSize() > 0;
 	}
 	
 	/**
@@ -129,10 +94,10 @@ class Item implements IScannable{
 
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp(Application::APP_NAME)
-			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->path, $status->getDetails()])
+			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->file->getPath(), $status->getDetails()])
 			->setMessage($message)
-			->setObject('', 0, $this->path)
-			->setAffectedUser($this->view->getOwner($this->path))
+			->setObject('file', $this->file->getId(), $this->file->getPath())
+			->setAffectedUser($this->file->getOwner())
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
@@ -147,10 +112,10 @@ class Item implements IScannable{
 			$this->logError('Virus(es) found: ' . $status->getDetails());
 			//remove file
 			$this->deleteFile();
-			Notification::sendMail($this->path);
+			Notification::sendMail($this->file->getPath());
 			$message = $this->l10n->t(
 						"Virus detected! Can't upload the file %s", 
-						[basename($this->path)]
+						[$this->file->getName()]
 			);
 			\OCP\JSON::error(['data' => ['message' => $message]]);
 			exit();
@@ -212,9 +177,9 @@ class Item implements IScannable{
 	 * @throws \RuntimeException
 	 */
 	private function getFileHandle() {
-		$fileHandle = $this->view->fopen($this->path, 'r');
+		$fileHandle = $this->file->fopen('r');
 		if ($fileHandle === false) {
-			$this->logError('Can not open for reading.', $this->file->getId(), $this->path);
+			$this->logError('Can not open for reading.');
 			throw new \RuntimeException();
 		}
 
@@ -230,7 +195,7 @@ class Item implements IScannable{
 		if (App::isEnabled('files_trashbin')) {
 			\OCA\Files_Trashbin\Storage::preRenameHook([]);
 		}
-		$this->view->unlink($this->path);
+		$this->file->delete();
 		if (App::isEnabled('files_trashbin')) {
 			\OCA\Files_Trashbin\Storage::postRenameHook([]);
 		}
@@ -241,21 +206,19 @@ class Item implements IScannable{
 	 */
 	public function logDebug($message) {
 		$extra = ' File: ' . $this->file->getId()
-				. 'Account: ' . $this->view->getOwner($this->path) 
-				. ' Path: ' . $this->path;
+				. 'Account: ' . $this->file->getOwner()
+				. ' Path: ' . $this->file->getPath();
 		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
 	}
 	
 	/**
 	 * @param string $message
-	 * @param int $id optional
-	 * @param string $path optional
 	 */
-	public function logError($message, $id=null, $path=null) {
-		$ownerInfo = is_null($this->view) ? '' : 'Account: ' . $this->view->getOwner($path);
-		$extra = ' File: ' . (is_null($id) ? $this->file->getId() : $id)
+	public function logError($message) {
+		$ownerInfo = 'Account: ' . $this->file->getOwner();
+		$extra = ' File: ' . $this->file->getId()
 				. $ownerInfo 
-				. ' Path: ' . (is_null($path) ? $this->path : $path);
+				. ' Path: ' . $this->file->getPath();
 		$this->logger->error($message . $extra, ['app' => 'files_antivirus']);
 	}
 }
