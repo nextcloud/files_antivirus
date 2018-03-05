@@ -147,7 +147,7 @@ class Status {
 				$item->processInfected($this);
 				break;
 			case self::SCANRESULT_CLEAN:
-				$item->processClean($this);
+				$item->processClean();
 				break;
 		}
 	}

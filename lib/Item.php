@@ -85,7 +85,6 @@ class Item implements IScannable{
 
 	/**
 	 * Action to take if this item is infected
-	 * @param Status $status
 	 */
 	public function processInfected(Status $status) {
 		$infectedAction = $this->config->getAvInfectedAction();
@@ -114,7 +113,6 @@ class Item implements IScannable{
 	/**
 	 * Action to take if this item status is unclear
 	 * @param Status $status
-	 * @param boolean $isBackground
 	 */
 	public function processUnchecked(Status $status) {
 		//TODO: Show warning to the user: The file can not be checked
@@ -123,13 +121,8 @@ class Item implements IScannable{
 
 	/**
 	 * Action to take if this item status is not infected
-	 * @param Status $status
-	 * @param boolean $isBackground
 	 */
-	public function processClean(Status $status, $isBackground) {
-		if (!$isBackground) {
-			return;
-		}
+	public function processClean() {
 		try {
 			try {
 				$item = $this->itemMapper->findByFileId($this->file->getId());
