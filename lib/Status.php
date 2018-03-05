@@ -32,7 +32,7 @@ class Status {
 	/*
 	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN
 	 */
-	protected $numericStatus;
+	protected $numericStatus = self::SCANRESULT_UNCHECKED;
 	
 	/*
 	 * Virus name or error message
@@ -44,11 +44,16 @@ class Status {
 
 	/** @var ILogger */
 	protected $logger;
-	
-	public function __construct(){
-		$this->numericStatus = self::SCANRESULT_UNCHECKED;
-		$this->ruleMapper = new RuleMapper(\OC::$server->getDatabaseConnection());
-		$this->logger = \OC::$server->getLogger();
+
+	/**
+	 * Status constructor.
+	 *
+	 * @param RuleMapper $ruleMapper
+	 * @param ILogger $logger
+	 */
+	public function __construct(RuleMapper $ruleMapper, ILogger $logger){
+		$this->ruleMapper = $ruleMapper;
+		$this->logger = $logger;
 	}
 	
 	/**

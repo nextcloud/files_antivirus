@@ -26,6 +26,7 @@ namespace OCA\Files_Antivirus\Scanner;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
+use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 abstract class ScannerBase {
@@ -55,6 +56,9 @@ abstract class ScannerBase {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var StatusFactory */
+	protected $statusFactory;
+
 	/** @var string */
 	protected $lastChunk;
 
@@ -63,6 +67,19 @@ abstract class ScannerBase {
 
 	/** @var bool */
 	protected $isAborted = false;
+
+	/**
+	 * ScannerBase constructor.
+	 *
+	 * @param AppConfig $config
+	 * @param ILogger $logger
+	 * @param StatusFactory $statusFactory
+	 */
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+		$this->appConfig = $config;
+		$this->logger = $logger;
+		$this->statusFactory = $statusFactory;
+	}
 
 	/**
 	 * Close used resources
@@ -77,7 +94,7 @@ abstract class ScannerBase {
 		if ($this->status instanceof Status){
 			return $this->status;
 		}
-		return new Status();
+		return $this->statusFactory->newStatus();
 	}
 
 	/**
@@ -121,7 +138,7 @@ abstract class ScannerBase {
 		if ($this->status instanceof Status && $this->status->getNumericStatus() === Status::SCANRESULT_INFECTED){
 			$this->infectedStatus = clone $this->status;
 		}
-		$this->status = new Status();
+		$this->status = $this->statusFactory->newStatus();
 	}
 
 	/**
