@@ -18,7 +18,7 @@ use OCP\Files\File;
 use OCP\IL10N;
 use OCP\ILogger;
 
-class Item implements IScannable{
+class Item {
 	/**
 	 * file handle, user to read from the file
 	 * @var resource

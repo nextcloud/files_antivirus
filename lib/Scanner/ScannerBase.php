@@ -24,7 +24,7 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
-use OCA\Files_Antivirus\IScannable;
+use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCP\ILogger;
 
@@ -82,10 +82,10 @@ abstract class ScannerBase {
 
 	/**
 	 * Synchronous scan
-	 * @param IScannable $item
+	 * @param Item $item
 	 * @return Status
 	 */
-	public function scan(IScannable $item) {
+	public function scan(Item $item) {
 		$this->initScanner();
 
 		while (false !== ($chunk = $item->fread())) {
