@@ -128,15 +128,6 @@ class BackgroundScanner {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		$qb = $this->db->getQueryBuilder();
-		if ($this->db->getDatabasePlatform() instanceof MySqlPlatform) {
-			$concatFunction = $qb->createFunction(
-				"CONCAT('/', mnt.user_id, '/')"
-			);
-		} else {
-			$concatFunction = $qb->createFunction(
-				"'/' || " . $qb->getColumnName('mnt.user_id') . " || '/'"
-			);
-		}
 
 		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
 		if ( $sizeLimit === -1 ){
@@ -144,7 +135,7 @@ class BackgroundScanner {
 		} else {
 			$sizeLimitExpr = $qb->expr()->andX(
 				$qb->expr()->neq('fc.size', $qb->expr()->literal('0')),
-				$qb->expr()->lt('fc.size', $qb->expr()->literal((string) $sizeLimit))
+				$qb->expr()->lt('fc.size', $qb->createNamedParameter($sizeLimit))
 			);
 		}
 
@@ -156,8 +147,7 @@ class BackgroundScanner {
 				'mounts',
 				'mnt',
 				$qb->expr()->andX(
-					$qb->expr()->eq('fc.storage', 'mnt.storage_id'),
-					$qb->expr()->eq('mnt.mount_point', $concatFunction)
+					$qb->expr()->eq('fc.storage', 'mnt.storage_id')
 				)
 			)
 			->where(
