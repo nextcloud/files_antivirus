@@ -13,6 +13,7 @@ namespace OCA\Files_Antivirus\Tests;
 use OCA\Files_Antivirus\BackgroundScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use Doctrine\DBAL\Driver\PDOStatement;
+use OCP\ILogger;
 
 class BackgroundScannerTest extends TestBase {
 
@@ -31,7 +32,11 @@ class BackgroundScannerTest extends TestBase {
 				$this->l10n,
 				$this->config,
 				\OC::$server->getRootFolder(),
-				\OC::$server->getUserSession()
+				\OC::$server->getUserSession(),
+				\OC::$server->getLogger(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->getMimeTypeLoader()
 			])
 			->getMock();
 		
