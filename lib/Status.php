@@ -138,16 +138,16 @@ class Status {
 		return array_merge($cleanRules, $infectedRules, $uncheckedRules);
 	}
 	
-	public function dispatch(Item $item, $isBackground = false){
+	public function dispatch(Item $item){
 		switch($this->getNumericStatus()) {
 			case self::SCANRESULT_UNCHECKED:
-				$item->processUnchecked($this, $isBackground);
+				$item->processUnchecked($this);
 				break;
 			case self::SCANRESULT_INFECTED:
-				$item->processInfected($this, $isBackground);
+				$item->processInfected($this);
 				break;
 			case self::SCANRESULT_CLEAN:
-				$item->processClean($this, $isBackground);
+				$item->processClean($this);
 				break;
 		}
 	}
