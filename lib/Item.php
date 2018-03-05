@@ -97,7 +97,7 @@ class Item implements IScannable{
 			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->file->getPath(), $status->getDetails()])
 			->setMessage($message)
 			->setObject('file', $this->file->getId(), $this->file->getPath())
-			->setAffectedUser($this->file->getOwner())
+			->setAffectedUser($this->file->getOwner()->getUID())
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
@@ -206,7 +206,7 @@ class Item implements IScannable{
 	 */
 	public function logDebug($message) {
 		$extra = ' File: ' . $this->file->getId()
-				. 'Account: ' . $this->file->getOwner()
+				. 'Account: ' . $this->file->getOwner()->getUID()
 				. ' Path: ' . $this->file->getPath();
 		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
 	}
@@ -215,7 +215,7 @@ class Item implements IScannable{
 	 * @param string $message
 	 */
 	public function logError($message) {
-		$ownerInfo = 'Account: ' . $this->file->getOwner();
+		$ownerInfo = 'Account: ' . $this->file->getOwner()->getUID();
 		$extra = ' File: ' . $this->file->getId()
 				. $ownerInfo 
 				. ' Path: ' . $this->file->getPath();
