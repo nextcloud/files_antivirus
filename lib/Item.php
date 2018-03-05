@@ -25,9 +25,6 @@ class Item implements IScannable{
 	 */
 	protected $fileHandle;
 
-	/** @var IL10N */
-	private $l10n;
-
 	/** @var AppConfig */
 	private $config;
 
@@ -43,13 +40,20 @@ class Item implements IScannable{
 	/** @var File */
 	private $file;
 
-	public function __construct(IL10N $l10n,
-								AppConfig $appConfig,
+	/**
+	 * Item constructor.
+	 *
+	 * @param AppConfig $appConfig
+	 * @param ActivityManager $activityManager
+	 * @param ItemMapper $itemMapper
+	 * @param ILogger $logger
+	 * @param File $file
+	 */
+	public function __construct(AppConfig $appConfig,
 								ActivityManager $activityManager,
 								ItemMapper $itemMapper,
 								ILogger $logger,
 								File $file) {
-		$this->l10n = $l10n;
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;

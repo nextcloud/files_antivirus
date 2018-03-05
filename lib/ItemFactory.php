@@ -26,13 +26,9 @@ namespace OCA\Files_Antivirus;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\Files\File;
-use OCP\IL10N;
 use OCP\ILogger;
 
 class ItemFactory {
-	/** @var IL10N */
-	private $l10n;
-
 	/** @var AppConfig */
 	private $config;
 
@@ -48,18 +44,15 @@ class ItemFactory {
 	/**
 	 * ItemFactory constructor.
 	 *
-	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
 	 * @param ActivityManager $activityManager
 	 * @param ItemMapper $itemMapper
 	 * @param ILogger $logger
 	 */
-	public function __construct(IL10N $l10n,
-								AppConfig $appConfig,
+	public function __construct(AppConfig $appConfig,
 								ActivityManager $activityManager,
 								ItemMapper $itemMapper,
 								ILogger $logger) {
-		$this->l10n = $l10n;
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
@@ -72,7 +65,6 @@ class ItemFactory {
 	 */
 	public function newItem(File $file) {
 		return new Item(
-			$this->l10n,
 			$this->config,
 			$this->activityManager,
 			$this->itemMapper,
