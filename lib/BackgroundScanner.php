@@ -8,19 +8,15 @@
 
 namespace OCA\Files_Antivirus;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
-use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 
 class BackgroundScanner {
 
@@ -28,9 +24,6 @@ class BackgroundScanner {
 
 	/** @var IRootFolder */
 	protected $rootFolder;
-
-	/** @var Folder[] */
-	protected $userFolders;
 
 	/** @var ScannerFactory */
 	private $scannerFactory;
@@ -40,12 +33,6 @@ class BackgroundScanner {
 
 	/** @var  AppConfig  */
 	private $appConfig;
-
-	/** @var string */
-	protected $currentFilesystemUser;
-
-	/** @var IUserSession */
-	protected $userSession;
 
 	/** @var ILogger */
 	protected $logger;
@@ -66,7 +53,6 @@ class BackgroundScanner {
 	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder
-	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $db
@@ -76,7 +62,6 @@ class BackgroundScanner {
 								IL10N $l10n,
 								AppConfig $appConfig,
 								IRootFolder $rootFolder,
-								IUserSession $userSession,
 								ILogger $logger,
 								IUserManager $userManager,
 								IDBConnection $db,
@@ -86,7 +71,6 @@ class BackgroundScanner {
 		$this->scannerFactory = $scannerFactory;
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
-		$this->userSession = $userSession;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->db = $db;
