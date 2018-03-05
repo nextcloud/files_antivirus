@@ -23,10 +23,3 @@
 
 $app = new \OCA\Files_Antivirus\AppInfo\Application();
 OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
-
-\OC::$server->getActivityManager()->registerExtension(function() {
-		return new \OCA\Files_Antivirus\Activity(
-			\OC::$server->query('L10NFactory'),
-			\OC::$server->getURLGenerator()
-		);
-});

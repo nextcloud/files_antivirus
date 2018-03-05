@@ -8,14 +8,15 @@
 
 namespace OCA\Files_Antivirus;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files_Antivirus\Activity\Provider;
+use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\App;
+use OCP\Files\InvalidContentException;
 use OCP\IL10N;
 use OCP\ILogger;
-use OCP\Files\InvalidContentException;
-use Icewind\Streams\CallbackWrapper;
-
 
 class AvirWrapper extends Wrapper{
 	
@@ -94,18 +95,16 @@ class AvirWrapper extends Wrapper{
 								['app' => 'files_antivirus']
 							);
 
-							\OC::$server->getActivityManager()->publishActivity(
-								'files_antivirus',
-								Activity::SUBJECT_VIRUS_DETECTED,
-								[$path, $status->getDetails()],
-								Activity::MESSAGE_FILE_DELETED,
-								[],
-								$path,
-								'',
-								$owner,
-								Activity::TYPE_VIRUS_DETECTED,
-								Activity::PRIORITY_HIGH
-							);
+							$activityManager = \OC::$server->getActivityManager();
+
+							$activity = $activityManager->generateEvent();
+							$activity->setApp(Application::APP_NAME)
+								->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$path, $status->getDetails()])
+								->setMessage(Provider::MESSAGE_FILE_DELETED)
+								->setObject('', 0, $path)
+								->setAffectedUser($owner)
+								->setType(Provider::TYPE_VIRUS_DETECTED);
+							$activityManager->publish($activity);
 
 							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
 							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
