@@ -41,6 +41,7 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Opzioni aggiuntive della riga di comando (separate da virgola)",
     "File size limit, -1 means no limit" : "Limite di dimensione dei file, -1 significa nessun limite",
     "Background scan file size limit in bytes, -1 means no limit" : "Limite di dimensione in byte dei file delle scansioni in background, -1 significa nessun limite",
+    "When infected files are found during a background scan" : "Quando file infetti sono rilevati durante una scansione in background",
     "Only log" : "Solo log",
     "Delete file" : "Elimina file",
     "Save" : "Salva",

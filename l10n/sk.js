@@ -22,6 +22,7 @@ OC.L10N.register(
     "File uploaded: {file}" : "Súbor bol nahratý: {file}",
     "Antivirus Configuration" : "Konfigurácia antivírusu",
     "Mode" : "Režim",
+    "Executable" : "Spustiteľný",
     "Daemon" : "Daemon",
     "Daemon (Socket)" : "Daemon (Socket)",
     "Socket" : "Socket",
