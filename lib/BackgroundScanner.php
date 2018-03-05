@@ -11,9 +11,14 @@ namespace OCA\Files_Antivirus;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OC\Files\Filesystem;
+use OCP\Files\IMimeTypeLoader;
+use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class BackgroundScanner {
@@ -23,7 +28,7 @@ class BackgroundScanner {
 	/** @var IRootFolder */
 	protected $rootFolder;
 
-	/** @var \OCP\Files\Folder[] */
+	/** @var Folder[] */
 	protected $userFolders;
 
 	/** @var ScannerFactory */
@@ -38,8 +43,20 @@ class BackgroundScanner {
 	/** @var string */
 	protected $currentFilesystemUser;
 
-	/** @var \OCP\IUserSession */
+	/** @var IUserSession */
 	protected $userSession;
+
+	/** @var ILogger */
+	protected $logger;
+
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IDBConnection */
+	protected $db;
+
+	/** @var IMimeTypeLoader */
+	protected $mimeTypeLoader;
 
 	/**
 	 * A constructor
@@ -49,30 +66,41 @@ class BackgroundScanner {
 	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder
 	 * @param IUserSession $userSession
+	 * @param ILogger $logger
+	 * @param IUserManager $userManager
+	 * @param IDBConnection $db
+	 * @param IMimeTypeLoader $mimeTypeLoader
 	 */
 	public function __construct(ScannerFactory $scannerFactory,
 								IL10N $l10n,
 								AppConfig $appConfig,
 								IRootFolder $rootFolder,
-								IUserSession $userSession
+								IUserSession $userSession,
+								ILogger $logger,
+								IUserManager $userManager,
+								IDBConnection $db,
+								IMimeTypeLoader $mimeTypeLoader
 	){
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
 		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
 		$this->userSession = $userSession;
+		$this->logger = $logger;
+		$this->userManager = $userManager;
+		$this->db = $db;
+		$this->mimeTypeLoader = $mimeTypeLoader;
 	}
 	
 	/**
 	 * Background scanner main job
-	 * @return null
 	 */
 	public function run(){
 		// locate files that are not checked yet
 		try {
 			$result = $this->getFilesForScan();
 		} catch(\Exception $e) {
-			\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+			$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			return;
 		}
 
@@ -82,26 +110,25 @@ class BackgroundScanner {
 				$fileId = $row['fileid'];
 				$userId = $row['user_id'];
 				/** @var IUser $owner */
-				$owner = \OC::$server->getUserManager()->get($userId);
+				$owner = $this->userManager->get($userId);
 				if (!$owner instanceof IUser){
 					continue;
 				}
 				$this->scanOneFile($owner, $fileId);
 				// increased only for successfully scanned files
 				$cnt = $cnt + 1;
-			} catch (\Exception $e){
-				\OC::$server->getLogger()->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+			} catch (\Exception $e) {
+				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
 		$this->tearDownFilesystem();
 	}
 
 	protected function getFilesForScan(){
-		$dirMimeTypeId = \OC::$server->getMimeTypeLoader()->getId('httpd/unix-directory');
+		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
-		$dbConnection = \OC::$server->getDatabaseConnection();
-		$qb = $dbConnection->getQueryBuilder();
-		if ($dbConnection->getDatabasePlatform() instanceof MySqlPlatform) {
+		$qb = $this->db->getQueryBuilder();
+		if ($this->db->getDatabasePlatform() instanceof MySqlPlatform) {
 			$concatFunction = $qb->createFunction(
 				"CONCAT('/', mnt.user_id, '/')"
 			);
@@ -111,7 +138,7 @@ class BackgroundScanner {
 			);
 		}
 
-		$sizeLimit = intval($this->appConfig->getAvMaxFileSize());
+		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
 		if ( $sizeLimit === -1 ){
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
 		} else {
