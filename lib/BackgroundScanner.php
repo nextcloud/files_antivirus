@@ -122,7 +122,6 @@ class BackgroundScanner {
 				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
-		$this->tearDownFilesystem();
 	}
 
 	protected function getFilesForScan(){
@@ -191,34 +190,5 @@ class BackgroundScanner {
 		$scanner = $this->scannerFactory->getScanner();
 		$status = $scanner->scan($item);
 		$status->dispatch($item, true);
-	}
-
-	/**
-	 * @param IUser $user
-	 */
-	protected function initFilesystemForUser(IUser $user) {
-		if ($this->currentFilesystemUser !== $user->getUID()) {
-			if ($this->currentFilesystemUser !== '') {
-				$this->tearDownFilesystem();
-			}
-			Filesystem::init($user->getUID(), '/' . $user->getUID() . '/files');
-			$this->userSession->setUser($user);
-			$this->currentFilesystemUser = $user->getUID();
-			Filesystem::initMountPoints($user->getUID());
-		}
-	}
-
-	/**
-	 *
-	 */
-	protected function tearDownFilesystem(){
-		$this->userSession->setUser(null);
-		\OC_Util::tearDownFS();
-	}
-
-	/**
-	 * @deprecated since  v8.0.0
-	 */
-	public static function check(){
 	}
 }
