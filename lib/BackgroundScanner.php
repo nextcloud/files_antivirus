@@ -12,7 +12,6 @@ use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-use OCP\IL10N;
 use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUser;
@@ -27,9 +26,6 @@ class BackgroundScanner {
 
 	/** @var ScannerFactory */
 	private $scannerFactory;
-
-	/** @var IL10N */
-	private $l10n;
 
 	/** @var  AppConfig  */
 	private $appConfig;
@@ -53,7 +49,6 @@ class BackgroundScanner {
 	 * A constructor
 	 *
 	 * @param ScannerFactory $scannerFactory
-	 * @param IL10N $l10n
 	 * @param AppConfig $appConfig
 	 * @param IRootFolder $rootFolder
 	 * @param ILogger $logger
@@ -63,7 +58,6 @@ class BackgroundScanner {
 	 * @param ItemFactory $itemFactory
 	 */
 	public function __construct(ScannerFactory $scannerFactory,
-								IL10N $l10n,
 								AppConfig $appConfig,
 								IRootFolder $rootFolder,
 								ILogger $logger,
@@ -74,7 +68,6 @@ class BackgroundScanner {
 	){
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
-		$this->l10n = $l10n;
 		$this->appConfig = $appConfig;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
