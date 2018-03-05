@@ -11,6 +11,7 @@ namespace OCA\Files_Antivirus;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OC\Files\Filesystem;
+use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -171,12 +172,28 @@ class BackgroundScanner {
 	 * @param IUser $owner
 	 * @param int $fileId
 	 */
-	protected function scanOneFile($owner, $fileId){
+	protected function scanOneFile(IUser $owner, $fileId){
+		$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+		$files = $userFolder->getById($fileId);
+
+		if (count($files) === 0) {
+			return;
+		}
+
+		/** @var File $file */
+		$file = array_pop($files);
+
+		if (!($file instanceof File)) {
+			return;
+		}
+
+
+
 		$this->initFilesystemForUser($owner);
 		$view = Filesystem::getView();
 		$path = $view->getPath($fileId);
 		if (!is_null($path)) {
-			$item = new Item($this->l10n, $view, $path, $fileId);
+			$item = new Item($this->l10n, $view, $path, $file);
 			$scanner = $this->scannerFactory->getScanner();
 			$status = $scanner->scan($item);
 			$status->dispatch($item, true);

@@ -15,16 +15,12 @@ use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Files\File;
 use OCP\IL10N;
 use OCP\ILogger;
 
 class Item implements IScannable{
-	/**
-	 * Scanned fileid (optional)
-	 * @var int
-	 */
-	protected $id;
-	
+
 	/**
 	 * File view
 	 * @var \OC\Files\View
@@ -64,22 +60,21 @@ class Item implements IScannable{
 	/** @var ILogger */
 	private $logger;
 
-	public function __construct(IL10N $l10n, View $view, $path, $id = null) {
+	/** @var File */
+	private $file;
+
+	public function __construct(IL10N $l10n, View $view, $path, File $file) {
 		$this->l10n = $l10n;
+		$this->file = $file;
 		
 		if (!is_object($view)){
-			$this->logError('Can\'t init filesystem view.', $id, $path);
+			$this->logError('Can\'t init filesystem view.', $path);
 			throw new \RuntimeException();
 		}
 		
 		if(!$view->file_exists($path)) {
-			$this->logError('File does not exist.', $id, $path);
+			$this->logError('File does not exist.', $path);
 			throw new \RuntimeException();
-		}
-
-		$this->id = $id;
-		if (is_null($id)){
-			$this->id = $view->getFileInfo($path)->getId();
 		}
 
 		$this->view = $view;
@@ -183,14 +178,14 @@ class Item implements IScannable{
 		}
 		try {
 			try {
-				$item = $this->itemMapper->findByFileId($this->id);
+				$item = $this->itemMapper->findByFileId($this->file->getId());
 				$this->itemMapper->delete($item);
 			} catch (DoesNotExistException $e) {
 				//Just ignore
 			}
 
 			$item = new \OCA\Files_Antivirus\Db\Item();
-			$item->setFileid($this->id);
+			$item->setFileid($this->file->getId());
 			$item->setCheckTime(time());
 			$this->itemMapper->insert($item);
 		} catch(\Exception $e) {
@@ -219,7 +214,7 @@ class Item implements IScannable{
 	private function getFileHandle() {
 		$fileHandle = $this->view->fopen($this->path, 'r');
 		if ($fileHandle === false) {
-			$this->logError('Can not open for reading.', $this->id, $this->path);
+			$this->logError('Can not open for reading.', $this->file->getId(), $this->path);
 			throw new \RuntimeException();
 		}
 
@@ -245,7 +240,7 @@ class Item implements IScannable{
 	 * @param string $message
 	 */
 	public function logDebug($message) {
-		$extra = ' File: ' . $this->id 
+		$extra = ' File: ' . $this->file->getId()
 				. 'Account: ' . $this->view->getOwner($this->path) 
 				. ' Path: ' . $this->path;
 		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
@@ -258,10 +253,9 @@ class Item implements IScannable{
 	 */
 	public function logError($message, $id=null, $path=null) {
 		$ownerInfo = is_null($this->view) ? '' : 'Account: ' . $this->view->getOwner($path);
-		$extra = ' File: ' . (is_null($id) ? $this->id : $id)
+		$extra = ' File: ' . (is_null($id) ? $this->file->getId() : $id)
 				. $ownerInfo 
 				. ' Path: ' . (is_null($path) ? $this->path : $path);
 		$this->logger->error($message . $extra, ['app' => 'files_antivirus']);
-		);
 	}
 }
