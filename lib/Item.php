@@ -15,6 +15,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\ILogger;
 
@@ -37,6 +38,9 @@ class Item {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	/** @var File */
 	private $file;
 
@@ -47,17 +51,20 @@ class Item {
 	 * @param ActivityManager $activityManager
 	 * @param ItemMapper $itemMapper
 	 * @param ILogger $logger
+	 * @param IRootFolder $rootFolder
 	 * @param File $file
 	 */
 	public function __construct(AppConfig $appConfig,
 								ActivityManager $activityManager,
 								ItemMapper $itemMapper,
 								ILogger $logger,
+								IRootFolder $rootFolder,
 								File $file) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
 		$this->logger = $logger;
+		$this->rootFolder = $rootFolder;
 		$this->file = $file;
 	}
 
@@ -90,11 +97,14 @@ class Item {
 		
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
+		$userFolder = $this->rootFolder->getUserFolder($this->file->getOwner()->getUID());
+		$path = $userFolder->getRelativePath($this->file->getPath());
+
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp(Application::APP_NAME)
-			->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$this->file->getPath(), $status->getDetails()])
+			->setSubject(Provider::SUBJECT_VIRUS_DETECTED_SCAN, [$status->getDetails()])
 			->setMessage($message)
-			->setObject('file', $this->file->getId(), $this->file->getPath())
+			->setObject('file', $this->file->getId(), $path)
 			->setAffectedUser($this->file->getOwner()->getUID())
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);

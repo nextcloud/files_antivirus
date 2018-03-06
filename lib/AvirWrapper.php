@@ -96,7 +96,7 @@ class AvirWrapper extends Wrapper{
 
 							$activity = $this->activityManager->generateEvent();
 							$activity->setApp(Application::APP_NAME)
-								->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$path, $status->getDetails()])
+								->setSubject(Provider::SUBJECT_VIRUS_DETECTED_UPLOAD, [$status->getDetails()])
 								->setMessage(Provider::MESSAGE_FILE_DELETED)
 								->setObject('', 0, $path)
 								->setAffectedUser($owner)
