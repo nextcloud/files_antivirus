@@ -24,14 +24,19 @@ namespace OCA\Files_Antivirus\Activity;
 
 use OCP\Activity\IFilter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 
 class Filter implements IFilter {
 
 	/** @var IL10N */
 	private $l;
 
-	public function __construct(IL10N $l) {
+	/** @var IURLGenerator */
+	private $url;
+
+	public function __construct(IL10N $l, IURLGenerator $url) {
 		$this->l = $l;
+		$this->url = $url;
 	}
 
 	public function getIdentifier() {
@@ -47,7 +52,7 @@ class Filter implements IFilter {
 	}
 
 	public function getIcon() {
-		return '';
+		return $this->url->imagePath('files_antivirus', 'shield-dark.svg');
 	}
 
 	public function filterTypes(array $types) {
