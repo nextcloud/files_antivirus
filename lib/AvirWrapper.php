@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
@@ -26,20 +27,17 @@ class AvirWrapper extends Wrapper{
 	 */
 	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
 	
-	/**
-	 * @var ScannerFactory
-	 */
+	/** @var ScannerFactory */
 	protected $scannerFactory;
 	
-	/**
-	 * @var IL10N 
-	 */
+	/** @var IL10N */
 	protected $l10n;
 	
-	/**
-	 * @var ILogger;
-	 */
+	/** @var ILogger */
 	protected $logger;
+
+	/** @var ActivityManager */
+	protected $activityManager;
 
 	/**
 	 * @param array $parameters
@@ -49,6 +47,7 @@ class AvirWrapper extends Wrapper{
 		$this->scannerFactory = $parameters['scannerFactory'];
 		$this->l10n = $parameters['l10n'];
 		$this->logger = $parameters['logger'];
+		$this->activityManager = $parameters['activityManager'];
 	}
 	
 	/**
@@ -95,16 +94,14 @@ class AvirWrapper extends Wrapper{
 								['app' => 'files_antivirus']
 							);
 
-							$activityManager = \OC::$server->getActivityManager();
-
-							$activity = $activityManager->generateEvent();
+							$activity = $this->activityManager->generateEvent();
 							$activity->setApp(Application::APP_NAME)
 								->setSubject(Provider::SUBJECT_VIRUS_DETECTED, [$path, $status->getDetails()])
 								->setMessage(Provider::MESSAGE_FILE_DELETED)
 								->setObject('', 0, $path)
 								->setAffectedUser($owner)
 								->setType(Provider::TYPE_VIRUS_DETECTED);
-							$activityManager->publish($activity);
+							$this->activityManager->publish($activity);
 
 							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
 							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
