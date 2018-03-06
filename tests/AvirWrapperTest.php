@@ -15,6 +15,7 @@ use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\External;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\Activity\IManager;
 use OCP\ILogger;
 use Test\Traits\UserTrait;
 
@@ -70,7 +71,8 @@ class AvirWrapperTest extends TestBase {
 			'storage' => $this->storage,
 			'scannerFactory' => $this->scannerFactory,
 			'l10n' => $this->l10n,
-			'logger' => $this->logger
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
 		]);
 
 		$this->config->expects($this->any())

@@ -10,6 +10,7 @@ namespace OCA\Files_Antivirus\AppInfo;
 
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\Activity\IManager;
 use OCP\AppFramework\App;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -33,14 +34,17 @@ class Application extends App {
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
 				if ($storage instanceof \OC\Files\Storage\Storage) {
-					$scannerFactory = $this->getContainer()->query(ScannerFactory::class);
-					$l10n = $this->getContainer()->query(IL10N::class);
-					$logger = $this->getContainer()->query(ILogger::class);
+					$container = $this->getContainer();
+					$scannerFactory = $container->query(ScannerFactory::class);
+					$l10n = $container->query(IL10N::class);
+					$logger = $container->query(ILogger::class);
+					$activityManager = $container->query(IManager::class);
 					return new AvirWrapper([
 						'storage' => $storage,
 						'scannerFactory' => $scannerFactory,
 						'l10n' => $l10n,
-						'logger' => $logger
+						'logger' => $logger,
+						'activityManager' => $activityManager,
 					]);
 				}
 
