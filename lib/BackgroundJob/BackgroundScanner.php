@@ -6,8 +6,11 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Files_Antivirus;
+namespace OCA\Files_Antivirus\BackgroundJob;
 
+use OC\BackgroundJob\TimedJob;
+use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
@@ -17,7 +20,7 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class BackgroundScanner {
+class BackgroundScanner extends TimedJob {
 
 	const BATCH_SIZE = 10;
 
@@ -74,12 +77,15 @@ class BackgroundScanner {
 		$this->db = $db;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 		$this->itemFactory = $itemFactory;
+
+		// Run once per 15 minutes
+		$this->setInterval(60 * 15);
 	}
 	
 	/**
 	 * Background scanner main job
 	 */
-	public function run(){
+	public function run($args){
 		// locate files that are not checked yet
 		try {
 			$result = $this->getFilesForScan();
