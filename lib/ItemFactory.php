@@ -26,6 +26,7 @@ namespace OCA\Files_Antivirus;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\ILogger;
 
 class ItemFactory {
@@ -41,6 +42,9 @@ class ItemFactory {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	/**
 	 * ItemFactory constructor.
 	 *
@@ -48,15 +52,18 @@ class ItemFactory {
 	 * @param ActivityManager $activityManager
 	 * @param ItemMapper $itemMapper
 	 * @param ILogger $logger
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct(AppConfig $appConfig,
 								ActivityManager $activityManager,
 								ItemMapper $itemMapper,
-								ILogger $logger) {
+								ILogger $logger,
+								IRootFolder $rootFolder) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
 		$this->logger = $logger;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -69,6 +76,7 @@ class ItemFactory {
 			$this->activityManager,
 			$this->itemMapper,
 			$this->logger,
+			$this->rootFolder,
 			$file
 		);
 	}

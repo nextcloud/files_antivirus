@@ -25,19 +25,29 @@ namespace OCA\Files_Antivirus\Activity;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
+use OCP\Files\IRootFolder;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
 
 	const TYPE_VIRUS_DETECTED = 'virus_detected';
+
 	const SUBJECT_VIRUS_DETECTED = 'virus_detected';
+	const SUBJECT_VIRUS_DETECTED_UPLOAD = 'virus_detected_upload';
+	const SUBJECT_VIRUS_DETECTED_SCAN = 'virus_detected_scan';
+
 	const MESSAGE_FILE_DELETED = 'file_deleted';
 
 	/** @var IFactory */
 	private $languageFactory;
 
-	public function __construct(IFactory $languageFactory) {
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
+	public function __construct(IFactory $languageFactory, IURLGenerator $urlGenerator) {
 		$this->languageFactory = $languageFactory;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
@@ -47,19 +57,53 @@ class Provider implements IProvider {
 
 		$l = $this->languageFactory->get('files_antivirus', $language);
 
-		switch ($event->getSubject()) {
-			case self::SUBJECT_VIRUS_DETECTED:
-				$event->setParsedSubject($l->t('File %s is infected with %s', $event->getSubjectParameters()));
-				break;
-		}
+		if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED) {
+			$event->setParsedSubject($l->t('File %s is infected with %s', $event->getSubjectParameters()));
+			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
+				$event->setParsedMessage($l->t('The file has been removed'));
+			}
 
-		switch ($event->getMessage()) {
-			case self::MESSAGE_FILE_DELETED:
-				$event->setParsedMessage($l->t('It is going to be deleted'));
-				break;
+		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_UPLOAD) {
+			$event->setParsedSubject($l->t('File containing %s detected', $event->getSubjectParameters()));
+
+			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
+				$event->setParsedMessage($l->t('The file has been removed'));
+			}
+			$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-green.svg'));
+		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_SCAN) {
+			$subject = $l->t('File {file} is infected with {virus}');
+
+			$subject = str_replace(['{virus}'], $event->getSubjectParameters(), $subject);
+
+			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
+				$event->setParsedMessage($l->t('The file has been removed'));
+
+				$file = $this->getFileDeleted($event);
+				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-green.svg'));
+			} else {
+				$file = $this->getFileExisting($event);
+				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-red.svg'));
+			}
+
+			$event->setParsedSubject(str_replace('{file}', $file['name'], $subject))
+				->setRichSubject($subject, ['file' => $file]);
 		}
 
 		return $event;
+	}
+
+	private function getFileExisting(IEvent $event) {
+		$res = $this->getFileDeleted($event);
+		$res['link'] = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $event->getObjectId()]);
+		return $res;
+	}
+
+	private function getFileDeleted(IEvent $event) {
+		return [
+			'id' => $event->getObjectId(),
+			'name' => basename($event->getObjectName()),
+			'path' => $event->getObjectName(),
+		];
 	}
 
 }
