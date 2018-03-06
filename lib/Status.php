@@ -9,6 +9,8 @@
 namespace OCA\Files_Antivirus;
 
 use OCA\Files_Antivirus\Db\Rule;
+use OCA\Files_Antivirus\Db\RuleMapper;
+use OCP\ILogger;
 
 class Status {
 	
@@ -30,18 +32,28 @@ class Status {
 	/*
 	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN
 	 */
-	protected $numericStatus;
+	protected $numericStatus = self::SCANRESULT_UNCHECKED;
 	
 	/*
 	 * Virus name or error message
 	 */
 	protected $details = '';
-	
+
+	/** @var RuleMapper */
 	protected $ruleMapper;
-	
-	public function __construct(){
-		$this->numericStatus = self::SCANRESULT_UNCHECKED;
-		$this->ruleMapper = new Db\RuleMapper(\OC::$server->getDatabaseConnection());
+
+	/** @var ILogger */
+	protected $logger;
+
+	/**
+	 * Status constructor.
+	 *
+	 * @param RuleMapper $ruleMapper
+	 * @param ILogger $logger
+	 */
+	public function __construct(RuleMapper $ruleMapper, ILogger $logger){
+		$this->ruleMapper = $ruleMapper;
+		$this->logger = $logger;
 	}
 	
 	/**
@@ -66,12 +78,12 @@ class Status {
 	 */
 	public function parseResponse($rawResponse, $result = null){
 		$matches = [];
-		$ruleMapper = new Db\RuleMapper(\OC::$server->getDatabaseConnection());
+
 		if (is_null($result)){ // Daemon or socket mode
 			try{
 				$allRules = $this->getResponseRules();
 			} catch (\Exception $e){
-				\OCP\Util::writeLog('files_antivirus', __METHOD__.', exception: '.$e->getMessage(), \OCP\Util::ERROR);
+				$this->logger->error(__METHOD__.', exception: '.$e->getMessage(), ['app' => 'files_antivirus']);
 				return;
 			}
 			
@@ -95,7 +107,7 @@ class Status {
 			}
 			
 		} else { // Executable mode
-			$scanStatus = $ruleMapper->findByResult($result);
+			$scanStatus = $this->ruleMapper->findByResult($result);
 			if (is_array($scanStatus) && count($scanStatus)){
 				$this->numericStatus = (int)$scanStatus[0]->getStatus();
 				$this->details = $scanStatus[0]->getDescription();

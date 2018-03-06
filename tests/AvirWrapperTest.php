@@ -10,16 +10,13 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
-use OC\Files\Filesystem;
-use OC\Files\Storage\Storage;
-use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\External;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 use Test\Traits\UserTrait;
-use Test\Util\User\Dummy;
 
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
@@ -54,7 +51,11 @@ class AvirWrapperTest extends TestBase {
 		$this->storage = new Temporary([]);
 		$this->logger = $this->createMock(ILogger::class);
 
-		$scanner = new External($this->config, $this->logger);
+		$scanner = new External(
+			$this->config,
+			$this->logger,
+			$this->createMock(StatusFactory::class)
+		);
 		$this->scannerFactory = $this->getMockBuilder(ScannerFactory::class)
 			->disableOriginalConstructor()
 			->getMock();

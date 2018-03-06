@@ -10,16 +10,26 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 class External extends ScannerBase {
 	
-	// Daemon/socket mode
+	/**
+	 * Daemon/socket mode
+	 * @var bool
+	 */
 	private $useSocket;
-	
-	public function __construct(AppConfig $config, ILogger $logger){
-		$this->appConfig = $config;
-		$this->logger = $logger;
+
+	/**
+	 * External constructor.
+	 *
+	 * @param AppConfig $config
+	 * @param ILogger $logger
+	 * @param StatusFactory $statusFactory
+	 */
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+		parent::__construct($config, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	

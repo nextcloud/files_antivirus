@@ -10,6 +10,7 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 class Local extends ScannerBase{
@@ -31,9 +32,8 @@ class Local extends ScannerBase{
 	 */
 	private $process;
 
-	public function __construct(AppConfig $config, ILogger $logger){
-		$this->appConfig = $config;
-		$this->logger = $logger;
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+		parent::__construct($config, $logger, $statusFactory);
 
 		// get the path to the executable
 		$this->avPath = escapeshellcmd($this->appConfig->getAvPath());

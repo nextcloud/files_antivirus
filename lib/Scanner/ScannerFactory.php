@@ -9,28 +9,28 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 class ScannerFactory{
 	
-	/**
-	 * @var AppConfig
-	 */
+	/** @var AppConfig */
 	protected $appConfig;
 	
-	/**
-	 * @var ILogger;
-	 */
+	/** @var ILogger */
 	protected $logger;
+
+	/** @var StatusFactory */
+	protected $statusFactory;
 	
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $scannerClass;
 	
-	public function __construct(AppConfig $appConfig, ILogger $logger){
+	public function __construct(AppConfig $appConfig, ILogger $logger, StatusFactory $statusFactory){
 			$this->appConfig = $appConfig;
 			$this->logger = $logger;
+			$this->statusFactory = $statusFactory;
+
 			try {
 				$avMode = $appConfig->getAvMode();
 				switch($avMode) {
@@ -55,6 +55,6 @@ class ScannerFactory{
 	 * @return ScannerBase
 	 */
 	public function getScanner(){
-		return new $this->scannerClass($this->appConfig, $this->logger);
+		return new $this->scannerClass($this->appConfig, $this->logger, $this->statusFactory);
 	}
 }
