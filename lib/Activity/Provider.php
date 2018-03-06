@@ -57,14 +57,38 @@ class Provider implements IProvider {
 
 		$l = $this->languageFactory->get('files_antivirus', $language);
 
+		$parameters = [];
+		$subject = '';
+
 		if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED) {
-			$event->setParsedSubject($l->t('File %s is infected with %s', $event->getSubjectParameters()));
+			$subject = $l->t('File {file} is infected with {virus}');
+
+			$params = $event->getSubjectParameters();
+			$parameters['virus'] = [
+				'type' => 'highlight',
+				'id' => $params[1],
+				'name' => $params[1],
+			];
+
+			$parameters['file'] = [
+				'type' => 'highlight',
+				'id' => $event->getObjectName(),
+				'name' => basename($event->getObjectName()),
+			];
+
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
 			}
 
 		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_UPLOAD) {
-			$event->setParsedSubject($l->t('File containing %s detected', $event->getSubjectParameters()));
+			$subject = $l->t('File containing {virus} detected');
+
+			$params = $event->getSubjectParameters();
+			$parameters['virus'] = [
+				'type' => 'highlight',
+				'id' => $params[0],
+				'name' => $params[0],
+			];
 
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
@@ -73,23 +97,42 @@ class Provider implements IProvider {
 		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_SCAN) {
 			$subject = $l->t('File {file} is infected with {virus}');
 
-			$subject = str_replace(['{virus}'], $event->getSubjectParameters(), $subject);
+			$params = $event->getSubjectParameters();
+			$parameters['virus'] = [
+				'type' => 'highlight',
+				'id' => $params[0],
+				'name' => $params[0],
+			];
 
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
 
-				$file = $this->getFileDeleted($event);
+				$parameters['file'] = $this->getFileDeleted($event);
 				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-green.svg'));
 			} else {
-				$file = $this->getFileExisting($event);
+				$parameters['file'] = $this->getFileExisting($event);
 				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-red.svg'));
 			}
-
-			$event->setParsedSubject(str_replace('{file}', $file['name'], $subject))
-				->setRichSubject($subject, ['file' => $file]);
 		}
 
+		$this->setSubjects($event, $subject, $parameters);
+
 		return $event;
+	}
+
+	private function setSubjects(IEvent $event, $subject, array $parameters) {
+		$placeholders = $replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			if ($parameter['type'] === 'file') {
+				$replacements[] = $parameter['path'];
+			} else {
+				$replacements[] = $parameter['name'];
+			}
+		}
+
+		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
+			->setRichSubject($subject, $parameters);
 	}
 
 	private function getFileExisting(IEvent $event) {
@@ -100,6 +143,7 @@ class Provider implements IProvider {
 
 	private function getFileDeleted(IEvent $event) {
 		return [
+			'type' => 'file',
 			'id' => $event->getObjectId(),
 			'name' => basename($event->getObjectName()),
 			'path' => $event->getObjectName(),
