@@ -62,25 +62,18 @@ class Item {
 	}
 
 	/**
-	 * Is this file good for scanning? 
-	 * @return boolean
-	 */
-	public function isValid() {
-		return $this->file->getSize() > 0;
-	}
-
-	/**
 	 * Reads a file portion by portion until the very end
 	 * @return string|boolean
 	 */
 	public function fread() {
-		if (!$this->isValid()) {
+		if (!($this->file->getSize() > 0)) {
 			return false;
 		}
+
 		if (is_null($this->fileHandle)) {
 			$this->getFileHandle();
 		}
-		
+
 		if (!is_null($this->fileHandle) && !$this->feof()) {
 			return fread($this->fileHandle, $this->config->getAvChunkSize());
 		}
