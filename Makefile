@@ -1,37 +1,50 @@
-# Makefile for building the project
-
 app_name=files_antivirus
+
 project_dir=$(CURDIR)/../$(app_name)
-build_dir=$(CURDIR)/build
-doc_files=README.md
-src_files=admin.php
-src_dirs=appinfo controller css img js l10n lib templates
-all_src=$(src_files) $(src_dirs) $(doc_files)
+build_dir=$(CURDIR)/build/artifacts
 appstore_dir=$(build_dir)/appstore
+source_dir=$(build_dir)/source
+sign_dir=$(build_dir)/sign
+package_name=$(app_name)
+cert_dir=$(HOME)/.nextcloud/certificates
+version+=1.2.0
 
+all: appstore
 
-.PHONY: all
-all: dist appstore
+release: appstore create-tag
 
-
-appstore: dist
-	cd $(build_dir); tar cvzf $(app_name).tar.gz $(app_name)
-	rm -Rf $(appstore_dir); mkdir -p $(appstore_dir)
-	mv $(build_dir)/$(app_name).tar.gz $(appstore_dir)
-
-
-$(build_dir)/$(app_name):
-	rm -Rf $@; mkdir -p $@
-	cp -R $(all_src) $@
-
-
-.PHONY: dist
-dist: $(build_dir)/$(app_name)
-
-
-distclean:
-	rm -rf $(build_dir)
-
+create-tag:
+	git tag -s -a v$(version) -m "Tagging the $(version) release."
+	git push origin v$(version)
 
 clean:
 	rm -rf $(build_dir)
+	rm -rf node_modules
+
+appstore: clean
+	mkdir -p $(sign_dir)
+	rsync -a \
+	--exclude=/build \
+	--exclude=/docs \
+	--exclude=/translationfiles \
+	--exclude=/.tx \
+	--exclude=/tests \
+	--exclude=/screenshots \
+	--exclude=/.git \
+	--exclude=/.github \
+	--exclude=/l10n/l10n.pl \
+	--exclude=/CONTRIBUTING.md \
+	--exclude=/issue_template.md \
+	--exclude=/README.md \
+	--exclude=/.gitattributes \
+	--exclude=/.gitignore \
+	--exclude=/.scrutinizer.yml \
+	--exclude=/.travis.yml \
+	--exclude=/Makefile \
+	$(project_dir)/ $(sign_dir)/$(app_name)
+	tar -czf $(build_dir)/$(app_name)-$(version).tar.gz \
+		-C $(sign_dir) $(app_name)
+	@if [ -f $(cert_dir)/$(app_name).key ]; then \
+		echo "Signing package…"; \
+		openssl dgst -sha512 -sign $(cert_dir)/$(app_name).key $(build_dir)/$(app_name)-$(version).tar.gz | openssl base64; \
+	fi
