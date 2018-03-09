@@ -5,8 +5,6 @@ OC.L10N.register(
     "Infected" : "Saastunut",
     "Saving..." : "Tallennetaan...",
     "Antivirus" : "Virustorjunta",
-    "File %s is infected with %s" : "Tiedosto %s on saastunut viruksella %s",
-    "It is going to be deleted" : "Se poistetaan",
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s havaittiin tiedostossa. Lähetystä ei voi suorittaa loppuun.",
     "Saved" : "Tallennettu",
     "Antivirus App for files" : "Virustorjuntasovellus tiedostoille",

@@ -5,7 +5,6 @@ OC.L10N.register(
     "Infected" : "Zainfekowany",
     "Saving..." : "Zapisywanie...",
     "Antivirus" : "Antywirus",
-    "File %s is infected with %s" : "Plik %s jest zainfekowany przez %s",
     "Virus %s is detected in the file. Upload cannot be completed." : "Wirus %s został wykryty w pliku. Nie można ukończyć wysyłania.",
     "Saved" : "Zapisano",
     "Antivirus App for files" : "Antywirus dla plików",

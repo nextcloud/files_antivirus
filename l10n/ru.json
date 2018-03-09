@@ -6,8 +6,6 @@
     "Scanner output" : "Данные сканера",
     "Saving..." : "Сохранение...",
     "Antivirus" : "Антивирус",
-    "File %s is infected with %s" : "Файл %s заражен вирусом %s",
-    "It is going to be deleted" : "Он будет удален",
     "Virus %s is detected in the file. Upload cannot be completed." : "Вирус %s обнаружен в файле. Загрузка не может быть завершена.",
     "Saved" : "Сохранено",
     "Antivirus App for files" : "Антивирусное приложение для файлов",

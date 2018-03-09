@@ -8,8 +8,6 @@ OC.L10N.register(
     "Scanner output" : "სკანერის გამოცემა",
     "Saving..." : "მიმხინარეობს შენახვა…",
     "Antivirus" : "ანტივირუსი",
-    "File %s is infected with %s" : "ფაილი %s ინფექცირებულია ინფექციით %s",
-    "It is going to be deleted" : "ეს გაუქმდება",
     "Virus %s is detected in the file. Upload cannot be completed." : "ფაილში აღმოჩენილია ვირუსი %s. ატვირთვა ვერ დასრულდება.",
     "Saved" : "შენახულია",
     "Antivirus App for files" : "Antivirus აპლიკაცია ფაილებისთვის",

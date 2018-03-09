@@ -6,8 +6,6 @@
     "Scanner output" : "扫描器输出",
     "Saving..." : "保存中...",
     "Antivirus" : "反病毒",
-    "File %s is infected with %s" : "文件 %s 已被 %s 感染",
-    "It is going to be deleted" : "它将被删除",
     "Virus %s is detected in the file. Upload cannot be completed." : "在文件中检测到病毒 %s。上传未能完成。",
     "Saved" : "已保存",
     "Antivirus App for files" : "面向文件的反病毒应用",

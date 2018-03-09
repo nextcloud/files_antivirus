@@ -8,8 +8,6 @@ OC.L10N.register(
     "Scanner output" : "Úttak skanna",
     "Saving..." : "Vista...",
     "Antivirus" : "Vírusvörn",
-    "File %s is infected with %s" : "Skráin %s er smituð af %s",
-    "It is going to be deleted" : "Henni verður eytt",
     "Virus %s is detected in the file. Upload cannot be completed." : "Vírusinn %s finnst í skránni. Ekki er hægt að ljúka innsendingu.",
     "Saved" : "Vistað",
     "Antivirus App for files" : "Vírusvarnarforrit fyrir skrár",

@@ -8,8 +8,6 @@ OC.L10N.register(
     "Scanner output" : "Scanner output",
     "Saving..." : "Saving...",
     "Antivirus" : "Antivirus",
-    "File %s is infected with %s" : "File %s is infected with %s",
-    "It is going to be deleted" : "It is going to be deleted",
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s is detected in the file. Upload cannot be completed.",
     "Saved" : "Saved",
     "Antivirus App for files" : "Antivirus App for files",

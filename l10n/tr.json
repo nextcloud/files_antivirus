@@ -6,8 +6,6 @@
     "Scanner output" : "Tarayıcı çıktısı",
     "Saving..." : "Kaydediliyor...",
     "Antivirus" : "Antivirus",
-    "File %s is infected with %s" : "%s dosyası %s ile enfekte olmuş",
-    "It is going to be deleted" : "Silinecek",
     "Virus %s is detected in the file. Upload cannot be completed." : "Dosyada %s virusu bulundu. Yükleme tamamlanamadı.",
     "Saved" : "Kaydedildi",
     "Antivirus App for files" : "Dosyalar için antivirus uygulaması",

@@ -3,8 +3,6 @@
     "Infected" : "Užkrėstas",
     "Saving..." : "Įrašoma...",
     "Antivirus" : "Antivirusinė",
-    "File %s is infected with %s" : "Failas %s yra užkrėstas %s",
-    "It is going to be deleted" : "Jis bus ištrintas",
     "Virus %s is detected in the file. Upload cannot be completed." : "Faile yra aptiktas virusas %s. Įkėlimas negali būti užbaigtas.",
     "Saved" : "Įrašyta",
     "Greetings {user}," : "Sveiki {user},",
