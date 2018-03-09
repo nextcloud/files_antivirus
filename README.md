@@ -13,6 +13,12 @@ remove the file if it's infected.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
 
+## QA metrics on stable8 branch:
+
+[![Build Status](https://travis-ci.org/nextcloud/files_antivirus.svg?branch=stable8)](https://travis-ci.org/nextcloud/files_antivirus/branches)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/quality-score.png?b=stable8)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=stable8)
+[![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/coverage.png?b=stable8)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=stable8)
+
 ## Status
 
 The App is not complete yet, the following works/is done:
@@ -37,17 +43,40 @@ The App is not complete yet, the following works/is done:
 
 ## Requirements
 
-* Nextcloud 11
+* Nextcloud 10
 * ClamAV (Binaries or a server running ClamAV in daemon mode)
 
 
 ## Install
 
-* Install and enable the App
+* Install and enable the App  
+ * Make sure ClamAV is installed and running on your server.  
+   * (for example, in ubuntu 16.04)  
+```sudo apt-get update && sudo apt-get install -y clamav-daemon```  
+```sudo <dpkg-reconfigure clamav-freshclam```  
+ * choose an appropriate update server and the interval.  
+ * Change to the apps directory in your NextCloud installation  
+```cd [path to nextcloud]/apps```  
+ * Download the app from GitHub. Use:  
+  https://github.com/nextcloud/files_antivirus/archive/stable10.zip3 for NextCloud 10  
+  https://github.com/nextcloud/files_antivirus/archive/old-master.zip for NextCloud 11    
+  https://github.com/nextcloud/files_antivirus/archive/stable12.zip for NextCloud 12  
+  https://github.com/nextcloud/files_antivirus/archive/master.zip11 for NextCloud 13  
+```[sudo] wget https://[link to the version you need]```  
+ * Unzip the file into your nextcloud/apps directory.  
+```[sudo] unzip [filename]```  
+ * Chown that folder to your web server user (www-data in Ubuntu and Debian)  
+```[sudo] chown -R www-data:www-data files_antivirus-master```  
+ * Rename the directory  
+```[sudo] mv files_antivirus-master files_antivirus```  
+ * Reload your vhosts (May or may not be necessary!)  
+```[sudo] service apache2 reload```  
+ * Log on to NextCloud and goto Apps. In the "Not enabled" section, enable "Antivirus App for files"  
+
 * Go to Admin Panel and configure the App
 
 
 Authors:
 
 [Manuel Delgado López](https://github.com/valarauco/) :: manuel.delgado at ucr.ac.cr  
-[Bart Visscher](https://github.com/bartv2/)
+[Bart Visscher](https://github.com/bartv2/)  
