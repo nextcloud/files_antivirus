@@ -5,7 +5,7 @@ script('files_antivirus', 'settings');
 <div class="section section-antivirus">
 	<form id="antivirus" action="#" method="post">
 		<fieldset class="personalblock">
-			<h2><?php p($l->t('Antivirus Configuration'));?></h2>
+			<h2><?php p($l->t('Antivirus for Files'));?></h2>
 			<p class="av_mode"><label for="av_mode"><?php p($l->t('Mode'));?></label>
 				<select id="av_mode" name="avMode"><?php print_unescaped(html_select_options(array('executable' => $l->t('Executable'), 'daemon' => $l->t('Daemon'), 'socket' => $l->t('Daemon (Socket)')), $_['avMode'])) ?></select>
 			</p>
