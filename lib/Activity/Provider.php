@@ -93,7 +93,7 @@ class Provider implements IProvider {
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
 			}
-			$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-green.svg'));
+			$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-dark.svg'));
 		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_SCAN) {
 			$subject = $l->t('File {file} is infected with {virus}');
 
@@ -108,7 +108,7 @@ class Provider implements IProvider {
 				$event->setParsedMessage($l->t('The file has been removed'));
 
 				$parameters['file'] = $this->getFileDeleted($event);
-				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-green.svg'));
+				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-dark.svg'));
 			} else {
 				$parameters['file'] = $this->getFileExisting($event);
 				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-red.svg'));
