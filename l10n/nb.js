@@ -16,6 +16,7 @@ OC.L10N.register(
     "Antivirus Configuration" : "Antivirus- konfigurasjon",
     "Mode" : "Modus",
     "Executable" : "Programfil",
+    "Host" : "Vert",
     "Port" : "Port",
     "Delete file" : "Slett fil",
     "Save" : "Lagre",
