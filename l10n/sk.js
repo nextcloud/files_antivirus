@@ -8,6 +8,8 @@ OC.L10N.register(
     "Scanner output" : "Výstup zo skenera",
     "Saving..." : "Ukladá sa...",
     "Antivirus" : "Antivírus",
+    "The file has been removed" : "Súbor bol odstránený",
+    "Antivirus detected a virus" : "Antivírus našiel vírus",
     "Virus %s is detected in the file. Upload cannot be completed." : "V súbore sa našiel vírus %s. Nahrávanie nemôže byť dokončené.",
     "Saved" : "Uložené",
     "Antivirus App for files" : "Antivírus apka pre súbory",
