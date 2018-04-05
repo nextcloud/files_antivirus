@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "files_antivirus",
+    {
+    "Infected" : "Μολυσμένα",
+    "Saving..." : "Γίνεται αποθήκευση...",
+    "Antivirus" : "Antivirus",
+    "The file has been removed" : "Το αρχείο αφαιρέθηκε",
+    "Antivirus detected a virus" : "Το Antivirus εντόπισε ιό",
+    "Saved" : "Αποθηκεύτηκε",
+    "Antivirus App for files" : "Εφαρμογή Antivirus για αρχεία",
+    "Antivirus Configuration" : "Ρύθμιση Antivirus",
+    "Mode" : "Κατάσταση",
+    "Executable" : "Εκτελέσιμο",
+    "Daemon" : "Υπηρεσία",
+    "Host" : "Διακομιστής",
+    "Port" : "Θύρα",
+    "bytes" : "bytes",
+    "Path to clamscan" : "Διαδρομή για το clamscan",
+    "File size limit, -1 means no limit" : "Όριο μεγέθους αρχείου, -1 σημαίνει χωρίς όριο",
+    "Delete file" : "Διαγραφή αρχείου",
+    "Save" : "Αποθήκευση",
+    "Advanced" : "Προχωρημένοι",
+    "Clear All" : "Εκκαθάριση όλων",
+    "Description" : "Περιγραφή"
+},
+"nplurals=2; plural=(n != 1);");
