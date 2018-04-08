@@ -46,11 +46,11 @@ class External extends ScannerBase {
 			$avHost = $this->appConfig->getAvHost();
 			$avPort = $this->appConfig->getAvPort();
 			if (!($avHost && $avPort)) {
-				throw new \RuntimeException('The clamav port and host are not configured.');
+				throw new \RuntimeException('The ClamAV port and host are not set up.');
 			}
 			$this->writeHandle = ($avHost && $avPort) ? @fsockopen($avHost, $avPort) : false;
 			if (!$this->getWriteHandle()) {
-				throw new \RuntimeException('The clamav module is not configured for daemon mode.');
+				throw new \RuntimeException('The ClamAV module is not in daemon mode.');
 			}
 		}
 
