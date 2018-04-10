@@ -10,11 +10,12 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Db\FileStatusMapper;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 class External extends ScannerBase {
-	
+
 	/**
 	 * Daemon/socket mode
 	 * @var bool
@@ -27,15 +28,16 @@ class External extends ScannerBase {
 	 * @param AppConfig $config
 	 * @param ILogger $logger
 	 * @param StatusFactory $statusFactory
+	 * @param FileStatusMapper $fileStatusMapper
 	 */
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
-		parent::__construct($config, $logger, $statusFactory);
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory, FileStatusMapper $fileStatusMapper) {
+		parent::__construct($config, $logger, $statusFactory, $fileStatusMapper);
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
-	
+
 	public function initScanner(){
 		parent::initScanner();
-		
+
 		if ($this->useSocket){
 			$avSocket = $this->appConfig->getAvSocket();
 			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
@@ -57,7 +59,7 @@ class External extends ScannerBase {
 		// request scan from the daemon
 		@fwrite($this->getWriteHandle(), "nINSTREAM\n");
 	}
-	
+
 	protected function shutdownScanner(){
 		@fwrite($this->getWriteHandle(), pack('N', 0));
 		$response = fgets($this->getWriteHandle());
@@ -66,10 +68,10 @@ class External extends ScannerBase {
 			['app' => 'files_antivirus']
 		);
 		@fclose($this->getWriteHandle());
-		
+
 		$this->status->parseResponse($response);
 	}
-	
+
 	protected function prepareChunk($data){
 		$chunkLength = pack('N', strlen($data));
 		return $chunkLength . $data;
