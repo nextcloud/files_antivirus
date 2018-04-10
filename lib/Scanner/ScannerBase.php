@@ -114,10 +114,13 @@ abstract class ScannerBase {
 
 		while (false !== ($chunk = $item->fread())) {
 			$hash = $this->createHash($chunk);
-			if ($this->isChunkInfected($hash)) {
-				$this->updateStatus();
+			$chunkStatus = $this->getChunkStatus($hash);
+			if ($chunkStatus === 0 || $chunkStatus === 1 ) {
+				$this->logger->debug('known chunk with status ' . $chunkStatus);
+				$this->updateStatus($chunkStatus);
 				break;
 			}
+			$this->logger->debug('unknown chunk');
 			$this->writeChunk($chunk);
 			$this->fileStatusMapper->insertStatus($hash, 0);
 		}
@@ -132,10 +135,13 @@ abstract class ScannerBase {
 	 */
 	public function onAsyncData($data){
 		$hash = $this->createHash($data);
-		if ($this->isChunkInfected($hash)) {
-			$this->updateStatus();
+		$chunkStatus = $this->getChunkStatus($hash);
+		if ($chunkStatus === 0 || $chunkStatus === 1 ) {
+			$this->logger->debug('known chunk with status ' . $chunkStatus);
+			$this->updateStatus($chunkStatus);
 			return;
 		}
+		$this->logger->debug('unknown chunk');
 		$this->writeChunk($data);
 		$this->fileStatusMapper->insertStatus($hash, 0);
 	}
@@ -251,11 +257,15 @@ abstract class ScannerBase {
 	 * check if we already scanned the file and detected a virus
 	 *
 	 * @param string $hash
-	 * @return bool
+	 * @return int
 	 */
-	protected function isChunkInfected($hash) {
+	protected function getChunkStatus($hash) {
 		$result = $this->fileStatusMapper->findByHash($hash);
-		return ($result instanceof FileStatus) && $result->getStatus() === 1;
+		if ($result instanceof FileStatus) {
+			return $result->getStatus();
+		}
+
+		return -1;
 	}
 
 	/**
@@ -268,11 +278,19 @@ abstract class ScannerBase {
 		return hash('sha512', $chunk);
 	}
 
-	protected function updateStatus() {
-		$status = $this->getStatus();
-		$status->setNumericStatus(Status::SCANRESULT_INFECTED);
-		$this->status = $status;
-		$this->infectedStatus = $status;
+	/**
+	 * update status
+	 *
+	 * @param int $status
+	 */
+	protected function updateStatus($status) {
+		$fileStatus = $this->getStatus();
+		if ($status === 1) {
+			$fileStatus->setNumericStatus(Status::SCANRESULT_INFECTED);
+			$this->infectedStatus = $fileStatus;
+		}
+
+		$this->status = $fileStatus;
 	}
 
 }
