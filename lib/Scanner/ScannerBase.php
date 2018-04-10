@@ -24,13 +24,15 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Db\FileStatus;
+use OCA\Files_Antivirus\Db\FileStatusMapper;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 abstract class ScannerBase {
-	
+
 	/**
 	 * Scan result
 	 * @var Status
@@ -68,6 +70,9 @@ abstract class ScannerBase {
 	/** @var bool */
 	protected $isAborted = false;
 
+	/** @var FileStatusMapper */
+	protected $fileStatusMapper;
+
 	/**
 	 * ScannerBase constructor.
 	 *
@@ -75,10 +80,11 @@ abstract class ScannerBase {
 	 * @param ILogger $logger
 	 * @param StatusFactory $statusFactory
 	 */
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory, FileStatusMapper $fileStatusMapper) {
 		$this->appConfig = $config;
 		$this->logger = $logger;
 		$this->statusFactory = $statusFactory;
+		$this->fileStatusMapper = $fileStatusMapper;
 	}
 
 	/**
@@ -103,24 +109,37 @@ abstract class ScannerBase {
 	 * @return Status
 	 */
 	public function scan(Item $item) {
+
 		$this->initScanner();
 
 		while (false !== ($chunk = $item->fread())) {
+			$hash = $this->createHash($chunk);
+			if ($this->isChunkInfected($hash)) {
+				$this->updateStatus();
+				break;
+			}
 			$this->writeChunk($chunk);
+			$this->fileStatusMapper->insertStatus($hash, 0);
 		}
-		
+
 		$this->shutdownScanner();
 		return $this->getStatus();
 	}
-	
+
 	/**
 	 * Async scan - new portion of data is available
 	 * @param string $data
 	 */
 	public function onAsyncData($data){
+		$hash = $this->createHash($data);
+		if ($this->isChunkInfected($hash)) {
+			$this->updateStatus();
+			return;
+		}
 		$this->writeChunk($data);
+		$this->fileStatusMapper->insertStatus($hash, 0);
 	}
-	
+
 	/**
 	 * Async scan - resource is closed
 	 * @return Status
@@ -129,7 +148,7 @@ abstract class ScannerBase {
 		$this->shutdownScanner();
 		return $this->getStatus();
 	}
-	
+
 	/**
 	 * Open write handle. etc
 	 */
@@ -227,4 +246,33 @@ abstract class ScannerBase {
 	protected function prepareChunk($data){
 		return $data;
 	}
+
+	/**
+	 * check if we already scanned the file and detected a virus
+	 *
+	 * @param string $hash
+	 * @return bool
+	 */
+	protected function isChunkInfected($hash) {
+		$result = $this->fileStatusMapper->findByHash($hash);
+		return ($result instanceof FileStatus) && $result->getStatus() === 1;
+	}
+
+	/**
+	 * calculate hash
+	 *
+	 * @param $chunk
+	 * @return string
+	 */
+	protected function createHash($chunk) {
+		return hash('sha512', $chunk);
+	}
+
+	protected function updateStatus() {
+		$status = $this->getStatus();
+		$status->setNumericStatus(Status::SCANRESULT_INFECTED);
+		$this->status = $status;
+		$this->infectedStatus = $status;
+	}
+
 }
