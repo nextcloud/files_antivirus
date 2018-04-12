@@ -115,8 +115,11 @@ abstract class ScannerBase {
 		while (false !== ($chunk = $item->fread())) {
 			$hash = $this->createHash($chunk);
 			$chunkStatus = $this->getChunkStatus($hash);
-			if ($chunkStatus === 0 || $chunkStatus === 1 ) {
-				$this->logger->debug('known chunk with status ' . $chunkStatus);
+			if ($chunkStatus === 1) {
+				continue;
+			}
+			if ($chunkStatus === 1 ) {
+				$this->logger->debug('infected chunk found!');
 				$this->updateStatus($chunkStatus);
 				break;
 			}
