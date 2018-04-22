@@ -1,7 +1,9 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Clean" : "Καθαρό",
     "Infected" : "Μολυσμένα",
+    "Unchecked" : "Δεν έχει ελεγχθεί",
     "Saving..." : "Γίνεται αποθήκευση...",
     "Antivirus" : "Antivirus",
     "The file has been removed" : "Το αρχείο αφαιρέθηκε",
