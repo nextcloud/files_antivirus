@@ -49,4 +49,4 @@ OC.L10N.register(
     "Mark as" : "მონიშვნა როგორც",
     "Add a rule" : "წესის დამატება"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");

@@ -46,5 +46,5 @@
     "Description" : "აღწერილობა",
     "Mark as" : "მონიშვნა როგორც",
     "Add a rule" : "წესის დამატება"
-},"pluralForm" :"nplurals=2; plural=(n==1);"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
 }
