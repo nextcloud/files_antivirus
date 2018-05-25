@@ -15,6 +15,7 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Il virus %s è stato rilevato nel file. L'invio non può essere completato.",
     "Saved" : "Salvati",
     "Antivirus App for files" : "Applicazione antivirus per i file",
+    "Scan the files in your Nextcloud for viruses" : "Analizza i file nel tuo Nextcloud alla ricerca di virus",
     "Greetings {user}," : "Saluti {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Spiacenti, ma un malware è stato rilevato in un file che hai provato a caricare e deve essere eliminato.",
     "This email is a notification from {host}. Please, do not reply." : "Questo messaggio è una notifica da {host}. Non rispondere.",
