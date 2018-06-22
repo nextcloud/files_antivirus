@@ -13,6 +13,7 @@
     "Virus %s is detected in the file. Upload cannot be completed." : "Le virus %s est détecté dans ce fichier. Le téléversement ne peut pas se terminer.",
     "Saved" : "Enregistré",
     "Antivirus App for files" : "Application antivirus pour les fichiers.",
+    "Scan the files in your Nextcloud for viruses" : "Scanne des fichiers sur Nextcloud, pour la détection de virus.",
     "Greetings {user}," : "Bonjour {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Désolé, un logiciel malveillant a été détecté dans un fichier que vous essayé de téléverser, il a été supprimé.",
     "This email is a notification from {host}. Please, do not reply." : "Cet e-mail est une notification de {host}. Veuillez ne pas y répondre.",
