@@ -11,6 +11,7 @@ OC.L10N.register(
     "Greetings {user}," : "Witaj {user},",
     "File uploaded: {file}" : "Plik wysłany: {file}",
     "Antivirus Configuration" : "Konfiguracja antywirusa",
+    "Mode" : "Tryb",
     "Host" : "Host",
     "Address of Antivirus Host." : "Adres hosta antywirusa",
     "Port" : "Port",
