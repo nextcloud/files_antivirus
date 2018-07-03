@@ -8,10 +8,12 @@
 
 namespace OCA\Files_Antivirus\AppInfo;
 
+use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Activity\IManager;
 use OCP\AppFramework\App;
+use OCP\Files\IHomeStorage;
 use OCP\IL10N;
 use OCP\ILogger;
 
@@ -33,6 +35,11 @@ class Application extends App {
 				/**
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
+				if ($storage->instanceOfStorage(Jail::class)) {
+					// No reason to wrap jails again
+					return $storage;
+				}
+
 				if ($storage instanceof \OC\Files\Storage\Storage) {
 					$container = $this->getContainer();
 					$scannerFactory = $container->query(ScannerFactory::class);
@@ -45,6 +52,7 @@ class Application extends App {
 						'l10n' => $l10n,
 						'logger' => $logger,
 						'activityManager' => $activityManager,
+						'isHomeStorage' => $storage->instanceOfStorage(IHomeStorage::class),
 					]);
 				}
 

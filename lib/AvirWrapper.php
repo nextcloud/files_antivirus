@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus;
 
 use Icewind\Streams\CallbackWrapper;
+use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
@@ -39,6 +40,9 @@ class AvirWrapper extends Wrapper{
 	/** @var ActivityManager */
 	protected $activityManager;
 
+	/** @var bool */
+	protected $isHomeStorage;
+
 	/**
 	 * @param array $parameters
 	 */
@@ -48,6 +52,7 @@ class AvirWrapper extends Wrapper{
 		$this->l10n = $parameters['l10n'];
 		$this->logger = $parameters['logger'];
 		$this->activityManager = $parameters['activityManager'];
+		$this->isHomeStorage = $parameters['isHomeStorage'];
 	}
 	
 	/**
@@ -56,9 +61,17 @@ class AvirWrapper extends Wrapper{
 	 * @param string $mode
 	 * @return resource | bool
 	 */
-	public function fopen($path, $mode){
+	public function fopen($path, $mode) {
 		$stream = $this->storage->fopen($path, $mode);
-		if (is_resource($stream) && $this->isWritingMode($mode)) {
+
+		/*
+		 * Only check when
+		 *  - it is a resource
+		 *  - it is a writing mode
+		 *  - if it is a homestorage it starts with files/
+		 *  - if it is not a homestorage we always wrap (external storages)
+		 */
+		if (is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
 			try {
 				$scanner = $this->scannerFactory->getScanner();
 				$scanner->initScanner();
