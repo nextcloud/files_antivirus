@@ -73,6 +73,7 @@ class AvirWrapperTest extends TestBase {
 			'l10n' => $this->l10n,
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
 		]);
 
 		$this->config->expects($this->any())
