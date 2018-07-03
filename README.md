@@ -24,10 +24,6 @@ The App is not complete yet, the following works/is done:
 * Tested in Linux only
 * Background Job to scan all files
 
-## In progress
-
-* Test uploading from clients
-
 ## ToDo
 
 * File size limit
@@ -37,7 +33,7 @@ The App is not complete yet, the following works/is done:
 
 ## Requirements
 
-* Nextcloud 11
+* Nextcloud 12
 * ClamAV (Binaries or a server running ClamAV in daemon mode)
 
 
