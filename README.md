@@ -15,26 +15,25 @@ remove the file if it's infected.
 
 ## Status
 
-The App is not complete yet, the following works/is done:
+The App currently has the following features:
 * It can be configured to work with the executable or the daemon mode of ClamAV
-* If used in daemon mode it can connect through network- or local file-socket
+* If used in daemon mode (recommended) it can connect through network- or local file-socket
 * In daemon mode, it sends files to a remote/local server using INSTREAM command
 * When the user uploads a file, it's checked
 * If an uploaded file is infected, it's deleted and a notification is shown to the user on screen and an email is sent with details.
-* Tested in Linux only
 * Background Job to scan all files
 
 ## ToDo
 
 * File size limit
 * Configurations Tuneups
-* Other OS Testing
+* Wider OS Testing
 * Look for ideas :P
 
 ## Requirements
 
-* Nextcloud 12
-* ClamAV (Binaries or a server running ClamAV in daemon mode)
+* Nextcloud 12 or 13
+* ClamAV (Binaries or a server running ClamAV in daemon mode <- we recommend to do that)
 
 
 ## Install
