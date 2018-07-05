@@ -1,32 +1,53 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_antivirus</id>
-	<name>Antivirus App for files</name>
-	<summary>Scan the files in your Nextcloud for viruses</summary>
-	<description>
-	This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.
+	<name>Antivirus for files</name>
+	<summary>An antivirus app for Nextcloud based on ClamAV</summary>
+	<description><![CDATA[Antivirus for files is an antivirus app for Nextcloud based on ClamAV.
+
+* 🕵️‍♂️ When the user uploads a file, it's checked
+* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email
+* 🔎 Background Job to scan all files
+
+This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.
 For this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation.
-	</description>
+	]]></description>
 	<version>1.3.1</version>
 	<licence>agpl</licence>
+
 	<author>Manuel Delgado</author>
 	<author>Bart Visscher</author>
 	<author>thinksilicon.de</author>
 	<author>Victor Dubiniuk</author>
 	<author>Roeland Jago Douma</author>
+
 	<namespace>Files_Antivirus</namespace>
+
 	<types>
 		<filesystem/>
 	</types>
+
+	<documentation>
+		<admin>https://docs.nextcloud.com/server/13/admin_manual/configuration_server/antivirus_configuration.html</admin>
+	</documentation>
+
+	<category>security</category>
 	<category>tools</category>
+
 	<bugs>https://github.com/nextcloud/files_antivirus/issues</bugs>
 	<repository type="git">http://github.com/nextcloud/files_antivirus.git</repository>
+
+	<screenshot>https://raw.githubusercontent.com/nextcloud/files_antivirus/master/screenshots/1.png</screenshot>
+
 	<dependencies>
 		<nextcloud min-version="12" max-version="14" />
 	</dependencies>
+
 	<background-jobs>
 		<job>OCA\Files_Antivirus\BackgroundJob\BackgroundScanner</job>
 	</background-jobs>
+
 	<repair-steps>
 		<pre-migration>
 			<step>OCA\Files_Antivirus\Migration\CleanupCronTask</step>
@@ -35,9 +56,11 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 			<step>OCA\Files_Antivirus\Migration\Install</step>
 		</install>
 	</repair-steps>
+
 	<settings>
 		<admin>OCA\Files_Antivirus\Settings\Admin</admin>
 	</settings>
+
 	<activity>
 		<settings>
 			<setting>OCA\Files_Antivirus\Activity\Setting</setting>
