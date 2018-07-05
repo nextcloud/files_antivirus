@@ -5,7 +5,7 @@
 
 `files_antivirus` **is an antivirus app for [Nextcloud](https://nextcloud.com/) using [ClamAV](http://www.clamav.net).**
 
-![](https://raw.githubusercontent.com/nextcloud/files_antivirus/readme-info-xml-polishing/screenshots/1.png)
+![](https://raw.githubusercontent.com/nextcloud/files_antivirus/master/screenshots/1.png)
 
 ## Features
 
