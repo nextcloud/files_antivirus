@@ -9,21 +9,21 @@
 
 ## Features
 
-* When the user uploads a file, it's checked
-* ☢️ Infected files will be deleted and a notification will be shown and/or sent via email 
-* It runs a background job to scan all files
+* :squirrel: When the user uploads a file, it's checked
+* :biohazard: Infected files will be deleted and a notification will be shown and/or sent via email 
+* :mag_right: It runs a background job to scan all files
 
 ## What is planned
 
-* File size limit
-* Configuration Tuneups
-* Wider OS testing
-* Looking for ideas
+* :chart_with_upwards_trend: File size limit
+* :wrench: Configuration Tuneups
+* :telescope: Wider OS testing
+* :thinking: Looking for ideas
 
 ## Requirements
 
 * Nextcloud 12 or 13
-* ClamAV as binaries or as server running ClamAV in daemon mode (recommended ❤️)
+* ClamAV as binaries or as server running ClamAV in daemon mode (recommended :heart:)
 
 ## Install
 
@@ -31,7 +31,7 @@ Documentation about installing ClamAV and this app can be found in [our document
 
 ## Details
 
-This app can be configured to work with the executable or the daemon mode (recommended ❤️) of ClamAV. If this is used in daemon mode it can conntect through network- or local file-socket. In daemon mode, it sends files to a remote/local server using `INSTREAM`-command.
+This app can be configured to work with the executable or the daemon mode (recommended :heart:) of ClamAV. If this is used in daemon mode it can conntect through network- or local file-socket. In daemon mode, it sends files to a remote/local server using `INSTREAM`-command.
 
 ## Maintainers:
 
