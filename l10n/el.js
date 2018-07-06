@@ -9,8 +9,6 @@ OC.L10N.register(
     "The file has been removed" : "Το αρχείο αφαιρέθηκε",
     "Antivirus detected a virus" : "Το Antivirus εντόπισε ιό",
     "Saved" : "Αποθηκεύτηκε",
-    "Antivirus App for files" : "Εφαρμογή Antivirus για αρχεία",
-    "Antivirus Configuration" : "Ρύθμιση Antivirus",
     "Mode" : "Κατάσταση",
     "Executable" : "Εκτελέσιμο",
     "Daemon" : "Υπηρεσία",

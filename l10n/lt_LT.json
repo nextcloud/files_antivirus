@@ -12,7 +12,6 @@
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Atleiskite, tačiau faile, kurį bandėte įkelti, buvo aptikta kenkimo programinė įranga ir jis turėjo būti ištrintas.",
     "This email is a notification from {host}. Please, do not reply." : "Šis el. laiškas yra pranešimas iš {host}. Prašome neatsakyti.",
     "File uploaded: {file}" : "Failas įkeltas: {file}",
-    "Antivirus Configuration" : "Antivirusinės konfigūracija",
     "Mode" : "Veiksena",
     "Executable" : "Vykdomasis",
     "Daemon" : "Tarnyba",

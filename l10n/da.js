@@ -9,7 +9,6 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %ser fundet i fil. Upload kan ikke fortsætte.",
     "Saved" : "Gemt",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Beklager, men der blev fundet malware i en fil du forsøgte at uploade, og den blev slettet.",
-    "Antivirus Configuration" : "Antivirus Opsætning",
     "Clamav Socket." : "Clamav Socket.",
     "bytes" : "bytes",
     "Path to clamscan" : "Sti til clamscan",
