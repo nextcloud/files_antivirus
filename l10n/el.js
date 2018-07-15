@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Δεν έχει ελεγχθεί",
     "Saving..." : "Γίνεται αποθήκευση...",
     "Antivirus" : "Antivirus",
+    "File {file} is infected with {virus}" : "Το αρχείο {file} είναι μολυσμένο με τον ιο {virus}",
     "The file has been removed" : "Το αρχείο αφαιρέθηκε",
     "Antivirus detected a virus" : "Το Antivirus εντόπισε ιό",
     "Saved" : "Αποθηκεύτηκε",
