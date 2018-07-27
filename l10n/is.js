@@ -15,6 +15,7 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Vírusinn %s finnst í skránni. Ekki er hægt að ljúka innsendingu.",
     "Saved" : "Vistað",
     "Antivirus for files" : "Vírusvarnarforrit fyrir skrár",
+    "An antivirus app for Nextcloud based on ClamAV" : "Vírusvarnarforrit fyrir Nextcloud byggt á ClamAV",
     "Greetings {user}," : "Daginn {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Því miður, en það fannst spillifarmur í skrá sem þú varst að reyna að senda inn og því þurfti að eyða henni.",
     "This email is a notification from {host}. Please, do not reply." : "Þessi tölvupóstur er tilkynning frá {host}. Ekki svara honum.",
