@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Clean" : "Vask",
+    "Clean" : "Rens",
     "Infected" : "Infisert",
     "Unchecked" : "Usjekket",
     "Scanner exit status" : "Avslutningsstatus for skanner",
