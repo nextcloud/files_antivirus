@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "files_antivirus",
+    {
+    "Clean" : "Počisti",
+    "Infected" : "Okuženo",
+    "Saving..." : "Poteka shranjevanje ...",
+    "Antivirus" : "Antivirus",
+    "Saved" : "Shranjeno",
+    "Antivirus for files" : "Antivirus za datoteke",
+    "An antivirus app for Nextcloud based on ClamAV" : "Antivirusni program s podporo ClamAV za okolje Nextcloud",
+    "Greetings {user}," : "Pozdravljeni, {user},",
+    "Antivirus for Files" : "Antivirus za datoteke",
+    "Mode" : "Način",
+    "Host" : "Gostitelj",
+    "Port" : "Vrata",
+    "Delete file" : "Izbriši datoteko",
+    "Save" : "Shrani",
+    "Advanced" : "Napredne možnosti",
+    "Rules" : "Pravila",
+    "Clear All" : "Počisti vse",
+    "Reset to defaults" : "Ponastavi na privzeto",
+    "Mark as" : "Označi kot",
+    "Add a rule" : "Dodaj pravilo"
+},
+"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
