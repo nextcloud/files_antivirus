@@ -10,6 +10,8 @@ OC.L10N.register(
     "Antivirus detected a virus" : "Antivirusinė aptiko virusą",
     "Virus %s is detected in the file. Upload cannot be completed." : "Faile yra aptiktas virusas %s. Įkėlimas negali būti užbaigtas.",
     "Saved" : "Įrašyta",
+    "Antivirus for files" : "Failų antivirusinė",
+    "An antivirus app for Nextcloud based on ClamAV" : "Antivirusinė programėlė, pagrįsta ClamAV ir skirta Nextcloud",
     "Greetings {user}," : "Sveiki {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Atleiskite, tačiau faile, kurį bandėte įkelti, buvo aptikta kenkimo programinė įranga ir jis turėjo būti ištrintas.",
     "This email is a notification from {host}. Please, do not reply." : "Šis el. laiškas yra pranešimas iš {host}. Prašome neatsakyti.",
