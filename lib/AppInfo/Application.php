@@ -16,6 +16,7 @@ use OCP\AppFramework\App;
 use OCP\Files\IHomeStorage;
 use OCP\IL10N;
 use OCP\ILogger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 
@@ -46,6 +47,7 @@ class Application extends App {
 					$l10n = $container->query(IL10N::class);
 					$logger = $container->query(ILogger::class);
 					$activityManager = $container->query(IManager::class);
+					$eventDispatcher = $container->query(EventDispatcherInterface::class);
 					return new AvirWrapper([
 						'storage' => $storage,
 						'scannerFactory' => $scannerFactory,
@@ -53,6 +55,7 @@ class Application extends App {
 						'logger' => $logger,
 						'activityManager' => $activityManager,
 						'isHomeStorage' => $storage->instanceOfStorage(IHomeStorage::class),
+						'eventDispatcher' => $eventDispatcher,
 					]);
 				}
 
