@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Clean" : "Nettoyer",
+    "Clean" : "Sain",
     "Infected" : "Infecté",
     "Unchecked" : "Non contrôlé",
     "Scanner exit status" : "État de sortie du scanner",
