@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use \OCP\App;
 use \OCP\IConfig;
 use \OCP\IL10N;
@@ -73,20 +74,18 @@ class AvirWrapper extends Wrapper{
 						if (intval($status->getNumericStatus()) === \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED){
 							//prevent from going to trashbin
 							if (App::isEnabled('files_trashbin')) {
-								\OCA\Files_Trashbin\Storage::preRenameHook([
-									'oldpath' => '',
-									'newpath' => ''
-								]);
+								/** @var ITrashManager $trashManager */
+								$trashManager = \OC::$server->query(ITrashManager::class);
+								$trashManager->pauseTrash();
 							}
 							
 							$owner = $this->getOwner($path);
 							$this->unlink($path);
 
 							if (App::isEnabled('files_trashbin')) {
-								\OCA\Files_Trashbin\Storage::preRenameHook([
-									'oldpath' => '',
-									'newpath' => ''
-								]);
+								/** @var ITrashManager $trashManager */
+								$trashManager = \OC::$server->query(ITrashManager::class);
+								$trashManager->resumeTrash();
 							}
 							$this->logger->warning(
 								'Infected file deleted. ' . $status->getDetails()

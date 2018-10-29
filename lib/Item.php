@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus;
 
 use OC\Files\View;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\App;
 use OCP\IL10N;
 use OCA\Files_Antivirus\Status;
@@ -231,11 +232,15 @@ class Item implements IScannable{
 	private function deleteFile() {
 		//prevent from going to trashbin
 		if (App::isEnabled('files_trashbin')) {
-			\OCA\Files_Trashbin\Storage::preRenameHook([]);
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->pauseTrash();
 		}
 		$this->view->unlink($this->path);
 		if (App::isEnabled('files_trashbin')) {
-			\OCA\Files_Trashbin\Storage::postRenameHook([]);
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->resumeTrash();
 		}
 	}
 	
