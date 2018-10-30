@@ -17,6 +17,7 @@ use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
 use OCP\ILogger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
 
 // mmm. IDK why autoloader fails on this class
@@ -74,6 +75,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 		]);
 
 		$this->config->expects($this->any())

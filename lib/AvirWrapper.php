@@ -9,16 +9,17 @@
 namespace OCA\Files_Antivirus;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
 use OCP\ILogger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AvirWrapper extends Wrapper{
 	
@@ -43,6 +44,9 @@ class AvirWrapper extends Wrapper{
 	/** @var bool */
 	protected $isHomeStorage;
 
+	/** @var bool */
+	private $shouldScan = true;
+
 	/**
 	 * @param array $parameters
 	 */
@@ -53,6 +57,12 @@ class AvirWrapper extends Wrapper{
 		$this->logger = $parameters['logger'];
 		$this->activityManager = $parameters['activityManager'];
 		$this->isHomeStorage = $parameters['isHomeStorage'];
+
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $parameters['eventDispatcher'];
+		$eventDispatcher->addListener(ScanStateEvent::class, function(ScanStateEvent $event) {
+			$this->shouldScan = $event->getState();
+		});
 	}
 	
 	/**
@@ -71,14 +81,14 @@ class AvirWrapper extends Wrapper{
 		 *  - if it is a homestorage it starts with files/
 		 *  - if it is not a homestorage we always wrap (external storages)
 		 */
-		if (is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
+		if ($this->shouldScan && is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
 			try {
 				$scanner = $this->scannerFactory->getScanner();
 				$scanner->initScanner();
 				return CallbackWrapper::wrap(
 					$stream,
 					null,
-					function ($data) use ($scanner){
+					function ($data) use ($scanner) {
 						$scanner->onAsyncData($data);
 					}, 
 					function () use ($scanner, $path) {
