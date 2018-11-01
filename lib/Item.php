@@ -195,7 +195,7 @@ class Item {
 	 */
 	public function logDebug($message) {
 		$extra = ' File: ' . $this->file->getId()
-				. 'Account: ' . $this->file->getOwner()->getUID()
+				. ' Account: ' . $this->file->getOwner()->getUID()
 				. ' Path: ' . $this->file->getPath();
 		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
 	}
