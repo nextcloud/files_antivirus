@@ -127,7 +127,7 @@ class AvirWrapper extends Wrapper{
 							$this->activityManager->publish($activity);
 
 							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
-							' File: ' . $path . ' Acccount: ' . $owner, ['app' => 'files_antivirus']);
+							' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
 
 							throw new InvalidContentException(
 								$this->l10n->t(
