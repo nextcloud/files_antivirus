@@ -12,6 +12,8 @@
     "Antivirus detected a virus" : "Az antivírus vírust észlelt",
     "Virus %s is detected in the file. Upload cannot be completed." : "%s vírus van a fájlban. Feltöltés nem befejezhető.",
     "Saved" : "Mentve",
+    "Antivirus for files" : "Antivírus a fájlokhoz",
+    "An antivirus app for Nextcloud based on ClamAV" : "Egy antivírus alkalmazás a Nextcloudhoz ClamAV alapokon.",
     "Greetings {user}," : "Üdv {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Bocsánat, de malware volt a feltöltött fájlodban, így töröltem.",
     "This email is a notification from {host}. Please, do not reply." : "Ez az e-mail egy értesítés {host} hosttól. Kérlek ne válaszolj.",
