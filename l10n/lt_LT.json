@@ -5,6 +5,7 @@
     "Antivirus" : "Antivirusinė",
     "File {file} is infected with {virus}" : "Failas {file} yra užkrėstas {virus}",
     "The file has been removed" : "Failas buvo pašalintas",
+    "File containing {virus} detected" : "Aptiktas failas, kuriame yra {virus}",
     "Antivirus detected a virus" : "Antivirusinė aptiko virusą",
     "Virus %s is detected in the file. Upload cannot be completed." : "Faile yra aptiktas virusas %s. Įkėlimas negali būti užbaigtas.",
     "Saved" : "Įrašyta",
