@@ -81,17 +81,25 @@ class AvirWrapper extends Wrapper {
 		 *  - if it is a homestorage it starts with files/
 		 *  - if it is not a homestorage we always wrap (external storages)
 		 */
-		if ($this->shouldScan && is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
+		if ($this->shouldWrap($path) && is_resource($stream) && $this->isWritingMode($mode)) {
 			$stream = $this->wrapSteam($path, $stream);
 		}
 		return $stream;
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
-		if ($this->shouldScan && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
+		if ($this->shouldWrap($path)) {
 			$stream = $this->wrapSteam($path, $stream);
 		}
 		return parent::writeStream($path, $stream, $size);
+	}
+
+	private function shouldWrap(string $path): bool {
+		return $this->shouldScan
+			&& (!$this->isHomeStorage
+				|| (strpos($path, 'files/') === 0
+					|| strpos($path, '/files/') == 0)
+			);
 	}
 
 	private function wrapSteam(string $path, $stream) {
