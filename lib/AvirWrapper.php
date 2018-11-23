@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Antivirus;
 
-use Icewind\Streams\CallbackWrapper;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
@@ -22,7 +21,7 @@ use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 
-class AvirWrapper extends Wrapper{
+class AvirWrapper extends Wrapper {
 	
 	/**
 	 * Modes that are used for writing 
@@ -83,63 +82,78 @@ class AvirWrapper extends Wrapper{
 		 *  - if it is not a homestorage we always wrap (external storages)
 		 */
 		if ($this->shouldScan && is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
-			try {
-				$scanner = $this->scannerFactory->getScanner();
-				$scanner->initScanner();
-				return CallbackWrapper::wrap(
-					$stream,
-					null,
-					function ($data) use ($scanner) {
-						$scanner->onAsyncData($data);
-					}, 
-					function () use ($scanner, $path) {
-						$status = $scanner->completeAsyncScan();
-						if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED){
-							//prevent from going to trashbin
-							if (App::isEnabled('files_trashbin')) {
-								/** @var ITrashManager $trashManager */
-								$trashManager = \OC::$server->query(ITrashManager::class);
-								$trashManager->pauseTrash();
-							}
+			$stream = $this->wrapSteam($path, $stream);
+		}
+		return $stream;
+	}
+
+	public function writeStream(string $path, $stream, int $size = null): int {
+		if ($this->shouldScan && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
+			$stream = $this->wrapSteam($path, $stream);
+		}
+		return parent::writeStream($path, $stream, $size);
+	}
+
+	private function wrapSteam(string $path, $stream) {
+		try {
+			$scanner = $this->scannerFactory->getScanner();
+			$scanner->initScanner();
+			return CallbackReadDataWrapper::wrap(
+				$stream,
+				function ($count, $data) use ($scanner) {
+					$scanner->onAsyncData($data);
+				},
+				function ($data) use ($scanner) {
+					$scanner->onAsyncData($data);
+				},
+				function () use ($scanner, $path) {
+					$status = $scanner->completeAsyncScan();
+					if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED){
+						//prevent from going to trashbin
+						if (App::isEnabled('files_trashbin')) {
+							/** @var ITrashManager $trashManager */
+							$trashManager = \OC::$server->query(ITrashManager::class);
+							$trashManager->pauseTrash();
+						}
+
+						$owner = $this->getOwner($path);
+						$this->unlink($path);
+
+						if (App::isEnabled('files_trashbin')) {
+							/** @var ITrashManager $trashManager */
+							$trashManager = \OC::$server->query(ITrashManager::class);
+							$trashManager->resumeTrash();
+						}
 							
-							$owner = $this->getOwner($path);
-							$this->unlink($path);
+						$this->logger->warning(
+							'Infected file deleted. ' . $status->getDetails()
+							. ' Account: ' . $owner . ' Path: ' . $path,
+							['app' => 'files_antivirus']
+						);
 
-							if (App::isEnabled('files_trashbin')) {
-								/** @var ITrashManager $trashManager */
-								$trashManager = \OC::$server->query(ITrashManager::class);
-								$trashManager->resumeTrash();
-							}
-							$this->logger->warning(
-								'Infected file deleted. ' . $status->getDetails()
-								. ' Account: ' . $owner . ' Path: ' . $path,
-								['app' => 'files_antivirus']
-							);
+						$activity = $this->activityManager->generateEvent();
+						$activity->setApp(Application::APP_NAME)
+							->setSubject(Provider::SUBJECT_VIRUS_DETECTED_UPLOAD, [$status->getDetails()])
+							->setMessage(Provider::MESSAGE_FILE_DELETED)
+							->setObject('', 0, $path)
+							->setAffectedUser($owner)
+							->setType(Provider::TYPE_VIRUS_DETECTED);
+						$this->activityManager->publish($activity);
 
-							$activity = $this->activityManager->generateEvent();
-							$activity->setApp(Application::APP_NAME)
-								->setSubject(Provider::SUBJECT_VIRUS_DETECTED_UPLOAD, [$status->getDetails()])
-								->setMessage(Provider::MESSAGE_FILE_DELETED)
-								->setObject('', 0, $path)
-								->setAffectedUser($owner)
-								->setType(Provider::TYPE_VIRUS_DETECTED);
-							$this->activityManager->publish($activity);
-
-							$this->logger->error('Infected file deleted. ' . $status->getDetails() . 
+						$this->logger->error('Infected file deleted. ' . $status->getDetails() .
 							' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
 
-							throw new InvalidContentException(
-								$this->l10n->t(
-									'Virus %s is detected in the file. Upload cannot be completed.',
-									$status->getDetails()
-								)
-							);
-						}
+						throw new InvalidContentException(
+							$this->l10n->t(
+								'Virus %s is detected in the file. Upload cannot be completed.',
+								$status->getDetails()
+							)
+						);
 					}
-				);
-			} catch (\Exception $e){
-				$this->logger->logException($e);
-			}
+				}
+			);
+		} catch (\Exception $e){
+			$this->logger->logException($e);
 		}
 		return $stream;
 	}
