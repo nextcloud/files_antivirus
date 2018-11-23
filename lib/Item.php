@@ -16,7 +16,7 @@ use OCP\App;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\IL10N;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\ILogger;
 
 class Item {
@@ -92,7 +92,7 @@ class Item {
 	 */
 	public function processInfected(Status $status) {
 		$infectedAction = $this->config->getAvInfectedAction();
-		
+
 		$shouldDelete = $infectedAction === 'delete';
 		
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
@@ -182,11 +182,15 @@ class Item {
 	private function deleteFile() {
 		//prevent from going to trashbin
 		if (App::isEnabled('files_trashbin')) {
-			\OCA\Files_Trashbin\Storage::preRenameHook([]);
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->pauseTrash();
 		}
 		$this->file->delete();
 		if (App::isEnabled('files_trashbin')) {
-			\OCA\Files_Trashbin\Storage::postRenameHook([]);
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->resumeTrash();
 		}
 	}
 
