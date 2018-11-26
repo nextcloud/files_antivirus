@@ -7,7 +7,7 @@ php:
 
 env:
   global:
-    - CORE_BRANCH=master
+    - CORE_BRANCH=stable14
     - APP=files_antivirus
   matrix:
     - DB=sqlite
