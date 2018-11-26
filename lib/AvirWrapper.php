@@ -81,7 +81,12 @@ class AvirWrapper extends Wrapper{
 		 *  - if it is a homestorage it starts with files/
 		 *  - if it is not a homestorage we always wrap (external storages)
 		 */
-		if ($this->shouldScan && is_resource($stream) && $this->isWritingMode($mode) && (!$this->isHomeStorage || strpos($path, 'files/') === 0)) {
+		if ($this->shouldScan
+			&& is_resource($stream)
+			&& $this->isWritingMode($mode)
+			&& (!$this->isHomeStorage
+				|| strpos($path, 'files/') === 0
+				|| strpos($path, '/files/') === 0)) {
 			try {
 				$scanner = $this->scannerFactory->getScanner();
 				$scanner->initScanner();
