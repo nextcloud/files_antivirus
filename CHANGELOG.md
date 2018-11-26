@@ -13,8 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Translations
 - Release mechanism to krankerl
 
+### Removed
+- < NC15 support
+
 ### Fixed
 - Also properly scan shared folder upload
+
 
 ## [1.4.1] - 2018-10-30
 ### Fixed
