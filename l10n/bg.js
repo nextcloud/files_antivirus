@@ -18,7 +18,7 @@ OC.L10N.register(
     "Reset to defaults" : "Настройки по подразбиране",
     "Match by" : "Съвпадение по",
     "Description" : "Описание",
-    "Mark as" : "Маркирай като",
+    "Mark as" : "Означи като",
     "Add a rule" : "Добави правило"
 },
 "nplurals=2; plural=(n != 1);");
