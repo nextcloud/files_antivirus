@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "files_antivirus",
+    {
+    "Clean" : "Garbitu",
+    "Infected" : "Infektatua",
+    "Unchecked" : "Egiaztatu gabea",
+    "Saving..." : "Gordetzen...",
+    "Antivirus" : "Antibirusa",
+    "Saved" : "Gordeta",
+    "Greetings {user}," : "Kaixo {user},",
+    "Mode" : "Modua",
+    "Executable" : "Exekutagarria",
+    "Host" : "Ostalaria",
+    "Port" : "Ataka",
+    "bytes" : "byte",
+    "Save" : "Gorde",
+    "Advanced" : "Aurreratua",
+    "Rules" : "Arauak",
+    "Clear All" : "Garbitu dena",
+    "Reset to defaults" : "Berrezarri lehenetsitakoak",
+    "Description" : "Deskripzioa",
+    "Mark as" : "Markatu honela",
+    "Add a rule" : "Gehitu arau bat"
+},
+"nplurals=2; plural=(n != 1);");
