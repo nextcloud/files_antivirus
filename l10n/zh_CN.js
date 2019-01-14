@@ -8,6 +8,7 @@ OC.L10N.register(
     "Scanner output" : "扫描器输出",
     "Saving..." : "保存中...",
     "Antivirus" : "反病毒",
+    "The file has been removed" : "文件已移除",
     "Virus %s is detected in the file. Upload cannot be completed." : "在文件中检测到病毒 %s。上传未能完成。",
     "Saved" : "已保存",
     "Greetings {user}," : "您好 {user}，",
