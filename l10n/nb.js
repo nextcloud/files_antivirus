@@ -23,7 +23,7 @@ OC.L10N.register(
     "Daemon" : "Nisse",
     "Host" : "Vert",
     "Port" : "Port",
-    "Port number of Antivirus Host." : "Port nummer for anti-virus tjener",
+    "Port number of Antivirus Host." : "Port nummer for anti-virus server",
     "Stream Length" : "Lengde på strøm",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength verdi i bytes.",
     "bytes" : "byte",
