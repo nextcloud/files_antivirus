@@ -22,6 +22,7 @@ OC.L10N.register(
     "Executable" : "Programfil",
     "Daemon" : "Nisse",
     "Host" : "Vert",
+    "Address of Antivirus Host." : "Addresse for anti-virus-server",
     "Port" : "Port",
     "Port number of Antivirus Host." : "Port nummer for anti-virus server",
     "Stream Length" : "Lengde på strøm",
