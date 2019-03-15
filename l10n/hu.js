@@ -20,6 +20,7 @@ OC.L10N.register(
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Bocsánat, de malware volt a feltöltött fájlodban, így töröltem.",
     "This email is a notification from {host}. Please, do not reply." : "Ez az e-mail egy értesítés {host} hosttól. Kérlek ne válaszolj.",
     "File uploaded: {file}" : "Fájl feltöltve: {file}",
+    "Antivirus for Files" : "Anivirus fájlokhoz",
     "Mode" : "Mód",
     "Executable" : "Végrehajtható",
     "Daemon" : "Démon",
