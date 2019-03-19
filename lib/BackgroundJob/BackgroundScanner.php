@@ -21,9 +21,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class BackgroundScanner extends TimedJob {
-
-	const BATCH_SIZE = 10;
-
 	/** @var IRootFolder */
 	protected $rootFolder;
 
@@ -47,19 +44,9 @@ class BackgroundScanner extends TimedJob {
 
 	/** @var ItemFactory */
 	protected $itemFactory;
+	/** @var bool */
+	private $isCLI;
 
-	/**
-	 * A constructor
-	 *
-	 * @param ScannerFactory $scannerFactory
-	 * @param AppConfig $appConfig
-	 * @param IRootFolder $rootFolder
-	 * @param ILogger $logger
-	 * @param IUserManager $userManager
-	 * @param IDBConnection $db
-	 * @param IMimeTypeLoader $mimeTypeLoader
-	 * @param ItemFactory $itemFactory
-	 */
 	public function __construct(ScannerFactory $scannerFactory,
 								AppConfig $appConfig,
 								IRootFolder $rootFolder,
@@ -67,7 +54,8 @@ class BackgroundScanner extends TimedJob {
 								IUserManager $userManager,
 								IDBConnection $db,
 								IMimeTypeLoader $mimeTypeLoader,
-								ItemFactory $itemFactory
+								ItemFactory $itemFactory,
+								bool $isCLI
 	){
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
@@ -77,6 +65,7 @@ class BackgroundScanner extends TimedJob {
 		$this->db = $db;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 		$this->itemFactory = $itemFactory;
+		$this->isCLI = $isCLI;
 
 		// Run once per 15 minutes
 		$this->setInterval(60 * 15);
@@ -94,8 +83,13 @@ class BackgroundScanner extends TimedJob {
 			return;
 		}
 
+		$batchSize = 10;
+		if ($this->isCLI) {
+			$batchSize = 100;
+		}
+
 		$cnt = 0;
-		while (($row = $result->fetch()) && $cnt < self::BATCH_SIZE) {
+		while (($row = $result->fetch()) && $cnt < $batchSize) {
 			try {
 				$fileId = $row['fileid'];
 				$userId = $row['user_id'];
