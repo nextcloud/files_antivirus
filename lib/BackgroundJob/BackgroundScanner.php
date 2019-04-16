@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
@@ -12,6 +13,7 @@ use OC\BackgroundJob\TimedJob;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
@@ -74,44 +76,112 @@ class BackgroundScanner extends TimedJob {
 	/**
 	 * Background scanner main job
 	 */
-	public function run($args){
+	public function run($args): void {
 		// locate files that are not checked yet
 		try {
-			$result = $this->getFilesForScan();
+			$result = $this->getUnscannedFiled();
 		} catch(\Exception $e) {
-			$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+			$this->logger->logException($e);
 			return;
 		}
 
-		$batchSize = 10;
-		if ($this->isCLI) {
-			$batchSize = 100;
-		}
+		$batchSize = $this->getBatchSize();
 
+		// Run for unscanned files
 		$cnt = 0;
 		while (($row = $result->fetch()) && $cnt < $batchSize) {
 			try {
 				$fileId = $row['fileid'];
-				$userId = $row['user_id'];
-				/** @var IUser $owner */
-				$owner = $this->userManager->get($userId);
-				if (!$owner instanceof IUser){
-					continue;
+				$users = $this->getUserWithAccessToStorage((int)$row['storage']);
+
+				foreach ($users as $user) {
+					/** @var IUser $owner */
+					$owner = $this->userManager->get($user['user_id']);
+					if (!$owner instanceof IUser){
+						continue;
+					}
+
+					$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+					$files = $userFolder->getById($fileId);
+
+					if ($files === []) {
+						continue;
+					}
+
+					$file = array_pop($files);
+					if ($file instanceof File) {
+						$this->scanOneFile($file);
+					} else {
+						$this->logger->error('Tried to scan non file');
+					}
+
+					// increased only for successfully scanned files
+					$cnt++;
+					break;
 				}
-				$this->scanOneFile($owner, $fileId);
-				// increased only for successfully scanned files
-				$cnt = $cnt + 1;
+			} catch (\Exception $e) {
+				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+			}
+		}
+
+		if ($cnt === $batchSize) {
+			// we are done
+			return;
+		}
+
+		// Run for updated files
+		try {
+			$result = $this->getToRescanFiles();
+		} catch(\Exception $e) {
+			$this->logger->logException($e);
+			return;
+		}
+
+		while (($row = $result->fetch()) && $cnt < $batchSize) {
+			try {
+				$fileId = $row['fileid'];
+				$users = $this->getUserWithAccessToStorage((int)$row['storage']);
+
+				foreach ($users as $user) {
+					/** @var IUser $owner */
+					$owner = $this->userManager->get($user);
+					if (!$owner instanceof IUser){
+						continue;
+					}
+
+					$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+					$files = $userFolder->getById($fileId);
+
+					if ($files === []) {
+						continue;
+					}
+
+					$file = array_pop($files);
+					if ($file instanceof File) {
+						$this->scanOneFile($file);
+					} else {
+						$this->logger->error('Tried to scan non file');
+					}
+
+					// increased only for successfully scanned files
+					$cnt++;
+					break;
+				}
 			} catch (\Exception $e) {
 				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
 	}
 
-	protected function getFilesForScan(){
-		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
+	protected function getBatchSize(): int {
+		$batchSize = 10;
+		if ($this->isCLI) {
+			$batchSize = 100;
+		}
+		return $batchSize;
+	}
 
-		$qb = $this->db->getQueryBuilder();
-
+	protected function getSizeLimitExpression(IQueryBuilder $qb)  {
 		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
 		if ( $sizeLimit === -1 ){
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
@@ -122,53 +192,54 @@ class BackgroundScanner extends TimedJob {
 			);
 		}
 
-		$qb->select(['fc.fileid', 'mnt.user_id'])
+		return $sizeLimitExpr;
+	}
+
+	protected function getUserWithAccessToStorage(int $storageId): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user_id')
+			->from('mounts')
+			->where($qb->expr()->eq('storage_id', $qb->createNamedParameter($storageId)));
+
+		$cursor = $qb->execute();
+		$data = $cursor->fetchAll();
+		$cursor->closeCursor();
+		return $data;
+	}
+
+	protected function getUnscannedFiled() {
+		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
+
+		$qb1 = $this->db->getQueryBuilder();
+		$qb1->select('fileid')
+			->from('files_antivirus');
+
+		$qb2 = $this->db->getQueryBuilder();
+		$qb2->select('fileid', 'storage')
 			->from('filecache', 'fc')
-			->leftJoin('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fa.fileid', 'fc.fileid'))
-			->innerJoin(
-				'fc',
-				'mounts',
-				'mnt',
-				$qb->expr()->andX(
-					$qb->expr()->eq('fc.storage', 'mnt.storage_id')
-				)
-			)
-			->where(
-				$qb->expr()->neq('fc.mimetype', $qb->expr()->literal($dirMimeTypeId))
-			)
-			->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->isNull('fa.fileid'),
-					$qb->expr()->gt('fc.mtime', 'fa.check_time')
-				)
-			)
-			->andWhere(
-				$qb->expr()->like('fc.path', $qb->expr()->literal('files/%'))
-			)
-			->andWhere( $sizeLimitExpr )
-		;
+			->where($qb2->expr()->notIn('fileid', $qb2->createFunction($qb1->getSQL())))
+			->andWhere($qb2->expr()->neq('mimetype', $qb2->expr()->literal($dirMimeTypeId)))
+			->andWhere($qb2->expr()->like('path', $qb2->expr()->literal('files/%')))
+			->andWhere($this->getSizeLimitExpression($qb2))
+			->setMaxResults($this->getBatchSize() * 10);
+
+		return $qb2->execute();
+	}
+
+	protected function getToRescanFiles() {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('fc.fileid', 'fc.storage')
+			->from('filecache', 'fc')
+			->join('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fc.fileid', 'fa.fileid'))
+			->andWhere($qb->expr()->lt('fa.check_time', 'fc.mtime'))
+			->andWhere($this->getSizeLimitExpression($qb))
+			->setMaxResults($this->getBatchSize() * 10);
+
 		return $qb->execute();
 	}
 
-	/**
-	 * @param IUser $owner
-	 * @param int $fileId
-	 */
-	protected function scanOneFile(IUser $owner, $fileId){
-		$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
-		$files = $userFolder->getById($fileId);
-
-		if (count($files) === 0) {
-			return;
-		}
-
-		/** @var File $file */
-		$file = array_pop($files);
-
-		if (!($file instanceof File)) {
-			return;
-		}
-
+	protected function scanOneFile(File $file): void {
 		$item = $this->itemFactory->newItem($file);
 		$scanner = $this->scannerFactory->getScanner();
 		$status = $scanner->scan($item);
