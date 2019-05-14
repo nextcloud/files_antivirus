@@ -49,7 +49,7 @@ OC.L10N.register(
     "Advanced" : "Avanzado",
     "Rules" : "Regras",
     "Clear All" : "Limpar todo",
-    "Reset to defaults" : "Restabelecer a predeterminados",
+    "Reset to defaults" : "Restabelecer os valores predeterminados",
     "Match by" : "Coincidir con",
     "Scanner exit status or signature to search" : "Estado de saída do escáner ou sinatura para buscar",
     "Description" : "Descrición",
