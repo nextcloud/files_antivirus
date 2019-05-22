@@ -17,6 +17,7 @@ OC.L10N.register(
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Atleiskite, tačiau faile, kurį bandėte įkelti, buvo aptikta kenkimo programinė įranga ir jis turėjo būti ištrintas.",
     "This email is a notification from {host}. Please, do not reply." : "Šis el. laiškas yra pranešimas iš {host}. Prašome neatsakyti.",
     "File uploaded: {file}" : "Failas įkeltas: {file}",
+    "Antivirus for Files" : "Failų antivirusinė",
     "Mode" : "Veiksena",
     "Executable" : "Vykdomasis",
     "Daemon" : "Tarnyba",
@@ -37,6 +38,7 @@ OC.L10N.register(
     "Clear All" : "Išvalyti viską",
     "Reset to defaults" : "Atstatyti į numatytuosius",
     "Description" : "Aprašas",
+    "Mark as" : "Žymėti kaip",
     "Add a rule" : "Pridėti taisyklę"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
