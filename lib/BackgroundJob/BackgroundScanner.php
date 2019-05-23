@@ -144,7 +144,7 @@ class BackgroundScanner extends TimedJob {
 
 				foreach ($users as $user) {
 					/** @var IUser $owner */
-					$owner = $this->userManager->get($user);
+					$owner = $this->userManager->get($user['user_id']);
 					if (!$owner instanceof IUser){
 						continue;
 					}
