@@ -1,0 +1,8 @@
+{ "translations": {
+    "Clean" : "Llimpio",
+    "Infected" : "Infeutao",
+    "Scanner output" : "Salida del escaniador",
+    "Saving..." : "Guardando...",
+    "Description" : "Descripción"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
