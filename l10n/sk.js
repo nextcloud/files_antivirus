@@ -49,6 +49,7 @@ OC.L10N.register(
     "Rules" : "Pravidlá",
     "Clear All" : "Vyčistiť všetko",
     "Reset to defaults" : "Obnoviť predvolené",
+    "Match by" : "Hľadať zhodu s",
     "Scanner exit status or signature to search" : "Stav výstupu skenera alebo signatúra na vyhľadanie",
     "Description" : "Popis",
     "Mark as" : "Označiť ako",
