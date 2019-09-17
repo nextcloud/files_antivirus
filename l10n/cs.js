@@ -37,7 +37,7 @@ OC.L10N.register(
     "ClamAV StreamMaxLength value in bytes." : "Hodnota ClamAV StreamMaxLength (v bajtech).",
     "bytes" : "bajtů",
     "Path to clamscan" : "Cesta k clamscan",
-    "Path to clamscan executable." : "Popis umístění spustitelného souboru clamscan",
+    "Path to clamscan executable." : "Cesta ke spustitelnému souboru clamscan",
     "Not required in Daemon Mode." : "Není vyžadováno v režimu procesu služby.",
     "Extra command line options (comma-separated)" : "Dodatečné volby příkazové řádky (oddělené čárkou)",
     "File size limit, -1 means no limit" : "Limit velikosti souboru, -1 znamená bez omezení",
