@@ -194,24 +194,33 @@ class Item {
 		}
 	}
 
+	private function generateExtraInfo() {
+		$owner = $this->file->getOwner();
+
+		if ($owner === null) {
+			$ownerInfo = 'Account: NO OWNER FOUND';
+		} else {
+			$ownerInfo = 'Account: ' . $owner->getUID();
+		}
+
+		$extra = ' File: ' . $this->file->getId()
+			. $ownerInfo
+			. ' Path: ' . $this->file->getPath();
+
+		return $extra;
+	}
+
 	/**
 	 * @param string $message
 	 */
 	public function logDebug($message) {
-		$extra = ' File: ' . $this->file->getId()
-				. ' Account: ' . $this->file->getOwner()->getUID()
-				. ' Path: ' . $this->file->getPath();
-		$this->logger->debug($message . $extra, ['app' => 'files_antivirus']);
+		$this->logger->debug($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
 
 	/**
 	 * @param string $message
 	 */
 	public function logError($message) {
-		$ownerInfo = 'Account: ' . $this->file->getOwner()->getUID();
-		$extra = ' File: ' . $this->file->getId()
-				. $ownerInfo 
-				. ' Path: ' . $this->file->getPath();
-		$this->logger->error($message . $extra, ['app' => 'files_antivirus']);
+		$this->logger->error($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
 }
