@@ -18,7 +18,7 @@
     "Greetings {user}," : "Приветствуем {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Извините, но вредоносная программа была обнаружена в файле, который вы пытались загрузить и он должен быть удалён.",
     "This email is a notification from {host}. Please, do not reply." : "Это сообщение является оповещением из  {host}. Пожалуйста, не отвечайте на него.",
-    "File uploaded: {file}" : "Файл загружен: {file}",
+    "File uploaded: {file}" : "Файл отправлен: {file}",
     "Antivirus for Files" : "Антивирус для Файлов",
     "Mode" : "Режим",
     "Executable" : "Выполнимый",
