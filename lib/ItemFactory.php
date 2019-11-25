@@ -70,14 +70,15 @@ class ItemFactory {
 	 * @param File $file
 	 * @return Item
 	 */
-	public function newItem(File $file) {
+	public function newItem(File $file, $isCron = false) {
 		return new Item(
 			$this->config,
 			$this->activityManager,
 			$this->itemMapper,
 			$this->logger,
 			$this->rootFolder,
-			$file
+			$file,
+			$isCron
 		);
 	}
 }

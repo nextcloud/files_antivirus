@@ -43,6 +43,7 @@ class Item {
 
 	/** @var File */
 	private $file;
+	private $isCron;
 
 	/**
 	 * Item constructor.
@@ -53,19 +54,22 @@ class Item {
 	 * @param ILogger $logger
 	 * @param IRootFolder $rootFolder
 	 * @param File $file
+	 * @param bool $isCron
 	 */
 	public function __construct(AppConfig $appConfig,
 								ActivityManager $activityManager,
 								ItemMapper $itemMapper,
 								ILogger $logger,
 								IRootFolder $rootFolder,
-								File $file) {
+								File $file,
+								$isCron) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->file = $file;
+		$this->isCron = $isCron;
 	}
 
 	/**
@@ -94,7 +98,7 @@ class Item {
 		$infectedAction = $this->config->getAvInfectedAction();
 
 		$shouldDelete = $infectedAction === 'delete';
-		
+
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
 		$userFolder = $this->rootFolder->getUserFolder($this->file->getOwner()->getUID());
@@ -110,10 +114,20 @@ class Item {
 		$this->activityManager->publish($activity);
 
 		if ($shouldDelete) {
-			$this->logError('Infected file deleted. ' . $status->getDetails());
+			if ($this->isCron) {
+				$msg = 'Infected file deleted (during background scan)';
+			} else {
+				$msg = 'Infected file deleted.';
+			}
+			$this->logError($msg . ' ' . $status->getDetails());
 			$this->deleteFile();
 		} else {
-			$this->logError('File is infected. '  . $status->getDetails());
+			if ($this->isCron) {
+				$msg = 'Infected file found (during background scan)';
+			} else {
+				$msg = 'Infected file found.';
+			}
+			$this->logError($msg . ' ' . $status->getDetails());
 		}
 	}
 
