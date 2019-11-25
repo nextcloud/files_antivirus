@@ -72,7 +72,7 @@ class BackgroundScanner extends TimedJob {
 		// Run once per 15 minutes
 		$this->setInterval(60 * 15);
 	}
-	
+
 	/**
 	 * Background scanner main job
 	 */
@@ -85,6 +85,7 @@ class BackgroundScanner extends TimedJob {
 			return;
 		}
 
+		$this->logger->debug('Start background scan');
 		$batchSize = $this->getBatchSize();
 
 		// Run for unscanned files
@@ -178,6 +179,9 @@ class BackgroundScanner extends TimedJob {
 		if ($this->isCLI) {
 			$batchSize = 100;
 		}
+
+		$this->logger->debug('Batch size is: ' . $batchSize);
+
 		return $batchSize;
 	}
 
@@ -240,7 +244,9 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	protected function scanOneFile(File $file): void {
-		$item = $this->itemFactory->newItem($file);
+		$this->logger->debug('Scanning file with fileid: ' . $file->getId());
+
+		$item = $this->itemFactory->newItem($file, true);
 		$scanner = $this->scannerFactory->getScanner();
 		$status = $scanner->scan($item);
 		$status->dispatch($item);
