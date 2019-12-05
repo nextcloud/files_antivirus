@@ -29,7 +29,7 @@ abstract class TestBase extends TestCase {
 	protected $l10n;
 
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		\OC_App::loadApp('files_antivirus');
 
