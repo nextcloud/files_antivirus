@@ -10,7 +10,7 @@ namespace OCA\Files_Antivirus\Tests\Db;
 
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Status;
-use OCA\Files_antivirus\Tests\TestBase;
+use OCA\Files_Antivirus\Tests\TestBase;
 
 /**
  * @group DB
@@ -33,7 +33,7 @@ class RuleTest extends TestBase {
 			'description' => "",
 			'status' => Status::SCANRESULT_CLEAN
 		];
-		
+
 		$rule = Rule::fromParams($data);
 		$actual = $rule->jsonSerialize();
 		$this->assertArrayHasKey('id', $actual);

@@ -24,7 +24,7 @@ class StatusTest extends TestBase {
 	protected $ruleMapper;
 
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
