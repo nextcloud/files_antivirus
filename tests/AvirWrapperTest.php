@@ -46,7 +46,7 @@ class AvirWrapperTest extends TestBase {
 	/** @var AvirWrapper */
 	protected $wrappedStorage;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->createUser(self::UID, self::PWD);
 
