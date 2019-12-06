@@ -22,12 +22,12 @@
 
 ## Requirements
 
-* Nextcloud 12 or 13
+* Nextcloud 15 - 18
 * ClamAV as binaries or as server running ClamAV in daemon mode (recommended :heart:)
 
 ## Install
 
-Documentation about installing ClamAV and this app can be found in [our documentation](https://docs.nextcloud.com/server/13/admin_manual/configuration_server/antivirus_configuration.html).
+Documentation about installing ClamAV and this app can be found in [our documentation](https://docs.nextcloud.com/server/17/admin_manual/configuration_server/antivirus_configuration.html).
 
 ## Details
 
