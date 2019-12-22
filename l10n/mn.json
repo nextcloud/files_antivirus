@@ -1,0 +1,10 @@
+{ "translations": {
+    "Saved" : "Хадгалах",
+    "Host" : "хост",
+    "Port" : "порт",
+    "Delete file" : "Файл устгах",
+    "Save" : "Хадгалах",
+    "Advanced" : "нарийвчилсан",
+    "Description" : "Тодорхойлолт"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

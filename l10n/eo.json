@@ -1,0 +1,11 @@
+{ "translations": {
+    "Saving..." : "Konservado...",
+    "Saved" : "Konservita",
+    "Host" : "Gastigo",
+    "Port" : "Pordo",
+    "Delete file" : "Forigi dosieron",
+    "Save" : "Konservi",
+    "Advanced" : "Progresinta",
+    "Description" : "Priskribo"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

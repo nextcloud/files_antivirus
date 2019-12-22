@@ -24,6 +24,7 @@ OC.L10N.register(
     "Daemon (Socket)" : "Tarnyba (Lizdas)",
     "Socket" : "Lizdas",
     "Clamav Socket." : "Clamav lizdas.",
+    "Host" : "Serveris",
     "Port" : "Prievadas",
     "Stream Length" : "Srauto ilgis",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength reikšmė, baitais.",

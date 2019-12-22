@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saving..." : "Записване...",
+    "Saved" : "Запазено",
     "Greetings {user}," : "Привет {user},",
     "This email is a notification from {host}. Please, do not reply." : "Имейлът е известие от {host}. Моля, не отговаряйте.",
     "Mode" : "Режим",

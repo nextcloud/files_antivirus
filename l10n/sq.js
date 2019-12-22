@@ -9,6 +9,7 @@ OC.L10N.register(
     "File {file} is infected with {virus}" : "Skedari {file} është infektuar me {virus}",
     "The file has been removed" : "Skedari është fshirë",
     "Saved" : "Ruajtur",
+    "Host" : "Strehë",
     "Port" : "Porta",
     "Not required in Daemon Mode." : "Nuk kërkohet në Gjendjen Daemon",
     "File size limit, -1 means no limit" : "Limiti -1 i madhësisë së skedarit, do të thotë jo limit",

@@ -1,0 +1,11 @@
+{ "translations": {
+    "Saving..." : "Salvestamine...",
+    "Saved" : "Salvestatud",
+    "Host" : "Host",
+    "Port" : "Port",
+    "Delete file" : "Kustuta fail",
+    "Save" : "Salvesta",
+    "Advanced" : "Täpsem",
+    "Description" : "Kirjeldus"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

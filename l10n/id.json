@@ -1,0 +1,10 @@
+{ "translations": {
+    "Saving..." : "Menyimpan...",
+    "Saved" : "Disimpan",
+    "Host" : "Host",
+    "Port" : "Port",
+    "Save" : "Simpan",
+    "Advanced" : "Lanjutan",
+    "Description" : "Deskrisi"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

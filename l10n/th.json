@@ -1,0 +1,10 @@
+{ "translations": {
+    "Saving..." : "กำลังบันทึกข้อมูล...",
+    "Saved" : "บันทึกแล้ว",
+    "Host" : "โฮสต์",
+    "Port" : "พอร์ต",
+    "Save" : "บันทึก",
+    "Advanced" : "ขั้นสูง",
+    "Description" : "รายละเอียด"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

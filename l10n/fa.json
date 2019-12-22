@@ -1,0 +1,10 @@
+{ "translations": {
+    "Saving..." : "در حال ذخیره سازی...",
+    "Saved" : "ذخیره شد",
+    "Host" : "میزبان",
+    "Port" : "درگاه",
+    "Save" : "ذخیره",
+    "Advanced" : "پیشرفته",
+    "Description" : "توضیحات"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}
