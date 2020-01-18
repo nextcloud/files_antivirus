@@ -26,6 +26,8 @@ OC.L10N.register(
     "Executable" : "Körbar",
     "Daemon" : "Demon",
     "Daemon (Socket)" : "Demon (Socket)",
+    "Socket" : "Socket",
+    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Krävs inte i körbart läge.",
     "Host" : "Värd",
     "Address of Antivirus Host." : "Adress för antivirus-värd.",
