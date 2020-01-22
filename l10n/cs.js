@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Clean" : "Vyčistit",
     "Infected" : "Nakažené",
-    "Unchecked" : "Nezaškrtnuto",
+    "Unchecked" : "Nezkontrolováno",
     "Scanner exit status" : "Návratový stav skeneru",
     "Scanner output" : "Výstup ze skeneru",
     "Saving..." : "Ukládání…",
