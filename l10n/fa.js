@@ -48,6 +48,9 @@ OC.L10N.register(
     "Advanced" : "پیشرفته",
     "Rules" : "قوانین",
     "Clear All" : "همه را پاک کن",
+    "Reset to defaults" : "بازگردانی به حالت پیش فرض",
+    "Match by" : "مطابق با",
+    "Scanner exit status or signature to search" : "وضعیت خروجی اسکنر یا جستجوی امضای دیجیتال",
     "Description" : "توضیحات",
     "Mark as" : "علامت گذاری به عنوان",
     "Add a rule" : "ثبت قانون"
