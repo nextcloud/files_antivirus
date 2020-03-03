@@ -129,21 +129,21 @@ var antivirusSettings = antivirusSettings || {
 };
 
 
-function av_mode_show_options(str) {
+function av_mode_show_options(str, mode = 'slow') {
 	if ( str === 'daemon' || str === 'kaspersky'){
-		$('tr.av_socket, tr.av_path').hide('slow');
-		$('tr.av_host, tr.av_port').show('slow');
+		$('tr.av_socket, tr.av_path').hide(mode);
+		$('tr.av_host, tr.av_port').show(mode);
 	} else if ( str === 'socket' ) {
-		$('tr.av_socket').show('slow');
-		$('tr.av_path, tr.av_host, tr.av_port').hide('slow');
+		$('tr.av_socket').show(mode);
+		$('tr.av_path, tr.av_host, tr.av_port').hide(mode);
 	} else if (str === 'executable'){
-		$('tr.av_socket, tr.av_host, tr.av_port').hide('slow');
-		$('tr.av_path').show('slow');
+		$('tr.av_socket, tr.av_host, tr.av_port').hide(mode);
+		$('tr.av_path').show(mode);
 	}
 	if (str === 'kaspersky') {
-		$('#antivirus-advanced-wrapper').hide('slow');
+		$('#antivirus-advanced-wrapper').hide(mode);
 	} else {
-		$('#antivirus-advanced-wrapper').show('slow');
+		$('#antivirus-advanced-wrapper').show(mode);
 	}
 }
 $(document).ready(function() {
@@ -200,7 +200,9 @@ $(document).ready(function() {
 	$('#antivirus-statuses tbody').on('click', 'td.icon-checkmark', antivirusSettings.onSave);
 	$("#av_mode").change(function () {
 		var str = $("#av_mode").val();
-		av_mode_show_options(str);
+		av_mode_show_options(str, 'slow');
 	});
-	$("#av_mode").change();
+
+	var str = $("#av_mode").val();
+	av_mode_show_options(str, '');
 });
