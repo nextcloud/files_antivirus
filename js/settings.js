@@ -16,19 +16,19 @@ var antivirusSettings = antivirusSettings || {
 				}
 				for (var i = 0; i < response.statuses.length; i++) {
 					antivirusSettings.renderRow(response.statuses[i]);
-				}		
+				}
 			}
 		);
 	},
-	
+
 	renderRow : function(data){
 		var row = $('<tr />').data('id', data.id).appendTo($('#antivirus-statuses'));
 		$('<td class="icon-checkmark shaded" />').appendTo(row);
 		antivirusSettings.renderSelect(
-				$('<td class="status-type" />').appendTo(row), 
+				$('<td class="status-type" />').appendTo(row),
 				{options : antivirusSettings.types, current : data.status_type}
 		);
-		$('<td class="match editable" />').appendTo(row).text(  
+		$('<td class="match editable" />').appendTo(row).text(
 				(data.status_type == 1 ? data.result : data.match)
 		);
 		$('<td class="description editable" />').appendTo(row).text(data.description);
@@ -36,10 +36,10 @@ var antivirusSettings = antivirusSettings || {
 				$('<td class="scan-result" />').appendTo(row),
 				{ options : antivirusSettings.statuses, current : data.status }
 		);
-		
+
 		$('<td class="icon-delete" />').appendTo(row);
 	},
-	
+
 	onSave : function(){
 		var node = $(this),
 		row = $(node).parent(),
@@ -50,7 +50,7 @@ var antivirusSettings = antivirusSettings || {
 			description : row.children('.description').text(),
 			status : row.find('.scan-result select').val()
 		};
-		
+
 		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/save'), data,
 			function onSuccess(response){
 				if (response && response.id){
@@ -60,7 +60,7 @@ var antivirusSettings = antivirusSettings || {
 			}
 		);
 	},
-	
+
 	onEdit : function(node){
 		if ($(node).find('input').length){
 			return;
@@ -96,9 +96,9 @@ var antivirusSettings = antivirusSettings || {
 			.appendTo(node)
 				.focus()
 		;
-		
+
 	},
-	
+
 	deleteRow : function(){
 		var row = $(this).parent();
 		row.hide();
@@ -108,7 +108,7 @@ var antivirusSettings = antivirusSettings || {
 			}
 		);
 	},
-	
+
 	renderSelect : function(parent, data){
 		var select = $('<select />')
 				.on('change', function(){
@@ -129,16 +129,21 @@ var antivirusSettings = antivirusSettings || {
 };
 
 
-function av_mode_show_options(str){
-	if ( str == 'daemon' || str == 'kaspersky'){
-		$('p.av_socket, p.av_path').hide('slow');
-		$('p.av_host, p.av_port').show('slow');
-	} else if ( str == 'socket' ) {
-		$('p.av_socket').show('slow');
-		$('p.av_path, p.av_host, p.av_port').hide('slow');
-	} else if (str == 'executable'){
-		$('p.av_socket, p.av_host, p.av_port').hide('slow');
-		$('p.av_path').show('slow');
+function av_mode_show_options(str) {
+	if ( str === 'daemon' || str === 'kaspersky'){
+		$('tr.av_socket, tr.av_path').hide('slow');
+		$('tr.av_host, tr.av_port').show('slow');
+	} else if ( str === 'socket' ) {
+		$('tr.av_socket').show('slow');
+		$('tr.av_path, tr.av_host, tr.av_port').hide('slow');
+	} else if (str === 'executable'){
+		$('tr.av_socket, tr.av_host, tr.av_port').hide('slow');
+		$('tr.av_path').show('slow');
+	}
+	if (str === 'kaspersky') {
+		$('#antivirus-advanced-wrapper').hide('slow');
+	} else {
+		$('#antivirus-advanced-wrapper').show('slow');
 	}
 }
 $(document).ready(function() {
@@ -151,16 +156,16 @@ $(document).ready(function() {
 				function(data){
 					OC.msg.finishedAction('#antivirus_save_msg', data);
 				}
-		
+
 		);
 	});
-	
+
 	$('#antivirus-advanced').on('click', function () {
 		$('.section-antivirus .spoiler').toggle();
 		antivirusSettings.init();
 	});
-	
-	
+
+
 	$('#antivirus-reset').on('click', function (){
 		$.post(OC.generateUrl('apps/files_antivirus/settings/rule/reset'),
 			function onSuccess(){
@@ -175,7 +180,7 @@ $(document).ready(function() {
 				antivirusSettings.init();
 			});
 	});
-	
+
 	$('#antivirus-add').on('click', function (){
 		antivirusSettings.renderRow({
 			id : '',
@@ -186,7 +191,7 @@ $(document).ready(function() {
 		});
 		$('#antivirus-statuses tbody tr:last-child td.editable').first().trigger('click');
 	});
-	
+
 	$('#antivirus-statuses tbody').on('click', 'td.editable', function(){
 		console.log(this);
 		antivirusSettings.onEdit(this);
@@ -196,6 +201,6 @@ $(document).ready(function() {
 	$("#av_mode").change(function () {
 		var str = $("#av_mode").val();
 		av_mode_show_options(str);
-	});   
+	});
 	$("#av_mode").change();
 });
