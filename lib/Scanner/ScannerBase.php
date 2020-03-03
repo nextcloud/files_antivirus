@@ -175,7 +175,7 @@ abstract class ScannerBase {
 			if (!$this->isLogUsed) {
 				$this->isLogUsed = true;
 				\OC::$server->getLogger()->warning(
-					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in ClamAV daemon settings',
+					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in anti virus daemon settings',
 					['app' => 'files_antivirus']
 				);
 			}

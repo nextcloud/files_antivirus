@@ -7,7 +7,7 @@ script('files_antivirus', 'settings');
 		<fieldset class="personalblock">
 			<h2><?php p($l->t('Antivirus for Files'));?></h2>
 			<p class="av_mode"><label for="av_mode"><?php p($l->t('Mode'));?></label>
-				<select id="av_mode" name="avMode"><?php print_unescaped(html_select_options(array('executable' => $l->t('Executable'), 'daemon' => $l->t('Daemon'), 'socket' => $l->t('Daemon (Socket)')), $_['avMode'])) ?></select>
+				<select id="av_mode" name="avMode"><?php print_unescaped(html_select_options(array('executable' => $l->t('ClamAV Executable'), 'daemon' => $l->t('ClamAV Daemon'), 'socket' => $l->t('ClamAV Daemon (Socket)'), 'kaspersky' => $l->t('Kaspersky Daemon')), $_['avMode'])) ?></select>
 			</p>
 		    <p class="av_socket"><label for="av_socket"><?php p($l->t('Socket'));?></label><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('Clamav Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></p>
 			<p class="av_host"><label for="av_host"><?php p($l->t('Host'));?></label><input type="text" id="av_host" name="avHost" value="<?php p($_['avHost']); ?>" title="<?php p($l->t('Address of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></p>

@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
@@ -40,6 +41,9 @@ class ScannerFactory{
 						break;
 					case 'executable':
 						$this->scannerClass = Local::class;
+						break;
+					case 'kaspersky':
+						$this->scannerClass = ExternalKaspersky::class;
 						break;
 					default:
 						$this->logger->warning('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);

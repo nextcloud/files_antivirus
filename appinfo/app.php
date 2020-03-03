@@ -21,5 +21,7 @@
 *
 */
 
-$app = new \OCA\Files_Antivirus\AppInfo\Application();
+use \OCA\Files_Antivirus\AppInfo\Application;
+
+$app = \OC::$server->query(Application::class);
 OCP\Util::connectHook('OC_Filesystem', 'preSetup', $app, 'setupWrapper');
