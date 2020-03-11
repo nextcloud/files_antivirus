@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving..." : "Enregistrament...",
     "Saved" : "Enregistrat",
+    "Mode" : "Mòde",
     "Save" : "Salvar",
     "Description" : "Descripcion"
 },

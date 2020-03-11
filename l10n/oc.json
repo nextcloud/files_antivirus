@@ -1,6 +1,7 @@
 { "translations": {
     "Saving..." : "Enregistrament...",
     "Saved" : "Enregistrat",
+    "Mode" : "Mòde",
     "Save" : "Salvar",
     "Description" : "Descripcion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
