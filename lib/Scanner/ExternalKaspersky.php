@@ -61,6 +61,7 @@ class ExternalKaspersky extends ScannerBase {
 				'X-KAV-Timeout' => '60000',
 				'X-KAV-ProtocolVersion' => '1',
 			],
+			'connect_timeout' => 5,
 		])->getBody();
 
 		$this->logger->debug(

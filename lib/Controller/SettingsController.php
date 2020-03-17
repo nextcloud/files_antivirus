@@ -8,6 +8,8 @@
 
 namespace OCA\Files_Antivirus\Controller;
 
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCA\Files_Antivirus\Status;
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -22,17 +24,20 @@ class SettingsController extends Controller {
 	 * @var AppConfig
 	 */
 	private $settings;
-	
+
 	/**
 	 * @var IL10N
 	 */
 	private $l10n;
-	
-	public function __construct($appName, IRequest $request, AppConfig $appconfig, IL10N $l10n) {
+
+	private $scannerFactory;
+
+	public function __construct($appName, IRequest $request, AppConfig $appconfig, IL10N $l10n, ScannerFactory $scannerFactory) {
 		parent::__construct($appName, $request);
 
 		$this->settings = $appconfig;
 		$this->l10n = $l10n;
+		$this->scannerFactory = $scannerFactory;
 	}
 
 	/**
@@ -59,14 +64,22 @@ class SettingsController extends Controller {
 		$this->settings->setAvInfectedAction($avInfectedAction);
 		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
 		$this->settings->setAvMaxFileSize($avMaxFileSize);
-		
+
+		try {
+			$scanner = $this->scannerFactory->getScanner();
+			$result = $scanner->scanString("dummy scan content");
+			$success = $result->getNumericStatus() == Status::SCANRESULT_CLEAN;
+			$message = $success ? $this->l10n->t('Saved') : 'unexpected scan results for test content';
+		} catch (\Exception $e) {
+			$message = $e->getMessage();
+			$success = false;
+		}
+
 		return new JSONResponse(
 			['data' =>
-				['message' =>
-					$this->l10n->t('Saved')
-				],
-				'status' => 'success',
-				'settings' => $this->settings->getAllValues()
+				['message' => $message],
+				'status' => $success ? 'success' : 'error',
+				'settings' => $this->settings->getAllValues(),
 			]
 		);
 	}

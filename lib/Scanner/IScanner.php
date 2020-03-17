@@ -33,7 +33,7 @@ interface IScanner {
 	 * @param Item $item
 	 * @return Status
 	 */
-	public function scan(Item $item);
+	public function scan(Item $item): Status;
 
 	/**
 	 * Async scan - new portion of data is available
@@ -47,10 +47,18 @@ interface IScanner {
 	 *
 	 * @return Status
 	 */
-	public function completeAsyncScan();
+	public function completeAsyncScan(): Status;
 
 	/**
 	 * Open write handle. etc
 	 */
 	public function initScanner();
+
+	/**
+	 * Scan a chunk of data synchronously
+	 *
+	 * @param string $data
+	 * @return Status
+	 */
+	public function scanString(string $data): Status;
 }
