@@ -13,7 +13,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
-class External extends ScannerBase {
+class ExternalClam extends ScannerBase {
 	
 	/**
 	 * Daemon/socket mode

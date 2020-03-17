@@ -35,10 +35,10 @@ class ScannerFactory{
 				switch($avMode) {
 					case 'daemon':
 					case 'socket':
-						$this->scannerClass = External::class;
+						$this->scannerClass = ExternalClam::class;
 						break;
 					case 'executable':
-						$this->scannerClass = Local::class;
+						$this->scannerClass = LocalClam::class;
 						break;
 					case 'kaspersky':
 						$this->scannerClass = ExternalKaspersky::class;

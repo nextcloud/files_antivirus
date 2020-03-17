@@ -13,7 +13,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
-class Local extends ScannerBase{
+class LocalClam extends ScannerBase{
 
 	/**
 	 * @var string
