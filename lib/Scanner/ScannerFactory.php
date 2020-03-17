@@ -9,9 +9,8 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
-use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
-use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
+use OCP\IServerContainer;
 
 class ScannerFactory{
 	
@@ -20,17 +19,16 @@ class ScannerFactory{
 	
 	/** @var ILogger */
 	protected $logger;
-
-	/** @var StatusFactory */
-	protected $statusFactory;
 	
 	/** @var string */
 	protected $scannerClass;
+
+	private $serverContainer;
 	
-	public function __construct(AppConfig $appConfig, ILogger $logger, StatusFactory $statusFactory){
+	public function __construct(AppConfig $appConfig, ILogger $logger, IServerContainer $serverContainer){
 			$this->appConfig = $appConfig;
 			$this->logger = $logger;
-			$this->statusFactory = $statusFactory;
+			$this->serverContainer = $serverContainer;
 
 			try {
 				$avMode = $appConfig->getAvMode();
@@ -56,9 +54,9 @@ class ScannerFactory{
 	
 	/**
 	 * Produce a scanner instance 
-	 * @return ScannerBase
+	 * @return IScanner
 	 */
 	public function getScanner(){
-		return new $this->scannerClass($this->appConfig, $this->logger, $this->statusFactory);
+		return $this->serverContainer->query($this->scannerClass);
 	}
 }

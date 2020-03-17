@@ -32,9 +32,9 @@ class ExternalKaspersky extends ScannerBase {
 	/** @var IClientService IClientService */
 	private $clientService;
 
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory, IClientService $clientService) {
 		parent::__construct($config, $logger, $statusFactory);
-		$this->clientService = \OC::$server->query(IClientService::class);
+		$this->clientService = $clientService;
 	}
 
 	public function initScanner() {

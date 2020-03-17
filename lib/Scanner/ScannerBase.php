@@ -29,7 +29,7 @@ use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
-abstract class ScannerBase {
+abstract class ScannerBase implements IScanner {
 	
 	/**
 	 * Scan result
