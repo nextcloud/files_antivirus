@@ -10,7 +10,7 @@
     "The file has been removed" : "Plik został usunięty",
     "File containing {virus} detected" : "Wykryto plik zawierający {virus}",
     "Antivirus detected a virus" : "Program antywirusowy wykrył wirusa.",
-    "Virus %s is detected in the file. Upload cannot be completed." : "Wirus %s został wykryty w pliku. Nie można ukończyć wysyłania.",
+    "Virus %s is detected in the file. Upload cannot be completed." : "W pliku wykryto wirusa %s. Nie można zakończyć wysyłania.",
     "Saved" : "Zapisano",
     "Antivirus for files" : "Antywirus dla plików",
     "An antivirus app for Nextcloud based on ClamAV" : "Aplikacja antywirusowa dla Nextcloud bazująca na ClamAV",
