@@ -41,7 +41,7 @@ OC.L10N.register(
     "Not required in Daemon Mode." : "No necesario en modo demonio.",
     "Extra command line options (comma-separated)" : "Opciones extra de línea de comandos (separados por coma)",
     "File size limit, -1 means no limit" : "Tamaño límite de archivo, -1 para ningún límite",
-    "Background scan file size limit in bytes, -1 means no limit" : "Tamaño en bytes del límite de la búsqueda en segundo plano, -1 para ningún límite",
+    "Background scan file size limit in bytes, -1 means no limit" : "Límite de tamaño del archivo en bytes para el análisis en segundo plano, -1 para ningún límite",
     "When infected files are found during a background scan" : "Cuando se encuentren archivos infectados durante la búsqueda en segundo plano",
     "Only log" : "Solo registro",
     "Delete file" : "Borrar archivo",
