@@ -25,6 +25,7 @@ OC.L10N.register(
     "Host" : "Ostalaria",
     "Port" : "Ataka",
     "bytes" : "byte",
+    "File size limit, -1 means no limit" : "Fitxategien tamaina muga, -1 mugarik gabe da",
     "Only log" : "Log fitxategia soilik",
     "Delete file" : "Ezabatu fitxategia",
     "Save" : "Gorde",
