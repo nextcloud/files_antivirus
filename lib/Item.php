@@ -212,9 +212,9 @@ class Item {
 		$owner = $this->file->getOwner();
 
 		if ($owner === null) {
-			$ownerInfo = 'Account: NO OWNER FOUND';
+			$ownerInfo = ' Account: NO OWNER FOUND';
 		} else {
-			$ownerInfo = 'Account: ' . $owner->getUID();
+			$ownerInfo = ' Account: ' . $owner->getUID();
 		}
 
 		$extra = ' File: ' . $this->file->getId()
