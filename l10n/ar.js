@@ -7,6 +7,7 @@ OC.L10N.register(
     "Antivirus for Files" : "مضاد الفيروسات للملفات",
     "Host" : "المضيف",
     "Port" : "المنفذ",
+    "Delete file" : "احذف الملف",
     "Save" : "حفظ",
     "Advanced" : "تعديلات متقدمه",
     "Description" : "الوصف"
