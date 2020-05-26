@@ -20,6 +20,8 @@ OC.L10N.register(
     "Antivirus for Files" : "Fitxategientzako antibirusa",
     "Mode" : "Modua",
     "Executable" : "Exekutagarria",
+    "Daemon" : "Daemona",
+    "Daemon (Socket)" : "Daemona (socketa)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav socketa.",
     "Host" : "Ostalaria",
