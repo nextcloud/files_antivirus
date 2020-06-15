@@ -144,7 +144,7 @@ function av_mode_show_options(str){
 $(document).ready(function() {
 	$('#av_submit').on('click', function(event){
 		event.preventDefault();
-		OC.msg.startAction('#antivirus_save_msg', t('files_antivirus', 'Saving...'));
+		OC.msg.startAction('#antivirus_save_msg', t('files_antivirus', 'Saving…'));
 		$.post(
 				OC.generateUrl('apps/files_antivirus/settings/save'),
 				$('#antivirus').serializeArray(),
