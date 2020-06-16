@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "未选中",
     "Scanner exit status" : "扫描器退出状态",
     "Scanner output" : "扫描器输出",
-    "Saving..." : "正在保存…",
+    "Saving…" : "正在保存…",
     "Antivirus" : "反病毒",
     "File {file} is infected with {virus}" : "文件 {file} 被 {virus} 感染",
     "The file has been removed" : "文件已移除",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Yn cadw...",
     "Saved" : "Wedi'u cadw",
     "Save" : "Cadw",
     "Advanced" : "Uwch",

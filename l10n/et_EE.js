@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Salvestamine...",
+    "Saving…" : "Salvestamine...",
     "Saved" : "Salvestatud",
     "Host" : "Host",
     "Port" : "Port",

@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Ellenőrizetlen",
     "Scanner exit status" : "Kereső kilépési állapota",
     "Scanner output" : "Kereső kimenete",
-    "Saving..." : "Mentés...",
+    "Saving…" : "Mentés…",
     "Antivirus" : "Antivírus",
     "File {file} is infected with {virus}" : "A {file} fájl fertőzött ezzel: {virus}",
     "The file has been removed" : "A fájl eltávolítva",

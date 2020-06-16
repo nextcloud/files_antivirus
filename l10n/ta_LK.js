@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "சேமிக்கப்படுகிறது...",
     "Host" : "ஓம்புனர்",
     "Port" : "துறை ",
     "Save" : "சேமிக்க ",

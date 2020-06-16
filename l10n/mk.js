@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Зачувува ...",
+    "Saving…" : "Зачувува ...",
     "Saved" : "Зачувано",
     "Host" : "Домаќин",
     "Port" : "Порта",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Lagrar …",
     "Saved" : "Lagra",
     "Host" : "Tenar",
     "Delete file" : "Slett fil",

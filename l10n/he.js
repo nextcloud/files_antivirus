@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "לא נבדק",
     "Scanner exit status" : "מצב היציאה של הסורק",
     "Scanner output" : "פלט הסורק",
-    "Saving..." : "מתבצעת שמירה…",
+    "Saving…" : "מתבצעת שמירה…",
     "Antivirus" : "אנטיוירוס",
     "File {file} is infected with {virus}" : "הקובץ {file} נגוע בווירוס {virus}",
     "The file has been removed" : "הקובץ הוסר",

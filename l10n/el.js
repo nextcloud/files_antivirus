@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Δεν έχει ελεγχθεί",
     "Scanner exit status" : "Κατάσταση αποτελεσμάτων σάρωσης",
     "Scanner output" : "Αποτέλεσμα σάρωσης",
-    "Saving..." : "Γίνεται αποθήκευση...",
+    "Saving…" : "Αποθηκεύεται.....",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Το αρχείο {file} είναι μολυσμένο με τον ιο {virus}",
     "The file has been removed" : "Το αρχείο αφαιρέθηκε",

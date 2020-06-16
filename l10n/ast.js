@@ -4,7 +4,7 @@ OC.L10N.register(
     "Clean" : "Llimpio",
     "Infected" : "Infeutao",
     "Scanner output" : "Salida del escaniador",
-    "Saving..." : "Guardando...",
+    "Saving…" : "Guardando...",
     "Saved" : "Guardáu",
     "Host" : "Agospiu",
     "Port" : "Puertu",

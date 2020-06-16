@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Đang lưu...",
     "Saved" : "Đã lưu",
     "Host" : "Máy chủ",
     "Port" : "Cổng",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Konservado...",
+    "Saving…" : "Konservado...",
     "Saved" : "Konservita",
     "Host" : "Gastigo",
     "Port" : "Pordo",

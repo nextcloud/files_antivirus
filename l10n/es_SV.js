@@ -6,7 +6,6 @@ OC.L10N.register(
     "Unchecked" : "Desmarcado",
     "Scanner exit status" : "Estatus de salida del scanner",
     "Scanner output" : "Salida del scanner",
-    "Saving..." : "Guardando...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "El archivo {file} está infectado con {virus}",
     "The file has been removed" : "El archivo ha sido eliminado",

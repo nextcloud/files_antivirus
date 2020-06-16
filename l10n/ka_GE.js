@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "შეუმოწმებელია",
     "Scanner exit status" : "სკანერის გათიშვის სტატუსი",
     "Scanner output" : "სკანერის გამოცემა",
-    "Saving..." : "მიმხინარეობს შენახვა…",
+    "Saving…" : "მიმდინარეობს დამახსოვრება...",
     "Antivirus" : "ანტივირუსი",
     "Virus %s is detected in the file. Upload cannot be completed." : "ფაილში აღმოჩენილია ვირუსი %s. ატვირთვა ვერ დასრულდება.",
     "Saved" : "შენახულია",

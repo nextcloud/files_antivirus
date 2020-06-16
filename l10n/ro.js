@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Se salvează...",
+    "Saving…" : "Se salvează...",
     "Saved" : "Salvat",
     "Mode" : "Mod",
     "Host" : "Gazdă",

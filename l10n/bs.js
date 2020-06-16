@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Spremanje...",
     "Saved" : "Spremljeno",
     "Port" : "Priključak",
     "Save" : "Spremi",

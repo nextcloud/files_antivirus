@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Sense verificar",
     "Scanner exit status" : "Estat de finalització de l’escàner",
     "Scanner output" : "Sortida de l’escàner",
-    "Saving..." : "S'està desant...",
+    "Saving…" : "S'està desant...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "El fitxer {file} està infectat amb {virus}",
     "The file has been removed" : "S'ha suprimit el fitxer",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Clean" : "Ren",
     "Infected" : "Inficeret",
     "Unchecked" : "Ukontrolleret",
-    "Saving..." : "Gemmer...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Filen {file} er inficeret med {virus}",
     "The file has been removed" : "Filen er blevet fjernet",

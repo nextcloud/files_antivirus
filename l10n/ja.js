@@ -6,7 +6,6 @@ OC.L10N.register(
     "Unchecked" : "未チェック",
     "Scanner exit status" : "スキャナー終了ステータス",
     "Scanner output" : "スキャナー出力",
-    "Saving..." : "保存中...",
     "Antivirus" : "アンチウイルス",
     "File {file} is infected with {virus}" : "ファイル{file}が{virus}に感染しています",
     "The file has been removed" : "ファイルが削除されました",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "กำลังบันทึกข้อมูล...",
     "Saved" : "บันทึกแล้ว",
     "Mode" : "โหมด",
     "Host" : "โฮสต์",

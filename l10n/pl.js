@@ -6,7 +6,6 @@ OC.L10N.register(
     "Unchecked" : "Niesprawdzony",
     "Scanner exit status" : "Kod zakończenia skanera",
     "Scanner output" : "Wynik pracy skanera",
-    "Saving..." : "Zapisywanie…",
     "Antivirus" : "Antywirus",
     "File {file} is infected with {virus}" : "Plik {file} jest zainfekowany przez {virus}",
     "The file has been removed" : "Plik został usunięty",

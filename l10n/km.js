@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "កំពុង​រក្សាទុក",
     "Saved" : "បាន​រក្សាទុក",
     "Host" : "ម៉ាស៊ីន​ផ្ទុក",
     "Port" : "ច្រក",

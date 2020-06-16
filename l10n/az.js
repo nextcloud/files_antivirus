@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "Saxlama...",
     "Saved" : "Saxlanıldı",
     "Host" : "Şəbəkədə ünvan",
     "Port" : "Port",

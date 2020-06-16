@@ -5,7 +5,6 @@ OC.L10N.register(
     "Infected" : "Saastunut",
     "Unchecked" : "Ei tarkistettu",
     "Scanner output" : "Tarkistimen tuloste",
-    "Saving..." : "Tallennetaan...",
     "Antivirus" : "Virustorjunta",
     "File {file} is infected with {virus}" : "Tiedosto {file} on saastunut viruksella {virus}",
     "The file has been removed" : "Tiedosto on poistettu",

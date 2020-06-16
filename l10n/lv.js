@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Neatzīmēts",
     "Scanner exit status" : "Skenera izejas statuss",
     "Scanner output" : "Skenera izvade",
-    "Saving..." : "Saglabā...",
+    "Saving…" : "Saglabā...",
     "Antivirus" : "Antivīruss",
     "File {file} is infected with {virus}" : "Datne {file] ir inficēta ar {virus}",
     "The file has been removed" : "Šī datne ir noņemta",

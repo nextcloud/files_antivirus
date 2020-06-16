@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving..." : "儲存中...",
     "Saved" : "已儲存",
     "Mode" : "模式",
     "Host" : "主機",

@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Avmarkerade",
     "Scanner exit status" : "Skannerns avslutningsstatus",
     "Scanner output" : "Skannerutdata",
-    "Saving..." : "Sparar...",
+    "Saving…" : "Sparar ...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Filen {file} är infekterad med {virus}",
     "The file has been removed" : "Filen har tagits bort",
