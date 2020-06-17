@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saving…" : "хадгалж байна",
     "Saved" : "Хадгалах",
     "Host" : "хост",
     "Port" : "порт",

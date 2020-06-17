@@ -4,6 +4,7 @@ OC.L10N.register(
     "Clean" : "Pastro",
     "Infected" : "Infektuar",
     "Scanner output" : "Prodhim i skanerit",
+    "Saving…" : "Duke u ruajtur...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Skedari {file} është infektuar me {virus}",
     "The file has been removed" : "Skedari është fshirë",

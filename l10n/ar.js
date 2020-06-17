@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saving…" : "جارٍ الحفظ …",
     "Saved" : "تم الإحتفاظ به",
     "Antivirus for files" : "مضاد الفيروسات للملفات",
     "Antivirus for Files" : "مضاد الفيروسات للملفات",

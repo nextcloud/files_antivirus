@@ -4,6 +4,7 @@
     "Unchecked" : "Nepregledano",
     "Scanner exit status" : "Stanje izhoda pregledovalnika",
     "Scanner output" : "Odvod pregledovalnika",
+    "Saving…" : "Poteka shranjevanje ...",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Datoteka {file} je okužena z virusom {virus}",
     "The file has been removed" : "Datoteka je odstranjena",

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Неперевірений",
     "Scanner exit status" : "Статус завершення сканування",
     "Scanner output" : "Вивід сканера",
+    "Saving…" : "Збереження...",
     "Antivirus" : "Антивірус",
     "File {file} is infected with {virus}" : "Файл {file} інфіковано вірусом {virus}",
     "The file has been removed" : "Файл було вилучено",

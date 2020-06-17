@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Clean" : "Švarus",
     "Infected" : "Užkrėstas",
+    "Saving…" : "Įrašoma…",
     "Antivirus" : "Antivirusinė",
     "File {file} is infected with {virus}" : "Failas {file} yra užkrėstas {virus}",
     "The file has been removed" : "Failas buvo pašalintas",

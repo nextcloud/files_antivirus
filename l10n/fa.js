@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "بازرسی نشده",
     "Scanner exit status" : "وضعیت خروجی اسکنر",
     "Scanner output" : "خروجی اسکنر",
+    "Saving…" : "در حال ذخیره",
     "Antivirus" : "آنتی ویروس",
     "File {file} is infected with {virus}" : "فایل {file} آلوده شده به {virus}",
     "The file has been removed" : "فایل حذف شده است",

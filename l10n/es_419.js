@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saving…" : "Guardando...",
     "Saved" : "Guardado",
     "Host" : "Servidor",
     "Port" : "Puerto",

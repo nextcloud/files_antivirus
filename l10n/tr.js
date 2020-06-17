@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Denetlenmemiş",
     "Scanner exit status" : "Tarayıcı çıkış durumu",
     "Scanner output" : "Tarayıcı çıktısı",
+    "Saving…" : "Kaydediliyor…",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "{file} dosyasına {virus} virusu bulaşmış",
     "The file has been removed" : "Dosya silindi",

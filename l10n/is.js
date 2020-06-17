@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Ekki skoðað",
     "Scanner exit status" : "Staða skanna þegar hætt var",
     "Scanner output" : "Úttak skanna",
+    "Saving…" : "Vista…",
     "Antivirus" : "Vírusvörn",
     "File {file} is infected with {virus}" : "Skráin {file} er smituð af {virus}",
     "The file has been removed" : "Skráin var fjarlægð",

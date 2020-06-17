@@ -6,6 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Egiaztatu gabea",
     "Scanner exit status" : "Eskanerraren irteera egoera",
     "Scanner output" : "Eskanerraren irteera",
+    "Saving…" : "Gordetzen…",
     "Antivirus" : "Antibirusa",
     "File {file} is infected with {virus}" : "{file} fitxategia {virus} birusarekin infektatuta dago",
     "The file has been removed" : "Fitxategia kendu da",
