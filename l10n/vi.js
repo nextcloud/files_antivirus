@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Đã lưu",
     "Host" : "Máy chủ",
     "Port" : "Cổng",
+    "Delete file" : "Xóa tệp",
     "Save" : "Lưu",
     "Advanced" : "Nâng cao",
     "Description" : "Mô tả"
