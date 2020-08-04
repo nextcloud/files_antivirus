@@ -121,7 +121,7 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->logException($e, ['app' => 'files_antivirus']);
 			}
 		}
 
