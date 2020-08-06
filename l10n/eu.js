@@ -50,6 +50,7 @@ OC.L10N.register(
     "Rules" : "Arauak",
     "Clear All" : "Garbitu dena",
     "Reset to defaults" : "Berrezarri lehenetsitakoak",
+    "Match by" : "Bat dator",
     "Scanner exit status or signature to search" : "Eskanerraren irteera egoera edo bilatzeko sinadura",
     "Description" : "Deskripzioa",
     "Mark as" : "Markatu honela",
