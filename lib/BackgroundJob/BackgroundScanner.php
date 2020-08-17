@@ -111,7 +111,9 @@ class BackgroundScanner extends TimedJob {
 
 					$file = array_pop($files);
 					if ($file instanceof File) {
-						$this->scanOneFile($file);
+						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
+							$this->scanOneFile($file);
+						}
 					} else {
 						$this->logger->error('Tried to scan non file');
 					}
@@ -146,7 +148,7 @@ class BackgroundScanner extends TimedJob {
 				foreach ($users as $user) {
 					/** @var IUser $owner */
 					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser){
+					if (!$owner instanceof IUser) {
 						continue;
 					}
 
@@ -158,8 +160,11 @@ class BackgroundScanner extends TimedJob {
 					}
 
 					$file = array_pop($files);
+
 					if ($file instanceof File) {
-						$this->scanOneFile($file);
+						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
+							$this->scanOneFile($file);
+						}
 					} else {
 						$this->logger->error('Tried to scan non file');
 					}
@@ -203,7 +208,9 @@ class BackgroundScanner extends TimedJob {
 
 					$file = array_pop($files);
 					if ($file instanceof File) {
-						$this->scanOneFile($file);
+						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
+							$this->scanOneFile($file);
+						}
 					} else {
 						$this->logger->error('Tried to scan non file');
 					}
