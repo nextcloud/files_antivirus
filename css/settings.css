@@ -4,11 +4,22 @@
 	margin-top: 14px;
 }
 
-.section-antivirus label {
-	display: inline-block;
-	min-width: 280px;
-	margin-right: 6px;
+.section-antivirus table td:first-child {
 	text-align: right;
+	padding-right: 6px;
+	padding-left: 6px;
+}
+
+.section-antivirus table input,
+.section-antivirus table select{
+	display: inline-block;
+	width: 100%;
+	padding-left: 6px;
+}
+
+.section-antivirus table td:last-child {
+	padding-right: 6px;
+	padding-left: 6px;
 }
 
 .section-antivirus .a-left{
@@ -37,4 +48,9 @@
 
 .section-antivirus h3{
 	padding: 7px 0;
+}
+
+#antivirus_save_msg {
+	padding: 5px;
+	border-radius: 5px;
 }

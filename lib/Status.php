@@ -71,6 +71,14 @@ class Status {
 	public function getDetails(){
 		return $this->details;
 	}
+
+	public function setNumericStatus(int $numericStatus): void {
+		$this->numericStatus = $numericStatus;
+	}
+
+	public function setDetails(string $details): void {
+		$this->details = $details;
+	}
 	
 	/**
 	 * @param string $rawResponse

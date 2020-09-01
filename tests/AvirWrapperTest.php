@@ -12,7 +12,7 @@ namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
-use OCA\Files_Antivirus\Scanner\External;
+use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
@@ -53,7 +53,7 @@ class AvirWrapperTest extends TestBase {
 		$this->storage = new Temporary([]);
 		$this->logger = $this->createMock(ILogger::class);
 
-		$scanner = new External(
+		$scanner = new ExternalClam(
 			$this->config,
 			$this->logger,
 			$this->createMock(StatusFactory::class)
