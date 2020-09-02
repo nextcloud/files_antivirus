@@ -22,9 +22,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "بارگذاری فایل {file} :",
     "Antivirus for Files" : "آنتی ویروسی برای فایل ها",
     "Mode" : "حالت",
-    "Executable" : "قابل اجرا",
-    "Daemon" : "فرایندهای پس زمینه",
-    "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)",
     "Socket" : "سوکت",
     "Clamav Socket." : "سوکت Clamav.",
     "Not required in Executable Mode." : "در حالت اجرایی لازم نیست",
@@ -53,6 +50,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "وضعیت خروجی اسکنر یا جستجوی امضای دیجیتال",
     "Description" : "توضیحات",
     "Mark as" : "علامت گذاری به عنوان",
-    "Add a rule" : "ثبت قانون"
+    "Add a rule" : "ثبت قانون",
+    "Executable" : "قابل اجرا",
+    "Daemon" : "فرایندهای پس زمینه",
+    "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)"
 },
 "nplurals=2; plural=(n > 1);");

@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Innsend skrá: {file}",
     "Antivirus for Files" : "Vírusvarnarforrit fyrir skrár",
     "Mode" : "Hamur",
-    "Executable" : "Keyrsluskrá",
-    "Daemon" : "Púki",
-    "Daemon (Socket)" : "Púki (sökkull)",
     "Socket" : "Rafmagnsinnstunga",
     "Clamav Socket." : "Clamav-sökkull.",
     "Not required in Executable Mode." : "Ekki nauðsynlegt í keyrsluham.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Staða skanna þegar hætt er eða auðkenni (signature) til að leita eftir",
     "Description" : "Lýsing",
     "Mark as" : "Merkja sem",
-    "Add a rule" : "Bæta við reglu"
+    "Add a rule" : "Bæta við reglu",
+    "Executable" : "Keyrsluskrá",
+    "Daemon" : "Púki",
+    "Daemon (Socket)" : "Púki (sökkull)"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

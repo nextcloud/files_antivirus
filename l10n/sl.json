@@ -17,9 +17,6 @@
     "Greetings {user}," : "Pozdravljeni, {user},",
     "Antivirus for Files" : "Antivirus za datoteke",
     "Mode" : "Način",
-    "Executable" : "Izvedljiva datoteka",
-    "Daemon" : "Ozadnji program",
-    "Daemon (Socket)" : "Ozadnji program (vtič)",
     "Socket" : "Vtič",
     "Clamav Socket." : "Vtič Clamav",
     "Host" : "Gostitelj",
@@ -37,6 +34,9 @@
     "Reset to defaults" : "Ponastavi na privzeto",
     "Description" : "Opis",
     "Mark as" : "Označi kot",
-    "Add a rule" : "Dodaj pravilo"
+    "Add a rule" : "Dodaj pravilo",
+    "Executable" : "Izvedljiva datoteka",
+    "Daemon" : "Ozadnji program",
+    "Daemon (Socket)" : "Ozadnji program (vtič)"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

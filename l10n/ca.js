@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Fitxer carregat: {file}",
     "Antivirus for Files" : "Antivirus per fitxers",
     "Mode" : "Mode",
-    "Executable" : "Executable",
-    "Daemon" : "Dimoni",
-    "Daemon (Socket)" : "Dimoni (Socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "No es requereix en Mode Executable.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Estat de la sortida de l’escàner o signatura per cercar",
     "Description" : "Descripció",
     "Mark as" : "Marca-ho com",
-    "Add a rule" : "Afegeix una regla"
+    "Add a rule" : "Afegeix una regla",
+    "Executable" : "Executable",
+    "Daemon" : "Dimoni",
+    "Daemon (Socket)" : "Dimoni (Socket)"
 },
 "nplurals=2; plural=(n != 1);");

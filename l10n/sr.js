@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Отпремљени фајл: {file}",
     "Antivirus for Files" : "Антивирус за Фајлове",
     "Mode" : "Режим",
-    "Executable" : "Извршавање",
-    "Daemon" : "Сервис",
-    "Daemon (Socket)" : "Сервис (socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Не захтева се у режиму извршавања.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Излазни статус скенера или потпис за претрагу",
     "Description" : "Опис",
     "Mark as" : "Означи као",
-    "Add a rule" : "Додај правило"
+    "Add a rule" : "Додај правило",
+    "Executable" : "Извршавање",
+    "Daemon" : "Сервис",
+    "Daemon (Socket)" : "Сервис (socket)"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

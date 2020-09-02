@@ -19,9 +19,6 @@ OC.L10N.register(
     "This email is a notification from {host}. Please, do not reply." : "This email is a notification from {host}. Please, do not reply.",
     "File uploaded: {file}" : "File uploaded: {file}",
     "Mode" : "Mode",
-    "Executable" : "Executable",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Not required in Executable Mode.",
@@ -50,6 +47,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Scanner exit status or signature to search",
     "Description" : "Description",
     "Mark as" : "Mark as",
-    "Add a rule" : "Add a rule"
+    "Add a rule" : "Add a rule",
+    "Executable" : "Executable",
+    "Daemon" : "Daemon",
+    "Daemon (Socket)" : "Daemon (Socket)"
 },
 "nplurals=2; plural=(n != 1);");

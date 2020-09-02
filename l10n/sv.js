@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Fil skickad: {file}",
     "Antivirus for Files" : "Antivirus för filer",
     "Mode" : "Läge",
-    "Executable" : "Körbar",
-    "Daemon" : "Demon",
-    "Daemon (Socket)" : "Demon (Socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Krävs inte i körbart läge.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Skannerens avslutningsstatus eller signatur för att söka",
     "Description" : "Beskrivning",
     "Mark as" : "Märk som",
-    "Add a rule" : "Lägg till en regel"
+    "Add a rule" : "Lägg till en regel",
+    "Executable" : "Körbar",
+    "Daemon" : "Demon",
+    "Daemon (Socket)" : "Demon (Socket)"
 },
 "nplurals=2; plural=(n != 1);");

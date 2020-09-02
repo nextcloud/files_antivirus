@@ -21,8 +21,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Tiedosto lähetetty: {file}",
     "Antivirus for Files" : "Virustorjunta tiedostoille",
     "Mode" : "Tila",
-    "Executable" : "Suoritettava",
-    "Daemon" : "Taustapalvelu",
     "Not required in Executable Mode." : "Ei vaadittu suoritettavassa tilassa.",
     "Host" : "Palvelin",
     "Address of Antivirus Host." : "Virustorjuntapalvelimen osoite.",
@@ -41,6 +39,8 @@ OC.L10N.register(
     "Reset to defaults" : "Palauta oletusarvot",
     "Description" : "Kuvaus",
     "Mark as" : "Merkitse",
-    "Add a rule" : "Lisää sääntö"
+    "Add a rule" : "Lisää sääntö",
+    "Executable" : "Suoritettava",
+    "Daemon" : "Taustapalvelu"
 },
 "nplurals=2; plural=(n != 1);");

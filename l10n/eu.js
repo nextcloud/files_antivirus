@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Fitxategia kargatuta: {file}",
     "Antivirus for Files" : "Fitxategientzako antibirusa",
     "Mode" : "Modua",
-    "Executable" : "Exekutagarria",
-    "Daemon" : "Daemona",
-    "Daemon (Socket)" : "Daemona (socketa)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav socketa.",
     "Not required in Executable Mode." : "Ez da beharrezkoa Exekutagarri moduan.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Eskanerraren irteera egoera edo bilatzeko sinadura",
     "Description" : "Deskripzioa",
     "Mark as" : "Markatu honela",
-    "Add a rule" : "Gehitu arau bat"
+    "Add a rule" : "Gehitu arau bat",
+    "Executable" : "Exekutagarria",
+    "Daemon" : "Daemona",
+    "Daemon (Socket)" : "Daemona (socketa)"
 },
 "nplurals=2; plural=(n != 1);");

@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "文件已上传：{file}",
     "Antivirus for Files" : "文件反病毒",
     "Mode" : "模式",
-    "Executable" : "可执行文件",
-    "Daemon" : "后台进程",
-    "Daemon (Socket)" : "后台进程（Socket）",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket",
     "Not required in Executable Mode." : "在可执行文件模式中不需要",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "扫描器退出状态 或 要搜索的签名",
     "Description" : "描述",
     "Mark as" : "标记为",
-    "Add a rule" : "添加规则"
+    "Add a rule" : "添加规则",
+    "Executable" : "可执行文件",
+    "Daemon" : "后台进程",
+    "Daemon (Socket)" : "后台进程（Socket）"
 },
 "nplurals=1; plural=0;");

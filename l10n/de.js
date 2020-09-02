@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Datei hochgeladen: {file}",
     "Antivirus for Files" : "Antivirus für Dateien",
     "Mode" : "Modus",
-    "Executable" : "Anwendung",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "ClamAV-Socket",
     "Not required in Executable Mode." : "Nicht notwendig im Anwendungsmodus.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Scanner-Abschluss-Status oder Signatur, nach der gesucht werden soll",
     "Description" : "Beschreibung",
     "Mark as" : "Markieren als",
-    "Add a rule" : "Eine Regel hinzufügen"
+    "Add a rule" : "Eine Regel hinzufügen",
+    "Executable" : "Anwendung",
+    "Daemon" : "Daemon",
+    "Daemon (Socket)" : "Daemon (Socket)"
 },
 "nplurals=2; plural=(n != 1);");
