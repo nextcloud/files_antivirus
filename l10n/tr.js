@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Dosya yüklendi: {file}",
     "Antivirus for Files" : "Dosyalar için Antivirus",
     "Mode" : "Kip",
-    "Executable" : "Çalıştırılabilir",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daomen (Soket)",
     "Socket" : "Soket",
     "Clamav Socket." : "Clamav Soketi.",
     "Not required in Executable Mode." : "Çalıştırılabilir Kipte gerekli değildir.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Tarayıcı çıkış durumu ya da arama imzası",
     "Description" : "Açıklama",
     "Mark as" : "Şu olarak işaretlensin",
-    "Add a rule" : "Kural ekle"
+    "Add a rule" : "Kural ekle",
+    "Executable" : "Çalıştırılabilir",
+    "Daemon" : "Daemon",
+    "Daemon (Socket)" : "Daomen (Soket)"
 },
 "nplurals=2; plural=(n > 1);");

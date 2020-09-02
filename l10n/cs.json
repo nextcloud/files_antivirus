@@ -21,9 +21,6 @@
     "File uploaded: {file}" : "Nahrán soubor: {file}",
     "Antivirus for Files" : "Antivir pro Soubory",
     "Mode" : "Režim",
-    "Executable" : "Spustitelný soubor",
-    "Daemon" : "Proces služby",
-    "Daemon (Socket)" : "Proces služby (soket)",
     "Socket" : "Soket",
     "Clamav Socket." : "Soket ClamAV.",
     "Not required in Executable Mode." : "Ve spustitelném režimu není třeba.",
@@ -52,6 +49,9 @@
     "Scanner exit status or signature to search" : "Návratový stav skeneru nebo signatura kterou hledat",
     "Description" : "Popis",
     "Mark as" : "Označit jako",
-    "Add a rule" : "Přidat pravidlo"
+    "Add a rule" : "Přidat pravidlo",
+    "Executable" : "Spustitelný soubor",
+    "Daemon" : "Proces služby",
+    "Daemon (Socket)" : "Proces služby (soket)"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

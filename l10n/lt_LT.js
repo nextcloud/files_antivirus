@@ -19,9 +19,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Failas įkeltas: {file}",
     "Antivirus for Files" : "Failų antivirusinė",
     "Mode" : "Veiksena",
-    "Executable" : "Vykdomasis",
-    "Daemon" : "Tarnyba",
-    "Daemon (Socket)" : "Tarnyba (Lizdas)",
     "Socket" : "Lizdas",
     "Clamav Socket." : "Clamav lizdas.",
     "Host" : "Serveris",
@@ -40,6 +37,9 @@ OC.L10N.register(
     "Reset to defaults" : "Atstatyti į numatytuosius",
     "Description" : "Aprašas",
     "Mark as" : "Žymėti kaip",
-    "Add a rule" : "Pridėti taisyklę"
+    "Add a rule" : "Pridėti taisyklę",
+    "Executable" : "Vykdomasis",
+    "Daemon" : "Tarnyba",
+    "Daemon (Socket)" : "Tarnyba (Lizdas)"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

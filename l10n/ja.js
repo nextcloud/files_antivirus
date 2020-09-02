@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "アップロードされたファイル：{file}",
     "Antivirus for Files" : "ファイルのウイルス対策",
     "Mode" : "モード",
-    "Executable" : "実行可能ファイル",
-    "Daemon" : "デーモン",
-    "Daemon (Socket)" : "デーモン（ソケット）",
     "Socket" : "ソケット",
     "Clamav Socket." : "Clamavソケット",
     "Not required in Executable Mode." : "実行可能モードでは不要です。",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "スキャナの終了ステータスまたは署名を検索する",
     "Description" : "説明",
     "Mark as" : "としてマークする",
-    "Add a rule" : "ルールを追加"
+    "Add a rule" : "ルールを追加",
+    "Executable" : "実行可能ファイル",
+    "Daemon" : "デーモン",
+    "Daemon (Socket)" : "デーモン（ソケット）"
 },
 "nplurals=1; plural=0;");

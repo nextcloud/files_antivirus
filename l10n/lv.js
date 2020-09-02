@@ -22,7 +22,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Datne augšupielādēta: {file}",
     "Antivirus for Files" : "Antīvīruss datnēm",
     "Mode" : "Režīms",
-    "Executable" : "Palaižamā datne",
     "Host" : "Resursdators",
     "Address of Antivirus Host." : "Antīvīrusa Hosta adrese",
     "Port" : "Ports",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Skenera izejas statuss vai elektroniskais paraksts, ko meklēt",
     "Description" : "Apraksts",
     "Mark as" : "Atzīmēt kā",
-    "Add a rule" : "Pievienot noteikumu"
+    "Add a rule" : "Pievienot noteikumu",
+    "Executable" : "Palaižamā datne"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

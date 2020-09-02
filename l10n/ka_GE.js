@@ -15,9 +15,6 @@ OC.L10N.register(
     "This email is a notification from {host}. Please, do not reply." : "ეს ელ-ფოსტა შეტყობინებაა ჰოსტიდან {host}. გთხოვთ ნუ უპასუხებთ.",
     "File uploaded: {file}" : "ფაილი აიტვირთა: {file}",
     "Mode" : "რეჟიმი",
-    "Executable" : "შესრულებადი",
-    "Daemon" : "დაემონი",
-    "Daemon (Socket)" : "დაემონი (სოკეტი)",
     "Socket" : "სოკეტი",
     "Clamav Socket." : "Clamav სოკეტი.",
     "Not required in Executable Mode." : "შესრულებად რეჟიმში არაა აუცილებელი.",
@@ -45,6 +42,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "სკანერის გათიშვის სტატუსი ან ხელმოწერები ძიებისთვის",
     "Description" : "აღწერილობა",
     "Mark as" : "მონიშვნა როგორც",
-    "Add a rule" : "წესის დამატება"
+    "Add a rule" : "წესის დამატება",
+    "Executable" : "შესრულებადი",
+    "Daemon" : "დაემონი",
+    "Daemon (Socket)" : "დაემონი (სოკეტი)"
 },
 "nplurals=2; plural=(n!=1);");

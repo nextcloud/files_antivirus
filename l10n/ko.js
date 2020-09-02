@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "업로드한 파일: {file}",
     "Antivirus for Files" : "파일 안티바이러스",
     "Mode" : "모드",
-    "Executable" : "실행 파일",
-    "Daemon" : "데몬",
-    "Daemon (Socket)" : "데몬(소켓)",
     "Socket" : "소켓",
     "Clamav Socket." : "ClamAV 소켓입니다.",
     "Not required in Executable Mode." : "실행 파일 모드에서는 필요하지 않습니다.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "스캐너 종료 상태나 검색할 시그니처",
     "Description" : "설명",
     "Mark as" : "다음으로 표시",
-    "Add a rule" : "규칙 추가"
+    "Add a rule" : "규칙 추가",
+    "Executable" : "실행 파일",
+    "Daemon" : "데몬",
+    "Daemon (Socket)" : "데몬(소켓)"
 },
 "nplurals=1; plural=0;");

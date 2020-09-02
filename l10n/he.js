@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "קובץ הועלה: {file}",
     "Antivirus for Files" : "אנטיוירוס לקבצים",
     "Mode" : "מצב",
-    "Executable" : "קובץ שניתן להפעיל",
-    "Daemon" : "סוכן",
-    "Daemon (Socket)" : "סוכן (שקע)",
     "Socket" : "שקע",
     "Clamav Socket." : "שקע Clamav.",
     "Not required in Executable Mode." : "לא נדרש במצב הפעלה.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "מצב יציאה של סורק או חתימה לחיפוש",
     "Description" : "תיאור",
     "Mark as" : "סימון בתור",
-    "Add a rule" : "הוספת כל"
+    "Add a rule" : "הוספת כל",
+    "Executable" : "קובץ שניתן להפעיל",
+    "Daemon" : "סוכן",
+    "Daemon (Socket)" : "סוכן (שקע)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

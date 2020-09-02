@@ -19,8 +19,6 @@ OC.L10N.register(
     "This email is a notification from {host}. Please, do not reply." : "Denne e-mailen er en beskjed fra {host}. Vennligst ikke svar.",
     "File uploaded: {file}" : "Opplastet fil: {file}",
     "Mode" : "Modus",
-    "Executable" : "Programfil",
-    "Daemon" : "Nisse",
     "Host" : "Vert",
     "Address of Antivirus Host." : "Addresse for anti-virus-server",
     "Port" : "Port",
@@ -41,6 +39,8 @@ OC.L10N.register(
     "Reset to defaults" : "Tilbakestill til standard",
     "Description" : "Beskrivelse",
     "Mark as" : "Merk som",
-    "Add a rule" : "Legg til en regel"
+    "Add a rule" : "Legg til en regel",
+    "Executable" : "Programfil",
+    "Daemon" : "Nisse"
 },
 "nplurals=2; plural=(n != 1);");

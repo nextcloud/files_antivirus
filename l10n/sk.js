@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Súbor bol nahratý: {file}",
     "Antivirus for Files" : "Antivírus pre Súbory",
     "Mode" : "Režim",
-    "Executable" : "Spustiteľný",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket",
     "Not required in Executable Mode." : "Nie je potrebné v spustiteľnom režime",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Stav výstupu skenera alebo signatúra na vyhľadanie",
     "Description" : "Popis",
     "Mark as" : "Označiť ako",
-    "Add a rule" : "Pridať pravidlo"
+    "Add a rule" : "Pridať pravidlo",
+    "Executable" : "Spustiteľný",
+    "Daemon" : "Daemon",
+    "Daemon (Socket)" : "Daemon (Socket)"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

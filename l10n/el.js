@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Αρχείο μεταφόρτωσης: {file}",
     "Antivirus for Files" : "Αντιβιοτικό για τα αρχεία",
     "Mode" : "Κατάσταση",
-    "Executable" : "Εκτελέσιμο",
-    "Daemon" : "Υπηρεσία",
-    "Daemon (Socket)" : "Υπηρεσία (Υποδοχή)",
     "Socket" : "Υποδοχή",
     "Clamav Socket." : "Υποδοχή Clamav.",
     "Not required in Executable Mode." : "Δεν απαιτείται σε Κατάσταση Εντολών.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Κατάσταση εξόδου ή υπογραφή εξόδου σαρωτή για αναζήτηση",
     "Description" : "Περιγραφή",
     "Mark as" : "Σήμανση ως",
-    "Add a rule" : "Προσθήκη κανόνα"
+    "Add a rule" : "Προσθήκη κανόνα",
+    "Executable" : "Εκτελέσιμο",
+    "Daemon" : "Υπηρεσία",
+    "Daemon (Socket)" : "Υπηρεσία (Υποδοχή)"
 },
 "nplurals=2; plural=(n != 1);");

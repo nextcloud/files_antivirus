@@ -23,9 +23,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Fájl feltöltve: {file}",
     "Antivirus for Files" : "Anivirus fájlokhoz",
     "Mode" : "Mód",
-    "Executable" : "Végrehajtható",
-    "Daemon" : "Démon",
-    "Daemon (Socket)" : "Démon (socket)",
     "Socket" : "Socket",
     "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Nem szükséges futtatható módban.",
@@ -54,6 +51,9 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Kereső kimeneti állapota vagy keresendő szignatúra",
     "Description" : "Leírás",
     "Mark as" : "Megjelölés mint",
-    "Add a rule" : "Szabály hozzáadása"
+    "Add a rule" : "Szabály hozzáadása",
+    "Executable" : "Végrehajtható",
+    "Daemon" : "Démon",
+    "Daemon (Socket)" : "Démon (socket)"
 },
 "nplurals=2; plural=(n != 1);");
