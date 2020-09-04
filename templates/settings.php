@@ -22,7 +22,7 @@ script('files_antivirus', 'settings');
 				</tr>
 				<tr class="av_socket">
 					<td><label for="av_socket"><?php p($l->t('Socket'));?></label></td>
-					<td><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('Clamav Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></td>
+					<td><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('ClamAV Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></td>
 					<td></td>
 				</tr>
 				<tr class="av_host">
