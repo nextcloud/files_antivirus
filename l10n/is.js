@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Vírusvarnarforrit fyrir skrár",
     "Mode" : "Hamur",
     "Socket" : "Rafmagnsinnstunga",
-    "Clamav Socket." : "Clamav-sökkull.",
     "Not required in Executable Mode." : "Ekki nauðsynlegt í keyrsluham.",
     "Host" : "Netþjónn",
     "Address of Antivirus Host." : "Vistfang vírusvarnavélar.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Bæta við reglu",
     "Executable" : "Keyrsluskrá",
     "Daemon" : "Púki",
-    "Daemon (Socket)" : "Púki (sökkull)"
+    "Daemon (Socket)" : "Púki (sökkull)",
+    "Clamav Socket." : "Clamav-sökkull."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

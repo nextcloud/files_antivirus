@@ -23,7 +23,6 @@ OC.L10N.register(
     "Antivirus for Files" : "آنتی ویروسی برای فایل ها",
     "Mode" : "حالت",
     "Socket" : "سوکت",
-    "Clamav Socket." : "سوکت Clamav.",
     "Not required in Executable Mode." : "در حالت اجرایی لازم نیست",
     "Host" : "میزبان",
     "Address of Antivirus Host." : "آدرس میزبان آنتی ویروس.",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Add a rule" : "ثبت قانون",
     "Executable" : "قابل اجرا",
     "Daemon" : "فرایندهای پس زمینه",
-    "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)"
+    "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)",
+    "Clamav Socket." : "سوکت Clamav."
 },
 "nplurals=2; plural=(n > 1);");

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Failų antivirusinė",
     "Mode" : "Veiksena",
     "Socket" : "Lizdas",
-    "Clamav Socket." : "Clamav lizdas.",
     "Host" : "Serveris",
     "Port" : "Prievadas",
     "Stream Length" : "Srauto ilgis",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Add a rule" : "Pridėti taisyklę",
     "Executable" : "Vykdomasis",
     "Daemon" : "Tarnyba",
-    "Daemon (Socket)" : "Tarnyba (Lizdas)"
+    "Daemon (Socket)" : "Tarnyba (Lizdas)",
+    "Clamav Socket." : "Clamav lizdas."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

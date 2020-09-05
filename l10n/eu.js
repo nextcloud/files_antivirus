@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Fitxategientzako antibirusa",
     "Mode" : "Modua",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav socketa.",
     "Not required in Executable Mode." : "Ez da beharrezkoa Exekutagarri moduan.",
     "Host" : "Ostalaria",
     "Address of Antivirus Host." : "Antibirus ostalariaren helbidea.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Gehitu arau bat",
     "Executable" : "Exekutagarria",
     "Daemon" : "Daemona",
-    "Daemon (Socket)" : "Daemona (socketa)"
+    "Daemon (Socket)" : "Daemona (socketa)",
+    "Clamav Socket." : "Clamav socketa."
 },
 "nplurals=2; plural=(n != 1);");

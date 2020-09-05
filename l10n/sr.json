@@ -22,7 +22,6 @@
     "Antivirus for Files" : "Антивирус за Фајлове",
     "Mode" : "Режим",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Не захтева се у режиму извршавања.",
     "Host" : "Домаћин",
     "Address of Antivirus Host." : "Адреса домаћина антивируса.",
@@ -52,6 +51,7 @@
     "Add a rule" : "Додај правило",
     "Executable" : "Извршавање",
     "Daemon" : "Сервис",
-    "Daemon (Socket)" : "Сервис (socket)"
+    "Daemon (Socket)" : "Сервис (socket)",
+    "Clamav Socket." : "Clamav Socket."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

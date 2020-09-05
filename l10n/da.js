@@ -11,7 +11,6 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %ser fundet i fil. Upload kan ikke fortsætte.",
     "Saved" : "Gemt",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Beklager, men der blev fundet malware i en fil du forsøgte at uploade, og den blev slettet.",
-    "Clamav Socket." : "Clamav Socket.",
     "Host" : "Vært",
     "Port" : "Port",
     "bytes" : "bytes",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Reset to defaults" : "Nulstil til standardindstillinger ",
     "Description" : "Beskrivelse",
     "Mark as" : "Marker som",
-    "Add a rule" : "Tilføj regel"
+    "Add a rule" : "Tilføj regel",
+    "Clamav Socket." : "Clamav Socket."
 },
 "nplurals=2; plural=(n != 1);");

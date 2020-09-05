@@ -28,7 +28,6 @@ OC.L10N.register(
     "ClamAV Daemon (Socket)" : "Daemon ClamAV (Socket)",
     "Kaspersky Daemon" : "Daemon Kaspersky",
     "Socket" : "Socket",
-    "Clamav Socket." : "Socket Clamav.",
     "Not required in Executable Mode." : "Não é necessário no Modo Executável.",
     "Host" : "Host",
     "Address of Antivirus Host." : "Endereço do Antivírus no Host.",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Add a rule" : "Adicionar uma regra",
     "Executable" : "Executável",
     "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)"
+    "Daemon (Socket)" : "Daemon (Socket)",
+    "Clamav Socket." : "Socket Clamav."
 },
 "nplurals=2; plural=(n > 1);");

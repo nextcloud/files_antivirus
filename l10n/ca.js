@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Antivirus per fitxers",
     "Mode" : "Mode",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "No es requereix en Mode Executable.",
     "Host" : "Servidor",
     "Address of Antivirus Host." : "Adreça del Servidor Antivirus.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Afegeix una regla",
     "Executable" : "Executable",
     "Daemon" : "Dimoni",
-    "Daemon (Socket)" : "Dimoni (Socket)"
+    "Daemon (Socket)" : "Dimoni (Socket)",
+    "Clamav Socket." : "Clamav Socket."
 },
 "nplurals=2; plural=(n != 1);");

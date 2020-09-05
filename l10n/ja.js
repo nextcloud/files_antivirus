@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "ファイルのウイルス対策",
     "Mode" : "モード",
     "Socket" : "ソケット",
-    "Clamav Socket." : "Clamavソケット",
     "Not required in Executable Mode." : "実行可能モードでは不要です。",
     "Host" : "ホスト",
     "Address of Antivirus Host." : "アンチウイルスホストのアドレス。",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "ルールを追加",
     "Executable" : "実行可能ファイル",
     "Daemon" : "デーモン",
-    "Daemon (Socket)" : "デーモン（ソケット）"
+    "Daemon (Socket)" : "デーモン（ソケット）",
+    "Clamav Socket." : "Clamavソケット"
 },
 "nplurals=1; plural=0;");
