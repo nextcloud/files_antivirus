@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Антивірус для Файлів",
     "Mode" : "Режим",
     "Socket" : "Сокет",
-    "Clamav Socket." : "Сокет Clamav.",
     "Not required in Executable Mode." : "Не обов'язково у режимі Виконуваного файлу",
     "Host" : "Хост",
     "Address of Antivirus Host." : "Адреса хоста Антивіруса.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Додати правило",
     "Executable" : "Виконуваний файл",
     "Daemon" : "Демон",
-    "Daemon (Socket)" : "Демон (сокет)"
+    "Daemon (Socket)" : "Демон (сокет)",
+    "Clamav Socket." : "Сокет Clamav."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

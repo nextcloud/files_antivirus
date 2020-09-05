@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Antivírus pre Súbory",
     "Mode" : "Režim",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket",
     "Not required in Executable Mode." : "Nie je potrebné v spustiteľnom režime",
     "Host" : "Adresa servera",
     "Address of Antivirus Host." : "Adresa servera s antivírusom",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Pridať pravidlo",
     "Executable" : "Spustiteľný",
     "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)"
+    "Daemon (Socket)" : "Daemon (Socket)",
+    "Clamav Socket." : "Clamav Socket"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

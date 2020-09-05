@@ -20,7 +20,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "Archivo guardado: {file}",
     "Mode" : "Modo",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "No requerido en Modo Ejecutable.",
     "Host" : "Servidor",
     "Address of Antivirus Host." : "Dirección del Servidor de Antivirus.",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Add a rule" : "Agregar una regla",
     "Executable" : "Ejecutable",
     "Daemon" : "Demonio",
-    "Daemon (Socket)" : "Demonio (Socket)"
+    "Daemon (Socket)" : "Demonio (Socket)",
+    "Clamav Socket." : "Clamav Socket."
 },
 "nplurals=2; plural=(n != 1);");

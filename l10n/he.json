@@ -22,7 +22,6 @@
     "Antivirus for Files" : "אנטיוירוס לקבצים",
     "Mode" : "מצב",
     "Socket" : "שקע",
-    "Clamav Socket." : "שקע Clamav.",
     "Not required in Executable Mode." : "לא נדרש במצב הפעלה.",
     "Host" : "מארח",
     "Address of Antivirus Host." : "כתובת מארח האנטיוירוס.",
@@ -52,6 +51,7 @@
     "Add a rule" : "הוספת כל",
     "Executable" : "קובץ שניתן להפעיל",
     "Daemon" : "סוכן",
-    "Daemon (Socket)" : "סוכן (שקע)"
+    "Daemon (Socket)" : "סוכן (שקע)",
+    "Clamav Socket." : "שקע Clamav."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

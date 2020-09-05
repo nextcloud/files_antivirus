@@ -16,7 +16,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "ფაილი აიტვირთა: {file}",
     "Mode" : "რეჟიმი",
     "Socket" : "სოკეტი",
-    "Clamav Socket." : "Clamav სოკეტი.",
     "Not required in Executable Mode." : "შესრულებად რეჟიმში არაა აუცილებელი.",
     "Host" : "ჰოსტი",
     "Address of Antivirus Host." : "ანტივირუსის ჰოსტის მისამართი.",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "Add a rule" : "წესის დამატება",
     "Executable" : "შესრულებადი",
     "Daemon" : "დაემონი",
-    "Daemon (Socket)" : "დაემონი (სოკეტი)"
+    "Daemon (Socket)" : "დაემონი (სოკეტი)",
+    "Clamav Socket." : "Clamav სოკეტი."
 },
 "nplurals=2; plural=(n!=1);");

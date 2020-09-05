@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "文件反病毒",
     "Mode" : "模式",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket",
     "Not required in Executable Mode." : "在可执行文件模式中不需要",
     "Host" : "主机",
     "Address of Antivirus Host." : "反病毒主机的地址",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "添加规则",
     "Executable" : "可执行文件",
     "Daemon" : "后台进程",
-    "Daemon (Socket)" : "后台进程（Socket）"
+    "Daemon (Socket)" : "后台进程（Socket）",
+    "Clamav Socket." : "Clamav Socket"
 },
 "nplurals=1; plural=0;");

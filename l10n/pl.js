@@ -23,8 +23,11 @@ OC.L10N.register(
     "File uploaded: {file}" : "Plik wysłany: {file}",
     "Antivirus for Files" : "Antywirus dla plików",
     "Mode" : "Tryb",
+    "ClamAV Executable" : "Plik wykonywalny ClamAV",
+    "ClamAV Daemon" : "ClamAV Daemon",
+    "ClamAV Daemon (Socket)" : "ClamAV Daemon (gniazdo)",
+    "Kaspersky Daemon" : "Kaspersky Daemon",
     "Socket" : "Gniazdo",
-    "Clamav Socket." : "Gniazdo Clamav.",
     "Not required in Executable Mode." : "Nie wymagane w Trybie Pliku wykonywalnego.",
     "Host" : "Host",
     "Address of Antivirus Host." : "Adres hosta antywirusa",
@@ -54,6 +57,7 @@ OC.L10N.register(
     "Add a rule" : "Dodaj regułę",
     "Executable" : "Plik wykonywalny",
     "Daemon" : "Demon",
-    "Daemon (Socket)" : "Demon (Gniazdo)"
+    "Daemon (Socket)" : "Demon (gniazdo)",
+    "Clamav Socket." : "Gniazdo ClamAV."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Anivirus fájlokhoz",
     "Mode" : "Mód",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Nem szükséges futtatható módban.",
     "Host" : "Kiszolgáló",
     "Address of Antivirus Host." : "Antivírus kiszolgáló címe.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Szabály hozzáadása",
     "Executable" : "Végrehajtható",
     "Daemon" : "Démon",
-    "Daemon (Socket)" : "Démon (socket)"
+    "Daemon (Socket)" : "Démon (socket)",
+    "Clamav Socket." : "Clamav Socket."
 },
 "nplurals=2; plural=(n != 1);");

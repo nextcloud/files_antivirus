@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Αντιβιοτικό για τα αρχεία",
     "Mode" : "Κατάσταση",
     "Socket" : "Υποδοχή",
-    "Clamav Socket." : "Υποδοχή Clamav.",
     "Not required in Executable Mode." : "Δεν απαιτείται σε Κατάσταση Εντολών.",
     "Host" : "Διακομιστής",
     "Address of Antivirus Host." : "Διεύθυνση Υπολογιστή Antivirus.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Προσθήκη κανόνα",
     "Executable" : "Εκτελέσιμο",
     "Daemon" : "Υπηρεσία",
-    "Daemon (Socket)" : "Υπηρεσία (Υποδοχή)"
+    "Daemon (Socket)" : "Υπηρεσία (Υποδοχή)",
+    "Clamav Socket." : "Υποδοχή Clamav."
 },
 "nplurals=2; plural=(n != 1);");

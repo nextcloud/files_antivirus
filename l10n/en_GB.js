@@ -20,7 +20,6 @@ OC.L10N.register(
     "File uploaded: {file}" : "File uploaded: {file}",
     "Mode" : "Mode",
     "Socket" : "Socket",
-    "Clamav Socket." : "Clamav Socket.",
     "Not required in Executable Mode." : "Not required in Executable Mode.",
     "Host" : "Host",
     "Address of Antivirus Host." : "Address of Antivirus Host.",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Add a rule" : "Add a rule",
     "Executable" : "Executable",
     "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)"
+    "Daemon (Socket)" : "Daemon (Socket)",
+    "Clamav Socket." : "Clamav Socket."
 },
 "nplurals=2; plural=(n != 1);");

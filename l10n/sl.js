@@ -20,7 +20,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Antivirus za datoteke",
     "Mode" : "Način",
     "Socket" : "Vtič",
-    "Clamav Socket." : "Vtič Clamav",
     "Host" : "Gostitelj",
     "Port" : "Vrata",
     "Stream Length" : "Dolžina pretoka",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "Add a rule" : "Dodaj pravilo",
     "Executable" : "Izvedljiva datoteka",
     "Daemon" : "Ozadnji program",
-    "Daemon (Socket)" : "Ozadnji program (vtič)"
+    "Daemon (Socket)" : "Ozadnji program (vtič)",
+    "Clamav Socket." : "Vtič Clamav"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

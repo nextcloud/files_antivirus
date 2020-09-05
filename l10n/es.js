@@ -24,7 +24,6 @@ OC.L10N.register(
     "Antivirus for Files" : "Antivirus para archivos",
     "Mode" : "Modo",
     "Socket" : "Socket",
-    "Clamav Socket." : "Socket clamav",
     "Not required in Executable Mode." : "No es necesario en modo ejecutable.",
     "Host" : "Dominio",
     "Address of Antivirus Host." : "Dirección del servidor antivirus.",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Add a rule" : "Añadir una regla",
     "Executable" : "Ejecutable",
     "Daemon" : "Demonio",
-    "Daemon (Socket)" : "Demonio (Socket)"
+    "Daemon (Socket)" : "Demonio (Socket)",
+    "Clamav Socket." : "Socket clamav"
 },
 "nplurals=2; plural=(n != 1);");

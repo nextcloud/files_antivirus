@@ -28,7 +28,6 @@ OC.L10N.register(
     "ClamAV Daemon (Socket)" : "ClamAV Arka Plan İşlemi (Soket)",
     "Kaspersky Daemon" : "Kaspersky Arka Plan İşlemi",
     "Socket" : "Soket",
-    "Clamav Socket." : "Clamav Soketi.",
     "Not required in Executable Mode." : "Çalıştırılabilir Kipte gerekli değildir.",
     "Host" : "Sunucu",
     "Address of Antivirus Host." : "Antivirus Sunucusunun Adresi",
@@ -58,6 +57,7 @@ OC.L10N.register(
     "Add a rule" : "Kural ekle",
     "Executable" : "Çalıştırılabilir",
     "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daomen (Soket)"
+    "Daemon (Socket)" : "Daomen (Soket)",
+    "Clamav Socket." : "Clamav Soketi."
 },
 "nplurals=2; plural=(n > 1);");
