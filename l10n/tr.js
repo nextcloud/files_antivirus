@@ -28,6 +28,7 @@ OC.L10N.register(
     "ClamAV Daemon (Socket)" : "ClamAV Arka Plan İşlemi (Soket)",
     "Kaspersky Daemon" : "Kaspersky Arka Plan İşlemi",
     "Socket" : "Soket",
+    "ClamAV Socket." : "ClamAV Soketi.",
     "Not required in Executable Mode." : "Çalıştırılabilir Kipte gerekli değildir.",
     "Host" : "Sunucu",
     "Address of Antivirus Host." : "Antivirus Sunucusunun Adresi",
