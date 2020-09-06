@@ -28,6 +28,7 @@ OC.L10N.register(
     "ClamAV Daemon (Socket)" : "Servizo de ClamAV (conectador)",
     "Kaspersky Daemon" : "Sevizo de Kaspersky",
     "Socket" : "Conectador",
+    "ClamAV Socket." : "Conectador do ClamAV.",
     "Not required in Executable Mode." : "Non é necesario no modo executábel.",
     "Host" : "Servidor",
     "Address of Antivirus Host." : "Enderezo do servidor antivirus",
