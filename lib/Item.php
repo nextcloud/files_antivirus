@@ -128,6 +128,7 @@ class Item {
 				$msg = 'Infected file found.';
 			}
 			$this->logError($msg . ' ' . $status->getDetails());
+			$this->updateCheckTime();
 		}
 	}
 
@@ -144,6 +145,13 @@ class Item {
 	 * Action to take if this item status is not infected
 	 */
 	public function processClean() {
+		$this->updateCheckTime();
+	}
+
+	/**
+	 * Update the check-time of this item to current time
+	 */
+	private function updateCheckTime() {
 		try {
 			try {
 				$item = $this->itemMapper->findByFileId($this->file->getId());
