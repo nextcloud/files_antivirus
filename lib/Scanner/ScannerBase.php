@@ -106,6 +106,7 @@ abstract class ScannerBase implements IScanner {
 	 * @return Status
 	 */
 	public function scan(Item $item): Status {
+		$this->infectedStatus = null;
 		$this->initScanner();
 
 		while (false !== ($chunk = $item->fread())) {
@@ -117,6 +118,7 @@ abstract class ScannerBase implements IScanner {
 	}
 
 	public function scanString(string $data): Status {
+		$this->infectedStatus = null;
 		$this->initScanner();
 
 		$this->writeChunk($data);
