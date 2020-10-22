@@ -9,6 +9,8 @@ OC.L10N.register(
     "Delete file" : "刪除檔案",
     "Save" : "儲存",
     "Advanced" : "高級的",
+    "Clear All" : "清除所有",
+    "Reset to defaults" : "回覆到預設值",
     "Description" : "描述"
 },
 "nplurals=1; plural=0;");
