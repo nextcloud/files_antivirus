@@ -3,14 +3,15 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_antivirus</id>
 	<name>Antivirus for files</name>
-	<summary>An antivirus app for Nextcloud based on ClamAV</summary>
-	<description><![CDATA[Antivirus for files is an antivirus app for Nextcloud based on ClamAV.
+	<summary>An antivirus app for Nextcloud</summary>
+	<description><![CDATA[Antivirus for files is an antivirus app for Nextcloud.
 
 * 🕵️‍♂️ When the user uploads a file, it's checked
 * ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email
 * 🔎 Background Job to scan all files
+* ❓ Use ClamAV (open source) or Kaspersky Scan Engine
 
-This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.
+This application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application. Alternatively, a Kaspersky Scan Engine can be configured, which has to run on a separate server.
 For this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation.
 	]]></description>
 	<version>3.0.0</version>
@@ -21,6 +22,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<author>thinksilicon.de</author>
 	<author>Victor Dubiniuk</author>
 	<author>Roeland Jago Douma</author>
+	<author>Robin Appelman</author>
 
 	<namespace>Files_Antivirus</namespace>
 
