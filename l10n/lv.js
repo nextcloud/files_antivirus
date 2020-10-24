@@ -15,7 +15,6 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Vīruss %s ir atrasts datnē. Augšupielādi nevar pabeigt.",
     "Saved" : "Saglabāts",
     "Antivirus for files" : "Antīvīruss datnēm",
-    "An antivirus app for Nextcloud based on ClamAV" : "Antivīrusa lietotne priekš Nextcloud, kas bāzēta uz ClamAV",
     "Greetings {user}," : "Sveiciens {user}.",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Diemžēl datnē kuru jūs mēģinājāt augšupielādēt tika atrasta ļaunatūra un to vajadzēja izdzēst.",
     "This email is a notification from {host}. Please, do not reply." : "Šis e-pasts ir paziņojums no {host}. Lūdzu neatbildiet uz to.",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Description" : "Apraksts",
     "Mark as" : "Atzīmēt kā",
     "Add a rule" : "Pievienot noteikumu",
+    "An antivirus app for Nextcloud based on ClamAV" : "Antivīrusa lietotne priekš Nextcloud, kas bāzēta uz ClamAV",
     "Executable" : "Palaižamā datne"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
