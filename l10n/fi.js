@@ -14,7 +14,6 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "Virus %s havaittiin tiedostossa. Lähetystä ei voi suorittaa loppuun.",
     "Saved" : "Tallennettu",
     "Antivirus for files" : "Virustorjunta tiedostoille",
-    "An antivirus app for Nextcloud based on ClamAV" : "Virustorjuntasovellus Nextcloudille perustuen ClamAV teknologiaan",
     "Greetings {user}," : "Hei {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Valitettavasti lähettämästäsi tiedostosta löytyi haittaohjelma, joten lähettämäsi tiedosto poistettiin.",
     "This email is a notification from {host}. Please, do not reply." : "Tämä on ilmoitus sivustolta {host}. Älä vastaa tähän viestiin.",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Description" : "Kuvaus",
     "Mark as" : "Merkitse",
     "Add a rule" : "Lisää sääntö",
+    "An antivirus app for Nextcloud based on ClamAV" : "Virustorjuntasovellus Nextcloudille perustuen ClamAV teknologiaan",
     "Executable" : "Suoritettava",
     "Daemon" : "Taustapalvelu"
 },
