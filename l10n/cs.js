@@ -15,6 +15,7 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "V souboru byl zjištěn virus %s. Nahrávání nebylo možné dokončit.",
     "Saved" : "Uloženo",
     "Antivirus for files" : "Antivir pro soubory",
+    "An antivirus app for Nextcloud" : "Antivirová aplikace pro Nextcloud",
     "Greetings {user}," : "Zdravíme {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Je nám líto, ale v souboru, který jste nahráli byl nalezen škodlivý software a bylo nutno soubor smazat.",
     "This email is a notification from {host}. Please, do not reply." : "Tento e-mail je upozornění z {host}. Neodpovídejte na něj.",
