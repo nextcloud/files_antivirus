@@ -55,7 +55,7 @@ script('files_antivirus', 'settings');
 					<td></td>
 				</tr>
 				<tr class="av_max_file_size">
-					<td><label for="av_max_file_size"><?php p($l->t('File size limit, -1 means no limit'));?></label></td>
+					<td><label for="av_max_file_size"><?php p($l->t('File size limit for periodic background scans, -1 means no limit'));?></label></td>
 					<td>
 						<input type="text" id="av_max_file_size" name="avMaxFileSize" value="<?php p($_['avMaxFileSize']); ?>"
 						   title="<?php p($l->t('Background scan file size limit in bytes, -1 means no limit'));?>"
