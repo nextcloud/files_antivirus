@@ -31,10 +31,12 @@ use OCP\ILogger;
 class ExternalKaspersky extends ScannerBase {
 	/** @var IClientService IClientService */
 	private $clientService;
+	private $chunkSize;
 
 	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory, IClientService $clientService) {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->clientService = $clientService;
+		$this->chunkSize = 10 * 1024 * 1024;
 	}
 
 	public function initScanner() {
@@ -49,7 +51,15 @@ class ExternalKaspersky extends ScannerBase {
 		$this->writeHandle = fopen("php://temp", 'w+');
 	}
 
-	protected function shutdownScanner() {
+	protected function writeChunk($chunk) {
+		if (ftell($this->writeHandle) > $this->chunkSize) {
+			$this->scanBuffer();
+			$this->writeHandle = fopen("php://temp", 'w+');
+		}
+		parent::writeChunk($chunk);
+	}
+
+	protected function scanBuffer() {
 		rewind($this->writeHandle);
 
 		$avHost = $this->appConfig->getAvHost();
@@ -69,7 +79,7 @@ class ExternalKaspersky extends ScannerBase {
 			['app' => 'files_antivirus']
 		);
 
-		if (trim($response) === 'CLEAN') {
+		if (trim($response) === 'CLEAN' && $this->status->getDetails() == Status::SCANRESULT_CLEAN) {
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
@@ -78,5 +88,9 @@ class ExternalKaspersky extends ScannerBase {
 			}
 			$this->status->setDetails($response);
 		}
+	}
+
+	protected function shutdownScanner() {
+		$this->scanBuffer();
 	}
 }
