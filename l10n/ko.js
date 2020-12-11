@@ -34,7 +34,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "clamscan 실행 파일 경로입니다.",
     "Not required in Daemon Mode." : "데몬 모드에서는 필요하지 않습니다.",
     "Extra command line options (comma-separated)" : "추가 명령행 옵션(쉼표로 구분)",
-    "File size limit, -1 means no limit" : "파일 크기 제한, -1은 무제한",
     "Background scan file size limit in bytes, -1 means no limit" : "바이트 단위 백그라운드 검사 파일 크기 제한, -1은 무제한",
     "When infected files are found during a background scan" : "백그라운드 검사 시 감염된 파일을 찾았을 때",
     "Only log" : "로그만",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Executable" : "실행 파일",
     "Daemon" : "데몬",
     "Daemon (Socket)" : "데몬(소켓)",
-    "Clamav Socket." : "ClamAV 소켓입니다."
+    "Clamav Socket." : "ClamAV 소켓입니다.",
+    "File size limit, -1 means no limit" : "파일 크기 제한, -1은 무제한"
 },
 "nplurals=1; plural=0;");

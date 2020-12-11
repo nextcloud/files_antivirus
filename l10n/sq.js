@@ -12,7 +12,6 @@ OC.L10N.register(
     "Host" : "Strehë",
     "Port" : "Porta",
     "Not required in Daemon Mode." : "Nuk kërkohet në Gjendjen Daemon",
-    "File size limit, -1 means no limit" : "Limiti -1 i madhësisë së skedarit, do të thotë jo limit",
     "When infected files are found during a background scan" : "Kur skedarë të infektuar gjenden gjatë skanimit ",
     "Only log" : "Vetëm log",
     "Delete file" : "Fshi skedarin",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Reset to defaults" : "Rivendosi te gjendja e paracaktuar",
     "Description" : "Përshkrim",
     "Mark as" : "Shëno si",
-    "Add a rule" : "Shto një rregull"
+    "Add a rule" : "Shto një rregull",
+    "File size limit, -1 means no limit" : "Limiti -1 i madhësisë së skedarit, do të thotë jo limit"
 },
 "nplurals=2; plural=(n != 1);");

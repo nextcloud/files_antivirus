@@ -41,7 +41,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Clamscan dosyasının yolu.",
     "Not required in Daemon Mode." : "Daemon kipinde gerekli değildir.",
     "Extra command line options (comma-separated)" : "Ek komut satırı seçenekleri (virgül ile ayırarak yazın)",
-    "File size limit, -1 means no limit" : "Dosya boyutu sınırı, -1 sınır olmadığı anlamına gelir",
     "Background scan file size limit in bytes, -1 means no limit" : "Bayt cinsinden arka planda dosya tarama boyutu, -1 sınır olmadığı anlamına gelir",
     "When infected files are found during a background scan" : "Arka plan taraması sırasında virus bulaşmış dosyalar bulunduğunda",
     "Only log" : "Yalnız günlük kaydı tutulsun",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Executable" : "Çalıştırılabilir",
     "Daemon" : "Daemon",
     "Daemon (Socket)" : "Daomen (Soket)",
-    "Clamav Socket." : "Clamav Soketi."
+    "Clamav Socket." : "Clamav Soketi.",
+    "File size limit, -1 means no limit" : "Dosya boyutu sınırı, -1 sınır olmadığı anlamına gelir"
 },
 "nplurals=2; plural=(n > 1);");

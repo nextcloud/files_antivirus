@@ -34,7 +34,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Clamscan exekutagarrira bidea.",
     "Not required in Daemon Mode." : "Ez da beharrezkoa Daemon moduan.",
     "Extra command line options (comma-separated)" : "Komando-lerro gehigarrien aukerak (komaz bereizita)",
-    "File size limit, -1 means no limit" : "Fitxategien tamaina muga, -1 jartzeak mugarik gabe esan nahi du",
     "Background scan file size limit in bytes, -1 means no limit" : "Atzeko planoko eskaneatze fitxategiaren tamaina muga bytetan, -1 jartzeak mugarik ez esan nahi du",
     "When infected files are found during a background scan" : "Infektatuz gero, atzeko planoko eskaneatzean aurkitzen dira fitxategiak",
     "Only log" : "Log fitxategia soilik",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Executable" : "Exekutagarria",
     "Daemon" : "Daemona",
     "Daemon (Socket)" : "Daemona (socketa)",
-    "Clamav Socket." : "Clamav socketa."
+    "Clamav Socket." : "Clamav socketa.",
+    "File size limit, -1 means no limit" : "Fitxategien tamaina muga, -1 jartzeak mugarik gabe esan nahi du"
 },
 "nplurals=2; plural=(n != 1);");

@@ -30,7 +30,6 @@
     "Path to clamscan executable." : "Ruta al ejecutable de clamscan.",
     "Not required in Daemon Mode." : "No requerido en modo demonio.",
     "Extra command line options (comma-separated)" : "Opciones adicionales de la línea de comandos (separados por coma)",
-    "File size limit, -1 means no limit" : "Límite de tamaño de archivo, -1 significa que no hay límite",
     "Background scan file size limit in bytes, -1 means no limit" : "Límite en el tamaño de archivo del escaneo de segundo plano, -1 significa no hay limite",
     "When infected files are found during a background scan" : "Cuando se encuentres archivos infectados durante un escaneo en segundo plano",
     "Only log" : "Solo bitácora",
@@ -48,6 +47,7 @@
     "Executable" : "Ejecutable",
     "Daemon" : "Demonio",
     "Daemon (Socket)" : "Demonio (Socket)",
-    "Clamav Socket." : "Clamav Socket."
+    "Clamav Socket." : "Clamav Socket.",
+    "File size limit, -1 means no limit" : "Límite de tamaño de archivo, -1 significa que no hay límite"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

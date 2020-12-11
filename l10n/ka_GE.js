@@ -28,7 +28,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "clamscan შესრულებადის მისამართი.",
     "Not required in Daemon Mode." : "Daemon რეჟიმში არაა აუცილებელი.",
     "Extra command line options (comma-separated)" : "ექსტრა კონსოლის პარამეტრი (გამოყოფილი-მძიმით)",
-    "File size limit, -1 means no limit" : "ფაილის ზომის ლიმიტი, -1 აღნიშნავს ულიმიტობას",
     "Background scan file size limit in bytes, -1 means no limit" : "ფონური რეჟიმის სკანირების ფაილის ზომის ლიმიტი ბაიტებში, -1 აღნიშნავს ულიმიტობას",
     "Only log" : "მხოლოდ ჩაიწეროს ლოგი",
     "Delete file" : "გაუქმდეს ფაილი",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "Executable" : "შესრულებადი",
     "Daemon" : "დაემონი",
     "Daemon (Socket)" : "დაემონი (სოკეტი)",
-    "Clamav Socket." : "Clamav სოკეტი."
+    "Clamav Socket." : "Clamav სოკეტი.",
+    "File size limit, -1 means no limit" : "ფაილის ზომის ლიმიტი, -1 აღნიშნავს ულიმიტობას"
 },
 "nplurals=2; plural=(n!=1);");

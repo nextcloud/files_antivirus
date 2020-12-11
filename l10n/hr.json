@@ -39,7 +39,6 @@
     "Path to clamscan executable." : "Put do izvršne datoteke clamscana.",
     "Not required in Daemon Mode." : "Nije potrebno u načinu rada Daemon.",
     "Extra command line options (comma-separated)" : "Dodatne mogućnosti naredbenog retka (odvojene zarezom)",
-    "File size limit, -1 means no limit" : "Ograničenje veličine datoteke, -1 znači da nema ograničenja",
     "Background scan file size limit in bytes, -1 means no limit" : "Ograničenje veličine datoteke za pozadinsko skeniranje u bajtovima, -1 znači da nema ograničenja",
     "When infected files are found during a background scan" : "Kada se tijekom pozadinskog skeniranja pronađu zaražene datoteke",
     "Only log" : "Samo zapis",
@@ -59,6 +58,7 @@
     "Executable" : "Izvedbeni",
     "Daemon" : "Daemon",
     "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Clamav Socket."
+    "Clamav Socket." : "Clamav Socket.",
+    "File size limit, -1 means no limit" : "Ograničenje veličine datoteke, -1 znači da nema ograničenja"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

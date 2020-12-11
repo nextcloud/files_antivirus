@@ -28,7 +28,6 @@ OC.L10N.register(
     "Path to clamscan" : "Ceļš uz clamscan",
     "Path to clamscan executable." : "Ceļš uz clamscan izpildīšanas datni",
     "Not required in Daemon Mode." : "Nav vajadzīgs Daemon ŗežīmā.",
-    "File size limit, -1 means no limit" : "Datnes lieluma limits, -1 nozīmē ka limita nav",
     "Background scan file size limit in bytes, -1 means no limit" : "Fona skenēšanas datņu lieluma limits baitos, -1 nozīmē bez limita",
     "When infected files are found during a background scan" : "Kad inficētas datnes ir atrastas fona skenēšanā",
     "Only log" : "Tikai logot",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Mark as" : "Atzīmēt kā",
     "Add a rule" : "Pievienot noteikumu",
     "An antivirus app for Nextcloud based on ClamAV" : "Antivīrusa lietotne priekš Nextcloud, kas bāzēta uz ClamAV",
-    "Executable" : "Palaižamā datne"
+    "Executable" : "Palaižamā datne",
+    "File size limit, -1 means no limit" : "Datnes lieluma limits, -1 nozīmē ka limita nav"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

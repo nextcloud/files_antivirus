@@ -34,7 +34,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "مسیر اجرا به سمت clamscan.",
     "Not required in Daemon Mode." : "در حالت Daemon Mode لازم نیست.",
     "Extra command line options (comma-separated)" : "گزینه های اضافی خط فرمان (کاما، جدا از هم)",
-    "File size limit, -1 means no limit" : "محدودیت حجم فایل، -1 به معنای عدم محدودیت است",
     "Background scan file size limit in bytes, -1 means no limit" : "محدودیت حجم فایل پس زمینه اسکن شده براساس بایت،  -1 به معنای عدم محدودیت است",
     "When infected files are found during a background scan" : "هنگامی که فایل های آلوده در طول اسکن پس زمینه یافت می شوند",
     "Only log" : "فقط سوابق",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Executable" : "قابل اجرا",
     "Daemon" : "فرایندهای پس زمینه",
     "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)",
-    "Clamav Socket." : "سوکت Clamav."
+    "Clamav Socket." : "سوکت Clamav.",
+    "File size limit, -1 means no limit" : "محدودیت حجم فایل، -1 به معنای عدم محدودیت است"
 },
 "nplurals=2; plural=(n > 1);");

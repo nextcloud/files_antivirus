@@ -39,7 +39,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Διαδρομή για το εκτελέσιμο clamscan.",
     "Not required in Daemon Mode." : "Δεν απαιτείται σε Κατάσταση Daemon.",
     "Extra command line options (comma-separated)" : "Επιπλέον επιλογές γραμμής εντολών (διαχωρισμένα με-κόμμα)",
-    "File size limit, -1 means no limit" : "Όριο μεγέθους αρχείου, -1 σημαίνει χωρίς όριο",
     "Background scan file size limit in bytes, -1 means no limit" : "Το όριο μεγέθους αρχείου σάρωσης στο παρασκήνιο σε byte, το -1 σημαίνει χωρίς όριο",
     "When infected files are found during a background scan" : "Όταν βρεθούν μολυσμένα αρχεία κατά τη διάρκεια σάρωσης στο παρασκήνιο",
     "Only log" : "Μόνο αρχείο καταγραφής",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Executable" : "Εκτελέσιμο",
     "Daemon" : "Υπηρεσία",
     "Daemon (Socket)" : "Υπηρεσία (Υποδοχή)",
-    "Clamav Socket." : "Υποδοχή Clamav."
+    "Clamav Socket." : "Υποδοχή Clamav.",
+    "File size limit, -1 means no limit" : "Όριο μεγέθους αρχείου, -1 σημαίνει χωρίς όριο"
 },
 "nplurals=2; plural=(n != 1);");
