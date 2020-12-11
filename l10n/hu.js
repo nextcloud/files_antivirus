@@ -34,7 +34,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Clamscan futtatható fájl útvonala",
     "Not required in Daemon Mode." : "Nem szükséges démon módban.",
     "Extra command line options (comma-separated)" : "Extra parancssori beállítások (vesszővel elválasztva)",
-    "File size limit, -1 means no limit" : "Fájl méret határ, -1 azt jelenti nincs korlát",
     "Background scan file size limit in bytes, -1 means no limit" : "Háttér keresés határa, -1 azt jelenti nincs korlát",
     "When infected files are found during a background scan" : "Ha egy fertőzött fájlt talál háttérkeresés során",
     "Only log" : "Csak naplózza",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Executable" : "Végrehajtható",
     "Daemon" : "Démon",
     "Daemon (Socket)" : "Démon (socket)",
-    "Clamav Socket." : "Clamav Socket."
+    "Clamav Socket." : "Clamav Socket.",
+    "File size limit, -1 means no limit" : "Fájl méret határ, -1 azt jelenti nincs korlát"
 },
 "nplurals=2; plural=(n != 1);");

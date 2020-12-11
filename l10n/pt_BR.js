@@ -41,7 +41,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Caminho do executável do clamscan.",
     "Not required in Daemon Mode." : "Não é necessário no Modo Daemon.",
     "Extra command line options (comma-separated)" : "Opções extras de linha de comando (separados por vírgula)",
-    "File size limit, -1 means no limit" : "Limite do tamanho do arquivo, -1 significa sem limite",
     "Background scan file size limit in bytes, -1 means no limit" : "Limite do tamanho de arquivo para escaneamento, -1 significa sem limite",
     "When infected files are found during a background scan" : "Quando vírus são encontrados num escaneamento em retaguarda",
     "Only log" : "Somente registrar",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Executable" : "Executável",
     "Daemon" : "Daemon",
     "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Socket Clamav."
+    "Clamav Socket." : "Socket Clamav.",
+    "File size limit, -1 means no limit" : "Limite do tamanho do arquivo, -1 significa sem limite"
 },
 "nplurals=2; plural=(n > 1);");

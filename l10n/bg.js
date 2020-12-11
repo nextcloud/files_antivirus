@@ -11,7 +11,6 @@ OC.L10N.register(
     "Port" : "Порт",
     "bytes" : "байта",
     "Path to clamscan" : "Път до clamscan",
-    "File size limit, -1 means no limit" : "Лимит на файлов размер, -1 означава - без лимит",
     "Delete file" : "Изтриване на файл",
     "Save" : "Запиши",
     "Advanced" : "Допълнителни",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "Match by" : "Съвпадение по",
     "Description" : "Описание",
     "Mark as" : "Означи като",
-    "Add a rule" : "Добави правило"
+    "Add a rule" : "Добави правило",
+    "File size limit, -1 means no limit" : "Лимит на файлов размер, -1 означава - без лимит"
 },
 "nplurals=2; plural=(n != 1);");

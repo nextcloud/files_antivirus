@@ -40,7 +40,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Popis umístění spustitelného souboru clamscan",
     "Not required in Daemon Mode." : "Není vyžadováno v režimu procesu služby.",
     "Extra command line options (comma-separated)" : "Další volby příkazového řádku (oddělované čárkou)",
-    "File size limit, -1 means no limit" : "Limit velikosti souboru, -1 znamená bez omezení",
     "Background scan file size limit in bytes, -1 means no limit" : "Do jaké jejich velikosti skenovat soubory na pozadí (v bajtech), -1 znamená bez omezení",
     "When infected files are found during a background scan" : "Pokud jsou při skenování na pozadí nalezeny nakažené soubory",
     "Only log" : "Pouze zaznamenávat",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Executable" : "Spustitelný soubor",
     "Daemon" : "Proces služby",
     "Daemon (Socket)" : "Proces služby (soket)",
-    "Clamav Socket." : "Soket ClamAV."
+    "Clamav Socket." : "Soket ClamAV.",
+    "File size limit, -1 means no limit" : "Limit velikosti souboru, -1 znamená bez omezení"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

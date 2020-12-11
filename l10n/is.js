@@ -34,7 +34,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Slóð að clamscan-keyrsluskránni.",
     "Not required in Daemon Mode." : "Ekki nauðsynlegt í púkaham.",
     "Extra command line options (comma-separated)" : "Auka skipanalínurofar (aðskilið með kommu)",
-    "File size limit, -1 means no limit" : "Stærðartakmörk skráa, -1 þýðir engin takmörk",
     "Background scan file size limit in bytes, -1 means no limit" : "Stærðartakmörk bakgrunnsskönnunar skráa í bætum, -1 þýðir engin takmörk",
     "When infected files are found during a background scan" : "Þegar smitaðar skrár finnast við bakgrunnsskönnun",
     "Only log" : "Aðeins skrá í annál",
@@ -54,6 +53,7 @@ OC.L10N.register(
     "Executable" : "Keyrsluskrá",
     "Daemon" : "Púki",
     "Daemon (Socket)" : "Púki (sökkull)",
-    "Clamav Socket." : "Clamav-sökkull."
+    "Clamav Socket." : "Clamav-sökkull.",
+    "File size limit, -1 means no limit" : "Stærðartakmörk skráa, -1 þýðir engin takmörk"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
