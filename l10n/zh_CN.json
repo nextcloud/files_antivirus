@@ -39,6 +39,7 @@
     "Path to clamscan executable." : "clamscan 可执行文件路径",
     "Not required in Daemon Mode." : "在后台进程模式中不需要",
     "Extra command line options (comma-separated)" : "额外的命令行参数（逗号分隔）",
+    "File size limit for periodic background scans, -1 means no limit" : "定期后台扫描文件大小限制，-1 代表无限制",
     "Background scan file size limit in bytes, -1 means no limit" : "后台扫描文件大小限制（字节），-1 意味着没有限制",
     "When infected files are found during a background scan" : "当在后台扫描中发现受感染文件时",
     "Only log" : "仅日志",
