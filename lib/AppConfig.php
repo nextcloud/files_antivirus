@@ -47,6 +47,7 @@ class AppConfig {
 		'av_max_file_size' => -1,
 		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
+		'av_background_scan' => 'on',
 	];
 
 	/**
