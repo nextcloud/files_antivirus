@@ -1,11 +1,11 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Clean" : "Bereinigt",
+    "Clean" : "Bereinigen",
     "Infected" : "Infiziert",
     "Unchecked" : "Ungeprüft",
     "Scanner exit status" : "Scanner-Abschluss-Status",
-    "Scanner output" : "Scanner-Ergebnis",
+    "Scanner output" : "Scanner-Ausgabe",
     "Saving…" : "Speichere…",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Die Datei {file} ist mit {virus} infiziert",
