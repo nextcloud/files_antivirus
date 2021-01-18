@@ -79,8 +79,11 @@ class ExternalKaspersky extends ScannerBase {
 			['app' => 'files_antivirus']
 		);
 
-		if (trim($response) === 'CLEAN' && $this->status->getDetails() == Status::SCANRESULT_CLEAN) {
+		if (trim($response) === 'CLEAN' && $this->status->getNumericStatus() == Status::SCANRESULT_CLEAN) {
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+		} else if (substr($response, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			$this->status->setDetails($response);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			if (strpos($response, "DETECT ") === 0) {
