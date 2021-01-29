@@ -50,6 +50,7 @@ OC.L10N.register(
     "Rules" : "Pravila",
     "Clear All" : "Počisti vse",
     "Reset to defaults" : "Ponastavi na privzeto",
+    "Scanner exit status or signature to search" : "Stanje izhoda pregledovalnika oziroma oznaka za iskanje",
     "Description" : "Opis",
     "Mark as" : "Označi kot",
     "Add a rule" : "Dodaj pravilo",
