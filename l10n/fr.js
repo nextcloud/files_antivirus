@@ -55,13 +55,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "État de sortie du scanner ou signature à rechercher",
     "Description" : "Description",
     "Mark as" : "Marqué comme",
-    "Add a rule" : "Ajouter une règle",
-    "An antivirus app for Nextcloud based on ClamAV" : "Une application antivirus pour Nextcloud basée sur ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus pour les fichiers est une application antivirus pour Nextcloud basée sur ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Les fichiers téléversés et infectés seront supprimés et une notification sera visible ou envoyée par e-mail\n* 🔎 Tâche de fond pour analyser tous les fichiers\n\nCette application inspecte les fichiers téléversés sur Nextcloud à la recherche de virus avant leur écriture sur le stockage NextCloud. Si un fichier est identifié comme un virus, il est consigné ou non sur le serveur. L'application repose sur le moteur d'analyse de virus ClamAV sous-jacent, que l'administrateur lie à Nextcloud lors de la configuration de l'application.\nPour que cette application soit efficace, les définitions de virus ClamAV doivent être tenues à jour. Notez également que l'activation de cette application aura une incidence sur les performances du système, car un traitement supplémentaire est requis pour chaque téléchargement. Plus d'informations sont disponibles dans la documentation de l'antivirus.",
-    "Executable" : "Exécutable",
-    "Daemon" : "Processus",
-    "Daemon (Socket)" : "Processus (socket)",
-    "Clamav Socket." : "Socket de clamav.",
-    "File size limit, -1 means no limit" : "Taille limite, -1 signifie aucune"
+    "Add a rule" : "Ajouter une règle"
 },
 "nplurals=2; plural=(n > 1);");

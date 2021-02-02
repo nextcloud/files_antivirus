@@ -52,13 +52,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Estat de la sortida de l’escàner o signatura per cercar",
     "Description" : "Descripció",
     "Mark as" : "Marca-ho com",
-    "Add a rule" : "Afegeix una regla",
-    "An antivirus app for Nextcloud based on ClamAV" : "Una aplicació antivirus per a Nextcloud basada en ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "L'Antivirus per fitxers és una aplicació antivirus per a Nextcloud basada en ClamAV\n\n* 🕵️‍♂️ Quan l'usuari carrega un fitxer, es verifica\n* ☢️ Es suprimiran els fitxers carregats i infectats i es mostrarà i/o s'enviarà una notificació per correu electrònic\n* 🔎 Procés en segon pla per escanejar tots els fitxers\n\nAquesta aplicació inspecciona els fitxers que s’han carregat a Nextcloud per comprovar si tenen virus abans d’escriure'ls a l’emmagatzematge Nextcloud. Si s'identifica un fitxer com a virus, es registra o no es carrega al servidor. L’aplicació es basa en el motor d’exploració de virus ClamAV subjacent, que a l'administrador assenyala Nextcloud quan es configura l’aplicació.\nPerquè aquesta aplicació sigui eficaç, cal que les definicions de virus de ClamAV estiguin actualitzades. Tingueu també en compte que l’activació d’aquesta aplicació afectarà el rendiment del sistema, ja que es requereix un processament addicional per a cada càrrega. Podeu trobar més informació a la documentació de l'Antivirus.",
-    "Executable" : "Executable",
-    "Daemon" : "Dimoni",
-    "Daemon (Socket)" : "Dimoni (Socket)",
-    "Clamav Socket." : "Clamav Socket.",
-    "File size limit, -1 means no limit" : "Límit de la mida del fitxer, -1 vol dir sense límit"
+    "Add a rule" : "Afegeix una regla"
 },
 "nplurals=2; plural=(n != 1);");

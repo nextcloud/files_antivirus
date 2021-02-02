@@ -47,13 +47,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Staða skanna þegar hætt er eða auðkenni (signature) til að leita eftir",
     "Description" : "Lýsing",
     "Mark as" : "Merkja sem",
-    "Add a rule" : "Bæta við reglu",
-    "An antivirus app for Nextcloud based on ClamAV" : "Vírusvarnarforrit fyrir Nextcloud byggt á ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Vírusbani fyrir skrár er vírusleitarforrit fyrir Nextcloud byggt á ClamAV.\n\n* 🕵️‍♂️ Þegar notandi sendir inn skrár eru þær yfirfarnar\n* ☢️ Smitaðum innsendum skrám er eytt og tilkynning birt og/eða send með tölvupósti\n* 🔎 Allar skrár skannaðar sem bakgrunnsverk\n\nÞetta forrit skoðar allar skrár varðandi vírussmit þegar þær eru sendar inn á Nextcloud áður en þær eru skrifaðar inn í geymslurými Nextcloud. Ef skrá er merkt sem smituð, eru upplýsingar um hana skráðar í atvikaskrá eða hún ekki send inn á þjóninn. Forritið reiðir sig á undirliggjandi ClamAV-vírusskönnunarvél kerfisins, sem kerfisstjóri þarf að beina Nextcloud á þegar forritið er sett upp.\nTil þess að forritið virki sem skyldi, þarf að halda vírusskilgreiningum ClamAV uppfærðum. Einnig þarf að hafa í huga að virkjun þessa forrits mun hafa áhrif á afköst kerfisins þar sem aukavinnsla fer fram við allar innsendingar skráa. Ítarlegri upplýsingar eru annars fyrir hendi í hjálparskjölum Antivirus forritsins.",
-    "Executable" : "Keyrsluskrá",
-    "Daemon" : "Púki",
-    "Daemon (Socket)" : "Púki (sökkull)",
-    "Clamav Socket." : "Clamav-sökkull.",
-    "File size limit, -1 means no limit" : "Stærðartakmörk skráa, -1 þýðir engin takmörk"
+    "Add a rule" : "Bæta við reglu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

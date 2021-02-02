@@ -39,8 +39,6 @@ OC.L10N.register(
     "Reset to defaults" : "Tilbakestill til standard",
     "Description" : "Beskrivelse",
     "Mark as" : "Merk som",
-    "Add a rule" : "Legg til en regel",
-    "Executable" : "Programfil",
-    "Daemon" : "Nisse"
+    "Add a rule" : "Legg til en regel"
 },
 "nplurals=2; plural=(n != 1);");

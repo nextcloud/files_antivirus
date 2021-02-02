@@ -53,13 +53,6 @@
     "Scanner exit status or signature to search" : "扫描器退出状态 或 要搜索的签名",
     "Description" : "描述",
     "Mark as" : "标记为",
-    "Add a rule" : "添加规则",
-    "An antivirus app for Nextcloud based on ClamAV" : "Nextcloud 上一款基于 ClamAV 的反病毒应用",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "病毒克星是 Nextcloud 上一款基于 ClamAV 的反病毒应用。\n\n* 🕵️‍♂️ 用户上传文件时，它将检查\n*☢️ 上传和受感染的文件将被删除，并通过电子邮件显示和/或发送通知\n*🔎 后台作业可扫描所有文件\n*❓ 使用 ClamAV（开源）或 Kaspersky 扫描引擎\n\n此应用程序将检查上传到 Nextcloud 的文件是否存在病毒，然后再将其写入Nextcloud 存储。如果文件被识别为病毒，则该文件将被记录且不上传到服务器。 该应用程序依赖于底层 ClamAV 病毒扫描引擎，管理员在配置该应用程序时会将Nextcloud 指向该引擎。\n为了使该应用程序有效，ClamAV 应保持最新。另请注意，启用此应用会影响系统性能，因为每次上传都需要额外的处理。病毒克星文档中提供了更多信息。",
-    "Executable" : "可执行文件",
-    "Daemon" : "守护进程",
-    "Daemon (Socket)" : "守护进程（Socket）",
-    "Clamav Socket." : "Clamav Socket",
-    "File size limit, -1 means no limit" : "文件大小限制，-1 意味着没有限制"
+    "Add a rule" : "添加规则"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

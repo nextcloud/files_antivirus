@@ -53,13 +53,6 @@
     "Scanner exit status or signature to search" : "Status izlaza ili potpis skenera za pretraživanje",
     "Description" : "Opis",
     "Mark as" : "Označi kao",
-    "Add a rule" : "Dodaj pravilo",
-    "An antivirus app for Nextcloud based on ClamAV" : "Antivirusna aplikacija za Nextcloud temeljena na softveru ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus za datoteke je antivirusna aplikacija za Nextcloud temeljena na softveru ClamAV.\n\n* 🕵 ️ ‍♂️ Datoteka se provjerava čim je korisnik otpremi\n* ☢ Otpremljene i zaražene datoteke se brišu, a obavijest o brisanju se prikazuje i/ili šalje e-poštom\n* 🔎 Skeniranje datoteka obavlja se u pozadini\n\nOva aplikacija pregledava datoteke koje su otpremljene u Nextcloud za eventualne viruse prije nego što se pohrane unutar Nextclouda. Ako je datoteka identificirana kao virus, ta se informacija zapisuje ili se datoteka ne otprema na poslužitelj. Aplikacija se oslanja na temeljni mehanizam za skeniranje virusa ClamAV na koji administrator upućuje Nextcloud prilikom konfiguriranja aplikacije.\nKako bi ova aplikacija bila učinkovita, definicije virusa iz softvera ClamAV treba stalno ažurirati. Također imajte na umu da će omogućavanje ove aplikacije utjecati na performanse sustava jer je za svako otpremanje datoteka potrebna zasebna obrada. Više informacija dostupno je u dokumentaciji antivirusne aplikacije.",
-    "Executable" : "Izvedbeni",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Clamav Socket.",
-    "File size limit, -1 means no limit" : "Ograničenje veličine datoteke, -1 znači da nema ograničenja"
+    "Add a rule" : "Dodaj pravilo"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

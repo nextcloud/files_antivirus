@@ -47,12 +47,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "وضعیت خروجی اسکنر یا جستجوی امضای دیجیتال",
     "Description" : "توضیحات",
     "Mark as" : "علامت گذاری به عنوان",
-    "Add a rule" : "ثبت قانون",
-    "An antivirus app for Nextcloud based on ClamAV" : "یک برنامه آنتی ویروس برای Nextcloud مبتنی بر ClamAV",
-    "Executable" : "قابل اجرا",
-    "Daemon" : "فرایندهای پس زمینه",
-    "Daemon (Socket)" : "فرایندهای پس زمینه (سوکت)",
-    "Clamav Socket." : "سوکت Clamav.",
-    "File size limit, -1 means no limit" : "محدودیت حجم فایل، -1 به معنای عدم محدودیت است"
+    "Add a rule" : "ثبت قانون"
 },
 "nplurals=2; plural=(n > 1);");

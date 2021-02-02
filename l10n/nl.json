@@ -53,13 +53,6 @@
     "Scanner exit status or signature to search" : "Scanner afsluitstatus of handtekening om te zoeken",
     "Description" : "Beschrijving",
     "Mark as" : "Markeren als ",
-    "Add a rule" : "Toevoegen regel",
-    "An antivirus app for Nextcloud based on ClamAV" : "Een antivirus app voor Nextcloud gebaseerd op ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus voor bestanden is an antivirus app voor Nextcloud gebaseerd op ClamAV.\n\n* 🕵️‍♂️ Wanneer iemand een bestand upload, wordt het geverifieerd\n* ☢️ Ge-uploade en geïnfecteerde bestanden worden verwijderd en een melding wordt getoond en/of per mail verstuurd\n* 🔎 Achtergrond scan van bestanden\n\nDeze applicatie inspecteert bestanden die worden ge-upload op virussen voordat ze worden opgeslagen in Nextcloud. Als een bestand is geïnfecteerd, wordt het gelogd of niet naar de server ge-upload. De applicatie maakt gebruik van de onderliggende ClamAV virus scanning engine, die de beheerder inricht bij configureren van de applicatie.\nOm deze app effectief te laten blijven, moeten de ClamAV virus definities actueel blijven. Let er ook op dat inschakelen de prestaties van de server beïnvloedt, omdat aanvullende verwerking bij iedere upload nodig is. Meer informatie is beschikbaar in de Antivirus documentatie.",
-    "Executable" : "Executable",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Clamav Socket.",
-    "File size limit, -1 means no limit" : "Bestandsgroottelimiet -1 betekent geen limiet"
+    "Add a rule" : "Toevoegen regel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -40,11 +40,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "სკანერის გათიშვის სტატუსი ან ხელმოწერები ძიებისთვის",
     "Description" : "აღწერილობა",
     "Mark as" : "მონიშვნა როგორც",
-    "Add a rule" : "წესის დამატება",
-    "Executable" : "შესრულებადი",
-    "Daemon" : "დაემონი",
-    "Daemon (Socket)" : "დაემონი (სოკეტი)",
-    "Clamav Socket." : "Clamav სოკეტი.",
-    "File size limit, -1 means no limit" : "ფაილის ზომის ლიმიტი, -1 აღნიშნავს ულიმიტობას"
+    "Add a rule" : "წესის დამატება"
 },
 "nplurals=2; plural=(n!=1);");

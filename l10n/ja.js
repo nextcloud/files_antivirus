@@ -47,13 +47,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "スキャナの終了ステータスまたは署名を検索する",
     "Description" : "説明",
     "Mark as" : "としてマークする",
-    "Add a rule" : "ルールを追加",
-    "An antivirus app for Nextcloud based on ClamAV" : "ClamAVに基づくNextcloudのためのアンチウィルスアプリ",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "ファイル用のアンチウイルスは、ClamAVをベースにしたNextcloud用のアンチウィルスアプリです。\n\n*🕵️♂userユーザーがファイルをアップロードすると、チェックされます\n*☢️アップロードされ感染したファイルが削除され、通知が電子メールで表示および/または送信されます\n*🔎すべてのファイルをスキャンするバックグラウンドジョブ\n\nこのアプリケーションは、Nextcloudストレージに書き込まれる前に、ウイルスに対してアップロードされたファイルを検査します。 ファイルがウイルスとして識別された場合、そのファイルはログに記録されるか、またはサーバーにアップロードされません。 アプリケーションは、管理者がアプリケーションの設定時にNextcloudを指す、基礎となるClamAVウイルススキャンエンジンに依存しています。\nこのアプリを有効にするには、ClamAVのウイルス定義を最新の状態に保つ必要があります。 また、このアプリを有効にすると、アップロードごとに追加の処理が必要になるため、システムのパフォーマンスに影響を与えます。 詳細は、ウイルス対策のドキュメントを参照してください。",
-    "Executable" : "実行可能ファイル",
-    "Daemon" : "デーモン",
-    "Daemon (Socket)" : "デーモン（ソケット）",
-    "Clamav Socket." : "Clamavソケット",
-    "File size limit, -1 means no limit" : "ファイルサイズの制限、-1は無制限を意味します"
+    "Add a rule" : "ルールを追加"
 },
 "nplurals=1; plural=0;");

@@ -45,11 +45,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Estatus de salida del escaner o firma a buscar",
     "Description" : "Descripción",
     "Mark as" : "Marcar como",
-    "Add a rule" : "Agregar una regla",
-    "Executable" : "Ejecutable",
-    "Daemon" : "Demonio",
-    "Daemon (Socket)" : "Demonio (Socket)",
-    "Clamav Socket." : "Clamav Socket.",
-    "File size limit, -1 means no limit" : "Límite de tamaño de archivo, -1 significa que no hay límite"
+    "Add a rule" : "Agregar una regla"
 },
 "nplurals=2; plural=(n != 1);");

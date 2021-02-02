@@ -45,13 +45,6 @@
     "Scanner exit status or signature to search" : "Kereső kimeneti állapota vagy keresendő szignatúra",
     "Description" : "Leírás",
     "Mark as" : "Megjelölés mint",
-    "Add a rule" : "Szabály hozzáadása",
-    "An antivirus app for Nextcloud based on ClamAV" : "Egy antivírus alkalmazás a Nextcloudhoz ClamAV alapokon.",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus Fájlokhoz egy ClamAV alapú antivírus alkalmazás Nextcloudhoz.\n\n* 🕵️‍♂️ Amikor a felhasználó feltölt egy fájlt, ellenőrzi\n* ☢️ A feltöltött fertőzött fájlokat törli, és értesítést jelenít meg és/vagy küld e-mailen\n* 🔎 Fájlokat ellenőriz a háttérben\n\nEz az alkalmazás vírusokat keres a fájlokban, amelyeket feltöltenek a Nextcloudba, mielőtt a Nextcloud tárolná azokat. Ha egy fájlt vírusként azonosít, akkor naplózza vagy nem engedi feltölteni a szerverre. Az alkalmazás a ClamAV antivírusmotort használja, aminek elérési útját az adminisztrátor állítja be az alkalmazás konfigurálása közben.\nAhhoz, hogy ez az app hatékony legyen, a ClamAV vírusdefiníciókat frissen kell tartani. Vegye figyelembe, hogy ez az alkalmazás hatással lesz a rendszer teljesítményére, mivel további feldolgozásra van szükség minden feltöltésnél. További információ érhető el az Antivirus dokumentációjában.",
-    "Executable" : "Végrehajtható",
-    "Daemon" : "Démon",
-    "Daemon (Socket)" : "Démon (socket)",
-    "Clamav Socket." : "Clamav Socket.",
-    "File size limit, -1 means no limit" : "Fájl méret határ, -1 azt jelenti nincs korlát"
+    "Add a rule" : "Szabály hozzáadása"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

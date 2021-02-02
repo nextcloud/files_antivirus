@@ -47,13 +47,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Eskanerraren irteera egoera edo bilatzeko sinadura",
     "Description" : "Deskripzioa",
     "Mark as" : "Markatu honela",
-    "Add a rule" : "Gehitu arau bat",
-    "An antivirus app for Nextcloud based on ClamAV" : "ClamAV-en oinarritutako antibirus aplikazio bat Nextclouderako",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Fitxategientzako antivirusa ClamAV-en oinarrituta Nextclouderako prestatu den aplikazioa da.\n\n* 🕵️‍♂️ Erabiltzaileak fitxategi bat igotzen duenean, egiaztatu egiten da\n* ☢️ Infektatuta igotako fitxategiak ezabatu egiten dira eta jakinarazpena erakusten edo/eta bidaltzen da e-posta bidez\n* 🔎 Atzeko planoko lana egiten da fitxategi guztiak eskaneatzeko\n\nAplikazio honek Nextcloudera igotako fitxategiak ikuskatzen ditu, birusik duten jakiteko, Nextcloud biltegian idatziak izan aurretik. Fitxategi bat birus gisa identifikatuz gero, erregistratu edo zerbitzarira igo gabe uzten da. Aplikazio honen oinarria azpian duen ClamAV birus eskaneatze tresna da, aplikazioa konfiguratzean administratzaileak bideratzen duena bere Nextcloudera.\nAplikazio hau eraginkorra izan dadin, ClamAV birus definizioak eguneratuta eduki behar dira. Kontuan izan, baita ere, aplikazio hau gaitzeak sistemaren errendimenduan eragina izango duela, prozesamendu gehigarri bat eskatzen duelako kargatze bakoitzean. Informazio gehiago dago Antibirusaren dokumentazioan.",
-    "Executable" : "Exekutagarria",
-    "Daemon" : "Daemona",
-    "Daemon (Socket)" : "Daemona (socketa)",
-    "Clamav Socket." : "Clamav socketa.",
-    "File size limit, -1 means no limit" : "Fitxategien tamaina muga, -1 jartzeak mugarik gabe esan nahi du"
+    "Add a rule" : "Gehitu arau bat"
 },
 "nplurals=2; plural=(n != 1);");

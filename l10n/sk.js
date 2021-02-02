@@ -47,13 +47,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Stav výstupu skenera alebo signatúra na vyhľadanie",
     "Description" : "Popis",
     "Mark as" : "Označiť ako",
-    "Add a rule" : "Pridať pravidlo",
-    "An antivirus app for Nextcloud based on ClamAV" : "Antivírusová aplikácia pre Nextcloud založená na ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivírus pre súbory je antivírusová aplikácia pre Nextcloud založená na ClamAV.\n\n* 🕵️‍♂️ Keď užívateť nahraje súbor, ten je skontrolovaný\n* ☢️ Nahrané súbory, ktoré sú  infikované budú odstránené a upozornenie sa zobrazí a alebo pošle e-mailom\n* 🔎 Skenovanie všetkých súborov na pozadí\n\nTáto aplikácia preverí súbory, ktoré sú nahrávané na Nextcloud server,  na prítomnosť vírusov, skôr než sú zapísané na úložisko. Keď je v súbore identifikovaný vírus, je to alebo zaznamenané alebo vôbec nie je nahraný na server. Aplikácia ja založená na skenovacom nástroji ClamAV, na ktorý správca nasmeruje Nextcloud pri nastavovaní tejto aplikácie. Aby bola táto aplikácia účinná, je potrebné udržiavať vírusové definície pre ClamAV aktuálne. Tiež je potrebné poznamenať, že zapnutie tejto aplikácie bude mať dopad na výkon systému, pretože pri každom nahratí je potrebné ďalšie spracovanie. Ďalšie informácie sú k dispozícii v dokumentácii k Antivírusu. ",
-    "Executable" : "Spustiteľný",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Clamav Socket",
-    "File size limit, -1 means no limit" : "Limit veľkosti súboru, -1 pre žiadny limit"
+    "Add a rule" : "Pridať pravidlo"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

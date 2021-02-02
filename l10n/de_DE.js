@@ -55,13 +55,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Scanner-Abschluss-Status oder Signatur, nach der gesucht werden soll",
     "Description" : "Beschreibung",
     "Mark as" : "Markieren als",
-    "Add a rule" : "Eine Regel hinzufügen",
-    "An antivirus app for Nextcloud based on ClamAV" : "Eine Antivirus-App für Nextcloud basierend auf ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus für Dateien ist eine Antiviren-App für Nextcloud die auf ClamAV basiert.\n\n* 🕵️‍♂️ Lädt ein Nutzer eine Datei hoch, wird diese geprüft\n* ☢️ Hochgeladene infizierte Dateien werden gelöscht und eine Benachrichtigung wird angezeigt / per E-Mail versandt\n* 🔎 Hintergrundjob scannt alle Dateien\n\nDiese App überprüft Dateien, die in Nextcloud hochgeladen werden, auf Viren, bevor sie in den Nextcloud-Speicher geschrieben werden. Wenn eine Datei als Virus identifiziert wird, wird sie entweder protokolliert oder nicht auf den Server hochgeladen. Die Anwendung basiert auf der zugrunde liegenden ClamAV-Viren-Such-Engine, die der Administrator bei der Konfiguration auswählen muss\nVirendefinitionen sollten aktuell gehalten werden. Die Aktivierung dieser App kann die Systemperformance verlangsamen, da zusätzliche Tasks für jedes Hochladen ausgeführt werden müssen.  Weitere Infos in der Antivirus-Dokumentation.",
-    "Executable" : "Anwendung",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "ClamAV-Socket",
-    "File size limit, -1 means no limit" : "Dateigrößenbeschränkung, -1 bedeutet kein Limit"
+    "Add a rule" : "Eine Regel hinzufügen"
 },
 "nplurals=2; plural=(n != 1);");

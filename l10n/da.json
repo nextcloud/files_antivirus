@@ -23,7 +23,6 @@
     "Reset to defaults" : "Nulstil til standardindstillinger ",
     "Description" : "Beskrivelse",
     "Mark as" : "Marker som",
-    "Add a rule" : "Tilføj regel",
-    "Clamav Socket." : "Clamav Socket."
+    "Add a rule" : "Tilføj regel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

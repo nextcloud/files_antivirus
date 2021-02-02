@@ -54,13 +54,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "מצב יציאה של סורק או חתימה לחיפוש",
     "Description" : "תיאור",
     "Mark as" : "סימון בתור",
-    "Add a rule" : "הוספת כל",
-    "An antivirus app for Nextcloud based on ClamAV" : "יישומון אנטיוירוס עבור Nextcloud שמבוסס על ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "אנטי וירוס לקבצים הוא יישומון אנטי וירוס עבור Nextcloud על בסיס ClamAV.\n\n* 🕵️‍♂️ בדיקת קובץ ברגע שהועלה על ידי משתמש כלשהו\n* ☢️ קבצים נגועים שהועלו יימחקו ותוצג הודעה או שישלח מסר בדוא״ל\n* 🔎 משימות רקע לסריקת כל הקבצים\n\nהיישומון מאבחן קבצים שנשלחים אל Nextcloud לאיתור וירוסים בטרם כתיבתם למנגנון האחסון של Nextcloud. אם קובץ מזוהה כווירוס, הוא מתועד או שאינו מועלה לשרת. היישומון מתבסס על מנגנון סריקת הווירוסים ClamAV שאליו מפנה המנהל את Nextcloud בעת הגדרת היישומון.\nכדי שהיישומון הזה יביא תועלת, יש לעדכן את חותמות הווירוסים של ClamAV באופן תכוף. כדאי גם לשים לב שהפעלת היישומון תשפיע על ביצועי המערכת כיוון שנדרש עיבוד נוסף עם כל שליחה. ניתן למצוא מידע נוסף בתיעוד של האנטי וירוס.",
-    "Executable" : "קובץ שניתן להפעיל",
-    "Daemon" : "סוכן",
-    "Daemon (Socket)" : "סוכן (שקע)",
-    "Clamav Socket." : "שקע Clamav.",
-    "File size limit, -1 means no limit" : "מגבלת גודל קובץ, ‎-1 אומר ללא הגבלה"
+    "Add a rule" : "הוספת כל"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

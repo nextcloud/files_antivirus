@@ -38,9 +38,6 @@ OC.L10N.register(
     "Reset to defaults" : "Palauta oletusarvot",
     "Description" : "Kuvaus",
     "Mark as" : "Merkitse",
-    "Add a rule" : "Lisää sääntö",
-    "An antivirus app for Nextcloud based on ClamAV" : "Virustorjuntasovellus Nextcloudille perustuen ClamAV teknologiaan",
-    "Executable" : "Suoritettava",
-    "Daemon" : "Taustapalvelu"
+    "Add a rule" : "Lisää sääntö"
 },
 "nplurals=2; plural=(n != 1);");

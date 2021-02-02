@@ -55,13 +55,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Status de saída do scanner ou assinatura para pesquisar",
     "Description" : "Descrição",
     "Mark as" : "Marcar como",
-    "Add a rule" : "Adicionar uma regra",
-    "An antivirus app for Nextcloud based on ClamAV" : "Um aplicativo antivírus para Nextcloud baseado no ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Um aplicativo antivírus para Nextcloud baseado no ClamAV\n\n* 🕵️‍♂️ Quando o usuário envia um arquivo, ele é verificado\n* ☢️ Os arquivos enviados e infectados serão excluídos e uma notificação será exibida e/ou enviada por e-mail\n* 🔎 Tarefa em segundo plano para verificar todos os arquivos\n\nEste aplicativo inspeciona os arquivos que são carregados no Nextcloud em busca de vírus antes de serem gravados. Se um vírus for identificado, será registrado ou não será carregado no servidor. O aplicativo conta com o mecanismo de verificação de vírus ClamAV, no qual o administrador aponta para o Nextcloud ao configurá-lo.\nPara este aplicativo ser eficaz, as definições de vírus ClamAV devem ser mantidas atualizadas. Observe também que a ativação desse aplicativo afetará o desempenho do sistema, pois é necessário um processamento adicional para cada envio. Mais informações estão disponíveis na documentação do Antivírus.",
-    "Executable" : "Executável",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daemon (Socket)",
-    "Clamav Socket." : "Socket Clamav.",
-    "File size limit, -1 means no limit" : "Limite do tamanho do arquivo, -1 significa sem limite"
+    "Add a rule" : "Adicionar uma regra"
 },
 "nplurals=2; plural=(n > 1);");

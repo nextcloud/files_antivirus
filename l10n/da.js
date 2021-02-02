@@ -25,7 +25,6 @@ OC.L10N.register(
     "Reset to defaults" : "Nulstil til standardindstillinger ",
     "Description" : "Beskrivelse",
     "Mark as" : "Marker som",
-    "Add a rule" : "Tilføj regel",
-    "Clamav Socket." : "Clamav Socket."
+    "Add a rule" : "Tilføj regel"
 },
 "nplurals=2; plural=(n != 1);");

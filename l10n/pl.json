@@ -53,13 +53,6 @@
     "Scanner exit status or signature to search" : "Kod zakończenia skanera lub sygnatura do wyszukania",
     "Description" : "Opis",
     "Mark as" : "Oznacz jako",
-    "Add a rule" : "Dodaj regułę",
-    "An antivirus app for Nextcloud based on ClamAV" : "Aplikacja antywirusowa dla Nextcloud bazująca na ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antywirus dla plików to aplikacja antywirusowa dla Nextcloud oparta na ClamAV.\n\n* 🕵️‍♂️ Gdy użytkownik przesyła plik, jest on sprawdzany\n* ☢️ Wysłane i zainfekowane pliki zostaną usunięte, a powiadomienie zostanie wyświetlone i/lub wysłane pocztą e-mail\n* 🔎 Zadanie w tle przy skanowaniu wszystkich plików\n\nAplikacja sprawdza pliki wysłane do Nextcloud w poszukiwaniu wirusów, przed zapisaniem ich w magazynie Nextcloud. Jeśli plik zostanie zidentyfikowany jako wirus, zostanie zarejestrowany lub nie zostanie wysłany na serwer. Aplikacja opiera się na silniku skanowania antywirusowego ClamAV, który zostaje wskazany przez administratora Nextcloud podczas konfigurowania aplikacji.\nAby ta aplikacja była skuteczna, definicje wirusów ClamAV powinny być aktualizowane. Pamiętaj też, że włączenie tej aplikacji wpłynie na wydajność systemu, ponieważ dla każdego wysłanego pliku wymagane jest dodatkowe przetwarzanie. Więcej informacji jest dostępnych w dokumentacji programu antywirusowego.",
-    "Executable" : "Plik wykonywalny",
-    "Daemon" : "Demon",
-    "Daemon (Socket)" : "Demon (gniazdo)",
-    "Clamav Socket." : "Gniazdo ClamAV.",
-    "File size limit, -1 means no limit" : "Limit rozmiaru pliku, -1 oznacza brak limitu"
+    "Add a rule" : "Dodaj regułę"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

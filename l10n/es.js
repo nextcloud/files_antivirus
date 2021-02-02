@@ -55,13 +55,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Estado de salida del escáner o signatura que buscar",
     "Description" : "Descripción",
     "Mark as" : "Marcar como",
-    "Add a rule" : "Añadir una regla",
-    "An antivirus app for Nextcloud based on ClamAV" : "Una app antivirus para Nextcloud basada en ClamAV",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Antivirus para archivos es una app para Nextcloud basada en el antivirus ClamAV.\n\n* 🕵️‍♂️ Cuando el usuario sube un archivo, se escanea\n* ☢️ Los archivos subidos e infectados serán borrados y se mostrará una notificación y/o se enviará un correo\n* 🔎 Trabajo en segundo plano para escanear todos los archivos\n Para que esta app sea efectiva, las definiciones de virus de ClamAV deberían mantenerse actualizadas. También ha de tenerse en cuenta que activar esta app tendrá un impacto en el rendimiento del sistema porque se requiere procesamiento adicional para cada subida. Más información disponible en la documentación de Antivirus.",
-    "Executable" : "Ejecutable",
-    "Daemon" : "Demonio",
-    "Daemon (Socket)" : "Demonio (Socket)",
-    "Clamav Socket." : "Socket clamav",
-    "File size limit, -1 means no limit" : "Tamaño límite de archivo, -1 para ningún límite"
+    "Add a rule" : "Añadir una regla"
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,13 +55,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "掃描程式退出狀態或要搜尋的簽章",
     "Description" : "描述",
     "Mark as" : "標記為",
-    "Add a rule" : "新增規則",
-    "An antivirus app for Nextcloud based on ClamAV" : "以 ClamAV 為基礎的 Nextcloud 防毒應用程式",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "檔案防毒是以 ClamAV 為基礎的 Nextcloud 防毒應用程式。\n\n* 🕵️‍♂️ 當使用者上傳檔案時，它會被檢查\n* ☢️ 已上傳且被感染的檔案將會被刪除，並會顯示通知及／或透過電子郵件傳送\n* 🔎 背景作業掃描所有檔案\n\n此應用程式在檔案上傳到 Nextcloud 並寫入儲存空間之前，會先檢查其是否有病毒。如果檔案被識別為病毒，則該檔案會被紀錄，或是不會被上傳到伺服器。應用程式依賴於底層的 ClamAV 病毒掃描引擎，管理員在設定應用程式時會將 Nextcloud 指向該引擎。\n為使此應用程式有效，ClamAV 的病毒定義檔應該要保持最新。另請注意，啟用此應用程式會影響系統效能，因為每次上傳均需要額外的處理。更多資訊請見防毒應用程式的文件。",
-    "Executable" : "執行檔",
-    "Daemon" : "守護程式",
-    "Daemon (Socket)" : "幕後程式（插座）",
-    "Clamav Socket." : "ClamAV 插座。",
-    "File size limit, -1 means no limit" : "檔案大小限制，-1 代表無限制"
+    "Add a rule" : "新增規則"
 },
 "nplurals=1; plural=0;");

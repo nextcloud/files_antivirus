@@ -40,9 +40,6 @@ OC.L10N.register(
     "Scanner exit status or signature to search" : "Skenera izejas statuss vai elektroniskais paraksts, ko meklēt",
     "Description" : "Apraksts",
     "Mark as" : "Atzīmēt kā",
-    "Add a rule" : "Pievienot noteikumu",
-    "An antivirus app for Nextcloud based on ClamAV" : "Antivīrusa lietotne priekš Nextcloud, kas bāzēta uz ClamAV",
-    "Executable" : "Palaižamā datne",
-    "File size limit, -1 means no limit" : "Datnes lieluma limits, -1 nozīmē ka limita nav"
+    "Add a rule" : "Pievienot noteikumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

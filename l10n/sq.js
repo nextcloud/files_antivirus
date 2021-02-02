@@ -22,7 +22,6 @@ OC.L10N.register(
     "Reset to defaults" : "Rivendosi te gjendja e paracaktuar",
     "Description" : "Përshkrim",
     "Mark as" : "Shëno si",
-    "Add a rule" : "Shto një rregull",
-    "File size limit, -1 means no limit" : "Limiti -1 i madhësisë së skedarit, do të thotë jo limit"
+    "Add a rule" : "Shto një rregull"
 },
 "nplurals=2; plural=(n != 1);");

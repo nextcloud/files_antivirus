@@ -51,12 +51,6 @@
     "Scanner exit status or signature to search" : "Stanje izhoda pregledovalnika oziroma oznaka za iskanje",
     "Description" : "Opis",
     "Mark as" : "Označi kot",
-    "Add a rule" : "Dodaj pravilo",
-    "An antivirus app for Nextcloud based on ClamAV" : "Antivirusni program s podporo ClamAV za okolje Nextcloud",
-    "Executable" : "Izvedljiva datoteka",
-    "Daemon" : "Ozadnji program",
-    "Daemon (Socket)" : "Ozadnji program (vtič)",
-    "Clamav Socket." : "Vtič Clamav",
-    "File size limit, -1 means no limit" : "Omejitev velikosti datoteke; -1 pomeni brez omejitve"
+    "Add a rule" : "Dodaj pravilo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

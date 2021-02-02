@@ -53,13 +53,6 @@
     "Scanner exit status or signature to search" : "Tarayıcı çıkış durumu ya da arama imzası",
     "Description" : "Açıklama",
     "Mark as" : "Şu olarak işaretlensin",
-    "Add a rule" : "Kural ekle",
-    "An antivirus app for Nextcloud based on ClamAV" : "Nextcloud için ClamAV temelli antivirus uygulaması",
-    "Antivirus for files is an antivirus app for Nextcloud based on ClamAV.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "Nextcloud dosyaları için ClamAV temelli antivirus uygulaması.\n\n* 🕵️‍♂️ Kullanıcıların yüklediği dosyaları denetler\n* ☢️ Yüklenmiş virüslü dosyalar siler ve bir bildirimi görüntüler ya da e-posta ile gönderir\n* 🔎 Arka planda tüm dosyaları tarayan bir görev çalıştırır\n\nBu uygulama Nextcloud üzerine yüklenen dosyaları Nextcloud depolaması üzerine kaydetmeden önce virüslere karşı tarar. Bir dosyada virüs bulunursa, günlüğe kaydedilir ya da sunucuya yüklenmez. Bu uygulama Nextcloud kurulumu sırasında yönetici tarafından belirtilen ClamAV virus tarama uygulamasını kullanır.\nBu uygulamanın etkili olması için ClamAV virus tanımlarının güncel olması gerekir. Ayrıca bu uygulama devreye alındığında, yüklenecek her dosya için ek işlemler yapılması nedeniyle sistem başarımı olumsuz etkilenebilir. Ayrıntılı bilgi almak için Antivirus uygulamasının belgelerine bakabilirsiniz",
-    "Executable" : "Çalıştırılabilir",
-    "Daemon" : "Daemon",
-    "Daemon (Socket)" : "Daomen (Soket)",
-    "Clamav Socket." : "Clamav Soketi.",
-    "File size limit, -1 means no limit" : "Dosya boyutu sınırı, -1 sınır olmadığı anlamına gelir"
+    "Add a rule" : "Kural ekle"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
