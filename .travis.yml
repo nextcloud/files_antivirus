@@ -9,7 +9,7 @@ services:
 
 env:
   global:
-    - CORE_BRANCH=stable20
+    - CORE_BRANCH=stable21
     - APP=files_antivirus
   matrix:
     - DB=sqlite
