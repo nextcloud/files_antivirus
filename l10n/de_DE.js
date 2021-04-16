@@ -4,7 +4,7 @@ OC.L10N.register(
     "Clean" : "Bereinigen",
     "Infected" : "Infiziert",
     "Unchecked" : "Ungeprüft",
-    "Scanner exit status" : "Scanner-Abschluss-Status",
+    "Scanner exit status" : "Status des Scanner-Durchlaufs",
     "Scanner output" : "Scanner-Ausgabe",
     "Saving…" : "Speichere…",
     "Antivirus" : "Antivirus",
