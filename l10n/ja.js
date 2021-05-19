@@ -15,6 +15,7 @@ OC.L10N.register(
     "Virus %s is detected in the file. Upload cannot be completed." : "ウイルス %s がファイル内で検出されました。 アップロードを完了できません。",
     "Saved" : "保存しました",
     "Antivirus for files" : "ファイルのウイルス対策",
+    "An antivirus app for Nextcloud" : "Nextcloudのウイルス対策アプリ",
     "Greetings {user}," : "ご挨拶 {user}、",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "申し訳ありませんが、アップロードしようとしたファイルでマルウェアが検出され、削除する必要がありました。",
     "This email is a notification from {host}. Please, do not reply." : "このメールは {host} からの通知です。 返信しないでください。",
