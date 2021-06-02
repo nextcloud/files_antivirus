@@ -26,7 +26,7 @@ RCS/*
 .project
 .settings
 
-# netbeans 
+# netbeans
 nbproject
 
 # phpStorm
@@ -40,8 +40,10 @@ nbproject
 
 # vim ex mode
 .vimrc
-  
+
 # Mac OS
 .DS_Store
 
 tests/clover.xml
+*.cache
+vendor

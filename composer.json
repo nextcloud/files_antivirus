@@ -1,0 +1,13 @@
+{
+	"require-dev": {
+		"christophwurst/nextcloud": "dev-master",
+		"php-parallel-lint/php-parallel-lint": "^1.0",
+		"phpunit/phpunit": "^8",
+		"nextcloud/coding-standard": "^0.4.0"
+	},
+	"scripts": {
+		"lint": "parallel-lint --exclude src --exclude vendor --exclude target --exclude build .",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"cs:fix": "php-cs-fixer fix"
+	}
+}
