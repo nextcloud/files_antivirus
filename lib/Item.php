@@ -164,7 +164,7 @@ class Item {
 			$item->setFileid($this->file->getId());
 			$item->setCheckTime(time());
 			$this->itemMapper->insert($item);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error(__METHOD__.', exception: '.$e->getMessage(), ['app' => 'files_antivirus']);
 		}
 	}

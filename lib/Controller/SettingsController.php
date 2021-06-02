@@ -15,7 +15,6 @@ use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCA\Files_Antivirus\AppConfig;
 
-use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Http\JSONResponse;
 
 class SettingsController extends Controller {

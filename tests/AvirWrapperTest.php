@@ -29,8 +29,8 @@ include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.ph
 class AvirWrapperTest extends TestBase {
 	use UserTrait;
 
-	const UID = 'testo';
-	const PWD = 'test';
+	public const UID = 'testo';
+	public const PWD = 'test';
 
 	/** @var ScannerFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $scannerFactory;

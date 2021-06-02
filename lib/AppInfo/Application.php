@@ -19,17 +19,16 @@ use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
+	public const APP_NAME = 'files_antivirus';
 
-	const APP_NAME = 'files_antivirus';
-
-	public function __construct (array $urlParams = []) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_NAME, $urlParams);
 	}
 	
 	/**
 	 * Add wrapper for local storages
 	 */
-	public function setupWrapper(){
+	public function setupWrapper() {
 		\OC\Files\Filesystem::addStorageWrapper(
 			'oc_avir',
 			function ($mountPoint, $storage) {

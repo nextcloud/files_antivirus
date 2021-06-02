@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
@@ -20,7 +22,6 @@
  */
 
 namespace OCA\Files_Antivirus\Scanner;
-
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Status;
@@ -81,7 +82,7 @@ class ExternalKaspersky extends ScannerBase {
 
 		if (trim($response) === 'CLEAN' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
-		} else if (substr($response, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
+		} elseif (substr($response, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
 			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
 			$this->status->setDetails($response);
 		} else {

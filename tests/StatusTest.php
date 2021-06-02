@@ -17,9 +17,9 @@ use OCP\ILogger;
 class StatusTest extends TestBase {
 	
 	// See OCA\Files_Antivirus\Status::init for details
-	const TEST_CLEAN = 0;
-	const TEST_INFECTED = 1;
-	const TEST_ERROR = 40;
+	public const TEST_CLEAN = 0;
+	public const TEST_INFECTED = 1;
+	public const TEST_ERROR = 40;
 	
 	protected $ruleMapper;
 
@@ -31,7 +31,7 @@ class StatusTest extends TestBase {
 		$this->ruleMapper->populate();
 	}
 	
-	public function testParseResponse(){
+	public function testParseResponse() {
 		// Testing status codes
 		$testStatus = new \OCA\Files_Antivirus\Status(
 			$this->ruleMapper,

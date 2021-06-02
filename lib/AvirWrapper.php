@@ -24,8 +24,8 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 class AvirWrapper extends Wrapper {
 	
 	/**
-	 * Modes that are used for writing 
-	 * @var array 
+	 * Modes that are used for writing
+	 * @var array
 	 */
 	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
 	
@@ -60,7 +60,7 @@ class AvirWrapper extends Wrapper {
 
 		/** @var EventDispatcherInterface $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
-		$eventDispatcher->addListener(ScanStateEvent::class, function(ScanStateEvent $event) {
+		$eventDispatcher->addListener(ScanStateEvent::class, function (ScanStateEvent $event) {
 			$this->shouldScan = $event->getState();
 		});
 	}
@@ -116,7 +116,7 @@ class AvirWrapper extends Wrapper {
 				},
 				function () use ($scanner, $path) {
 					$status = $scanner->completeAsyncScan();
-					if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED){
+					if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 						//prevent from going to trashbin
 						if (App::isEnabled('files_trashbin')) {
 							/** @var ITrashManager $trashManager */
@@ -160,18 +160,18 @@ class AvirWrapper extends Wrapper {
 					}
 				}
 			);
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 		}
 		return $stream;
 	}
 	
 	/**
-	 * Checks whether passed mode is suitable for writing 
+	 * Checks whether passed mode is suitable for writing
 	 * @param string $mode
 	 * @return bool
 	 */
-	private function isWritingMode($mode){
+	private function isWritingMode($mode) {
 		// Strip unessential binary/text flags
 		$cleanMode = str_replace(
 			['t', 'b'],

@@ -10,7 +10,6 @@ namespace OCA\Files_Antivirus\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
-use \OCP\IL10N;
 use OCP\AppFramework\Http\JSONResponse;
 
 use \OCA\Files_Antivirus\Db\Rule;
@@ -32,7 +31,7 @@ class RuleController extends Controller {
 	 */
 	public function listAll() {
 		$statuses = $this->ruleMapper->findAll();
-		return new JSONResponse(['statuses'=>$statuses]);
+		return new JSONResponse(['statuses' => $statuses]);
 	}
 	
 	/**

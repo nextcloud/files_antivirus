@@ -22,17 +22,17 @@ use JsonSerializable;
  * @method setResult(int $result)
  * @method setMatch(string $mach)
  */
-class Rule extends Entity implements JsonSerializable{
+class Rule extends Entity implements JsonSerializable {
 	
 	/*
 	 * Rule needs to be validated by the exit code returned by scanner
 	 */
-	const RULE_TYPE_CODE = 1;
+	public const RULE_TYPE_CODE = 1;
 	
 	/*
 	 * Rule needs to be validated by parsing the output returned by scanner with regexp
 	 */
-	const RULE_TYPE_MATCH = 2;
+	public const RULE_TYPE_MATCH = 2;
 
 	/**
 	 *
@@ -42,21 +42,21 @@ class Rule extends Entity implements JsonSerializable{
 	
 	/**
 	 *
-	 * @var int statusType - RULE_TYPE_CODE or RULE_TYPE_MATCH defines whether 
+	 * @var int statusType - RULE_TYPE_CODE or RULE_TYPE_MATCH defines whether
 	 *   rule should be checked by the shell exit code or regexp
 	 */
 	protected $statusType;
 	
 	/**
 	 *
-	 * @var int result - shell exit code for rules 
+	 * @var int result - shell exit code for rules
 	 *   of the type RULE_TYPE_CODE, 0 otherwise
 	 */
 	protected $result;
 	
 	/**
 	 *
-	 * @var string match - regexp to match for rules 
+	 * @var string match - regexp to match for rules
 	 *   of the type RULE_TYPE_MATCH, '' otherwise
 	 */
 	protected $match;
@@ -70,7 +70,7 @@ class Rule extends Entity implements JsonSerializable{
 	
 	/**
 	 *
-	 * @var int status - file check status. SCANRESULT_UNCHECKED, SCANRESULT_INFECTED, 
+	 * @var int status - file check status. SCANRESULT_UNCHECKED, SCANRESULT_INFECTED,
 	 *   SCANRESULT_CLEAN are matching Unknown, Infected and Clean files accordingly.
 	 */
 	protected $status;

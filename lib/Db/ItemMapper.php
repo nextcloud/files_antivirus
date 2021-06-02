@@ -24,7 +24,7 @@ class ItemMapper extends Mapper {
 	 * @return Rule
 	 * @throws DoesNotExistException
 	 */
-	public function findByFileId($fileid){
+	public function findByFileId($fileid) {
 		$sql = 'SELECT * FROM ' . $this->getTableName() .' WHERE fileid = ?';
 		return $this->findEntity($sql, [$fileid]);
 	}
@@ -52,7 +52,7 @@ class ItemMapper extends Mapper {
 	 * @since 7.0.0
 	 * @deprecated 14.0.0 Move over to QBMapper
 	 */
-	public function insert(Entity $entity){
+	public function insert(Entity $entity) {
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
 		$properties = $entity->getUpdatedFields();
@@ -62,7 +62,7 @@ class ItemMapper extends Mapper {
 
 		// build the fields
 		$i = 0;
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 
@@ -70,14 +70,13 @@ class ItemMapper extends Mapper {
 			$values .= '?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties) - 1) {
 				$columns .= ',';
 				$values .= ',';
 			}
 
 			$params[] = $entity->$getter();
 			$i++;
-
 		}
 
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .

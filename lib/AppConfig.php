@@ -59,7 +59,7 @@ class AppConfig {
 		$this->config = $config;
 	}
 
-	public function getAvChunkSize(){
+	public function getAvChunkSize() {
 		// See http://php.net/manual/en/function.stream-wrapper-register.php#74765
 		// and \OC_Helper::streamCopy
 		return 8192;
@@ -69,21 +69,21 @@ class AppConfig {
 	 * Get full commandline
 	 * @return string
 	 */
-	public function getCmdline(){
+	public function getCmdline() {
 		$avCmdOptions = $this->getAvCmdOptions();
 		
 		$shellArgs = [];
 		if ($avCmdOptions) {
 			$shellArgs = explode(',', $avCmdOptions);
-				$shellArgs = array_map(function($i){
-					return escapeshellarg($i);
-				},
+			$shellArgs = array_map(function ($i) {
+				return escapeshellarg($i);
+			},
 				$shellArgs
 			);
 		}
 		
 		$preparedArgs = '';
-		if (count($shellArgs)){
+		if (count($shellArgs)) {
 			$preparedArgs = implode(' ', $shellArgs);
 		}
 		return $preparedArgs;
@@ -107,7 +107,7 @@ class AppConfig {
 	 */
 	public function getAppValue($key) {
 		$defaultValue = null;
-		if (array_key_exists($key, $this->defaults)){
+		if (array_key_exists($key, $this->defaults)) {
 			$defaultValue = $this->defaults[$key];
 		}
 		return $this->config->getAppValue($this->appName, $key, $defaultValue);
@@ -155,7 +155,7 @@ class AppConfig {
 	 * @param string $property
 	 * @return string
 	 */
-	protected function camelCase($property){
+	protected function camelCase($property) {
 		$split = explode('_', $property);
 		$ucFirst = implode('', array_map('ucfirst', $split));
 		return lcfirst($ucFirst);
@@ -166,12 +166,12 @@ class AppConfig {
 	 * @param string $property
 	 * @return string
 	 */
-	protected function propertyToKey($property){
+	protected function propertyToKey($property) {
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
-		foreach($parts as $part){
-			if($column === null){
+		foreach ($parts as $part) {
+			if ($column === null) {
 				$column = $part;
 			} else {
 				$column .= '_' . lcfirst($part);
@@ -188,15 +188,15 @@ class AppConfig {
 	 * @return string|null
 	 * @throws \BadFunctionCallException
 	 */
-	public function __call($methodName, $args){
-		$attr = lcfirst( substr($methodName, 3) );
+	public function __call($methodName, $args) {
+		$attr = lcfirst(substr($methodName, 3));
 		$key = $this->propertyToKey($attr);
-		if(strpos($methodName, 'set') === 0){
+		if (strpos($methodName, 'set') === 0) {
 			$this->setter($key, $args);
-		} elseif(strpos($methodName, 'get') === 0) {
+		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($key);
 		} else {
-			throw new \BadFunctionCallException($methodName . 
+			throw new \BadFunctionCallException($methodName .
 					' does not exist');
 		}
 	}

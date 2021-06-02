@@ -20,7 +20,7 @@ class RuleMapper extends Mapper {
 	 * Empty the table
 	 * @return bool
 	 */
-	public function deleteAll(){
+	public function deleteAll() {
 		$sql = 'DELETE FROM `*PREFIX*files_avir_status`';
 		return $this->execute($sql);
 	}
@@ -30,7 +30,7 @@ class RuleMapper extends Mapper {
 	 * @param int $id
 	 * @return Rule
 	 */
-	public function find($id){
+	public function find($id) {
 		$sql = 'SELECT * FROM *PREFIX*files_avir_status WHERE id = ?';
 		return $this->findEntity($sql, [$id]);
 	}
@@ -38,7 +38,7 @@ class RuleMapper extends Mapper {
 	/**
 	 * Get all rules
 	 */
-	public function findAll(){
+	public function findAll() {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status`';
 		return $this->findEntities($sql);
 	}
@@ -48,7 +48,7 @@ class RuleMapper extends Mapper {
 	 * @param int $result
 	 * @return array
 	 */
-	public function findByResult($result){
+	public function findByResult($result) {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `result`=?';
 		return $this->findEntities($sql, [Rule::RULE_TYPE_CODE, $result]);
 	}
@@ -58,7 +58,7 @@ class RuleMapper extends Mapper {
 	 * @param int $status
 	 * @return array
 	 */
-	public function findAllMatchedByStatus($status){
+	public function findAllMatchedByStatus($status) {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `status`=?';
 		return $this->findEntities($sql, [Rule::RULE_TYPE_MATCH, $status]);
 	}
@@ -66,7 +66,7 @@ class RuleMapper extends Mapper {
 	/**
 	 * Fill the table with rules used with clamav
 	 */
-	public function populate(){
+	public function populate() {
 		$descriptions = [
 			[
 				'groupId' => 0,
@@ -240,7 +240,7 @@ class RuleMapper extends Mapper {
 			],
 		];
 		
-		foreach ($descriptions as $description){
+		foreach ($descriptions as $description) {
 			$rule = Rule::fromParams($description);
 			$this->insert($rule);
 		}
