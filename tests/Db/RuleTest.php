@@ -16,7 +16,7 @@ use OCA\Files_Antivirus\Tests\TestBase;
  * @group DB
  */
 class RuleTest extends TestBase {
-	public function testJsonSerialize(){
+	public function testJsonSerialize() {
 		$data = [
 			'groupId' => 0,
 			'statusType' => Rule::RULE_TYPE_CODE,

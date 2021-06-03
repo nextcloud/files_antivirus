@@ -1,4 +1,4 @@
-<?php		
+<?php
 style('files_antivirus', 'settings');
 script('files_antivirus', 'settings');
 ?>
@@ -11,10 +11,10 @@ script('files_antivirus', 'settings');
 					<td><label for="av_mode"><?php p($l->t('Mode'));?></label></td>
 					<td>
 						<select id="av_mode" name="avMode"><?php print_unescaped(html_select_options([
-								'executable' => $l->t('ClamAV Executable'),
-								'daemon' => $l->t('ClamAV Daemon'),
-								'socket' => $l->t('ClamAV Daemon (Socket)'),
-								'kaspersky' => $l->t('Kaspersky Daemon')],
+							'executable' => $l->t('ClamAV Executable'),
+							'daemon' => $l->t('ClamAV Daemon'),
+							'socket' => $l->t('ClamAV Daemon (Socket)'),
+							'kaspersky' => $l->t('Kaspersky Daemon')],
 								$_['avMode']
 							)) ?></select>
 					</td>
@@ -65,7 +65,7 @@ script('files_antivirus', 'settings');
 				</tr>
 				<tr class="infected_action">
 					<td><label for="av_infected_action"><?php p($l->t('When infected files are found during a background scan'));?></label></td>
-					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(array('only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')), $_['avInfectedAction'])) ?></select></td>
+					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
 					<td></td>
 				</tr>
 			</table>

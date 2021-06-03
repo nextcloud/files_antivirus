@@ -13,7 +13,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
-class LocalClam extends ScannerBase{
+class LocalClam extends ScannerBase {
 
 	/**
 	 * @var string
@@ -44,15 +44,15 @@ class LocalClam extends ScannerBase{
 		}
 	}
 	
-	public function initScanner(){
+	public function initScanner() {
 		parent::initScanner();
 		
 		// using 2>&1 to grab the full command-line output.
 		$cmd = $this->avPath . ' ' . $this->appConfig->getCmdline() . ' - 2>&1';
-		$descriptorSpec = array(
+		$descriptorSpec = [
 			0 => ['pipe', 'r'], // STDIN
 			1 => ['pipe', 'w']  // STDOUT
-		);
+		];
 		
 		$this->process = proc_open($cmd, $descriptorSpec, $this->pipes);
 		if (!is_resource($this->process)) {
@@ -61,7 +61,7 @@ class LocalClam extends ScannerBase{
 		$this->writeHandle = $this->pipes[0];
 	}
 	
-	protected function shutdownScanner(){
+	protected function shutdownScanner() {
 		@fclose($this->pipes[0]);
 		$output = stream_get_contents($this->pipes[1]);
 		@fclose($this->pipes[1]);

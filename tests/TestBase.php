@@ -68,8 +68,8 @@ abstract class TestBase extends TestCase {
 		$this->l10n->method('t')->will($this->returnArgument(0));
 	}
 
-	public function getAppValue($methodName){
-		switch ($methodName){
+	public function getAppValue($methodName) {
+		switch ($methodName) {
 			case 'getAvPath':
 				return  __DIR__ . '/avir.sh';
 			case 'getAvMode':

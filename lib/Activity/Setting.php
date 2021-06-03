@@ -61,5 +61,4 @@ class Setting implements ISetting {
 	public function isDefaultEnabledMail() {
 		return false;
 	}
-
 }

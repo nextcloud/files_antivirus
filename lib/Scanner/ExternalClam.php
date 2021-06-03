@@ -33,10 +33,10 @@ class ExternalClam extends ScannerBase {
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 	
-	public function initScanner(){
+	public function initScanner() {
 		parent::initScanner();
 		
-		if ($this->useSocket){
+		if ($this->useSocket) {
 			$avSocket = $this->appConfig->getAvSocket();
 			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
 			if (!$this->getWriteHandle()) {
@@ -58,7 +58,7 @@ class ExternalClam extends ScannerBase {
 		@fwrite($this->getWriteHandle(), "nINSTREAM\n");
 	}
 	
-	protected function shutdownScanner(){
+	protected function shutdownScanner() {
 		@fwrite($this->getWriteHandle(), pack('N', 0));
 		$response = fgets($this->getWriteHandle());
 		$this->logger->debug(
@@ -70,7 +70,7 @@ class ExternalClam extends ScannerBase {
 		$this->status->parseResponse($response);
 	}
 	
-	protected function prepareChunk($data){
+	protected function prepareChunk($data) {
 		$chunkLength = pack('N', strlen($data));
 		return $chunkLength . $data;
 	}

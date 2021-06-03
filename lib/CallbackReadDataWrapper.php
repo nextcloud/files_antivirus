@@ -24,16 +24,16 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source, $readData = null, $write = null, $close = null, $readDir = null, $preClose = null) {
-		$context = stream_context_create(array(
-			'callbackReadData' => array(
+		$context = stream_context_create([
+			'callbackReadData' => [
 				'source' => $source,
 				'readData' => $readData,
 				'write' => $write,
 				'close' => $close,
 				'readDir' => $readDir,
 				'preClose' => $preClose
-			)
-		));
+			]
+		]);
 		return Wrapper::wrapSource($source, $context, 'callbackReadData', self::class);
 	}
 

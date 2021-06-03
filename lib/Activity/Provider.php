@@ -25,19 +25,17 @@ namespace OCA\Files_Antivirus\Activity;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
-use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
+	public const TYPE_VIRUS_DETECTED = 'virus_detected';
 
-	const TYPE_VIRUS_DETECTED = 'virus_detected';
+	public const SUBJECT_VIRUS_DETECTED = 'virus_detected';
+	public const SUBJECT_VIRUS_DETECTED_UPLOAD = 'virus_detected_upload';
+	public const SUBJECT_VIRUS_DETECTED_SCAN = 'virus_detected_scan';
 
-	const SUBJECT_VIRUS_DETECTED = 'virus_detected';
-	const SUBJECT_VIRUS_DETECTED_UPLOAD = 'virus_detected_upload';
-	const SUBJECT_VIRUS_DETECTED_SCAN = 'virus_detected_scan';
-
-	const MESSAGE_FILE_DELETED = 'file_deleted';
+	public const MESSAGE_FILE_DELETED = 'file_deleted';
 
 	/** @var IFactory */
 	private $languageFactory;
@@ -79,8 +77,7 @@ class Provider implements IProvider {
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
 			}
-
-		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_UPLOAD) {
+		} elseif ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_UPLOAD) {
 			$subject = $l->t('File containing {virus} detected');
 
 			$params = $event->getSubjectParameters();
@@ -94,7 +91,7 @@ class Provider implements IProvider {
 				$event->setParsedMessage($l->t('The file has been removed'));
 			}
 			$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-dark.svg'));
-		} else if ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_SCAN) {
+		} elseif ($event->getSubject() === self::SUBJECT_VIRUS_DETECTED_SCAN) {
 			$subject = $l->t('File {file} is infected with {virus}');
 
 			$params = $event->getSubjectParameters();
@@ -149,5 +146,4 @@ class Provider implements IProvider {
 			'path' => $event->getObjectName(),
 		];
 	}
-
 }

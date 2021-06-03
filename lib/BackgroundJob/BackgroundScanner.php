@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
@@ -58,7 +59,7 @@ class BackgroundScanner extends TimedJob {
 								IMimeTypeLoader $mimeTypeLoader,
 								ItemFactory $itemFactory,
 								bool $isCLI
-	){
+	) {
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
 		$this->appConfig = $appConfig;
@@ -86,7 +87,7 @@ class BackgroundScanner extends TimedJob {
 		// locate files that are not checked yet
 		try {
 			$result = $this->getUnscannedFiles();
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			return;
 		}
@@ -104,7 +105,7 @@ class BackgroundScanner extends TimedJob {
 				foreach ($users as $user) {
 					/** @var IUser $owner */
 					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser){
+					if (!$owner instanceof IUser) {
 						continue;
 					}
 
@@ -141,7 +142,7 @@ class BackgroundScanner extends TimedJob {
 		// Run for updated files
 		try {
 			$result = $this->getToRescanFiles();
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			return;
 		}
@@ -180,7 +181,7 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
 
@@ -188,7 +189,7 @@ class BackgroundScanner extends TimedJob {
 		// Run for files that have been scanned in the past. Just start to rescan them as the virus definitaions might have been updated
 		try {
 			$result = $this->getOutdatedFiles();
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			return;
 		}
@@ -201,7 +202,7 @@ class BackgroundScanner extends TimedJob {
 				foreach ($users as $user) {
 					/** @var IUser $owner */
 					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser){
+					if (!$owner instanceof IUser) {
 						continue;
 					}
 
@@ -226,7 +227,7 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->error( __METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 			}
 		}
 	}
@@ -242,9 +243,9 @@ class BackgroundScanner extends TimedJob {
 		return $batchSize;
 	}
 
-	protected function getSizeLimitExpression(IQueryBuilder $qb)  {
+	protected function getSizeLimitExpression(IQueryBuilder $qb) {
 		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
-		if ( $sizeLimit === -1 ){
+		if ($sizeLimit === -1) {
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
 		} else {
 			$sizeLimitExpr = $qb->expr()->andX(
