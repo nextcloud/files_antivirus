@@ -28,7 +28,7 @@ OC.L10N.register(
     "ClamAV Daemon (Socket)" : "Proces služby ClamAV (socket)",
     "Kaspersky Daemon" : "Proces služby skeneru Kaspersky",
     "Socket" : "Soket",
-    "ClamAV Socket." : "Soket ClamAV",
+    "ClamAV Socket." : "Soket ClamAV.",
     "Not required in Executable Mode." : "Ve spustitelném režimu není třeba.",
     "Host" : "Stroj",
     "Address of Antivirus Host." : "Adresa stroje s antivirem.",
