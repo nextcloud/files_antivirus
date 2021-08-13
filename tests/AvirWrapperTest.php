@@ -104,4 +104,22 @@ class AvirWrapperTest extends TestBase {
 		fwrite($fd, str_repeat('0', DummyClam::TEST_STREAM_SIZE - 2) . DummyClam::TEST_SIGNATURE);
 		fwrite($fd, DummyClam::TEST_SIGNATURE);
 	}
+
+	/**
+	 * @dataProvider shouldWrapProvider
+	 */
+	public function testShouldWrap(string $path, bool $expected) {
+		$actual = self::invokePrivate($this->wrappedStorage, 'shouldWrap', [$path]);
+		self::assertEquals($expected, $actual);
+	}
+
+	public function shouldWrapProvider(): array {
+		return [
+			['/files/my_file_1', true],
+			['files/my_file_2', true],
+			['/files_external/rootcerts.crt', false],
+			['/files_external/rootcerts.crt.tmp.0123456789', false],
+			['/root_file', false],
+		];
+	}
 }

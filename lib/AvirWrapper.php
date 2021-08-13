@@ -98,7 +98,7 @@ class AvirWrapper extends Wrapper {
 		return $this->shouldScan
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0
-					|| strpos($path, '/files/') == 0)
+					|| strpos($path, '/files/') === 0)
 			);
 	}
 
