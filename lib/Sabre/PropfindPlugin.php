@@ -63,7 +63,8 @@ class PropfindPlugin extends ServerPlugin {
 			return;
 		}
 
-		if ($sourceNode->getSize() > $this->appConfig->getAvMaxFileSize()) {
+		$avMaxFileSize = $this->appConfig->getAvMaxFileSize();
+		if ($avMaxFileSize > -1 && $sourceNode->getSize() > $avMaxFileSize) {
 			$this->eventDispatcher->dispatch(
 				ScanStateEvent::class,
 				new ScanStateEvent(false)
