@@ -8,14 +8,13 @@
 
 namespace OCA\Files_Antivirus;
 
-use \OCP\IConfig;
+use OCP\IConfig;
 
 /**
  * @method string getAvMode()
  * @method string getAvSocket()
  * @method string getAvHost()
  * @method int getAvPort()
- * @method int getAvMaxFileSize()
  * @method string getAvCmdOptions()
  * @method string getAvPath()
  * @method string getAvInfectedAction()
@@ -65,13 +64,17 @@ class AppConfig {
 		return 8192;
 	}
 
+	public function getAvMaxFileSize(): int {
+		return (int)$this->getAppValue('av_max_file_size');
+	}
+
 	/**
 	 * Get full commandline
 	 * @return string
 	 */
 	public function getCmdline() {
 		$avCmdOptions = $this->getAvCmdOptions();
-		
+
 		$shellArgs = [];
 		if ($avCmdOptions) {
 			$shellArgs = explode(',', $avCmdOptions);
@@ -81,14 +84,14 @@ class AppConfig {
 				$shellArgs
 			);
 		}
-		
+
 		$preparedArgs = '';
 		if (count($shellArgs)) {
 			$preparedArgs = implode(' ', $shellArgs);
 		}
 		return $preparedArgs;
 	}
-	
+
 	/**
 	 * Get all setting values as an array
 	 * @return array
@@ -99,7 +102,7 @@ class AppConfig {
 		$preparedKeys = array_map([$this, 'camelCase'], $keys);
 		return array_combine($preparedKeys, $values);
 	}
-	
+
 	/**
 	 * Get a value by key
 	 * @param string $key
@@ -121,7 +124,7 @@ class AppConfig {
 	public function setAppValue($key, $value) {
 		$this->config->setAppValue($this->appName, $key, $value);
 	}
-	
+
 	/**
 	 * Set a value with magic __call invocation
 	 * @param string $key
@@ -149,7 +152,7 @@ class AppConfig {
 
 		throw new \BadFunctionCallException($key . ' is not a valid key');
 	}
-	
+
 	/**
 	 * Translates property_name into propertyName
 	 * @param string $property
@@ -160,7 +163,7 @@ class AppConfig {
 		$ucFirst = implode('', array_map('ucfirst', $split));
 		return lcfirst($ucFirst);
 	}
-	
+
 	/**
 	 * Does all the someConfig to some_config magic
 	 * @param string $property
@@ -180,7 +183,7 @@ class AppConfig {
 
 		return $column;
 	}
-	
+
 	/**
 	 * Get/set an option value by calling getSomeOption method
 	 * @param string $methodName
