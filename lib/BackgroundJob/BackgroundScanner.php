@@ -244,7 +244,7 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	protected function getSizeLimitExpression(IQueryBuilder $qb) {
-		$sizeLimit = (int)$this->appConfig->getAvMaxFileSize();
+		$sizeLimit = $this->appConfig->getAvMaxFileSize();
 		if ($sizeLimit === -1) {
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
 		} else {
