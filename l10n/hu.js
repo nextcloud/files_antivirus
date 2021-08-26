@@ -41,8 +41,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "A clamscan futtatható fájl elérési útja.",
     "Not required in Daemon Mode." : "Démon módban nem szükséges.",
     "Extra command line options (comma-separated)" : "További parancssori kapcsolók (vesszővel elválasztva)",
-    "File size limit for periodic background scans, -1 means no limit" : "Az időszakos háttérbeli átvizsgálások fájlméret-korlátja, a -1 azt jelenti, hogy nincs korlát",
-    "Background scan file size limit in bytes, -1 means no limit" : "Háttérbeli átvizsgálás fájlméret-korlátja bájtban, a -1 azt jelenti, hogy nincs korlát",
     "When infected files are found during a background scan" : "Ha egy fertőzött fájlt talál háttérbeli átvizsgálás során",
     "Only log" : "Csak naplózza",
     "Delete file" : "Fájl törlése",

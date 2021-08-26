@@ -39,8 +39,6 @@
     "Path to clamscan executable." : "Chemin de l'exécutable clamscan",
     "Not required in Daemon Mode." : "Non requis dans le mode processus.",
     "Extra command line options (comma-separated)" : "Options de ligne de commande supplémentaires (séparées par des virgules)",
-    "File size limit for periodic background scans, -1 means no limit" : "Taille limite des fichiers scannés en arrière plan, -1 signifie aucune limite.",
-    "Background scan file size limit in bytes, -1 means no limit" : "Taille limite en octets des fichiers scannés en arrière plan, -1 signifie aucune limite.",
     "When infected files are found during a background scan" : "Lorsque des fichiers infectés sont détectés durant un scan en arrière-plan",
     "Only log" : "Journaux seulement",
     "Delete file" : "Supprimer le fichier",

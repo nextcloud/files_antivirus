@@ -40,8 +40,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "נתיב אל קובץ ההפעלה של clamscan.",
     "Not required in Daemon Mode." : "לא נדרש במצב סוכן",
     "Extra command line options (comma-separated)" : "אפשרויות נוספות לשורת הפקודה (בהפרדה לפסיקים)",
-    "File size limit for periodic background scans, -1 means no limit" : "מגבלת גודל קובץ לסריקות רקע מחזוריות, ‎-1 מבטל את ההגבלה",
-    "Background scan file size limit in bytes, -1 means no limit" : "מגבלת גודל קבצים שנסרקים ברקע, ‎-1 אומר ללא הגבלה.",
     "When infected files are found during a background scan" : "כאשר נמצאים קבצים נגועים במהלך סריקת רגע",
     "Only log" : "לתעד בלבד",
     "Delete file" : "מחיקת קובץ",

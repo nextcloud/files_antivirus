@@ -39,8 +39,6 @@
     "Path to clamscan executable." : "Put do izvršne datoteke clamscana.",
     "Not required in Daemon Mode." : "Nije potrebno u načinu rada Daemon.",
     "Extra command line options (comma-separated)" : "Dodatne mogućnosti naredbenog retka (odvojene zarezom)",
-    "File size limit for periodic background scans, -1 means no limit" : "Ograničenje veličine datoteke za periodička pozadinska skeniranja, -1 znači da nema ograničenja",
-    "Background scan file size limit in bytes, -1 means no limit" : "Ograničenje veličine datoteke za pozadinsko skeniranje u bajtovima, -1 znači da nema ograničenja",
     "When infected files are found during a background scan" : "Kada se tijekom pozadinskog skeniranja pronađu zaražene datoteke",
     "Only log" : "Samo zapis",
     "Delete file" : "Izbrisati datoteku",

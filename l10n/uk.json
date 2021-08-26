@@ -32,7 +32,6 @@
     "Path to clamscan executable." : "Шлях до Виконуваного файлу clamscan.",
     "Not required in Daemon Mode." : "Не обов'язково у режимі Демона.",
     "Extra command line options (comma-separated)" : "Додаткові опції командного рядка (через коми)",
-    "Background scan file size limit in bytes, -1 means no limit" : "Обмеження розміру файла при фоновому скануванні, -1 означає відсутність обмежень",
     "When infected files are found during a background scan" : "Якщо інфікований файл знайдено під час фонового сканування",
     "Only log" : "Тільки записати до журналу",
     "Delete file" : "Вилучити файл",

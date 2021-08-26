@@ -39,8 +39,6 @@
     "Path to clamscan executable." : "clamscan 執行檔的路徑。",
     "Not required in Daemon Mode." : "在守護程式模式下不需要。",
     "Extra command line options (comma-separated)" : "額外的命令列選項（以逗號分隔）",
-    "File size limit for periodic background scans, -1 means no limit" : "定期背景掃描的檔案大小限制，-1 代表無限制",
-    "Background scan file size limit in bytes, -1 means no limit" : "背景掃描的檔案大小限制（以位元組為單位），-1 代表無限制",
     "When infected files are found during a background scan" : "在背景掃描時發現受感染的檔案時",
     "Only log" : "僅記錄",
     "Delete file" : "刪除檔案",

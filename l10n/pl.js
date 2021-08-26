@@ -41,8 +41,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Ścieżka do pliku wykonywalnego clamscan.",
     "Not required in Daemon Mode." : "Nie wymagane w trybie demona.",
     "Extra command line options (comma-separated)" : "Dodatkowe parametry linii poleceń (oddzielone przecinkami)",
-    "File size limit for periodic background scans, -1 means no limit" : "Limit rozmiaru pliku dla okresowego skanowania w tle, -1 oznacza brak ograniczeń",
-    "Background scan file size limit in bytes, -1 means no limit" : "Limit rozmiaru pliku w skanowaniu w tle, -1 oznacza brak limitu",
     "When infected files are found during a background scan" : "Kiedy zainfekowane pliki zostaną wykryte podczas skanowania w tle",
     "Only log" : "Tylko log",
     "Delete file" : "Usuń plik",

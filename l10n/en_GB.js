@@ -32,7 +32,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Path to clamscan executable.",
     "Not required in Daemon Mode." : "Not required in Daemon Mode.",
     "Extra command line options (comma-separated)" : "Extra command line options (comma-separated)",
-    "Background scan file size limit in bytes, -1 means no limit" : "Background scan file size limit in bytes, -1 means no limit",
     "When infected files are found during a background scan" : "When infected files are found during a background scan",
     "Only log" : "Only log",
     "Delete file" : "Delete file",

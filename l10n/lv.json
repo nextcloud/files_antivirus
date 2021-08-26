@@ -26,7 +26,6 @@
     "Path to clamscan" : "Ceļš uz clamscan",
     "Path to clamscan executable." : "Ceļš uz clamscan izpildīšanas datni",
     "Not required in Daemon Mode." : "Nav vajadzīgs Daemon ŗežīmā.",
-    "Background scan file size limit in bytes, -1 means no limit" : "Fona skenēšanas datņu lieluma limits baitos, -1 nozīmē bez limita",
     "When infected files are found during a background scan" : "Kad inficētas datnes ir atrastas fona skenēšanā",
     "Only log" : "Tikai logot",
     "Delete file" : "Dzēst datni",

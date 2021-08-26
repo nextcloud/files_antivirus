@@ -26,7 +26,6 @@
     "Path to clamscan executable." : "clamscan შესრულებადის მისამართი.",
     "Not required in Daemon Mode." : "Daemon რეჟიმში არაა აუცილებელი.",
     "Extra command line options (comma-separated)" : "ექსტრა კონსოლის პარამეტრი (გამოყოფილი-მძიმით)",
-    "Background scan file size limit in bytes, -1 means no limit" : "ფონური რეჟიმის სკანირების ფაილის ზომის ლიმიტი ბაიტებში, -1 აღნიშნავს ულიმიტობას",
     "Only log" : "მხოლოდ ჩაიწეროს ლოგი",
     "Delete file" : "გაუქმდეს ფაილი",
     "Save" : "შენახვა",

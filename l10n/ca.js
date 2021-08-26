@@ -39,7 +39,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Camí al clamscan executable.",
     "Not required in Daemon Mode." : "No es requereix en Mode Dimoni.",
     "Extra command line options (comma-separated)" : "Opcions addicionals de línia d'ordres (separades per comes)",
-    "Background scan file size limit in bytes, -1 means no limit" : "Límit en bytes de la mida del fitxer escanejat en segon plan, -1 vol dir sense límit",
     "When infected files are found during a background scan" : "Quan es troben fitxers infectats durant un escanejat en segon pla",
     "Only log" : "Només mostra-ho al registre",
     "Delete file" : "Suprimeix el fitxer",

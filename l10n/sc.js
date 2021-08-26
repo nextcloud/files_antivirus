@@ -41,8 +41,6 @@ OC.L10N.register(
     "Path to clamscan executable." : "Percursu a clamscan esecutàbile.",
     "Not required in Daemon Mode." : "Non rechertu in modalidade Dimòniu.",
     "Extra command line options (comma-separated)" : "Sèberos in prus de sa lìnia de cumandu (seberados dae vìrgula)",
-    "File size limit for periodic background scans, -1 means no limit" : "Lìmite de sa mannària de is archìvios pro iscansiones in segundu pianu periòdicas, -1 bolet nàrrere perunu lìmite",
-    "Background scan file size limit in bytes, -1 means no limit" : "Lìmite de sa mannària de is archìvios pro iscansiones in bytes, -1 bolet nàrrere perunu lìmite",
     "When infected files are found during a background scan" : "Cando is archìvios impestados s'agatant in un'iscansione in segundu pianu ",
     "Only log" : "Registru isceti",
     "Delete file" : "Cantzella archìviu",

@@ -39,8 +39,6 @@
     "Path to clamscan executable." : "Cesta k programu clamscan",
     "Not required in Daemon Mode." : "Nie je potrebné v režime Daemon",
     "Extra command line options (comma-separated)" : "Dodatočné voľby pre príkazový riadok (oddelené čiarkou)",
-    "File size limit for periodic background scans, -1 means no limit" : "Limit veľkosti súboru pre pravidelné skenovanie na pozadí, -1 znamená žiadny limit",
-    "Background scan file size limit in bytes, -1 means no limit" : "Limit veľkosti súboru na skenovanie v pozadí, -1 pre žiadny limit",
     "When infected files are found during a background scan" : "Ak sa pri skenovaní na pozadí nájdu infikované súbory",
     "Only log" : "Len zaznamenať",
     "Delete file" : "Zmazať súbor",
