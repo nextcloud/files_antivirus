@@ -41,6 +41,8 @@ OC.L10N.register(
     "Path to clamscan executable." : "Popis umístění spustitelného souboru clamscan",
     "Not required in Daemon Mode." : "Není vyžadováno v režimu procesu služby.",
     "Extra command line options (comma-separated)" : "Další volby příkazového řádku (oddělované čárkou)",
+    "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Limit velikosti souboru pro pravidelné kontroly na pozadí a nahrávání ve shlucích, -1 znamená žádný limit",
+    "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Do jaké jejich velikosti skenovat soubory na pozadí a nahrávat ve shlucích (v bajtech), -1 znamená bez omezení",
     "When infected files are found during a background scan" : "Pokud jsou při skenování na pozadí nalezeny nakažené soubory",
     "Only log" : "Pouze zaznamenávat",
     "Delete file" : "Smazat soubor",
