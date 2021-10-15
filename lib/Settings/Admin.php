@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,15 +25,20 @@ namespace OCA\Files_Antivirus\Settings;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var AppConfig */
 	private $config;
 
-	public function __construct(AppConfig $config) {
+	/** @var IL10n */
+	private $l;
+
+	public function __construct(AppConfig $config, IL10n $l) {
 		$this->config = $config;
+		$this->l = $l;
 	}
 
 	public function getForm() {
@@ -46,5 +52,15 @@ class Admin implements ISettings {
 
 	public function getPriority() {
 		return  90;
+	}
+
+	public function getName(): string {
+		return $this->l->t("Antivirus");
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'files_antivirus' => ['.*'],
+		];
 	}
 }
