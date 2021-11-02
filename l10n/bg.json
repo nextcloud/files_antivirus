@@ -39,6 +39,8 @@
     "Path to clamscan executable." : "Път до clamscan е изпълним",
     "Not required in Daemon Mode." : "Не е нужно в Демон Режим.",
     "Extra command line options (comma-separated)" : "Допълнителни опции на командния ред (разделени със запетая)",
+    "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Ограничение за размера на файла за периодични фонови сканирания и качвания на блокове, -1 означава без ограничение",
+    "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Ограничение на размера на файла за фоново сканиране и качване на блокове в байтове, -1 означава, че няма ограничение",
     "When infected files are found during a background scan" : "Когато заразени файлове бъдат намерени по време на фоново сканиране",
     "Only log" : "Само регистриране",
     "Delete file" : "Изтриване на файл",
