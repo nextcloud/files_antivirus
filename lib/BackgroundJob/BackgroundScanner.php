@@ -314,10 +314,10 @@ class BackgroundScanner extends TimedJob {
 			->from('files_antivirus')
 			->andWhere($qb2->expr()->lt('check_time', $qb2->createNamedParameter($yesterday)))
 			->orderBy('check_time', 'ASC');
-
-		$qb2->select('fileid', 'storage')
-			->from('filecache', 'fc')
-			->where($qb2->expr()->in('fileid', $qb2->createFunction($qb1->getSQL())))
+		$qb2->select('fc.fileid', 'fc.storage')
+                        ->from('filecache', 'fc')
+                        ->leftJoin('fc', 'files_antivirus', 'fa', $qb2->expr()->eq('fc.fileid', 'fa.fileid'))
+                        ->where($qb2->expr()->isNull('fa.fileid'))
 			->andWhere($qb2->expr()->neq('mimetype', $qb2->expr()->literal($dirMimeTypeId)))
 			->andWhere($qb2->expr()->like('path', $qb2->expr()->literal('files/%')))
 			->andWhere($this->getSizeLimitExpression($qb2))
