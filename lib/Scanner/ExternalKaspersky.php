@@ -85,7 +85,12 @@ class ExternalKaspersky extends ScannerBase {
 		if (substr($response, 0, 5) === 'CLEAN' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 		} elseif (substr($response, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
-			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			if ($response === 'NON_SCANNED (PASSWORD PROTECTED)') {
+				// if we can't scan the file at all, there is no use in trying to scan it again later
+				$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+			} else {
+				$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			}
 			$this->status->setDetails($response);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
