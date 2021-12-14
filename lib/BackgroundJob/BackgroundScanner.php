@@ -30,7 +30,7 @@ class BackgroundScanner extends TimedJob {
 	/** @var ScannerFactory */
 	private $scannerFactory;
 
-	/** @var  AppConfig  */
+	/** @var  AppConfig */
 	private $appConfig;
 
 	/** @var ILogger */
@@ -50,15 +50,16 @@ class BackgroundScanner extends TimedJob {
 	/** @var bool */
 	private $isCLI;
 
-	public function __construct(ScannerFactory $scannerFactory,
-								AppConfig $appConfig,
-								IRootFolder $rootFolder,
-								ILogger $logger,
-								IUserManager $userManager,
-								IDBConnection $db,
-								IMimeTypeLoader $mimeTypeLoader,
-								ItemFactory $itemFactory,
-								bool $isCLI
+	public function __construct(
+		ScannerFactory $scannerFactory,
+		AppConfig $appConfig,
+		IRootFolder $rootFolder,
+		ILogger $logger,
+		IUserManager $userManager,
+		IDBConnection $db,
+		IMimeTypeLoader $mimeTypeLoader,
+		ItemFactory $itemFactory,
+		bool $isCLI
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
@@ -270,23 +271,20 @@ class BackgroundScanner extends TimedJob {
 		return $data;
 	}
 
-	protected function getUnscannedFiles() {
+	public function getUnscannedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
-		$qb1 = $this->db->getQueryBuilder();
-		$qb1->select('fileid')
-			->from('files_antivirus');
-
-		$qb2 = $this->db->getQueryBuilder();
-		$qb2->select('fileid', 'storage')
+		$query = $this->db->getQueryBuilder();
+		$query->select('fc.fileid', 'storage')
 			->from('filecache', 'fc')
-			->where($qb2->expr()->notIn('fileid', $qb2->createFunction($qb1->getSQL())))
-			->andWhere($qb2->expr()->neq('mimetype', $qb2->expr()->literal($dirMimeTypeId)))
-			->andWhere($qb2->expr()->like('path', $qb2->expr()->literal('files/%')))
-			->andWhere($this->getSizeLimitExpression($qb2))
+			->leftJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
+			->where($query->expr()->isNull('fa.fileid'))
+			->andWhere($query->expr()->neq('mimetype', $query->expr()->literal($dirMimeTypeId)))
+			->andWhere($query->expr()->like('path', $query->expr()->literal('files/%')))
+			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		return $qb2->execute();
+		return $query->execute();
 	}
 
 	protected function getToRescanFiles() {
@@ -301,31 +299,23 @@ class BackgroundScanner extends TimedJob {
 		return $qb->execute();
 	}
 
-	protected function getOutdatedFiles() {
+	public function getOutdatedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		// We do not want to keep scanning the same files. So only scan them once per 28 days at most.
 		$yesterday = time() - (28 * 24 * 60 * 60);
 
-		$qb1 = $this->db->getQueryBuilder();
-		$qb2 = $this->db->getQueryBuilder();
-
-		$qb1->select('fileid')
-			->from('files_antivirus')
-			->andWhere($qb2->expr()->lt('check_time', $qb2->createNamedParameter($yesterday)))
-			->orderBy('check_time', 'ASC');
-		$qb2->select('fc.fileid', 'fc.storage')
-                        ->from('filecache', 'fc')
-                        ->leftJoin('fc', 'files_antivirus', 'fa', $qb2->expr()->eq('fc.fileid', 'fa.fileid'))
-                        ->where($qb2->expr()->isNull('fa.fileid'))
-			->andWhere($qb2->expr()->neq('mimetype', $qb2->expr()->literal($dirMimeTypeId)))
-			->andWhere($qb2->expr()->like('path', $qb2->expr()->literal('files/%')))
-			->andWhere($this->getSizeLimitExpression($qb2))
+		$query = $this->db->getQueryBuilder();
+		$query->select('fc.fileid', 'fc.storage')
+			->from('filecache', 'fc')
+			->innerJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
+			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
+			->andWhere($query->expr()->like('path', $query->expr()->literal('files/%')))
+			->andWhere($query->expr()->lt('check_time', $query->createNamedParameter($yesterday)))
+			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		$x = $qb2->getSQL();
-
-		return $qb2->execute();
+		return $query->execute();
 	}
 
 	protected function scanOneFile(File $file): void {
