@@ -49,12 +49,12 @@ class BackgroundScannerTest extends TestBase {
 		/** @var IDBConnection $db */
 		$db = \OC::$server->get(IDBConnection::class);
 
-		$db->getQueryBuilder()->delete('files_antivirus')->executeStatement();
+		$db->getQueryBuilder()->delete('files_antivirus')->execute();
 
 		$query = $db->getQueryBuilder();
 		$query->select('fileid')
 			->from('filecache');
-		$fileIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		$fileIds = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
 
 		$query = $db->getQueryBuilder();
 		$query->insert('files_antivirus')
@@ -64,7 +64,7 @@ class BackgroundScannerTest extends TestBase {
 			]);
 		foreach ($fileIds as $fileId) {
 			$query->setParameter('fileid', $fileId);
-			$query->executeStatement();
+			$query->execute();
 		}
 	}
 
@@ -76,7 +76,7 @@ class BackgroundScannerTest extends TestBase {
 		$query->update('files_antivirus')
 			->set('check_time', $query->createNamedParameter($time))
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
-		$query->executeStatement();
+		$query->execute();
 	}
 
 	public function testGetUnscannedFiles() {
