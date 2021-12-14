@@ -10,43 +10,98 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
+use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\BackgroundJob\BackgroundScanner;
 use Doctrine\DBAL\Driver\PDOStatement;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\IDBConnection;
+use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
 
 /**
- * Class BackgroundScannerTest
- *
- * @package OCA\Files_Antivirus\Tests
  * @group DB
  */
 class BackgroundScannerTest extends TestBase {
-	public function testGetFilesForScan() {
-		$this->assertTrue(true);
-		return;
+	use UserTrait;
+	use MountProviderTrait;
 
-		$scannerFactory = new Mock\ScannerFactory(
-			new Mock\Config($this->container->query('CoreConfig')),
-			$this->container->query('Logger')
-		);
+	/** @var Folder */
+	private $homeDirectory;
 
-		$scannerMock = $this->getMockBuilder(BackgroundScanner::class)
-			->setConstructorArgs([
-				$scannerFactory,
-				$this->l10n,
-				$this->config,
-				\OC::$server->getRootFolder(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getLogger(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getDatabaseConnection(),
-				\OC::$server->getMimeTypeLoader()
-			])
-			->getMock();
+	protected function setUp(): void {
+		parent::setUp();
 
-		$class = new \ReflectionClass($scannerMock);
-		$method = $class->getMethod('getFilesForScan');
-		$method->setAccessible(true);
-		$result = $method->invokeArgs($scannerMock, []);
-		$this->assertEquals(PDOStatement::class, get_class($result));
+		$this->createUser("av", "av");
+		$storage = new Temporary();
+		$storage->mkdir('files');
+		$storage->getScanner()->scan('');
+		$this->registerMount("av", $storage, "av");
+
+		$this->loginAsUser("av");
+		/** @var IRootFolder $root */
+		$root = \OC::$server->get(IRootFolder::class);
+		$this->homeDirectory = $root->getUserFolder("av");
+	}
+
+	private function markAllScanned() {
+		$now = time();
+		/** @var IDBConnection $db */
+		$db = \OC::$server->get(IDBConnection::class);
+
+		$db->getQueryBuilder()->delete('files_antivirus')->executeStatement();
+
+		$query = $db->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache');
+		$fileIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+
+		$query = $db->getQueryBuilder();
+		$query->insert('files_antivirus')
+			->values([
+				'fileid' => $query->createParameter('fileid'),
+				'check_time' => $now,
+			]);
+		foreach ($fileIds as $fileId) {
+			$query->setParameter('fileid', $fileId);
+			$query->executeStatement();
+		}
+	}
+
+	private function updateScannedTime(int $fileId, int $time) {
+		/** @var IDBConnection $db */
+		$db = \OC::$server->get(IDBConnection::class);
+
+		$query = $db->getQueryBuilder();
+		$query->update('files_antivirus')
+			->set('check_time', $query->createNamedParameter($time))
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
+		$query->executeStatement();
+	}
+
+	public function testGetUnscannedFiles() {
+		$this->markAllScanned();
+
+		/** @var BackgroundScanner $scanner */
+		$scanner = \OC::$server->get(BackgroundScanner::class);
+		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
+
+		$outdated = $scanner->getUnscannedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$this->assertEquals([$newFileId], $outdated);
+	}
+
+	public function testGetOutdatedFiles() {
+		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
+		$this->markAllScanned();
+
+		/** @var BackgroundScanner $scanner */
+		$scanner = \OC::$server->get(BackgroundScanner::class);
+
+		$outdated = $scanner->getOutdatedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$this->assertEquals([], $outdated);
+
+		$this->updateScannedTime($newFileId, time() - (30 * 24 * 60 * 60));
+		$outdated = $scanner->getOutdatedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$this->assertEquals([$newFileId], $outdated);
 	}
 }
