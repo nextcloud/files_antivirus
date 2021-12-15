@@ -34,7 +34,12 @@ class ExternalKaspersky extends ScannerBase {
 	private $clientService;
 	private $chunkSize;
 
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory, IClientService $clientService) {
+	public function __construct(
+		AppConfig $config,
+		ILogger $logger,
+		StatusFactory $statusFactory,
+		IClientService $clientService
+	) {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->clientService = $clientService;
 		$this->chunkSize = 10 * 1024 * 1024;
@@ -66,11 +71,12 @@ class ExternalKaspersky extends ScannerBase {
 		$avHost = $this->appConfig->getAvHost();
 		$avPort = $this->appConfig->getAvPort();
 
-		$response = $this->clientService->newClient()->post("$avHost:$avPort/scanmemory", [
-			'body' => $this->writeHandle,
-			'headers' => [
-				'X-KAV-Timeout' => '60000',
-				'X-KAV-ProtocolVersion' => '1',
+		$body = \stream_get_contents($this->writeHandle);
+		$body = base64_encode($body);
+		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
+			'json' => [
+				'timeout' => 60000,
+				'object' => $body,
 			],
 			'connect_timeout' => 5,
 		])->getBody();
@@ -80,24 +86,28 @@ class ExternalKaspersky extends ScannerBase {
 			['app' => 'files_antivirus']
 		);
 
-		$response = trim($response);
+		$response = json_decode($response, true);
+		$scanResult = $response['scanResult'];
 
-		if (substr($response, 0, 5) === 'CLEAN' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
+		if (substr($scanResult, 0, 5) === 'CLEAN' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
-		} elseif (substr($response, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
-			if ($response === 'NON_SCANNED (PASSWORD PROTECTED)') {
+		} elseif (substr($scanResult, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
+			if ($scanResult === 'NON_SCANNED (PASSWORD PROTECTED)') {
 				// if we can't scan the file at all, there is no use in trying to scan it again later
 				$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 			} else {
 				$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
 			}
-			$this->status->setDetails($response);
+			$this->status->setDetails($scanResult);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
-			if (strpos($response, "DETECT ") === 0) {
-				$response = substr($response, 7);
+			if (strpos($scanResult, "DETECT ") === 0) {
+				$scanResult = substr($scanResult, 7);
 			}
-			$this->status->setDetails($response);
+			if (isset($response['detectionName'])) {
+				$scanResult .= ' ' . $response['detectionName'];
+			}
+			$this->status->setDetails($scanResult);
 		}
 	}
 
