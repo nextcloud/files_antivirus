@@ -12,7 +12,6 @@ namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\BackgroundJob\BackgroundScanner;
-use Doctrine\DBAL\Driver\PDOStatement;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
