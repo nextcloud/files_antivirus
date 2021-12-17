@@ -42,7 +42,6 @@ class SettingsController extends Controller {
 	/**
 	 * Save Parameters
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Files_Antivirus\Settings\Admin)
 	 * @param string $avMode - antivirus mode
 	 * @param string $avSocket - path to socket (Socket mode)
 	 * @param string $avHost - antivirus url
