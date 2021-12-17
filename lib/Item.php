@@ -22,6 +22,7 @@ use OCP\ILogger;
 class Item {
 	/**
 	 * file handle, user to read from the file
+	 *
 	 * @var resource
 	 */
 	protected $fileHandle;
@@ -56,13 +57,15 @@ class Item {
 	 * @param File $file
 	 * @param bool $isCron
 	 */
-	public function __construct(AppConfig $appConfig,
-								ActivityManager $activityManager,
-								ItemMapper $itemMapper,
-								ILogger $logger,
-								IRootFolder $rootFolder,
-								File $file,
-								$isCron) {
+	public function __construct(
+		AppConfig $appConfig,
+		ActivityManager $activityManager,
+		ItemMapper $itemMapper,
+		ILogger $logger,
+		IRootFolder $rootFolder,
+		File $file,
+		$isCron
+	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
@@ -74,7 +77,8 @@ class Item {
 
 	/**
 	 * Reads a file portion by portion until the very end
-	 * @return string|boolean
+	 *
+	 * @return string|false
 	 */
 	public function fread() {
 		if (!($this->file->getSize() > 0)) {
@@ -92,9 +96,9 @@ class Item {
 	}
 
 	/**
-	 * Action to take if this item is infected
+	 * 	 * Action to take if this item is infected
 	 */
-	public function processInfected(Status $status) {
+	public function processInfected(Status $status): void {
 		$infectedAction = $this->config->getAvInfectedAction();
 
 		$shouldDelete = $infectedAction === 'delete';
@@ -133,25 +137,27 @@ class Item {
 	}
 
 	/**
-	 * Action to take if this item status is unclear
+	 * 	 * Action to take if this item status is unclear
+	 * 	 *
+	 *
 	 * @param Status $status
 	 */
-	public function processUnchecked(Status $status) {
+	public function processUnchecked(Status $status): void {
 		//TODO: Show warning to the user: The file can not be checked
 		$this->logError('Not Checked. ' . $status->getDetails());
 	}
 
 	/**
-	 * Action to take if this item status is not infected
+	 * 	 * Action to take if this item status is not infected
 	 */
-	public function processClean() {
+	public function processClean(): void {
 		$this->updateCheckTime();
 	}
 
 	/**
-	 * Update the check-time of this item to current time
+	 * 	 * Update the check-time of this item to current time
 	 */
-	private function updateCheckTime() {
+	private function updateCheckTime(): void {
 		try {
 			try {
 				$item = $this->itemMapper->findByFileId($this->file->getId());
@@ -165,29 +171,33 @@ class Item {
 			$item->setCheckTime(time());
 			$this->itemMapper->insert($item);
 		} catch (\Exception $e) {
-			$this->logger->error(__METHOD__.', exception: '.$e->getMessage(), ['app' => 'files_antivirus']);
+			$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 		}
 	}
 
 	/**
 	 * Check if the end of file is reached
+	 *
 	 * @return boolean
 	 */
 	private function feof() {
 		$isDone = feof($this->fileHandle);
 		if ($isDone) {
 			$this->logDebug('Scan is done');
-			fclose($this->fileHandle);
+			$handle = $this->fileHandle;
+			fclose($handle);
 			$this->fileHandle = null;
 		}
 		return $isDone;
 	}
 
 	/**
-	 * Opens a file for reading
+	 * 	 * Opens a file for reading
+	 * 	 *
+	 *
 	 * @throws \RuntimeException
 	 */
-	private function getFileHandle() {
+	private function getFileHandle(): void {
 		$fileHandle = $this->file->fopen('r');
 		if ($fileHandle === false) {
 			$this->logError('Can not open for reading.');
@@ -199,24 +209,24 @@ class Item {
 	}
 
 	/**
-	 * Delete infected file
+	 * 	 * Delete infected file
 	 */
-	private function deleteFile() {
+	private function deleteFile(): void {
 		//prevent from going to trashbin
 		if (App::isEnabled('files_trashbin')) {
 			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = \OC::$server->get(ITrashManager::class);
 			$trashManager->pauseTrash();
 		}
 		$this->file->delete();
 		if (App::isEnabled('files_trashbin')) {
 			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = \OC::$server->get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
 	}
 
-	private function generateExtraInfo() {
+	private function generateExtraInfo(): string {
 		$owner = $this->file->getOwner();
 
 		if ($owner === null) {
@@ -235,14 +245,14 @@ class Item {
 	/**
 	 * @param string $message
 	 */
-	public function logDebug($message) {
+	public function logDebug($message): void {
 		$this->logger->debug($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
 
 	/**
 	 * @param string $message
 	 */
-	public function logError($message) {
+	public function logError($message): void {
 		$this->logger->error($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
 }

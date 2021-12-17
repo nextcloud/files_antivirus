@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+	errorLevel="4"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config"
+	phpVersion="7.3"
+>
+	<projectFiles>
+		<directory name="lib"/>
+	</projectFiles>
+	<extraFiles>
+		<directory name="vendor/christophwurst/nextcloud"/>
+	</extraFiles>
+	<stubs>
+		<file name="tests/stub.phpstub" preloadClasses="true"/>
+	</stubs>
+	<issueHandlers>
+		<UndefinedClass>
+			<errorLevel type="suppress">
+				<referencedClass name="OC" />
+				<referencedClass name="OCA\Files_External\Service\UserGlobalStoragesService" />
+				<referencedClass name="OC\Core\Command\Base" />
+				<referencedClass name="OC\Files\Cache\Wrapper\CacheWrapper" />
+				<referencedClass name="OC\Files\Filesystem" />
+				<referencedClass name="OC\Files\Storage\Wrapper\Wrapper" />
+			</errorLevel>
+		</UndefinedClass>
+	</issueHandlers>
+</psalm>

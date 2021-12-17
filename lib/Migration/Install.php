@@ -44,6 +44,9 @@ class Install implements IRepairStep {
 		return 'Populare default rules';
 	}
 
+	/**
+	 * @return void
+	 */
 	public function run(IOutput $output) {
 		$rules = $this->ruleMapper->findAll();
 

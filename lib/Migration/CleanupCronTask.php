@@ -39,6 +39,9 @@ class CleanupCronTask implements IRepairStep {
 		return 'Cleanup cron task';
 	}
 
+	/**
+	 * @return void
+	 */
 	public function run(IOutput $output) {
 		$this->jobList->remove('OCA\Files_Antivirus\Cron\Task');
 	}

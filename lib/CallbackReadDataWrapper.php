@@ -15,19 +15,19 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	 * Wraps a stream with the provided callbacks
 	 *
 	 * @param resource $source
-	 * @param callable $readData (optional)
+	 * @param callable $read (optional)
 	 * @param callable $write (optional)
 	 * @param callable $close (optional)
 	 * @param callable $readDir (optional)
-	 * @return resource
+	 * @return resource|bool
 	 *
 	 * @throws \BadMethodCallException
 	 */
-	public static function wrap($source, $readData = null, $write = null, $close = null, $readDir = null, $preClose = null) {
+	public static function wrap($source, $read = null, $write = null, $close = null, $readDir = null, $preClose = null) {
 		$context = stream_context_create([
 			'callbackReadData' => [
 				'source' => $source,
-				'readData' => $readData,
+				'readData' => $read,
 				'write' => $write,
 				'close' => $close,
 				'readDir' => $readDir,
@@ -37,6 +37,9 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 		return Wrapper::wrapSource($source, $context, 'callbackReadData', self::class);
 	}
 
+	/**
+	 * @return true
+	 */
 	protected function open() {
 		$context = $this->loadContext('callbackReadData');
 
@@ -50,7 +53,7 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	public function stream_read($count) {
 		$result = parent::stream_read($count);
 		if (is_callable($this->readDataCallback)) {
-			call_user_func($this->readDataCallback, strlen($count), $result);
+			call_user_func($this->readDataCallback, strlen($result), $result);
 		}
 		return $result;
 	}

@@ -22,19 +22,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 
 class AvirWrapper extends Wrapper {
-	
+
 	/**
 	 * Modes that are used for writing
 	 * @var array
 	 */
 	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
-	
+
 	/** @var ScannerFactory */
 	protected $scannerFactory;
-	
+
 	/** @var IL10N */
 	protected $l10n;
-	
+
 	/** @var ILogger */
 	protected $logger;
 
@@ -64,12 +64,12 @@ class AvirWrapper extends Wrapper {
 			$this->shouldScan = $event->getState();
 		});
 	}
-	
+
 	/**
 	 * Asynchronously scan data that are written to the file
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource | bool
+	 * @return resource | false
 	 */
 	public function fopen($path, $mode) {
 		$stream = $this->storage->fopen($path, $mode);
@@ -132,7 +132,7 @@ class AvirWrapper extends Wrapper {
 							$trashManager = \OC::$server->query(ITrashManager::class);
 							$trashManager->resumeTrash();
 						}
-							
+
 						$this->logger->warning(
 							'Infected file deleted. ' . $status->getDetails()
 							. ' Account: ' . $owner . ' Path: ' . $path,
@@ -165,7 +165,7 @@ class AvirWrapper extends Wrapper {
 		}
 		return $stream;
 	}
-	
+
 	/**
 	 * Checks whether passed mode is suitable for writing
 	 * @param string $mode

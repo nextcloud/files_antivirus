@@ -44,6 +44,9 @@ class LocalClam extends ScannerBase {
 		}
 	}
 	
+	/**
+	 * @return void
+	 */
 	public function initScanner() {
 		parent::initScanner();
 		
@@ -61,6 +64,9 @@ class LocalClam extends ScannerBase {
 		$this->writeHandle = $this->pipes[0];
 	}
 	
+	/**
+	 * @return void
+	 */
 	protected function shutdownScanner() {
 		@fclose($this->pipes[0]);
 		$output = stream_get_contents($this->pipes[1]);

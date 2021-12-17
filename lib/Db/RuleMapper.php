@@ -15,16 +15,17 @@ class RuleMapper extends Mapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'files_avir_status', Rule::class);
 	}
-	
+
 	/**
 	 * Empty the table
 	 * @return bool
 	 */
 	public function deleteAll() {
 		$sql = 'DELETE FROM `*PREFIX*files_avir_status`';
-		return $this->execute($sql);
+		$this->execute($sql);
+		return true;
 	}
-	
+
 	/**
 	 * Find rule by id
 	 * @param int $id
@@ -34,11 +35,11 @@ class RuleMapper extends Mapper {
 		$sql = 'SELECT * FROM *PREFIX*files_avir_status WHERE id = ?';
 		return $this->findEntity($sql, [$id]);
 	}
-	
+
 	/**
-	 * Get all rules
+	 * 	 * Get all rules
 	 */
-	public function findAll() {
+	public function findAll(): array {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status`';
 		return $this->findEntities($sql);
 	}
@@ -52,7 +53,7 @@ class RuleMapper extends Mapper {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `result`=?';
 		return $this->findEntities($sql, [Rule::RULE_TYPE_CODE, $result]);
 	}
-	
+
 	/**
 	 * Get collection of rules of type Match
 	 * @param int $status
@@ -62,11 +63,11 @@ class RuleMapper extends Mapper {
 		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `status`=?';
 		return $this->findEntities($sql, [Rule::RULE_TYPE_MATCH, $status]);
 	}
-	
+
 	/**
-	 * Fill the table with rules used with clamav
+	 * 	 * Fill the table with rules used with clamav
 	 */
-	public function populate() {
+	public function populate(): void {
 		$descriptions = [
 			[
 				'groupId' => 0,
@@ -85,7 +86,7 @@ class RuleMapper extends Mapper {
 				'description' => '',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED
 			],
-		
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -94,7 +95,7 @@ class RuleMapper extends Mapper {
 				'description' => 'Unknown option passed.',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -103,7 +104,7 @@ class RuleMapper extends Mapper {
 				'description' => 'Database initialization error.',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -112,7 +113,7 @@ class RuleMapper extends Mapper {
 				'description' => 'Not supported file type.',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -121,7 +122,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't open directory.",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -130,7 +131,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't open file. (ofm)",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -139,7 +140,7 @@ class RuleMapper extends Mapper {
 				'description' => 'Error reading file. (ofm)',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -148,7 +149,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't stat input file / directory.",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -157,7 +158,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't get absolute path name of current working directory.",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -166,7 +167,7 @@ class RuleMapper extends Mapper {
 				'description' => 'I/O error, please check your file system.',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -175,7 +176,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't initialize logger.",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -184,7 +185,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't create temporary files/directories (check permissions).",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -193,7 +194,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't write to temporary directory (please specify another one).",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -202,7 +203,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't allocate memory (calloc).",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_CODE,
@@ -211,7 +212,7 @@ class RuleMapper extends Mapper {
 				'description' => "Can't allocate memory (malloc).",
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_MATCH,
@@ -220,7 +221,7 @@ class RuleMapper extends Mapper {
 				'description' => '',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_MATCH,
@@ -229,7 +230,7 @@ class RuleMapper extends Mapper {
 				'description' => '',
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED
 			],
-			
+
 			[
 				'groupId' => 0,
 				'statusType' => Rule::RULE_TYPE_MATCH,
@@ -239,7 +240,7 @@ class RuleMapper extends Mapper {
 				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
 			],
 		];
-		
+
 		foreach ($descriptions as $description) {
 			$rule = Rule::fromParams($description);
 			$this->insert($rule);

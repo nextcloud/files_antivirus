@@ -23,7 +23,7 @@
 
 namespace OCA\Files_Antivirus\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
 
 class ScanStateEvent extends Event {
 
@@ -31,10 +31,11 @@ class ScanStateEvent extends Event {
 	private $state;
 
 	public function __construct(bool $state) {
+		parent::__construct();
 		$this->state = $state;
 	}
 
-	public function getState() {
+	public function getState(): bool {
 		return $this->state;
 	}
 }

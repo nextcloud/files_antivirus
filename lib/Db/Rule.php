@@ -16,6 +16,8 @@ use JsonSerializable;
  *
  * @package OCA\Files_Antivirus\Db
  *
+ * @method string getMatch()
+ * @method int getStatus()
  * @method setStatusType(int $type)
  * @method setDescription(string $description)
  * @method setStatus(int $status)
@@ -23,12 +25,12 @@ use JsonSerializable;
  * @method setMatch(string $mach)
  */
 class Rule extends Entity implements JsonSerializable {
-	
+
 	/*
 	 * Rule needs to be validated by the exit code returned by scanner
 	 */
 	public const RULE_TYPE_CODE = 1;
-	
+
 	/*
 	 * Rule needs to be validated by parsing the output returned by scanner with regexp
 	 */
@@ -39,35 +41,35 @@ class Rule extends Entity implements JsonSerializable {
 	 * @var int groupId - used for sorting
 	 */
 	protected $groupId;
-	
+
 	/**
 	 *
 	 * @var int statusType - RULE_TYPE_CODE or RULE_TYPE_MATCH defines whether
 	 *   rule should be checked by the shell exit code or regexp
 	 */
 	protected $statusType;
-	
+
 	/**
 	 *
 	 * @var int result - shell exit code for rules
 	 *   of the type RULE_TYPE_CODE, 0 otherwise
 	 */
 	protected $result;
-	
+
 	/**
 	 *
 	 * @var string match - regexp to match for rules
 	 *   of the type RULE_TYPE_MATCH, '' otherwise
 	 */
 	protected $match;
-	
+
 	/**
 	 *
 	 * @var string description - shell exit code meaning for rules
 	 *   of the type RULE_TYPE_CODE, '' otherwise
 	 */
 	protected $description;
-	
+
 	/**
 	 *
 	 * @var int status - file check status. SCANRESULT_UNCHECKED, SCANRESULT_INFECTED,

@@ -45,6 +45,8 @@ class ScannerFactory {
 				throw new \InvalidArgumentException('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
 		}
 
-		return $this->serverContainer->resolve($scannerClass);
+		/** @var IScanner $scanner */
+		$scanner = $this->serverContainer->resolve($scannerClass);
+		return $scanner;
 	}
 }

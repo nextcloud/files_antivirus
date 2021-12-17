@@ -14,7 +14,7 @@ use OCA\Files_Antivirus\StatusFactory;
 use OCP\ILogger;
 
 class ExternalClam extends ScannerBase {
-	
+
 	/**
 	 * Daemon/socket mode
 	 * @var bool
@@ -32,10 +32,13 @@ class ExternalClam extends ScannerBase {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
-	
+
+	/**
+	 * @return void
+	 */
 	public function initScanner() {
 		parent::initScanner();
-		
+
 		if ($this->useSocket) {
 			$avSocket = $this->appConfig->getAvSocket();
 			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
@@ -44,11 +47,11 @@ class ExternalClam extends ScannerBase {
 			}
 		} else {
 			$avHost = $this->appConfig->getAvHost();
-			$avPort = $this->appConfig->getAvPort();
+			$avPort = (int)$this->appConfig->getAvPort();
 			if (!($avHost && $avPort)) {
 				throw new \RuntimeException('The ClamAV port and host are not set up.');
 			}
-			$this->writeHandle = ($avHost && $avPort) ? @fsockopen($avHost, $avPort) : false;
+			$this->writeHandle = @fsockopen($avHost, $avPort);
 			if (!$this->getWriteHandle()) {
 				throw new \RuntimeException('The ClamAV module is not in daemon mode.');
 			}
@@ -57,7 +60,10 @@ class ExternalClam extends ScannerBase {
 		// request scan from the daemon
 		@fwrite($this->getWriteHandle(), "nINSTREAM\n");
 	}
-	
+
+	/**
+	 * @return void
+	 */
 	protected function shutdownScanner() {
 		@fwrite($this->getWriteHandle(), pack('N', 0));
 		$response = fgets($this->getWriteHandle());
@@ -65,11 +71,12 @@ class ExternalClam extends ScannerBase {
 			'Response :: ' . $response,
 			['app' => 'files_antivirus']
 		);
-		@fclose($this->getWriteHandle());
-		
+		$handle = $this->getWriteHandle();
+		@fclose($handle);
+
 		$this->status->parseResponse($response);
 	}
-	
+
 	protected function prepareChunk($data) {
 		$chunkLength = pack('N', strlen($data));
 		return $chunkLength . $data;

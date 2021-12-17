@@ -117,7 +117,7 @@ class Provider implements IProvider {
 		return $event;
 	}
 
-	private function setSubjects(IEvent $event, $subject, array $parameters) {
+	private function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$placeholders = $replacements = [];
 		foreach ($parameters as $placeholder => $parameter) {
 			$placeholders[] = '{' . $placeholder . '}';
@@ -138,7 +138,12 @@ class Provider implements IProvider {
 		return $res;
 	}
 
-	private function getFileDeleted(IEvent $event) {
+	/**
+	 * @return (int|string)[]
+	 *
+	 * @psalm-return array{type: 'file', id: int, name: string, path: string}
+	 */
+	private function getFileDeleted(IEvent $event): array {
 		return [
 			'type' => 'file',
 			'id' => $event->getObjectId(),
