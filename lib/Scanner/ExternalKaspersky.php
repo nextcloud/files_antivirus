@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\Scanner;
 
+use GuzzleHttp\Exception\ClientException;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
@@ -73,13 +74,30 @@ class ExternalKaspersky extends ScannerBase {
 
 		$body = \stream_get_contents($this->writeHandle);
 		$body = base64_encode($body);
-		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
-			'json' => [
-				'timeout' => 60000,
-				'object' => $body,
-			],
-			'connect_timeout' => 5,
-		])->getBody();
+		try {
+			$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
+				'json' => [
+					'timeout' => 60000,
+					'object' => $body,
+				],
+				'connect_timeout' => 5,
+			])->getBody();
+		} catch (ClientException $e) {
+			$this->logger->logException($e, ['message' => 'Failed to send scan memory request']);
+
+			if ($e->getResponse()->getStatusCode() == 408) {
+				$this->logger->error("Scan engine timed out");
+			} else {
+				// see if the server can be reached with a more basic command
+				try {
+					$this->clientService->newClient()->get("$avHost:$avPort/api/v3.0/basesdate")->getBody();
+					$this->logger->error("scanmemory request failed by kaspersky seems reachable");
+				} catch (ClientException $e2) {
+					$this->logger->logException($e2, ['message' => 'Kaspersky unreachable']);
+				}
+			}
+			throw $e;
+		}
 
 		$this->logger->debug(
 			'Response :: ' . $response,
