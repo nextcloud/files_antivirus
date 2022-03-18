@@ -130,7 +130,7 @@ var antivirusSettings = antivirusSettings || {
 
 
 function av_mode_show_options(str, mode = 'slow') {
-	if ( str === 'daemon' || str === 'kaspersky'){
+	if ( str === 'daemon' || str === 'kaspersky' || str === 'icap'){
 		$('tr.av_socket, tr.av_path').hide(mode);
 		$('tr.av_host, tr.av_port').show(mode);
 	} else if ( str === 'socket' ) {

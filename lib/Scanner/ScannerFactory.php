@@ -38,6 +38,9 @@ class ScannerFactory {
 			case 'kaspersky':
 				$scannerClass = ExternalKaspersky::class;
 				break;
+			case 'icap':
+				$scannerClass = ICAP::class;
+				break;
 			default:
 				throw new \InvalidArgumentException('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
 		}
