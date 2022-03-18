@@ -56,13 +56,13 @@ class ICAP extends ScannerBase {
 
 	protected function scanBuffer() {
 		rewind($this->writeHandle);
+		$data = stream_get_contents($this->writeHandle);
 
-		$response = $this->icapClient->reqmod('req', [
-			'req-hdr' => "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n",
-			'req-body' => stream_get_contents($this->writeHandle)
-		], [
+		$request = $this->icapClient->reqmod('req', [
 			'Allow' => 204
-		]);
+		], "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n", strlen($data));
+		$request->write($data);
+		$response = $request->finish();
 		$code = (int)$response['protocol']['code'] ?? 500;
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
