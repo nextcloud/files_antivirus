@@ -29,8 +29,6 @@ class ICAPClient {
 	private string $host;
 	private int $port;
 
-	const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
-
 	/**
 	 * Constructor
 	 *
@@ -56,7 +54,7 @@ class ICAPClient {
 		);
 
 		if (!$stream) {
-			throw new \Exception(
+			throw new RuntimeException(
 				"Cannot connect to \"tcp://{$this->host}:{$this->port}\": $errorMessage (code $errorCode)"
 			);
 		}
@@ -68,12 +66,12 @@ class ICAPClient {
 	 * Send REQMOD request
 	 *
 	 * @param string $service ICAP service
-	 * @param array $body Request body data
-	 * @return array Response array
-	 * @throws RuntimeException
+	 * @param array $headers
+	 * @param string $requestHeader
+	 * @return ICAPRequest Response array
 	 */
-	public function reqmod(string $service, array $headers, string $requestHeader, int $bodyLength): ICAPRequest {
+	public function reqmod(string $service, array $headers, string $requestHeader): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeader, $bodyLength);
+		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeader);
 	}
 }

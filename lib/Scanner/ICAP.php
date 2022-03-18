@@ -25,6 +25,7 @@ namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ICAP\ICAPClient;
+use OCA\Files_Antivirus\ICAP\ICAPRequest;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Http\Client\IClientService;
@@ -32,6 +33,7 @@ use OCP\ILogger;
 
 class ICAP extends ScannerBase {
 	private ICAPClient $icapClient;
+	private ?ICAPRequest $request;
 
 	public function __construct(
 		AppConfig $config,
@@ -52,17 +54,28 @@ class ICAP extends ScannerBase {
 	public function initScanner() {
 		parent::initScanner();
 		$this->writeHandle = fopen("php://temp", 'w+');
+		$this->request = $this->icapClient->reqmod('req', [
+			'Allow' => 204,
+		], "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n");
+	}
+
+	protected function writeChunk($chunk) {
+		if (ftell($this->writeHandle) > 1024 * 1024) {
+			$this->flushBuffer();
+		}
+		parent::writeChunk($chunk);
+	}
+
+	private function flushBuffer() {
+		rewind($this->writeHandle);
+		$data = stream_get_contents($this->writeHandle);
+		$this->request->write($data);
+		$this->writeHandle = fopen("php://temp", 'w+');
 	}
 
 	protected function scanBuffer() {
-		rewind($this->writeHandle);
-		$data = stream_get_contents($this->writeHandle);
-
-		$request = $this->icapClient->reqmod('req', [
-			'Allow' => 204
-		], "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n", strlen($data));
-		$request->write($data);
-		$response = $request->finish();
+		$this->flushBuffer();
+		$response = $this->request->finish();
 		$code = (int)$response['protocol']['code'] ?? 500;
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
@@ -80,7 +93,7 @@ class ICAP extends ScannerBase {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}
 		} else {
-			throw new \RuntimeException('AV failed!');
+			throw new \RuntimeException('Invalid response from ICAP server');
 		}
 	}
 

@@ -27,9 +27,9 @@ class ICAPRequest {
 	const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
 
 	/** @var resource */
-	private $stream;
+	public $stream;
 
-	public function __construct($stream, string $host, string $service, string $method, array $headers, string $requestHeader, int $bodyLength) {
+	public function __construct($stream, string $host, string $service, string $method, array $headers, string $requestHeader) {
 		$this->stream = $stream;
 
 		if (!array_key_exists('Host', $headers)) {
@@ -62,18 +62,16 @@ class ICAPRequest {
 
 		$request .= "\r\n";
 		$request .= $requestHeader;
-		$request .= dechex($bodyLength);
-		$request .= "\r\n";
 
 		fwrite($this->stream, $request);
 	}
 
 	public function write(string $data) {
-		fwrite($this->stream, $data);
+		fwrite($this->stream, dechex(strlen($data)) . "\r\n" . $data . "\r\n");
 	}
 
 	public function finish(): array {
-		fwrite($this->stream, "\r\n0\r\n\r\n");
+		fwrite($this->stream, "0\r\n\r\n");
 		return (new ResponseParser())->read_response($this->stream);
 	}
 }
