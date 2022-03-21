@@ -18,6 +18,8 @@ use OCP\IConfig;
  * @method string getAvCmdOptions()
  * @method string getAvPath()
  * @method string getAvInfectedAction()
+ * @method string getAvIcapRequestService()
+ * @method string getAvIcapResponseHeader()
  *
  * @method null setAvMode(string $avMode)
  * @method null setAvSocket(string $avsocket)
@@ -47,6 +49,8 @@ class AppConfig {
 		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
 		'av_background_scan' => 'on',
+		'av_icap_request_service' => 'avscan',
+		'av_icap_response_header' => 'X-Infection-Found',
 	];
 
 	/**

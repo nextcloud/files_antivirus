@@ -55,6 +55,16 @@ script('files_antivirus', 'settings');
 					<td><input type="text" id="av_cmd_options" name="avCmdOptions" value="<?php p($_['avCmdOptions']); ?>" /></td>
 					<td></td>
 				</tr>
+				<tr class="av_icap_service">
+					<td><label for="av_icap_service"><?php p($l->t('ICAP service'));?></label></td>
+					<td><input type="text" id="av_cmd_options" name="avIcapRequestService" value="<?php p($_['avIcapRequestService']); ?>" /></td>
+					<td></td>
+				</tr>
+				<tr class="av_icap_header">
+					<td><label for="av_icap_header"><?php p($l->t('ICAP virus response header'));?></label></td>
+					<td><input type="text" id="av_cmd_options" name="avIcapResponseHeader" value="<?php p($_['avIcapResponseHeader']); ?>" /></td>
+					<td></td>
+				</tr>
 				<tr class="av_max_file_size">
 					<td><label for="av_max_file_size"><?php p($l->t('File size limit for periodic background scans and chunked uploads, -1 means no limit'));?></label></td>
 					<td>

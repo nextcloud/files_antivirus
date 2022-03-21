@@ -34,6 +34,8 @@ use OCP\ILogger;
 class ICAP extends ScannerBase {
 	private ICAPClient $icapClient;
 	private ?ICAPRequest $request;
+	private string $service;
+	private string $virusHeader;
 
 	public function __construct(
 		AppConfig $config,
@@ -44,6 +46,8 @@ class ICAP extends ScannerBase {
 
 		$avHost = $this->appConfig->getAvHost();
 		$avPort = $this->appConfig->getAvPort();
+		$this->service = $config->getAvIcapRequestService();
+		$this->virusHeader = $config->getAvIcapResponseHeader();
 
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
@@ -54,7 +58,7 @@ class ICAP extends ScannerBase {
 	public function initScanner() {
 		parent::initScanner();
 		$this->writeHandle = fopen("php://temp", 'w+');
-		$this->request = $this->icapClient->reqmod('req', [
+		$this->request = $this->icapClient->reqmod($this->service, [
 			'Allow' => 204,
 		], "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n");
 	}
@@ -81,7 +85,7 @@ class ICAP extends ScannerBase {
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 		if ($code === 200 || $code === 204) {
 			// c-icap/clamav reports this header
-			$virus = $response['headers']['X-Infection-Found'] ?? false;
+			$virus = $response['headers'][$this->virusHeader] ?? false;
 			if ($virus) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 				$this->status->setDetails($virus);

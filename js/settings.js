@@ -140,6 +140,11 @@ function av_mode_show_options(str, mode = 'slow') {
 		$('tr.av_socket, tr.av_host, tr.av_port').hide(mode);
 		$('tr.av_path').show(mode);
 	}
+	if (str === 'icap'){
+		$('tr.av_icap_service, tr.av_icap_header').show(mode);
+	} else {
+		$('tr.av_icap_service, tr.av_icap_header').hide(mode);
+	}
 	if (str === 'kaspersky') {
 		$('#antivirus-advanced-wrapper').hide(mode);
 	} else {
