@@ -30,7 +30,7 @@ jobs:
       run: composer i --ignore-platform-reqs
     - name: Install OCP package
       if: ${{ matrix.php-version != '7.3' }}
-      run: composer require --dev christophwurst/nextcloud:${{ matrix.ocp-version }}
+      run: composer require --dev --with-all-dependencies christophwurst/nextcloud:${{ matrix.ocp-version }}
     - name: Lint
       run: composer run lint
 
