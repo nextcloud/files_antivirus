@@ -11,21 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-version: ['7.3', '7.4', '8.0']
         ocp-version: ['^v21.0.0', '^v22.0.0', '^v23.0.0', 'dev-master']
-    name: php${{ matrix.php-versions }} lint
+    name: php${{ matrix.php-version }} lint
     steps:
     - name: Checkout
       uses: actions/checkout@master
     - name: Set up php${{ matrix.php-versons }}
       uses: shivammathur/setup-php@master
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: ${{ matrix.php-version }}
         coverage: none
     - name: Install dependencies
+      if: ${{ matrix.php-version != '8.0' }}
       run: composer i
+    - name: Install dependencies
+      if: ${{ matrix.php-version == '8.0' }}
+      run: composer i --ignore-platform-reqs
     - name: Install OCP package
-      if: ${{ matrix.php-versions != '7.3' }}
+      if: ${{ matrix.php-version != '7.3' }}
       run: composer require --dev christophwurst/nextcloud:${{ matrix.ocp-version }}
     - name: Lint
       run: composer run lint
