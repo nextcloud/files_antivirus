@@ -26,7 +26,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    - name: Set up php${{ matrix.php-versons }}
+    - name: Set up php${{ matrix.php-version }}
       uses: shivammathur/setup-php@master
       with:
         php-version: ${{ matrix.php-version }}
