@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.3', '7.4', '8.0']
+        ocp-version: ['^v21.0.0', '^v22.0.0', '^v23.0.0', 'dev-master']
     name: php${{ matrix.php-versions }} lint
     steps:
     - name: Checkout
@@ -23,6 +24,9 @@ jobs:
         coverage: none
     - name: Install dependencies
       run: composer i
+    - name: Install OCP package
+      if: ${{ matrix.php-versions != '7.3' }}
+      run: composer require --dev christophwurst/nextcloud:${{ matrix.ocp-version }}
     - name: Lint
       run: composer run lint
 

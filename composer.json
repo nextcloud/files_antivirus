@@ -1,6 +1,6 @@
 {
 	"require-dev": {
-		"christophwurst/nextcloud": "dev-master",
+		"christophwurst/nextcloud": "^v20.0.0",
 		"php-parallel-lint/php-parallel-lint": "^1.0",
 		"phpunit/phpunit": "^8",
 		"nextcloud/coding-standard": "^0.4.0"
