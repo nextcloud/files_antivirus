@@ -36,6 +36,7 @@ class ICAP extends ScannerBase {
 	private ?ICAPRequest $request;
 	private string $service;
 	private string $virusHeader;
+	private int $chunkSize;
 
 	public function __construct(
 		AppConfig $config,
@@ -48,11 +49,12 @@ class ICAP extends ScannerBase {
 		$avPort = $this->appConfig->getAvPort();
 		$this->service = $config->getAvIcapRequestService();
 		$this->virusHeader = $config->getAvIcapResponseHeader();
+		$this->chunkSize = (int)$config->getAvIcapChunkSize();
 
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
-		$this->icapClient = new ICAPClient($avHost, (int)$avPort);
+		$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
 	}
 
 	public function initScanner() {
@@ -67,7 +69,7 @@ class ICAP extends ScannerBase {
 	}
 
 	protected function writeChunk($chunk) {
-		if (ftell($this->writeHandle) > 1024 * 1024) {
+		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->flushBuffer();
 		}
 		parent::writeChunk($chunk);

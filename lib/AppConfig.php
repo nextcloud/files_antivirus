@@ -14,12 +14,14 @@ use OCP\IConfig;
  * @method string getAvMode()
  * @method string getAvSocket()
  * @method string getAvHost()
- * @method int getAvPort()
+ * @method string getAvPort()
  * @method string getAvCmdOptions()
  * @method string getAvPath()
  * @method string getAvInfectedAction()
  * @method string getAvIcapRequestService()
  * @method string getAvIcapResponseHeader()
+ * @method string getAvIcapChunkSize()
+ * @method string getAvIcapConnectTimeout()
  *
  * @method null setAvMode(string $avMode)
  * @method null setAvSocket(string $avsocket)
@@ -51,6 +53,8 @@ class AppConfig {
 		'av_background_scan' => 'on',
 		'av_icap_request_service' => 'avscan',
 		'av_icap_response_header' => 'X-Infection-Found',
+		'av_icap_chunk_size' => '1048576',
+		'av_icap_connect_timeout' => '5',
 	];
 
 	/**

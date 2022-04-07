@@ -28,16 +28,12 @@ use RuntimeException;
 class ICAPClient {
 	private string $host;
 	private int $port;
+	private int $connectTimeout;
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $host IP address of ICAP server
-	 * @param int $port Port number
-	 */
-	public function __construct(string $host, int $port) {
+	public function __construct(string $host, int $port, int $connectTimeout) {
 		$this->host = $host;
 		$this->port = $port;
+		$this->connectTimeout = $connectTimeout;
 	}
 
 	/**
@@ -50,7 +46,7 @@ class ICAPClient {
 			"tcp://{$this->host}:{$this->port}",
 			$errorCode,
 			$errorMessage,
-			5
+			$this->connectTimeout
 		);
 
 		if (!$stream) {

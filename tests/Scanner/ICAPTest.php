@@ -55,6 +55,10 @@ class ICAPTest extends ScannerBaseTest {
 						return getenv('ICAP_HEADER');
 					case 'av_stream_max_length':
 						return '26214400';
+					case 'av_icap_chunk_size':
+						return '1048576';
+					case 'av_icap_connect_timeout':
+						return '5';
 				}
 			});
 		return new ICAP($config, $logger, \OC::$server->get(StatusFactory::class));
