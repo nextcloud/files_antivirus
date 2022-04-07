@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\ICAP;
 
+use \RuntimeException;
 
 class ResponseParser {
 	/**
@@ -83,7 +84,7 @@ class ResponseParser {
 	private function readHeaders($stream): array {
 		$headers = [];
 		$prevString = "";
-		while ($headerString = \fgets($stream)) {
+		while (($headerString = \fgets($stream)) !== false) {
 			$trimmedHeaderString = \trim($headerString);
 			if ($prevString === "" && $trimmedHeaderString === "") {
 				break;

@@ -29,7 +29,7 @@ class ICAPRequest {
 	/** @var resource */
 	public $stream;
 
-	public function __construct($stream, string $host, string $service, string $method, array $headers, string $requestHeader) {
+	public function __construct($stream, string $host, string $service, string $method, array $headers, array $requestHeaders) {
 		$this->stream = $stream;
 
 		if (!array_key_exists('Host', $headers)) {
@@ -44,9 +44,13 @@ class ICAPRequest {
 			$headers['Connection'] = 'close';
 		}
 
+		$requestHeadersLength = array_sum(array_map(function(string $header) {
+			return strlen($header) + 2;
+		}, $requestHeaders)) + 2;
+
 		$encapsulated = [
 			'req-hdr' => 0,
-			'req-body' => strlen($requestHeader),
+			'req-body' => $requestHeadersLength,
 		];
 
 		$headers['Encapsulated'] = '';
@@ -61,7 +65,10 @@ class ICAPRequest {
 		}
 
 		$request .= "\r\n";
-		$request .= $requestHeader;
+		foreach ($requestHeaders as $requestHeader) {
+			$request .= "$requestHeader\r\n";
+		}
+		$request .= "\r\n";
 
 		fwrite($this->stream, $request);
 	}

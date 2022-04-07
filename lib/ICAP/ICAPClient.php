@@ -67,11 +67,11 @@ class ICAPClient {
 	 *
 	 * @param string $service ICAP service
 	 * @param array $headers
-	 * @param string $requestHeader
+	 * @param array $requestHeaders
 	 * @return ICAPRequest Response array
 	 */
-	public function reqmod(string $service, array $headers, string $requestHeader): ICAPRequest {
+	public function reqmod(string $service, array $headers, array $requestHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeader);
+		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders);
 	}
 }

@@ -60,7 +60,10 @@ class ICAP extends ScannerBase {
 		$this->writeHandle = fopen("php://temp", 'w+');
 		$this->request = $this->icapClient->reqmod($this->service, [
 			'Allow' => 204,
-		], "PUT / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n");
+		], [
+			"PUT / HTTP/1.0",
+			"Host: 127.0.0.1"
+		]);
 	}
 
 	protected function writeChunk($chunk) {
