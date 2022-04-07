@@ -73,11 +73,11 @@ class ICAPRequest {
 		fwrite($this->stream, $request);
 	}
 
-	public function write(string $data) {
+	public function write(string $data): void {
 		fwrite($this->stream, dechex(strlen($data)) . "\r\n" . $data . "\r\n");
 	}
 
-	public function finish(): array {
+	public function finish(): IcapResponse {
 		fwrite($this->stream, "0\r\n\r\n");
 		return (new ResponseParser())->read_response($this->stream);
 	}

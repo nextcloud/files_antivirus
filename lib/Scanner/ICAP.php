@@ -85,19 +85,19 @@ class ICAP extends ScannerBase {
 	protected function scanBuffer() {
 		$this->flushBuffer();
 		$response = $this->request->finish();
-		$code = (int)$response['protocol']['code'] ?? 500;
+		$code = $response->getStatus()->getCode();
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 		if ($code === 200 || $code === 204) {
 			// c-icap/clamav reports this header
-			$virus = $response['headers'][$this->virusHeader] ?? false;
+			$virus = $response->getIcapHeaders()[$this->virusHeader] ?? false;
 			if ($virus) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 				$this->status->setDetails($virus);
 			}
 
 			// kaspersky(pre 2020 product editions) and McAfee handling
-			$respHeader = $response['body']['res-hdr']['HTTP_STATUS'] ?? '';
+			$respHeader = $response->getResponseHeaders()['HTTP_STATUS'] ?? '';
 			if (\strpos($respHeader, '403 Forbidden') || \strpos($respHeader, '403 VirusFound')) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}

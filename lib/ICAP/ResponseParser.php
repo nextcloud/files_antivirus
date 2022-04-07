@@ -28,16 +28,16 @@ use \RuntimeException;
 class ResponseParser {
 	/**
 	 * @param resource $stream
-	 * @return array
+	 * @return IcapResponse
 	 */
-	public function read_response($stream): array {
+	public function read_response($stream): IcapResponse {
 		$headers = [];
 		$resHdr = [];
-		$protocol = $this->readIcapStatusLine($stream);
+		$status = $this->readIcapStatusLine($stream);
 
 		// McAfee seems to not properly close the socket once all response bytes are sent to the client
 		// So if ICAP status is 204 we just stop reading
-		if ($protocol['code'] !== 204) {
+		if ($status->getCode() !== 204) {
 			$headers = $this->readHeaders($stream);
 			if (isset($headers['Encapsulated'])) {
 				$resHdr = $this->parseResHdr($stream, $headers['Encapsulated']);
@@ -45,24 +45,20 @@ class ResponseParser {
 		}
 
 		fclose($stream);
-		return [
-			'protocol' => $protocol,
-			'headers' => $headers,
-			'body' => ['res-hdr' => $resHdr]
-		];
+		return new IcapResponse($status, $headers, $resHdr);
 	}
 
-	private function readIcapStatusLine($stream): array {
+	/**
+	 * @param resource $stream
+	 * @return IcapResponseStatus
+	 */
+	private function readIcapStatusLine($stream): IcapResponseStatus {
 		$icapHeader = \trim(\fgets($stream));
 		$numValues = \sscanf($icapHeader, "ICAP/%d.%d %d %s", $v1, $v2, $code, $status);
 		if ($numValues !== 4) {
 			throw new RuntimeException("Unknown ICAP response: \"$icapHeader\"");
 		}
-		return [
-			'protocolVersion' => "$v1.$v2",
-			'code' => $code,
-			'status' => $status,
-		];
+		return new IcapResponseStatus("$v1.$v2", (int)$code, $status);
 	}
 
 	private function parseResHdr($stream, string $headerValue): array {
@@ -101,7 +97,7 @@ class ResponseParser {
 		return $headers;
 	}
 
-	private function parseEncapsulatedHeaders(string $headerString) : array {
+	private function parseEncapsulatedHeaders(string $headerString): array {
 		$headers = [];
 		$split = \preg_split('/\r?\n/', \trim($headerString));
 		$statusLine = \array_shift($split);

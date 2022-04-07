@@ -208,7 +208,7 @@ $(document).ready(function() {
 		av_mode_show_options(str, 'slow');
 	});
 
-	let icapPresets = {
+	const icapPresets = {
 		clamav: {
 			service: 'avscan',
 			header: 'X-Infection-Found',
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		}
 	}
 	$('#av_icap_preset').on('change', function(e) {
-		var preset = e.target.value;
+		const preset = e.target.value;
 		if (preset !== 'none') {
 			$('#av_icap_service').val(icapPresets[preset].service);
 			$('#av_icap_header').val(icapPresets[preset].header);
