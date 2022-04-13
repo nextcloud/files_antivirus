@@ -26,9 +26,12 @@ namespace OCA\Files_Antivirus\ICAP;
 use RuntimeException;
 
 class ICAPClient {
-	private string $host;
-	private int $port;
-	private int $connectTimeout;
+	/** @var string */
+	private $host;
+	/** @var int */
+	private $port;
+	/** @var int */
+	private $connectTimeout;
 
 	public function __construct(string $host, int $port, int $connectTimeout) {
 		$this->host = $host;

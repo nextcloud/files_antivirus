@@ -24,9 +24,12 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\ICAP;
 
 class IcapResponse {
-	private IcapResponseStatus $status;
-	private array $headers;
-	private array $responseHeaders;
+	/** @var IcapResponseStatus */
+	private $status;
+	/** @var array */
+	private $headers;
+	/** @var array */
+	private $responseHeaders;
 
 	public function __construct(
 		IcapResponseStatus $status,

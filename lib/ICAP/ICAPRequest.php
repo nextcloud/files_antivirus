@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\ICAP;
 
 class ICAPRequest {
-	const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
+	public const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
 
 	/** @var resource */
 	public $stream;
@@ -44,7 +44,7 @@ class ICAPRequest {
 			$headers['Connection'] = 'close';
 		}
 
-		$requestHeadersLength = array_sum(array_map(function(string $header) {
+		$requestHeadersLength = array_sum(array_map(function (string $header) {
 			return strlen($header) + 2;
 		}, $requestHeaders)) + 2;
 

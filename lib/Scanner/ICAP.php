@@ -28,15 +28,19 @@ use OCA\Files_Antivirus\ICAP\ICAPClient;
 use OCA\Files_Antivirus\ICAP\ICAPRequest;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\Http\Client\IClientService;
 use OCP\ILogger;
 
 class ICAP extends ScannerBase {
-	private ICAPClient $icapClient;
-	private ?ICAPRequest $request;
-	private string $service;
-	private string $virusHeader;
-	private int $chunkSize;
+	/** @var ICAPClient */
+	private $icapClient;
+	/** @var ?ICAPRequest */
+	private $request;
+	/** @var string */
+	private $service;
+	/** @var string */
+	private $virusHeader;
+	/** @var int */
+	private $chunkSize;
 
 	public function __construct(
 		AppConfig $config,

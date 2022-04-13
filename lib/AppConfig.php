@@ -37,10 +37,12 @@ use OCP\IConfig;
  * @method null setAvStreamMaxLength(int $length)
  */
 class AppConfig {
-	private string $appName = 'files_antivirus';
-	private IConfig $config;
+	/** @var string */
+	private $appName = 'files_antivirus';
+	/** @var IConfig */
+	private $config;
 
-	private array $defaults = [
+	private $defaults = [
 		'av_mode' => 'executable',
 		'av_socket' => '/var/run/clamav/clamd.ctl',
 		'av_host' => '',
@@ -80,7 +82,7 @@ class AppConfig {
 	 * Get full commandline
 	 * @return string
 	 */
-	public function getCmdline(): string  {
+	public function getCmdline(): string {
 		$avCmdOptions = $this->getAvCmdOptions();
 
 		$shellArgs = [];

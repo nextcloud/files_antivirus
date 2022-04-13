@@ -77,7 +77,7 @@ jobs:
         databases: ['sqlite']
         server-versions: [ 'stable23' ]
 
-    name: icap-clmav
+    name: icap-kaspersky
 
     services:
       kaspersky:

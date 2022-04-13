@@ -24,9 +24,12 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\ICAP;
 
 class IcapResponseStatus {
-	private string $version;
-	private int $code;
-	private string $status;
+	/** @var string */
+	private $version;
+	/** @var int */
+	private $code;
+	/** @var string */
+	private $status;
 
 	public function __construct(string $version, int $code, string $status) {
 		$this->version = $version;

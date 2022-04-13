@@ -24,11 +24,9 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Tests\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
-use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
 use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\Http\Client\IClientService;
 use OCP\ILogger;
 
 /**
