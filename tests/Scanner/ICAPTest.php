@@ -24,19 +24,18 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Tests\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
-use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
+use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\Http\Client\IClientService;
 use OCP\ILogger;
 
 /**
  * @group DB
  */
-class ExternalKasperskyTest extends ScannerBaseTest {
+class ICAPTest extends ScannerBaseTest {
 	protected function getScanner(): ScannerBase {
-		if (!getenv('KASPERSKY_HOST') || !getenv('KASPERSKY_PORT')) {
-			$this->markTestSkipped("Set KASPERSKY_HOST and KASPERSKY_PORT to enable kaspersky tests");
+		if (!getenv('ICAP_HOST') || !getenv('ICAP_PORT') || !getenv('ICAP_REQUEST') || !getenv('ICAP_HEADER')) {
+			$this->markTestSkipped("Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST and ICAP_HEADER to enable icap tests");
 		}
 
 		$logger = $this->createMock(ILogger::class);
@@ -45,13 +44,21 @@ class ExternalKasperskyTest extends ScannerBaseTest {
 			->willReturnCallback(function ($key) {
 				switch ($key) {
 					case 'av_host':
-						return getenv('KASPERSKY_HOST');
+						return getenv('ICAP_HOST');
 					case 'av_port':
-						return getenv('KASPERSKY_PORT');
-					default:
-						return '';
+						return getenv('ICAP_PORT');
+					case 'av_icap_request_service':
+						return getenv('ICAP_REQUEST');
+					case 'av_icap_response_header':
+						return getenv('ICAP_HEADER');
+					case 'av_stream_max_length':
+						return '26214400';
+					case 'av_icap_chunk_size':
+						return '1048576';
+					case 'av_icap_connect_timeout':
+						return '5';
 				}
 			});
-		return new ExternalKaspersky($config, $logger, \OC::$server->get(StatusFactory::class), \OC::$server->get(IClientService::class));
+		return new ICAP($config, $logger, \OC::$server->get(StatusFactory::class));
 	}
 }
