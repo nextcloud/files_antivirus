@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Salvestatud",
     "Host" : "Host",
     "Port" : "Port",
+    "Select" : "Vali",
     "Delete file" : "Kustuta fail",
     "Save" : "Salvesta",
     "Advanced" : "Täpsem",

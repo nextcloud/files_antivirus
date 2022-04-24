@@ -21,6 +21,7 @@ OC.L10N.register(
     "Socket" : "Lizdas",
     "Host" : "Serveris",
     "Port" : "Prievadas",
+    "Select" : "Pasirinkti",
     "Stream Length" : "Srauto ilgis",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength reikšmė, baitais.",
     "bytes" : "baitų",

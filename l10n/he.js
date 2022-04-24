@@ -33,6 +33,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "כתובת מארח האנטיוירוס.",
     "Port" : "פתחה",
     "Port number of Antivirus Host." : "מספר הפתחה של מארח האנטיוירוס.",
+    "Select" : "בחירה",
     "Stream Length" : "אורך התזרים",
     "ClamAV StreamMaxLength value in bytes." : "ערך StreamMaxLength של ClamAV בבתים.",
     "bytes" : "בתים",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Adress för antivirus-värd.",
     "Port" : "Port",
     "Port number of Antivirus Host." : "Portnummer för Antivirus Host.",
+    "Select" : "Välj",
     "Stream Length" : "Strömlängd",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength-värde i byte.",
     "bytes" : "byte",

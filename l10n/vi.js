@@ -3,8 +3,10 @@ OC.L10N.register(
     {
     "Saving…" : "Đang lưu...",
     "Saved" : "Đã lưu",
+    "Mode" : "Chế độ",
     "Host" : "Máy chủ",
     "Port" : "Cổng",
+    "Select" : "Chọn",
     "Delete file" : "Xóa tệp",
     "Save" : "Lưu",
     "Advanced" : "Nâng cao",

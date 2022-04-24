@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Хадгалах",
     "Host" : "хост",
     "Port" : "порт",
+    "Select" : "Сонгох",
     "Delete file" : "Файл устгах",
     "Save" : "Хадгалах",
     "Advanced" : "нарийвчилсан",

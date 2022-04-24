@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "সংরক্ষণ করা হলো",
     "Host" : "হোস্ট",
     "Port" : "পোর্ট",
+    "Select" : "সিলেক্ট",
     "Save" : "সংরক্ষণ",
     "Advanced" : "সুচারু",
     "Description" : "বিবরণ"

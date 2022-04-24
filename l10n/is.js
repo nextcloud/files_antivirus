@@ -27,6 +27,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Vistfang vírusvarnavélar.",
     "Port" : "Gátt",
     "Port number of Antivirus Host." : "Gáttarnúmer vírusvarnavélar.",
+    "Select" : "Velja",
     "Stream Length" : "Lengd streymis",
     "ClamAV StreamMaxLength value in bytes." : "Gildi ClamAV StreamMaxLength í bætum.",
     "bytes" : "bæti",

@@ -34,6 +34,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Indiritzu de su retzidore de antivirus",
     "Port" : "Porta",
     "Port number of Antivirus Host." : "Nùmeru de porta de su retzidore de antivirus.",
+    "Select" : "Seletziona",
     "Stream Length" : "Durada de su flussu",
     "ClamAV StreamMaxLength value in bytes." : "Balore in byte de ClamAV StreamMaxLength.",
     "bytes" : "bytes",

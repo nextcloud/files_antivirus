@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Disimpan",
     "Host" : "Host",
     "Port" : "Port",
+    "Select" : "Pilih",
     "Delete file" : "Hapus berkas",
     "Save" : "Simpan",
     "Advanced" : "Lanjutan",

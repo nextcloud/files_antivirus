@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Guardado",
     "Host" : "Servidor",
     "Port" : "Puerto",
+    "Select" : "Seleccionar",
     "Delete file" : "Borrar archivo",
     "Save" : "Guardar",
     "Advanced" : "Avanzado",

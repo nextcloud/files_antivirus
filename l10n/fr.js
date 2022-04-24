@@ -34,6 +34,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Adresse de l'hôte anvirus",
     "Port" : "Port",
     "Port number of Antivirus Host." : "Port d'hôte de l'anvirus",
+    "Select" : "Sélectionner",
     "Stream Length" : "Taille du flux",
     "ClamAV StreamMaxLength value in bytes." : "StreamMaxLength de ClamAV (octets).",
     "bytes" : "octets",

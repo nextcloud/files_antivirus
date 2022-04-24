@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Bewaar",
     "Host" : "Gasheer",
     "Port" : "Poort",
+    "Select" : "Kies",
     "Delete file" : "Skrap lêer",
     "Save" : "Stoor",
     "Advanced" : "Gevorderd",

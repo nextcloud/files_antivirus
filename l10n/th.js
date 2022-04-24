@@ -5,6 +5,8 @@ OC.L10N.register(
     "Mode" : "โหมด",
     "Host" : "โฮสต์",
     "Port" : "พอร์ต",
+    "Select" : "เลือก",
+    "Delete file" : "ลบไฟล์",
     "Save" : "บันทึก",
     "Advanced" : "ขั้นสูง",
     "Description" : "รายละเอียด"

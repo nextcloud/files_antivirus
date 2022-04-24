@@ -8,6 +8,7 @@ OC.L10N.register(
     "Saved" : "Guardáu",
     "Host" : "Agospiu",
     "Port" : "Puertu",
+    "Select" : "Esbillar",
     "Delete file" : "Desasniciar ficheru",
     "Save" : "Guardar",
     "Advanced" : "Avanzao",

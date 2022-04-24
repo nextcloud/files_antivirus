@@ -6,6 +6,7 @@ OC.L10N.register(
     "Mode" : "Mod",
     "Host" : "Gazdă",
     "Port" : "Portul",
+    "Select" : "Selectează",
     "Delete file" : "Șterge fișier",
     "Save" : "Salvează",
     "Advanced" : "Avansat",

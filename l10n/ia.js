@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Salveguardate",
     "Host" : "Hospite",
     "Port" : "Porto",
+    "Select" : "Selectionar",
     "Save" : "Salveguardar",
     "Description" : "Description"
 },

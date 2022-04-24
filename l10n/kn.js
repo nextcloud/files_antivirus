@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "﻿ಉಳಿಸಿದ",
     "Host" : "ಅತಿಥೆಯ-ಗಣಕ",
     "Port" : "﻿ರೇವು",
+    "Select" : "Select",
     "Save" : "﻿ಉಳಿಸಿ"
 },
 "nplurals=2; plural=(n > 1);");

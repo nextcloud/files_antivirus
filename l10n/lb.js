@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Gespäichert",
     "Host" : "Host",
     "Port" : "Port",
+    "Select" : "Select",
     "Save" : "Späicheren",
     "Advanced" : "Erweidert",
     "Description" : "Beschreiwung"

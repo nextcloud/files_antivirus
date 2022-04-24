@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Host" : "باش ئاپپارات",
     "Port" : "ئېغىز",
+    "Select" : "Select",
     "Save" : "ساقلا",
     "Advanced" : "ئالىي",
     "Description" : "چۈشەندۈرۈش"

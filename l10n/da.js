@@ -13,6 +13,7 @@ OC.L10N.register(
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Beklager, men der blev fundet malware i en fil du forsøgte at uploade, og den blev slettet.",
     "Host" : "Vært",
     "Port" : "Port",
+    "Select" : "Vælg",
     "bytes" : "bytes",
     "Path to clamscan" : "Sti til clamscan",
     "Path to clamscan executable." : "Sti til clamscan eksekverbar.",

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "ანტივირუსის ჰოსტის მისამართი.",
     "Port" : "პორტი",
     "Port number of Antivirus Host." : "ანტივირუსის ჰოსტის პორტის ნომერი.",
+    "Select" : "არჩევა",
     "Stream Length" : "სტრიმის სიგრძე",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength მნიშვნელობა ბაიტებში.",
     "bytes" : "ბაიტები",

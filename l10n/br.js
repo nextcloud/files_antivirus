@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Enrollet",
     "Host" : "Ostiz",
     "Port" : "Porzh",
+    "Select" : "Dibab",
     "Delete file" : "Diverkañ ar restr",
     "Save" : "Enrollañ",
     "Advanced" : "Araokadennet",

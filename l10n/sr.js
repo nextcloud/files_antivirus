@@ -34,6 +34,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Адреса домаћина антивируса.",
     "Port" : "Порт",
     "Port number of Antivirus Host." : "Број порта домаћина антивируса",
+    "Select" : "Обележи",
     "Stream Length" : "Дужина тока",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength вредност у бајтовима.",
     "bytes" : "бајтова",

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Antivirus for files" : "ගොනු සඳහා ප්‍රතිවයිරස",
     "Antivirus for Files" : "ගොනු සඳහා ප්‍රතිවයිරස",
     "Host" : " ධාරකය",
+    "Select" : "තෝරන්න",
     "Save" : "සුරකින්න",
     "Description" : "විස්තරය"
 },

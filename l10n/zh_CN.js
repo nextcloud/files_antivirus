@@ -34,6 +34,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "病毒克星主机地址",
     "Port" : "端口",
     "Port number of Antivirus Host." : "病毒克星主机端口号",
+    "Select" : "选择",
     "Stream Length" : "数据流长度",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV 数据流最大长度（字节）",
     "bytes" : "字节",

@@ -32,6 +32,7 @@
     "Address of Antivirus Host." : "Indirizzo host antivirus.",
     "Port" : "Porta",
     "Port number of Antivirus Host." : "Numero di porta dell'host antivirus.",
+    "Select" : "Seleziona",
     "Stream Length" : "Durata del flusso",
     "ClamAV StreamMaxLength value in bytes." : "Valore in byte StreamMaxLength di Clamav.",
     "bytes" : "byte",

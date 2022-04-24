@@ -29,6 +29,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Virustorjuntapalvelimen osoite.",
     "Port" : "Portti",
     "Port number of Antivirus Host." : "Virustorjuntapalvelimen portti.",
+    "Select" : "Valitse",
     "bytes" : "tavua",
     "Path to clamscan" : "Clamscanin polku",
     "Path to clamscan executable." : "Polku suoritettavaan clamscan-tiedostoon.",

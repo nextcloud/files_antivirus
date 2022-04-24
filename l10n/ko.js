@@ -27,6 +27,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "안티바이러스 호스트 주소입니다.",
     "Port" : "포트",
     "Port number of Antivirus Host." : "안티바이러스 호스트의 포트입니다.",
+    "Select" : "선택",
     "Stream Length" : "스트림 길이",
     "ClamAV StreamMaxLength value in bytes." : "바이트 단위 ClamAV StreamMaxLength 값입니다.",
     "bytes" : "바이트",

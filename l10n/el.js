@@ -34,6 +34,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Διεύθυνση Υπολογιστή Antivirus.",
     "Port" : "Θύρα",
     "Port number of Antivirus Host." : "Αριθμός πόρτας Υπολογιστή Antivirus.",
+    "Select" : "Επιλογή",
     "Stream Length" : "Διάρκεια Ροής",
     "ClamAV StreamMaxLength value in bytes." : "Τιμή ClamAV StreamMaxLength σε bytes.",
     "bytes" : "bytes",

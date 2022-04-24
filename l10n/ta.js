@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Host" : "ஓம்புனர்",
     "Port" : "துறை ",
+    "Select" : "Select",
     "Save" : "சேமிக்க ",
     "Advanced" : "உயர்ந்த",
     "Description" : "விவரிப்பு"

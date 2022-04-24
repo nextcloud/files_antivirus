@@ -1,6 +1,11 @@
 { "translations": {
+    "Saving…" : "Enregistrament…",
     "Saved" : "Enregistrat",
     "Mode" : "Mòde",
+    "Host" : "Òste",
+    "Port" : "Pòrt",
+    "Select" : "Select",
+    "Delete file" : "Suprimir fichièr",
     "Save" : "Salvar",
     "Description" : "Descripcion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
