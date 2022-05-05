@@ -49,7 +49,7 @@ OC.L10N.register(
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Düzenli arka plan taramaları ve parçalı yüklemeler için dosya boyutu sınırı. -1 sınır olmadığı anlamına gelir",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Bayt cinsinden arka planda dosya tarama ve parçalı yükleme boyutu. -1 sınır olmadığı anlamına gelir",
     "When infected files are found during a background scan" : "Arka plan taraması sırasında virus bulaşmış dosyalar bulunduğunda",
-    "Only log" : "Yalnız günlük kaydı tutulsun",
+    "Only log" : "Yalnızca günlük kaydı tutulsun",
     "Delete file" : "Dosya silinsin",
     "Save" : "Kaydet",
     "Advanced" : "Gelişmiş",
