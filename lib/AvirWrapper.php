@@ -17,7 +17,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\App;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 
@@ -34,8 +34,8 @@ class AvirWrapper extends Wrapper {
 
 	/** @var IL10N */
 	protected $l10n;
-
-	/** @var ILogger */
+	
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/** @var ActivityManager */
@@ -161,7 +161,7 @@ class AvirWrapper extends Wrapper {
 				}
 			);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 		return $stream;
 	}
