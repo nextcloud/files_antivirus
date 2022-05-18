@@ -45,6 +45,9 @@ class ExternalKaspersky extends ScannerBase {
 		$this->chunkSize = 10 * 1024 * 1024;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initScanner() {
 		parent::initScanner();
 
@@ -57,6 +60,9 @@ class ExternalKaspersky extends ScannerBase {
 		$this->writeHandle = fopen("php://temp", 'w+');
 	}
 
+	/**
+	 * @return void
+	 */
 	protected function writeChunk($chunk) {
 		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->scanBuffer();
@@ -65,7 +71,7 @@ class ExternalKaspersky extends ScannerBase {
 		parent::writeChunk($chunk);
 	}
 
-	protected function scanBuffer() {
+	protected function scanBuffer(): void {
 		rewind($this->writeHandle);
 
 		$avHost = $this->appConfig->getAvHost();
@@ -111,6 +117,9 @@ class ExternalKaspersky extends ScannerBase {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	protected function shutdownScanner() {
 		$this->scanBuffer();
 	}

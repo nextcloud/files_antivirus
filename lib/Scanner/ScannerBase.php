@@ -89,6 +89,9 @@ abstract class ScannerBase implements IScanner {
 	abstract protected function shutdownScanner();
 
 
+	/**
+	 * @return Status
+	 */
 	public function getStatus() {
 		if ($this->infectedStatus instanceof Status) {
 			return $this->infectedStatus;
@@ -126,9 +129,12 @@ abstract class ScannerBase implements IScanner {
 	}
 
 	/**
-	 * Async scan - new portion of data is available
+	 * 	 * Async scan - new portion of data is available
+	 * 	 *
 	 *
 	 * @param string $data
+	 *
+	 * @return void
 	 */
 	public function onAsyncData($data) {
 		$this->writeChunk($data);
@@ -145,7 +151,9 @@ abstract class ScannerBase implements IScanner {
 	}
 
 	/**
-	 * Open write handle. etc
+	 * 	 * Open write handle. etc
+	 *
+	 * @return void
 	 */
 	public function initScanner() {
 		$this->byteCount = 0;
@@ -157,6 +165,8 @@ abstract class ScannerBase implements IScanner {
 
 	/**
 	 * @param string $chunk
+	 *
+	 * @return void
 	 */
 	protected function writeChunk($chunk) {
 		$this->fwrite(
@@ -166,6 +176,8 @@ abstract class ScannerBase implements IScanner {
 
 	/**
 	 * @param string $data
+	 *
+	 * @return void
 	 */
 	final protected function fwrite($data) {
 		if ($this->isAborted) {
@@ -175,7 +187,7 @@ abstract class ScannerBase implements IScanner {
 		$dataLength = strlen($data);
 		$streamSizeLimit = (int)$this->appConfig->getAvStreamMaxLength();
 		if ($this->byteCount + $dataLength > $streamSizeLimit) {
-			\OC::$server->getLogger()->debug(
+			$this->logger->debug(
 				'reinit scanner',
 				['app' => 'files_antivirus']
 			);
@@ -188,7 +200,7 @@ abstract class ScannerBase implements IScanner {
 		if (!$isReopenSuccessful || !$this->writeRaw($data)) {
 			if (!$this->isLogUsed) {
 				$this->isLogUsed = true;
-				\OC::$server->getLogger()->warning(
+				$this->logger->warning(
 					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in anti virus daemon settings',
 					['app' => 'files_antivirus']
 				);
@@ -214,7 +226,7 @@ abstract class ScannerBase implements IScanner {
 	 * @param $data
 	 * @return bool
 	 */
-	protected function writeRaw($data) {
+	protected function writeRaw(string $data) {
 		$dataLength = strlen($data);
 		$bytesWritten = @fwrite($this->getWriteHandle(), $data);
 		if ($bytesWritten === $dataLength) {

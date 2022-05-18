@@ -47,6 +47,9 @@ class PropfindPlugin extends ServerPlugin {
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initialize(Server $server) {
 		$server->on('beforeMove', [$this, 'beforeMove'], 90);
 		$this->server = $server;
@@ -55,6 +58,8 @@ class PropfindPlugin extends ServerPlugin {
 	/**
 	 * @param string $sourcePath source path
 	 * @param string $destination destination path
+	 *
+	 * @return void
 	 */
 	public function beforeMove($sourcePath, $destination) {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
@@ -66,7 +71,6 @@ class PropfindPlugin extends ServerPlugin {
 		$avMaxFileSize = $this->appConfig->getAvMaxFileSize();
 		if ($avMaxFileSize > -1 && $sourceNode->getSize() > $avMaxFileSize) {
 			$this->eventDispatcher->dispatch(
-				ScanStateEvent::class,
 				new ScanStateEvent(false)
 			);
 		}

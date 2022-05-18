@@ -1,13 +1,18 @@
 {
 	"require-dev": {
 		"christophwurst/nextcloud": "^v20.0.0",
+		"doctrine/dbal": "3.0.0",
 		"php-parallel-lint/php-parallel-lint": "^1.0",
 		"phpunit/phpunit": "^8",
+		"psalm/phar": "^4.3",
+		"icewind/streams": "v0.7.5",
+		"sabre/dav": "^4.2.1",
 		"nextcloud/coding-standard": "^0.4.0"
 	},
 	"scripts": {
 		"lint": "parallel-lint --exclude src --exclude vendor --exclude target --exclude build .",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
-		"cs:fix": "php-cs-fixer fix"
+		"cs:fix": "php-cs-fixer fix",
+		"psalm": "psalm.phar"
 	}
 }

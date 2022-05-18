@@ -1,0 +1,27 @@
+name: Php Static analysis
+on: [push, pull_request]
+
+jobs:
+  static-psalm-analysis:
+      runs-on: ubuntu-latest
+      strategy:
+          fail-fast: false
+          matrix:
+              ocp-version: [ '20', '21', '22.0.0-RC1', '23.0.0-RC1', 'dev-master' ]
+      name: Nextcloud ${{ matrix.ocp-version }}
+      steps:
+          - name: Checkout
+            uses: actions/checkout@master
+          - name: Set up php
+            uses: shivammathur/setup-php@master
+            with:
+                php-version: 7.4
+                tools: composer:v1
+                coverage: none
+                extensions: inotify
+          - name: Install dependencies
+            run: composer i
+          - name: Install dependencies
+            run: composer require --dev christophwurst/nextcloud:${{ matrix.ocp-version }}
+          - name: Run coding standards check
+            run: composer run psalm

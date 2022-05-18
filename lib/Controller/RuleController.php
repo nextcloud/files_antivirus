@@ -16,15 +16,15 @@ use \OCA\Files_Antivirus\Db\Rule;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 
 class RuleController extends Controller {
-	
+
 	/** @var RuleMapper */
 	private $ruleMapper;
-	
+
 	public function __construct($appName, IRequest $request, RuleMapper $ruleMapper) {
 		parent::__construct($appName, $request);
 		$this->ruleMapper = $ruleMapper;
 	}
-	
+
 	/**
 	 * Returns all rules
 	 * @return JSONResponse
@@ -33,7 +33,7 @@ class RuleController extends Controller {
 		$statuses = $this->ruleMapper->findAll();
 		return new JSONResponse(['statuses' => $statuses]);
 	}
-	
+
 	/**
 	 * Removes all rules
 	 * @return JSONResponse
@@ -42,7 +42,7 @@ class RuleController extends Controller {
 		$this->ruleMapper->deleteAll();
 		return new JSONResponse();
 	}
-	
+
 	/**
 	 * Resets a table to initial state
 	 * @return JSONResponse
@@ -52,7 +52,7 @@ class RuleController extends Controller {
 		$this->ruleMapper->populate();
 		return new JSONResponse();
 	}
-	
+
 	/**
 	 * Adds/Updates a rule
 	 * @param int $id
@@ -68,26 +68,26 @@ class RuleController extends Controller {
 		} else {
 			$rule = new Rule();
 		}
-		
+
 		$rule->setStatusType($statusType);
 		$rule->setDescription($description);
 		$rule->setStatus($status);
-		
+
 		if ($statusType === Rule::RULE_TYPE_CODE) {
-			$rule->setResult($match);
+			$rule->setResult((int)$match);
 		} else {
 			$rule->setMatch($match);
 		}
-			
+
 		if ($id) {
 			$newRule = $this->ruleMapper->update($rule);
 		} else {
 			$newRule = $this->ruleMapper->insert($rule);
 		}
-		
+
 		return new JSONResponse($newRule);
 	}
-	
+
 	/**
 	 * Deletes a rule
 	 * @param int $id

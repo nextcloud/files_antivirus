@@ -83,6 +83,8 @@ class Status {
 	/**
 	 * @param string $rawResponse
 	 * @param integer $result
+	 *
+	 * @return void
 	 */
 	public function parseResponse($rawResponse, $result = null) {
 		$matches = [];
@@ -157,7 +159,7 @@ class Status {
 		return array_merge($cleanRules, $infectedRules, $uncheckedRules);
 	}
 	
-	public function dispatch(Item $item) {
+	public function dispatch(Item $item): void {
 		switch ($this->getNumericStatus()) {
 			case self::SCANRESULT_UNCHECKED:
 				$item->processUnchecked($this);
