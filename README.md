@@ -34,7 +34,7 @@ This app can be configured to work with the executable or the daemon mode (recom
 
 When running Kaspersky in HTTP mode the [`SessionTimeout`](https://support.kaspersky.com/ScanEngine/1.0/en-US/201030.htm) will need to be set to a value higher than default, a value of 10 minutes (600000 millisecond) or higher is recommended to properly deal with larger uploads
 
-## ICAP
+## ICAP (version 4.0 and later)
 
 The app support the ICAP protocol which is a standard supported by various antivirus software products.
 
