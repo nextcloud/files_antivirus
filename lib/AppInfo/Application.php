@@ -20,7 +20,8 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
-use OCP\ILogger;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
@@ -31,10 +32,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		Util::connectHook('OC_Filesystem', 'preSetup', $this, 'setupWrapper');
 	}
 
 	public function boot(IBootContext $context): void {
-		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $this, 'setupWrapper');
 	}
 
 	/**
@@ -51,10 +52,10 @@ class Application extends App implements IBootstrap {
 
 				$container = $this->getContainer();
 				$scannerFactory = $container->query(ScannerFactory::class);
-				$l10n = $container->query(IL10N::class);
-				$logger = $container->query(ILogger::class);
-				$activityManager = $container->query(IManager::class);
-				$eventDispatcher = $container->query(EventDispatcherInterface::class);
+				$l10n = $container->get(IL10N::class);
+				$logger = $container->get(LoggerInterface::class);
+				$activityManager = $container->get(IManager::class);
+				$eventDispatcher = $container->get(EventDispatcherInterface::class);
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
