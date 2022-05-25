@@ -14,8 +14,7 @@ script('files_antivirus', 'settings');
 							'executable' => $l->t('ClamAV Executable'),
 							'daemon' => $l->t('ClamAV Daemon'),
 							'socket' => $l->t('ClamAV Daemon (Socket)'),
-							'kaspersky' => $l->t('Kaspersky Daemon'),
-							'icap' => $l->t('ICAP server')],
+							'kaspersky' => $l->t('Kaspersky Daemon')],
 								$_['avMode']
 							)) ?></select>
 					</td>
@@ -34,25 +33,6 @@ script('files_antivirus', 'settings');
 				<tr class="av_port">
 					<td><label for="av_port"><?php p($l->t('Port'));?></label></td>
 					<td><input type="text" id="av_port" name="avPort" value="<?php p($_['avPort']); ?>" title="<?php p($l->t('Port number of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></td>
-					<td></td>
-				</tr>
-				<tr class="av_icap_preset">
-					<td><?php p($l->t('ICAP preset'));?></td>
-					<td><select id="av_icap_preset">
-							<option value="none" selected="selected"><?php p($l->t('Select'));?></option>
-							<option value="clamav">ClamAV</option>
-							<option value="kaspersky">Kaspersky</option>
-						</select></td>
-					<td></td>
-				</tr>
-				<tr class="av_icap_service">
-					<td><label for="av_icap_service"><?php p($l->t('ICAP service'));?></label></td>
-					<td><input type="text" id="av_icap_service" name="avIcapRequestService" value="<?php p($_['avIcapRequestService']); ?>" /></td>
-					<td></td>
-				</tr>
-				<tr class="av_icap_header">
-					<td><label for="av_icap_header"><?php p($l->t('ICAP virus response header'));?></label></td>
-					<td><input type="text" id="av_icap_header" name="avIcapResponseHeader" value="<?php p($_['avIcapResponseHeader']); ?>" /></td>
 					<td></td>
 				</tr>
 				<tr class="av_stream_max_length">
