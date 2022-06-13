@@ -12,6 +12,7 @@
 * :chipmunk: When the user uploads a file, it's checked
 * :biohazard: Infected files will be deleted and a notification will be shown and/or sent via email 
 * :mag_right: It runs a background job to scan all files
+* :safety_vest: It will block all uploads if the file cannot be checked to ensure all files are getting scanned.
 
 ## Requirements
 
