@@ -111,8 +111,14 @@ abstract class ScannerBase implements IScanner {
 	public function scan(Item $item): Status {
 		$this->initScanner();
 
-		while (false !== ($chunk = $item->fread())) {
-			$this->writeChunk($chunk);
+		try {
+			while (false !== ($chunk = $item->fread())) {
+				$this->writeChunk($chunk);
+			}
+		} catch (\OCP\Encryption\Exceptions\GenericEncryptionException $e) {
+			// We can't read the file, ignore
+			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+			return $this->getStatus();
 		}
 
 		$this->shutdownScanner();

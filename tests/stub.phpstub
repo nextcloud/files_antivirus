@@ -40,6 +40,11 @@ namespace {
 	}
 }
 
+namespace OC {
+    class HintException extends \Exception {
+    }
+}
+
 namespace OC\Hooks {
 	class Emitter {
 	}
