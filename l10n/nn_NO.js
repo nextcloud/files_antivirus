@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Lagra",
     "Host" : "Tenar",
+    "Port" : "Port",
     "Select" : "Vel",
     "Delete file" : "Slett fil",
     "Save" : "Lagre",
