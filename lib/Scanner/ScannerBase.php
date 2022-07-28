@@ -117,6 +117,7 @@ abstract class ScannerBase implements IScanner {
 			}
 		} catch (\OCP\Encryption\Exceptions\GenericEncryptionException $e) {
 			// We can't read the file, ignore
+			$this->shutdownScanner();
 			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
 			return $this->getStatus();
 		}
