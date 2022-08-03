@@ -81,7 +81,7 @@ class ExternalKaspersky extends ScannerBase {
 		$body = base64_encode($body);
 		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
 			'json' => [
-				'timeout' => 60000,
+				'timeout' => "60000",
 				'object' => $body,
 			],
 			'connect_timeout' => 5,
