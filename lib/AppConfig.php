@@ -45,7 +45,7 @@ class AppConfig {
 	/** @var IConfig */
 	private $config;
 
-	private $defaults = [
+	private static $defaults = [
 		'av_mode' => 'executable',
 		'av_socket' => '/var/run/clamav/clamd.ctl',
 		'av_host' => '',
@@ -62,6 +62,10 @@ class AppConfig {
 		'av_icap_connect_timeout' => '5',
 		'av_kaspersky_scan_timeout' => '60000',
 	];
+
+	public static function getDefaults(): array {
+		return self::$defaults;
+	}
 
 	/**
 	 * AppConfig constructor.
@@ -113,7 +117,7 @@ class AppConfig {
 	 * @return array
 	 */
 	public function getAllValues(): array {
-		$keys = array_keys($this->defaults);
+		$keys = array_keys(self::$defaults);
 		$values = array_map([$this, 'getAppValue'], $keys);
 		$preparedKeys = array_map([$this, 'camelCase'], $keys);
 		return array_combine($preparedKeys, $values);
@@ -127,8 +131,8 @@ class AppConfig {
 	 */
 	public function getAppValue(string $key): ?string {
 		$defaultValue = null;
-		if (array_key_exists($key, $this->defaults)) {
-			$defaultValue = $this->defaults[$key];
+		if (array_key_exists($key, self::$defaults)) {
+			$defaultValue = self::$defaults[$key];
 		}
 		return $this->config->getAppValue($this->appName, $key, $defaultValue);
 	}
@@ -154,7 +158,7 @@ class AppConfig {
 	 * @throws \BadFunctionCallException
 	 */
 	protected function setter(string $key, array $args): void {
-		if (array_key_exists($key, $this->defaults)) {
+		if (array_key_exists($key, self::$defaults)) {
 			$this->setAppValue($key, $args[0]);
 		} else {
 			throw new \BadFunctionCallException($key . ' is not a valid key');
@@ -169,7 +173,7 @@ class AppConfig {
 	 * @throws \BadFunctionCallException
 	 */
 	protected function getter(string $key): ?string {
-		if (array_key_exists($key, $this->defaults)) {
+		if (array_key_exists($key, self::$defaults)) {
 			return $this->getAppValue($key);
 		}
 

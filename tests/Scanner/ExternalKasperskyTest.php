@@ -49,7 +49,8 @@ class ExternalKasperskyTest extends ScannerBaseTest {
 					case 'av_port':
 						return getenv('KASPERSKY_PORT');
 					default:
-						return '';
+						$defaults = AppConfig::getDefaults();
+						return $defaults[$key] ?? '';
 				}
 			});
 		return new ExternalKaspersky($config, $logger, \OC::$server->get(StatusFactory::class), \OC::$server->get(IClientService::class));
