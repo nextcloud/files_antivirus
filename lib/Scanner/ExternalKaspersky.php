@@ -33,6 +33,7 @@ class ExternalKaspersky extends ScannerBase {
 	/** @var IClientService IClientService */
 	private IClientService $clientService;
 	private int $chunkSize;
+	private string $scanTimeout;
 
 	public function __construct(
 		AppConfig $config,
@@ -43,6 +44,7 @@ class ExternalKaspersky extends ScannerBase {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->clientService = $clientService;
 		$this->chunkSize = 10 * 1024 * 1024;
+		$this->scanTimeout = $config->getAvKasperskyScanTimeout();
 	}
 
 	/**
@@ -81,7 +83,7 @@ class ExternalKaspersky extends ScannerBase {
 		$body = base64_encode($body);
 		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
 			'json' => [
-				'timeout' => "60000",
+				'timeout' => $this->scanTimeout,
 				'object' => $body,
 			],
 			'connect_timeout' => 5,

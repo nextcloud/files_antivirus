@@ -23,6 +23,7 @@ use OCP\IConfig;
  * @method ?string getAvIcapResponseHeader()
  * @method ?string getAvIcapChunkSize()
  * @method ?string getAvIcapConnectTimeout()
+ * @method ?string getAvKasperskyScanTimeout()
  * @method null setAvMode(string $avMode)
  * @method null setAvSocket(string $avsocket)
  * @method null setAvHost(string $avHost)
@@ -35,6 +36,7 @@ use OCP\IConfig;
  * @method null setAvIcapScanBackground(string $scanBackground)
  * @method null setAvIcapRequestService($reqService)
  * @method null setAvStreamMaxLength(int $length)
+ * @method null setAvKasperskyScanTimeout(string $timeout)
  */
 class AppConfig {
 	/** @var string */
@@ -58,6 +60,7 @@ class AppConfig {
 		'av_icap_response_header' => 'X-Infection-Found',
 		'av_icap_chunk_size' => '1048576',
 		'av_icap_connect_timeout' => '5',
+		'av_kaspersky_scan_timeout' => '60000',
 	];
 
 	/**
