@@ -38,6 +38,7 @@ OC.L10N.register(
     "ICAP preset" : "ICAP-Voreinstellungen",
     "Select" : "Auswählen",
     "ICAP service" : "ICAP Service",
+    "ICAP virus response header" : "ICAP-Virus-Antwort-Header",
     "Stream Length" : "Länge des Datenstroms",
     "ClamAV StreamMaxLength value in bytes." : "ClamAV StreamMaxLength-Wert in Bytes.",
     "bytes" : "Byte",
