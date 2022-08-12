@@ -113,7 +113,13 @@ class Status {
 			
 			if (!$isMatched) {
 				$this->numericStatus = self::SCANRESULT_UNCHECKED;
-				$this->details = 'No matching rules. Please check antivirus rules.';
+
+				// Adding the ASCII text range 32..126 (excluding '`') of the raw socket response to the details.
+				$response = filter_var($rawResponse, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK);
+				if (strlen($response) > 512) {
+					$response = substr($response, 0, 509) . "...";
+				}
+				$this->details = 'No matching rule for response [' . $response . ']. Please check antivirus rules configuration.';
 			}
 		} else { // Executable mode
 			$scanStatus = $this->ruleMapper->findByResult($result);
