@@ -1,6 +1,7 @@
 { "translations": {
     "Saving…" : "Saqlanmoqda...",
     "Saved" : "Saqlangan",
+    "Delete file" : "Faylni o'chirish",
     "Save" : "Saqlash"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
