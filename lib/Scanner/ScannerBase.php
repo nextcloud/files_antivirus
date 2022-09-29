@@ -27,57 +27,34 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 abstract class ScannerBase implements IScanner {
 
 	/**
 	 * Scan result
-	 *
-	 * @var Status
 	 */
-	protected $status;
+	protected Status $status;
 
 	/**
 	 * If scanning was done part by part
 	 * the first detected infected part is stored here
-	 *
-	 * @var Status
 	 */
-	protected $infectedStatus;
+	protected Status $infectedStatus;
 
-	/** @var  int */
-	protected $byteCount;
+	protected int $byteCount;
 
 	/** @var  resource */
 	protected $writeHandle;
 
-	/** @var AppConfig */
-	protected $appConfig;
+	protected AppConfig $appConfig;
+	protected LoggerInterface $logger;
+	protected StatusFactory $statusFactory;
+	protected string $lastChunk;
+	protected bool $isLogUsed = false;
+	protected bool $isAborted = false;
 
-	/** @var ILogger */
-	protected $logger;
-
-	/** @var StatusFactory */
-	protected $statusFactory;
-
-	/** @var string */
-	protected $lastChunk;
-
-	/** @var bool */
-	protected $isLogUsed = false;
-
-	/** @var bool */
-	protected $isAborted = false;
-
-	/**
-	 * ScannerBase constructor.
-	 *
-	 * @param AppConfig $config
-	 * @param ILogger $logger
-	 * @param StatusFactory $statusFactory
-	 */
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		$this->appConfig = $config;
 		$this->logger = $logger;
 		$this->statusFactory = $statusFactory;
@@ -87,7 +64,6 @@ abstract class ScannerBase implements IScanner {
 	 * Close used resources
 	 */
 	abstract protected function shutdownScanner();
-
 
 	/**
 	 * @return Status

@@ -24,31 +24,18 @@
 namespace OCA\Files_Antivirus;
 
 use OCA\Files_Antivirus\Db\RuleMapper;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class StatusFactory {
+	private RuleMapper $ruleMapper;
+	private LoggerInterface $logger;
 
-	/** @var RuleMapper */
-	private $ruleMapper;
-
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * StatusFactory constructor.
-	 *
-	 * @param RuleMapper $ruleMapper
-	 * @param ILogger $logger
-	 */
-	public function __construct(RuleMapper $ruleMapper, ILogger $logger) {
+	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @return Status
-	 */
-	public function newStatus() {
+	public function newStatus(): Status {
 		return new Status(
 			$this->ruleMapper,
 			$this->logger

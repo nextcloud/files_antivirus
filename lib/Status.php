@@ -10,7 +10,7 @@ namespace OCA\Files_Antivirus;
 
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Db\RuleMapper;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Status {
 	
@@ -39,11 +39,8 @@ class Status {
 	 */
 	protected $details = '';
 
-	/** @var RuleMapper */
-	protected $ruleMapper;
-
-	/** @var ILogger */
-	protected $logger;
+	protected RuleMapper $ruleMapper;
+	protected LoggerInterface $logger;
 
 	/**
 	 * Status constructor.
@@ -51,7 +48,7 @@ class Status {
 	 * @param RuleMapper $ruleMapper
 	 * @param ILogger $logger
 	 */
-	public function __construct(RuleMapper $ruleMapper, ILogger $logger) {
+	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;
 	}

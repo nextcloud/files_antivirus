@@ -9,7 +9,7 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use \OCA\Files_Antivirus\Db\RuleMapper;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
@@ -35,7 +35,7 @@ class StatusTest extends TestBase {
 		// Testing status codes
 		$testStatus = new \OCA\Files_Antivirus\Status(
 			$this->ruleMapper,
-			$this->createMock(ILogger::class)
+			$this->createMock(LoggerInterface::class)
 		);
 		
 		$testStatus->parseResponse('dummy : OK', self::TEST_CLEAN);

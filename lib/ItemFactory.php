@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,38 +31,22 @@ use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ItemFactory {
-	/** @var AppConfig */
-	private $config;
+	private AppConfig $config;
+	private ActivityManager $activityManager;
+	private ItemMapper $itemMapper;
+	private LoggerInterface $logger;
+	private IRootFolder $rootFolder;
 
-	/** @var ActivityManager */
-	private $activityManager;
-
-	/** @var ItemMapper */
-	private $itemMapper;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/**
-	 * ItemFactory constructor.
-	 *
-	 * @param AppConfig $appConfig
-	 * @param ActivityManager $activityManager
-	 * @param ItemMapper $itemMapper
-	 * @param ILogger $logger
-	 * @param IRootFolder $rootFolder
-	 */
-	public function __construct(AppConfig $appConfig,
-								ActivityManager $activityManager,
-								ItemMapper $itemMapper,
-								ILogger $logger,
-								IRootFolder $rootFolder) {
+	public function __construct(
+		AppConfig $appConfig,
+		ActivityManager $activityManager,
+		ItemMapper $itemMapper,
+		LoggerInterface $logger,
+		IRootFolder $rootFolder
+	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
@@ -66,11 +54,7 @@ class ItemFactory {
 		$this->rootFolder = $rootFolder;
 	}
 
-	/**
-	 * @param File $file
-	 * @return Item
-	 */
-	public function newItem(File $file, $isCron = false) {
+	public function newItem(File $file, bool $isCron = false): Item {
 		return new Item(
 			$this->config,
 			$this->activityManager,

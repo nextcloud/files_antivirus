@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -11,24 +14,16 @@ namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ExternalClam extends ScannerBase {
 
 	/**
 	 * Daemon/socket mode
-	 * @var bool
 	 */
-	private $useSocket;
+	private bool $useSocket;
 
-	/**
-	 * External constructor.
-	 *
-	 * @param AppConfig $config
-	 * @param ILogger $logger
-	 * @param StatusFactory $statusFactory
-	 */
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}

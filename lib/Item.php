@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2015 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -11,13 +14,13 @@ namespace OCA\Files_Antivirus;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Db\ItemMapper;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
-use OCP\App;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
-use OCA\Files_Trashbin\Trash\ITrashManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Item {
 	/**
@@ -27,44 +30,27 @@ class Item {
 	 */
 	protected $fileHandle;
 
-	/** @var AppConfig */
-	private $config;
-
-	/** @var ActivityManager */
-	private $activityManager;
-
-	/** @var ItemMapper */
-	private $itemMapper;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var File */
-	private $file;
-	private $isCron;
+	private AppConfig $config;
+	private ActivityManager $activityManager;
+	private ItemMapper $itemMapper;
+	private LoggerInterface $logger;
+	private IRootFolder $rootFolder;
+	private IAppManager $appManager;
+	private File $file;
+	private bool $isCron;
 
 	/**
 	 * Item constructor.
-	 *
-	 * @param AppConfig $appConfig
-	 * @param ActivityManager $activityManager
-	 * @param ItemMapper $itemMapper
-	 * @param ILogger $logger
-	 * @param IRootFolder $rootFolder
-	 * @param File $file
-	 * @param bool $isCron
 	 */
 	public function __construct(
 		AppConfig $appConfig,
 		ActivityManager $activityManager,
 		ItemMapper $itemMapper,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IRootFolder $rootFolder,
+		IAppManager $appManager,
 		File $file,
-		$isCron
+		bool $isCron
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
@@ -177,10 +163,8 @@ class Item {
 
 	/**
 	 * Check if the end of file is reached
-	 *
-	 * @return boolean
 	 */
-	private function feof() {
+	private function feof(): bool {
 		$isDone = feof($this->fileHandle);
 		if ($isDone) {
 			$this->logDebug('Scan is done');
@@ -213,13 +197,13 @@ class Item {
 	 */
 	private function deleteFile(): void {
 		//prevent from going to trashbin
-		if (App::isEnabled('files_trashbin')) {
+		if ($this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var ITrashManager $trashManager */
 			$trashManager = \OC::$server->get(ITrashManager::class);
 			$trashManager->pauseTrash();
 		}
 		$this->file->delete();
-		if (App::isEnabled('files_trashbin')) {
+		if ($this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var ITrashManager $trashManager */
 			$trashManager = \OC::$server->get(ITrashManager::class);
 			$trashManager->resumeTrash();
