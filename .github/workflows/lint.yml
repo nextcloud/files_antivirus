@@ -12,14 +12,8 @@ jobs:
     strategy:
       matrix:
         php-version: ['7.4', '8.0']
-        ocp-version: ['^v21.0.0', '^v22.0.0', '^v23.0.0', 'dev-master']
+        ocp-version: ['^v23.0.0', 'dev-master']
         include:
-          - php-version: '7.3'
-            ocp-version: '^v21.0.0'
-          - php-version: '7.3'
-            ocp-version: '^v22.0.0'
-          - php-version: '7.3'
-            ocp-version: '^v23.0.0'
           - php-version: '8.1'
             ocp-version: 'dev-master'
     name: php${{ matrix.php-version }}-ocp-${{ matrix.ocp-version }} lint
