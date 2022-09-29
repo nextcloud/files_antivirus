@@ -13,6 +13,7 @@ namespace OCA\Files_Antivirus\BackgroundJob;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
@@ -20,7 +21,6 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
-use OC\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 
 class BackgroundScanner extends TimedJob {
