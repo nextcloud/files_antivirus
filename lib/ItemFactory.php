@@ -39,19 +39,22 @@ class ItemFactory {
 	private ItemMapper $itemMapper;
 	private LoggerInterface $logger;
 	private IRootFolder $rootFolder;
+	private IAppManager $appManager;
 
 	public function __construct(
 		AppConfig $appConfig,
 		ActivityManager $activityManager,
 		ItemMapper $itemMapper,
 		LoggerInterface $logger,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
+		IAppManager $appManager
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
+		$this->appManager = $appManager;
 	}
 
 	public function newItem(File $file, bool $isCron = false): Item {
@@ -61,6 +64,7 @@ class ItemFactory {
 			$this->itemMapper,
 			$this->logger,
 			$this->rootFolder,
+			$this->appManager,
 			$file,
 			$isCron
 		);

@@ -42,12 +42,6 @@ class Status {
 	protected RuleMapper $ruleMapper;
 	protected LoggerInterface $logger;
 
-	/**
-	 * Status constructor.
-	 *
-	 * @param RuleMapper $ruleMapper
-	 * @param ILogger $logger
-	 */
 	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;

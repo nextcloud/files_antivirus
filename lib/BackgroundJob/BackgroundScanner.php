@@ -62,7 +62,7 @@ class BackgroundScanner extends TimedJob {
 	/**
 	 * Background scanner main job
 	 */
-	public function run($args): void {
+	public function run($argument): void {
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
 			// Background checking disabled no need to continue
 			$this->logger->debug('Antivirus background scan disablled, skipping');
