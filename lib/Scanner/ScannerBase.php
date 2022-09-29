@@ -40,7 +40,7 @@ abstract class ScannerBase implements IScanner {
 	 * If scanning was done part by part
 	 * the first detected infected part is stored here
 	 */
-	protected Status $infectedStatus;
+	protected ?Status $infectedStatus = null;
 
 	protected int $byteCount;
 
