@@ -58,6 +58,7 @@ abstract class ScannerBase implements IScanner {
 		$this->appConfig = $config;
 		$this->logger = $logger;
 		$this->statusFactory = $statusFactory;
+		$this->status = $this->statusFactory->newStatus();
 	}
 
 	/**
@@ -72,10 +73,7 @@ abstract class ScannerBase implements IScanner {
 		if ($this->infectedStatus instanceof Status) {
 			return $this->infectedStatus;
 		}
-		if ($this->status instanceof Status) {
-			return $this->status;
-		}
-		return $this->statusFactory->newStatus();
+		return $this->status;
 	}
 
 	/**
@@ -140,7 +138,7 @@ abstract class ScannerBase implements IScanner {
 	 */
 	public function initScanner() {
 		$this->byteCount = 0;
-		if ($this->status instanceof Status && $this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+		if ($this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 			$this->infectedStatus = clone $this->status;
 		}
 		$this->status = $this->statusFactory->newStatus();
