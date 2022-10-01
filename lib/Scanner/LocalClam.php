@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Victor Dubiniuk <victor.dubiniuk@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -6,25 +9,20 @@
  * See the COPYING-README file.
  */
 
-
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class LocalClam extends ScannerBase {
-
-	/**
-	 * @var string
-	 */
-	protected $avPath;
+	protected string $avPath;
 
 	/**
 	 * STDIN and STDOUT descriptors
 	 * @var array of resources
 	 */
-	private $pipes = [];
+	private array $pipes = [];
 
 	/**
 	 * Process handle
@@ -32,7 +30,7 @@ class LocalClam extends ScannerBase {
 	 */
 	private $process;
 
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		parent::__construct($config, $logger, $statusFactory);
 
 		// get the path to the executable

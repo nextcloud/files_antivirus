@@ -28,7 +28,7 @@ use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Http\Client\IClientService;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
@@ -39,7 +39,7 @@ class ExternalKasperskyTest extends ScannerBaseTest {
 			$this->markTestSkipped("Set KASPERSKY_HOST and KASPERSKY_PORT to enable kaspersky tests");
 		}
 
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$config = $this->createPartialMock(AppConfig::class, ['getter']);
 		$config->method('getter')
 			->willReturnCallback(function ($key) {

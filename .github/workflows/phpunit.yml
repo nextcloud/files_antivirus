@@ -1,5 +1,11 @@
 name: PHPUnit
-on: [push, pull_request]
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
 
 env:
   APP_NAME: files_antivirus
@@ -14,7 +20,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
         databases: ['sqlite']
-        server-versions: ['stable20', 'stable21', 'stable22', 'stable23', 'stable24', 'master']
+        server-versions: ['stable24', 'stable25', 'master']
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 

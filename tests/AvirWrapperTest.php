@@ -10,13 +10,13 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
-use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
-use OCP\ILogger;
+use OC\Files\Storage\Temporary;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
 
@@ -40,7 +40,7 @@ class AvirWrapperTest extends TestBase {
 	/** @var Temporary */
 	protected $storage;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/** @var AvirWrapper */
@@ -51,7 +51,7 @@ class AvirWrapperTest extends TestBase {
 		$this->createUser(self::UID, self::PWD);
 
 		$this->storage = new Temporary([]);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$scanner = new ExternalClam(
 			$this->config,
