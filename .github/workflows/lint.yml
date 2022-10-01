@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         php-version: ['7.4', '8.0']
-        ocp-version: ['^v23.0.0', 'dev-master']
+        ocp-version: ['^v24.0.0', 'dev-master']
         include:
           - php-version: '8.1'
             ocp-version: 'dev-master'
