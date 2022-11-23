@@ -14,7 +14,6 @@ use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Activity\IManager as ActivityManager;
-use OCP\App;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
@@ -34,7 +33,7 @@ class AvirWrapper extends Wrapper {
 
 	/** @var IL10N */
 	protected $l10n;
-	
+
 	/** @var LoggerInterface */
 	protected $logger;
 
@@ -47,6 +46,9 @@ class AvirWrapper extends Wrapper {
 	/** @var bool */
 	private $shouldScan = true;
 
+	/** @var bool */
+	private $trashEnabled;
+
 	/**
 	 * @param array $parameters
 	 */
@@ -57,6 +59,7 @@ class AvirWrapper extends Wrapper {
 		$this->logger = $parameters['logger'];
 		$this->activityManager = $parameters['activityManager'];
 		$this->isHomeStorage = $parameters['isHomeStorage'];
+		$this->trashEnabled = $parameters['trashEnabled'];
 
 		/** @var EventDispatcherInterface $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -116,9 +119,9 @@ class AvirWrapper extends Wrapper {
 				},
 				function () use ($scanner, $path) {
 					$status = $scanner->completeAsyncScan();
-					if ((int)$status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+					if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 						//prevent from going to trashbin
-						if (App::isEnabled('files_trashbin')) {
+						if ($this->trashEnabled) {
 							/** @var ITrashManager $trashManager */
 							$trashManager = \OC::$server->query(ITrashManager::class);
 							$trashManager->pauseTrash();
@@ -127,7 +130,7 @@ class AvirWrapper extends Wrapper {
 						$owner = $this->getOwner($path);
 						$this->unlink($path);
 
-						if (App::isEnabled('files_trashbin')) {
+						if ($this->trashEnabled) {
 							/** @var ITrashManager $trashManager */
 							$trashManager = \OC::$server->query(ITrashManager::class);
 							$trashManager->resumeTrash();

@@ -76,6 +76,7 @@ class AvirWrapperTest extends TestBase {
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
 		]);
 
 		$this->config->expects($this->any())
