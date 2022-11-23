@@ -74,6 +74,9 @@ namespace OC\BackgroundJob {
 		public function execute(IJobList $jobList, ILogger $logger = null) {
 		}
 
+		public function start(IJobList $jobList): void {
+		}
+
 		abstract protected function run($argument);
 
 		public function setId(int $id) {
