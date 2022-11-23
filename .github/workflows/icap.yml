@@ -1,5 +1,11 @@
 name: ICAP
-on: [ push, pull_request ]
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
 
 env:
   APP_NAME: files_antivirus
@@ -12,7 +18,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
         databases: ['sqlite']
-        server-versions: [ 'stable23' ]
+        server-versions: [ 'stable24' ]
 
     name: icap-clmav
 
@@ -75,7 +81,7 @@ jobs:
       matrix:
         php-versions: ['7.4']
         databases: ['sqlite']
-        server-versions: [ 'stable23' ]
+        server-versions: [ 'stable24' ]
 
     name: icap-kaspersky
 

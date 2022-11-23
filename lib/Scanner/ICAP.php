@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
@@ -28,23 +29,18 @@ use OCA\Files_Antivirus\ICAP\ICAPClient;
 use OCA\Files_Antivirus\ICAP\ICAPRequest;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
-	/** @var ICAPClient */
-	private $icapClient;
-	/** @var ?ICAPRequest */
-	private $request;
-	/** @var string */
-	private $service;
-	/** @var string */
-	private $virusHeader;
-	/** @var int */
-	private $chunkSize;
+	private ICAPClient $icapClient;
+	private ?ICAPRequest $request;
+	private string $service;
+	private string $virusHeader;
+	private int $chunkSize;
 
 	public function __construct(
 		AppConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		StatusFactory $statusFactory
 	) {
 		parent::__construct($config, $logger, $statusFactory);

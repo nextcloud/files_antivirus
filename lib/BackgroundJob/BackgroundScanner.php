@@ -10,51 +10,35 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
-use OCP\IDBConnection;
 use OCP\Files\IRootFolder;
-use OCP\ILogger;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class BackgroundScanner extends TimedJob {
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var ScannerFactory */
-	private $scannerFactory;
-
-	/** @var  AppConfig */
-	private $appConfig;
-
-	/** @var ILogger */
-	protected $logger;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var IMimeTypeLoader */
-	protected $mimeTypeLoader;
-
-	/** @var ItemFactory */
-	protected $itemFactory;
-	/** @var bool */
-	private $isCLI;
+	protected IRootFolder $rootFolder;
+	private ScannerFactory $scannerFactory;
+	private AppConfig $appConfig;
+	protected LoggerInterface $logger;
+	protected IUserManager $userManager;
+	protected IDBConnection $db;
+	protected IMimeTypeLoader $mimeTypeLoader;
+	protected ItemFactory $itemFactory;
+	private bool $isCLI;
 
 	public function __construct(
 		ScannerFactory $scannerFactory,
 		AppConfig $appConfig,
 		IRootFolder $rootFolder,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserManager $userManager,
 		IDBConnection $db,
 		IMimeTypeLoader $mimeTypeLoader,
@@ -78,7 +62,7 @@ class BackgroundScanner extends TimedJob {
 	/**
 	 * Background scanner main job
 	 */
-	public function run($args): void {
+	public function run($argument): void {
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
 			// Background checking disabled no need to continue
 			$this->logger->debug('Antivirus background scan disablled, skipping');
@@ -89,7 +73,7 @@ class BackgroundScanner extends TimedJob {
 		try {
 			$result = $this->getUnscannedFiles();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -131,7 +115,7 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->logException($e, ['app' => 'files_antivirus']);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 			}
 		}
 
@@ -144,7 +128,7 @@ class BackgroundScanner extends TimedJob {
 		try {
 			$result = $this->getToRescanFiles();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -191,7 +175,7 @@ class BackgroundScanner extends TimedJob {
 		try {
 			$result = $this->getOutdatedFiles();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 

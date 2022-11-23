@@ -1,6 +1,7 @@
 { "translations": {
     "Saved" : "Lagra",
     "Host" : "Tenar",
+    "Port" : "Port",
     "Select" : "Vel",
     "Delete file" : "Slett fil",
     "Save" : "Lagre",

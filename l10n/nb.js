@@ -19,6 +19,7 @@ OC.L10N.register(
     "This email is a notification from {host}. Please, do not reply." : "Denne e-mailen er en beskjed fra {host}. Vennligst ikke svar.",
     "File uploaded: {file}" : "Opplastet fil: {file}",
     "Mode" : "Modus",
+    "Not required in Executable Mode." : "Ikke nødvendig i kjørbar modus.",
     "Host" : "Vert",
     "Address of Antivirus Host." : "Addresse for anti-virus-server",
     "Port" : "Port",
@@ -30,6 +31,7 @@ OC.L10N.register(
     "Path to clamscan" : "Sti til clamscan",
     "Path to clamscan executable." : "Sti til kjørbar clamscan-fil",
     "Not required in Daemon Mode." : "Ikke påkrevd i daemon modus",
+    "Extra command line options (comma-separated)" : "Ekstra kommandolinjealternativer (kommaseparert)",
     "When infected files are found during a background scan" : "Når infiserte filer blir påvist under bakgrunnsskanning",
     "Only log" : "Kun logg",
     "Delete file" : "Slett fil",
@@ -38,6 +40,7 @@ OC.L10N.register(
     "Rules" : "Regler",
     "Clear All" : "Nullstill",
     "Reset to defaults" : "Tilbakestill til standard",
+    "Match by" : "Match med",
     "Description" : "Beskrivelse",
     "Mark as" : "Merk som",
     "Add a rule" : "Legg til en regel"

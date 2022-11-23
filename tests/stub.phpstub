@@ -40,6 +40,11 @@ namespace {
 	}
 }
 
+namespace OC {
+    class HintException extends \Exception {
+    }
+}
+
 namespace OC\Hooks {
 	class Emitter {
 	}
@@ -67,6 +72,9 @@ namespace OC\BackgroundJob {
 
 	abstract class TimedJob implements IJob {
 		public function execute(IJobList $jobList, ILogger $logger = null) {
+		}
+
+		public function start(IJobList $jobList): void {
 		}
 
 		abstract protected function run($argument);

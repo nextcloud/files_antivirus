@@ -1,6 +1,9 @@
 { "translations": {
-    "Saving…" : "Saqlanmoqda...",
-    "Saved" : "Saqlangan",
-    "Save" : "Saqlash"
+    "Saving…" : "Saving…",
+    "Saved" : "Saved",
+    "Port" : "Port",
+    "Select" : "Select",
+    "Delete file" : "Delete file",
+    "Save" : "Save"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

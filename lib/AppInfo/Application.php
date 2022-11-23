@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\Activity\IManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -56,6 +57,7 @@ class Application extends App implements IBootstrap {
 				$logger = $container->get(LoggerInterface::class);
 				$activityManager = $container->get(IManager::class);
 				$eventDispatcher = $container->get(EventDispatcherInterface::class);
+				$appManager = $container->get(IAppManager::class);
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
@@ -64,6 +66,7 @@ class Application extends App implements IBootstrap {
 					'activityManager' => $activityManager,
 					'isHomeStorage' => $storage->instanceOfStorage(IHomeStorage::class),
 					'eventDispatcher' => $eventDispatcher,
+					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 				]);
 			},
 			1

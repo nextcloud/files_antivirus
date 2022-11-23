@@ -12,6 +12,7 @@
 * :chipmunk: When the user uploads a file, it's checked
 * :biohazard: Infected files will be deleted and a notification will be shown and/or sent via email 
 * :mag_right: It runs a background job to scan all files
+* :safety_vest: It will block all uploads if the file cannot be checked to ensure all files are getting scanned.
 
 ## Requirements
 
@@ -32,7 +33,7 @@ This app can be configured to work with the executable or the daemon mode (recom
 
 ## Kaspersky HTTP Details
 
-When running Kaspersky in HTTP mode the [`SessionTimeout`](https://support.kaspersky.com/ScanEngine/1.0/en-US/201030.htm) will need to be set to a value higher than default, a value of 10 minutes (600000 millisecond) or higher is recommended to properly deal with larger uploads
+When running Kaspersky in HTTP mode the [`SessionTimeout`](https://support.kaspersky.com/ScanEngine/2.1/en-US/201030.htm) will need to be set to a value higher than default, a value of 10 minutes (600000 millisecond) or higher is recommended to properly deal with larger uploads
 
 ## ICAP (version 4.0 and later)
 

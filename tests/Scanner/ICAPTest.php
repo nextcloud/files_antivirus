@@ -27,7 +27,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
@@ -38,7 +38,7 @@ class ICAPTest extends ScannerBaseTest {
 			$this->markTestSkipped("Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST and ICAP_HEADER to enable icap tests");
 		}
 
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$config = $this->createPartialMock(AppConfig::class, ['getter']);
 		$config->method('getter')
 			->willReturnCallback(function ($key) {

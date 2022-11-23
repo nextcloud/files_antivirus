@@ -8,64 +8,85 @@
 
 namespace OCA\Files_Antivirus\Db;
 
-use OCP\AppFramework\Db\Mapper;
+use OCA\Files_Antivirus\Status;
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-class RuleMapper extends Mapper {
+class RuleMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'files_avir_status', Rule::class);
 	}
 
 	/**
 	 * Empty the table
+	 *
 	 * @return bool
 	 */
 	public function deleteAll() {
-		$sql = 'DELETE FROM `*PREFIX*files_avir_status`';
-		$this->execute($sql);
+		$query = $this->db->getQueryBuilder();
+		$query->delete('files_avir_status');
+		$query->executeStatement();
 		return true;
 	}
 
 	/**
 	 * Find rule by id
+	 *
 	 * @param int $id
 	 * @return Rule
 	 */
-	public function find($id) {
-		$sql = 'SELECT * FROM *PREFIX*files_avir_status WHERE id = ?';
-		return $this->findEntity($sql, [$id]);
+	public function find(int $id) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from('files_avir_status')
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($query);
 	}
 
 	/**
-	 * 	 * Get all rules
+	 *     * Get all rules
 	 */
 	public function findAll(): array {
-		$sql = 'SELECT * FROM `*PREFIX*files_avir_status`';
-		return $this->findEntities($sql);
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from('files_avir_status');
+		return $this->findEntities($query);
 	}
 
 	/**
 	 * Get collection of rules by given exit code
+	 *
 	 * @param int $result
 	 * @return array
 	 */
-	public function findByResult($result) {
-		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `result`=?';
-		return $this->findEntities($sql, [Rule::RULE_TYPE_CODE, $result]);
+	public function findByResult(int $result) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from('files_avir_status')
+			->where($query->expr()->eq('status_type', $query->createNamedParameter(Rule::RULE_TYPE_CODE, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('result', $query->createNamedParameter($result, IQueryBuilder::PARAM_INT)));
+		return $this->findEntities($query);
 	}
 
 	/**
 	 * Get collection of rules of type Match
+	 *
 	 * @param int $status
 	 * @return array
 	 */
-	public function findAllMatchedByStatus($status) {
-		$sql = 'SELECT * FROM `*PREFIX*files_avir_status` WHERE `status_type`=? and `status`=?';
-		return $this->findEntities($sql, [Rule::RULE_TYPE_MATCH, $status]);
+	public function findAllMatchedByStatus(int $status) {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from('files_avir_status')
+			->where($query->expr()->eq('status_type', $query->createNamedParameter(Rule::RULE_TYPE_MATCH, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('status', $query->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+		return $this->findEntities($query);
 	}
 
 	/**
-	 * 	 * Fill the table with rules used with clamav
+	 *     * Fill the table with rules used with clamav
 	 */
 	public function populate(): void {
 		$descriptions = [
@@ -75,7 +96,7 @@ class RuleMapper extends Mapper {
 				'result' => 0,
 				'match' => '',
 				'description' => '',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN
+				'status' => Status::SCANRESULT_CLEAN,
 			],
 
 			[
@@ -84,7 +105,7 @@ class RuleMapper extends Mapper {
 				'result' => 1,
 				'match' => '',
 				'description' => '',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED
+				'status' => Status::SCANRESULT_INFECTED,
 			],
 
 			[
@@ -93,7 +114,7 @@ class RuleMapper extends Mapper {
 				'result' => 40,
 				'match' => '',
 				'description' => 'Unknown option passed.',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -102,7 +123,7 @@ class RuleMapper extends Mapper {
 				'result' => 50,
 				'match' => '',
 				'description' => 'Database initialization error.',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -111,7 +132,7 @@ class RuleMapper extends Mapper {
 				'result' => 52,
 				'match' => '',
 				'description' => 'Not supported file type.',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -120,7 +141,7 @@ class RuleMapper extends Mapper {
 				'result' => 53,
 				'match' => '',
 				'description' => "Can't open directory.",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -129,7 +150,7 @@ class RuleMapper extends Mapper {
 				'result' => 54,
 				'match' => '',
 				'description' => "Can't open file. (ofm)",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -138,7 +159,7 @@ class RuleMapper extends Mapper {
 				'result' => 55,
 				'match' => '',
 				'description' => 'Error reading file. (ofm)',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -147,7 +168,7 @@ class RuleMapper extends Mapper {
 				'result' => 56,
 				'match' => '',
 				'description' => "Can't stat input file / directory.",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -156,7 +177,7 @@ class RuleMapper extends Mapper {
 				'result' => 57,
 				'match' => '',
 				'description' => "Can't get absolute path name of current working directory.",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -165,7 +186,7 @@ class RuleMapper extends Mapper {
 				'result' => 58,
 				'match' => '',
 				'description' => 'I/O error, please check your file system.',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -174,7 +195,7 @@ class RuleMapper extends Mapper {
 				'result' => 62,
 				'match' => '',
 				'description' => "Can't initialize logger.",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -183,7 +204,7 @@ class RuleMapper extends Mapper {
 				'result' => 63,
 				'match' => '',
 				'description' => "Can't create temporary files/directories (check permissions).",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -192,7 +213,7 @@ class RuleMapper extends Mapper {
 				'result' => 64,
 				'match' => '',
 				'description' => "Can't write to temporary directory (please specify another one).",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -201,7 +222,7 @@ class RuleMapper extends Mapper {
 				'result' => 70,
 				'match' => '',
 				'description' => "Can't allocate memory (calloc).",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -210,7 +231,7 @@ class RuleMapper extends Mapper {
 				'result' => 71,
 				'match' => '',
 				'description' => "Can't allocate memory (malloc).",
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 
 			[
@@ -219,7 +240,7 @@ class RuleMapper extends Mapper {
 				'result' => 0,
 				'match' => '/.*: OK$/',
 				'description' => '',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_CLEAN
+				'status' => Status::SCANRESULT_CLEAN,
 			],
 
 			[
@@ -228,7 +249,7 @@ class RuleMapper extends Mapper {
 				'result' => 0,
 				'match' => '/.*: (.*) FOUND$/',
 				'description' => '',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED
+				'status' => Status::SCANRESULT_INFECTED,
 			],
 
 			[
@@ -237,7 +258,7 @@ class RuleMapper extends Mapper {
 				'result' => 0,
 				'match' => '/.*: (.*) ERROR$/',
 				'description' => '',
-				'status' => \OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED
+				'status' => Status::SCANRESULT_UNCHECKED,
 			],
 		];
 

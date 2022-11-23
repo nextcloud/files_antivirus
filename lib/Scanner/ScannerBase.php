@@ -27,67 +27,44 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 abstract class ScannerBase implements IScanner {
 
 	/**
 	 * Scan result
-	 *
-	 * @var Status
 	 */
-	protected $status;
+	protected Status $status;
 
 	/**
 	 * If scanning was done part by part
 	 * the first detected infected part is stored here
-	 *
-	 * @var Status
 	 */
-	protected $infectedStatus;
+	protected ?Status $infectedStatus = null;
 
-	/** @var  int */
-	protected $byteCount;
+	protected int $byteCount;
 
 	/** @var  resource */
 	protected $writeHandle;
 
-	/** @var AppConfig */
-	protected $appConfig;
+	protected AppConfig $appConfig;
+	protected LoggerInterface $logger;
+	protected StatusFactory $statusFactory;
+	protected ?string $lastChunk = null;
+	protected bool $isLogUsed = false;
+	protected bool $isAborted = false;
 
-	/** @var ILogger */
-	protected $logger;
-
-	/** @var StatusFactory */
-	protected $statusFactory;
-
-	/** @var string */
-	protected $lastChunk;
-
-	/** @var bool */
-	protected $isLogUsed = false;
-
-	/** @var bool */
-	protected $isAborted = false;
-
-	/**
-	 * ScannerBase constructor.
-	 *
-	 * @param AppConfig $config
-	 * @param ILogger $logger
-	 * @param StatusFactory $statusFactory
-	 */
-	public function __construct(AppConfig $config, ILogger $logger, StatusFactory $statusFactory) {
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		$this->appConfig = $config;
 		$this->logger = $logger;
 		$this->statusFactory = $statusFactory;
+		$this->status = $this->statusFactory->newStatus();
 	}
 
 	/**
 	 * Close used resources
 	 */
 	abstract protected function shutdownScanner();
-
 
 	/**
 	 * @return Status
@@ -96,10 +73,7 @@ abstract class ScannerBase implements IScanner {
 		if ($this->infectedStatus instanceof Status) {
 			return $this->infectedStatus;
 		}
-		if ($this->status instanceof Status) {
-			return $this->status;
-		}
-		return $this->statusFactory->newStatus();
+		return $this->status;
 	}
 
 	/**
@@ -111,8 +85,15 @@ abstract class ScannerBase implements IScanner {
 	public function scan(Item $item): Status {
 		$this->initScanner();
 
-		while (false !== ($chunk = $item->fread())) {
-			$this->writeChunk($chunk);
+		try {
+			while (false !== ($chunk = $item->fread())) {
+				$this->writeChunk($chunk);
+			}
+		} catch (\OCP\Encryption\Exceptions\GenericEncryptionException $e) {
+			// We can't read the file, ignore
+			$this->shutdownScanner();
+			$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+			return $this->getStatus();
 		}
 
 		$this->shutdownScanner();
@@ -157,7 +138,7 @@ abstract class ScannerBase implements IScanner {
 	 */
 	public function initScanner() {
 		$this->byteCount = 0;
-		if ($this->status instanceof Status && $this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+		if ($this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 			$this->infectedStatus = clone $this->status;
 		}
 		$this->status = $this->statusFactory->newStatus();

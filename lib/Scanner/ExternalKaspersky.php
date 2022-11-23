@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
@@ -27,16 +28,15 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Http\Client\IClientService;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class ExternalKaspersky extends ScannerBase {
-	/** @var IClientService IClientService */
-	private $clientService;
-	private $chunkSize;
+	private IClientService $clientService;
+	private int $chunkSize;
 
 	public function __construct(
 		AppConfig $config,
-		ILogger $logger,
+		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		IClientService $clientService
 	) {
