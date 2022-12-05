@@ -13,6 +13,7 @@ namespace OCA\Files_Antivirus\BackgroundJob;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
@@ -35,6 +36,7 @@ class BackgroundScanner extends TimedJob {
 	private bool $isCLI;
 
 	public function __construct(
+		ITimeFactory $timeFactory,
 		ScannerFactory $scannerFactory,
 		AppConfig $appConfig,
 		IRootFolder $rootFolder,
@@ -45,6 +47,7 @@ class BackgroundScanner extends TimedJob {
 		ItemFactory $itemFactory,
 		bool $isCLI
 	) {
+		parent::__construct($timeFactory);
 		$this->rootFolder = $rootFolder;
 		$this->scannerFactory = $scannerFactory;
 		$this->appConfig = $appConfig;
