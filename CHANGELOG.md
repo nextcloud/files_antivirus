@@ -1,8 +1,31 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [4.0.1] - 2022-12-06
+## Fixed
+* Correctly call parent constructor in background job by @come-nc in https://github.com/nextcloud/files_antivirus/pull/254
+
+## [4.0.0] - 2022-11-23
+## Fixed
+* Fix lint checks on PHP 7.3 CI by @Pytal in https://github.com/nextcloud/files_antivirus/pull/226
+* Fix type of scan timeout by @ChristophWurst in https://github.com/nextcloud/files_antivirus/pull/242
+
+## Added
+* Update version on master by @nickvergessen in https://github.com/nextcloud/files_antivirus/pull/211
+* Update master target versions by @nickvergessen in https://github.com/nextcloud/files_antivirus/pull/210
+* handle password protected files as 'scanned' in kaspersky by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/214
+* Add tests for kaspersky scanner by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/215
+* Optimize slow DB query by @SirTediousOfFoo in https://github.com/nextcloud/files_antivirus/pull/213
+* use v3 of the kaspersky http api by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/216
+* Support ICAP scanners by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/224
+* Update version on master by @nickvergessen in https://github.com/nextcloud/files_antivirus/pull/229
+* Update master target versions by @nickvergessen in https://github.com/nextcloud/files_antivirus/pull/228
+* Update phpunit config by @nickvergessen in https://github.com/nextcloud/files_antivirus/pull/227
+* psalm analysis and fixes by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/218
+* move from app.php to IBootstart by @icewind1991 in https://github.com/nextcloud/files_antivirus/pull/233
+* Handle encryption error by @CarlSchwan in https://github.com/nextcloud/files_antivirus/pull/236
+* Shutdown scanner when handling encryption error by @CarlSchwan in https://github.com/nextcloud/files_antivirus/pull/240
+* Update link to Kaspersky session timeout docs by @ChristophWurst in https://github.com/nextcloud/files_antivirus/pull/241
 
 ## [3.3.0] - 2022-05-14
 ## Fixed
