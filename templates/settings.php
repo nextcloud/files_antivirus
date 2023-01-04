@@ -15,9 +15,7 @@ script('files_antivirus', 'settings');
 							'daemon' => $l->t('ClamAV Daemon'),
 							'socket' => $l->t('ClamAV Daemon (Socket)'),
 							'kaspersky' => $l->t('Kaspersky Daemon'),
-							'icap' => $l->t('ICAP server')],
-								$_['avMode']
-							)) ?></select>
+						], $_['avMode'])) ?></select>
 					</td>
 					<td></td>
 				</tr>
