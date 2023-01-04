@@ -56,17 +56,35 @@ class StatusTest extends TestBase {
 		
 		
 		// Testing raw output (e.g. daemon mode)
+		$assertDetailsWithResponse = function ($response) use ($testStatus) {
+			$expected = "No matching rule for response [$response]. Please check antivirus rules configuration.";
+			$this->assertEquals($expected, $testStatus->getDetails());
+		};
+
 		// Empty content means result is unknown
 		$testStatus->parseResponse('');
 		$failedScan2 = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $failedScan2);
-		$this->assertEquals('No matching rules. Please check antivirus rules.', $testStatus->getDetails());
+		$assertDetailsWithResponse('');
 		
 		// No rules matched result is unknown too
 		$testStatus->parseResponse('123dc');
 		$failedScan3 = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $failedScan3);
-		$this->assertEquals('No matching rules. Please check antivirus rules.', $testStatus->getDetails());
+		$assertDetailsWithResponse('123dc');
+		
+		// Raw result is added to details when no rule matched (only ASCII text range 32..126 excluding '`').
+		for ($c = 0; $c < 256; $c++) {
+			$testStatus->parseResponse(chr($c));
+			$expected = $c < 32 || $c > 126 || chr($c) == '`' ? '' : chr($c);
+			$assertDetailsWithResponse($expected);
+		}
+		
+		// Raw result in details is truncated at 512 chars.
+		$testStatus->parseResponse(str_repeat('a', 512));
+		$assertDetailsWithResponse(str_repeat('a', 512));
+		$testStatus->parseResponse(str_repeat('a', 513));
+		$assertDetailsWithResponse(str_repeat('a', 509) . '...');
 		
 		// File is clean
 		$testStatus->parseResponse('Thu Oct 28 13:02:19 2010 -> /tmp/kitten : OK');
