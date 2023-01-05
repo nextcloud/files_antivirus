@@ -25,7 +25,6 @@
     "ClamAV Daemon" : "ClamAV Démon",
     "ClamAV Daemon (Socket)" : "ClamAV Démon (Socket)",
     "Kaspersky Daemon" : "Démon Kaspersky",
-    "ICAP server" : "ICAP server",
     "Socket" : "Socket",
     "ClamAV Socket." : "ClamAV Socket.",
     "Not required in Executable Mode." : "Nie je potrebné v spustiteľnom režime",

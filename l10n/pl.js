@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV Daemon",
     "ClamAV Daemon (Socket)" : "ClamAV Daemon (gniazdo)",
     "Kaspersky Daemon" : "Kaspersky Daemon",
-    "ICAP server" : "Serwer ICAP",
     "Socket" : "Gniazdo",
     "ClamAV Socket." : "Gniazdo ClamAV.",
     "Not required in Executable Mode." : "Nie wymagane w trybie wykonywalnym.",

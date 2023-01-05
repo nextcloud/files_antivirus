@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV hizmeti",
     "ClamAV Daemon (Socket)" : "ClamAV hizmeti (soket)",
     "Kaspersky Daemon" : "Kaspersky hizmeti",
-    "ICAP server" : "ICAP sunucusu",
     "Socket" : "Soket",
     "ClamAV Socket." : "ClamAV soketi.",
     "Not required in Executable Mode." : "Çalıştırılabilir kipte gerekli değildir.",

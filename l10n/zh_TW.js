@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV 幕後程式",
     "ClamAV Daemon (Socket)" : "ClamAV 幕後程式（插座）",
     "Kaspersky Daemon" : "卡巴斯基幕後程式",
-    "ICAP server" : "ICAP 伺服器",
     "Socket" : "插座",
     "ClamAV Socket." : "ClamAV 插座。",
     "Not required in Executable Mode." : "在可執行模式下不需要。",

@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV démon",
     "ClamAV Daemon (Socket)" : "ClamAV démon (foglalat)",
     "Kaspersky Daemon" : "Kaspersky démon",
-    "ICAP server" : "ICAP-kiszolgáló",
     "Socket" : "Foglalat",
     "ClamAV Socket." : "ClamAV foglalat.",
     "Not required in Executable Mode." : "Futtatható módban nem szükséges.",

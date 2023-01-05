@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "Служба ClamAV",
     "ClamAV Daemon (Socket)" : "Служба ClamAV (через сокет)",
     "Kaspersky Daemon" : "Служба антивирус Касперского",
-    "ICAP server" : "Сервер ICAP",
     "Socket" : "Сокет",
     "ClamAV Socket." : "Сокет ClamAV.",
     "Not required in Executable Mode." : "Не требуется для режима исполнения.",

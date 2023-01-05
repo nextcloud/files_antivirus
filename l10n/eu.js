@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV Daemon-a",
     "ClamAV Daemon (Socket)" : "ClamAV Daemon-a (Socket)",
     "Kaspersky Daemon" : "Kaspersky Daemon-a",
-    "ICAP server" : "ICAP zerbitzaria",
     "Socket" : "Socket",
     "ClamAV Socket." : "ClamAV Socket-a.",
     "Not required in Executable Mode." : "Ez da beharrezkoa Exekutagarri moduan.",

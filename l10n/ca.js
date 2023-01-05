@@ -27,7 +27,6 @@ OC.L10N.register(
     "ClamAV Daemon" : "Dimoni ClamAV",
     "ClamAV Daemon (Socket)" : "Dimoni ClamAV (Sòcol)",
     "Kaspersky Daemon" : "Dimoni Kaspersky",
-    "ICAP server" : "Servidor ICAP",
     "Socket" : "Socket",
     "ClamAV Socket." : "Sòcol ClamAV.",
     "Not required in Executable Mode." : "No es requereix en Mode Executable.",
