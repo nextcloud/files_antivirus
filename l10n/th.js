@@ -9,6 +9,6 @@ OC.L10N.register(
     "Delete file" : "ลบไฟล์",
     "Save" : "บันทึก",
     "Advanced" : "ขั้นสูง",
-    "Description" : "รายละเอียด"
+    "Description" : "คำอธิบาย"
 },
 "nplurals=1; plural=0;");
