@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['7.4', '8.0']
+        php-version: ['8.0', '8.1']
         ocp-version: ['^v24.0.0', 'dev-master']
         include:
           - php-version: '8.1'
@@ -43,7 +43,7 @@ jobs:
       - name: Set up php${{ matrix.php-versions }}
         uses: shivammathur/setup-php@master
         with:
-          php-version: 7.4
+          php-version: 8.0
           tools: composer:v1
           coverage: none
       - name: Install dependencies
