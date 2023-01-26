@@ -55,6 +55,7 @@ class Item {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
 		$this->itemMapper = $itemMapper;
+		$this->appManager = $appManager;
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->file = $file;
