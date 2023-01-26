@@ -13,6 +13,7 @@
 		"lint": "parallel-lint --exclude src --exclude vendor --exclude target --exclude build .",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
-		"psalm": "psalm.phar"
+		"psalm": "psalm.phar",
+		"test:unit": "vendor/bin/phpunit -c tests/phpunit.xml"
 	}
 }
