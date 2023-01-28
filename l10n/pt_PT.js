@@ -9,6 +9,7 @@ OC.L10N.register(
     "Port" : "Porta",
     "Port number of Antivirus Host." : "Número da porta do Anfitrião de Antivírus.",
     "Select" : "Selecionar",
+    "bytes" : "bytes",
     "Delete file" : "Eliminar ficheiro",
     "Save" : "Guardar",
     "Advanced" : "Avançado",
