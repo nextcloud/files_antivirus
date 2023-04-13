@@ -31,7 +31,6 @@ use Sabre\DAV\ServerPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PropfindPlugin extends ServerPlugin {
-
 	/** @var Server */
 	private $server;
 

@@ -32,6 +32,8 @@ use OCA\Files_Antivirus\StatusFactory;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
+	/** @var ICAPClient::MODE_REQ_MODE|ICAPClient::MODE_RESP_MOD */
+	private string $mode;
 	private ICAPClient $icapClient;
 	private ?ICAPRequest $request;
 	private string $service;
@@ -50,6 +52,7 @@ class ICAP extends ScannerBase {
 		$this->service = $config->getAvIcapRequestService();
 		$this->virusHeader = $config->getAvIcapResponseHeader();
 		$this->chunkSize = (int)$config->getAvIcapChunkSize();
+		$this->mode = $config->getAvIcapMode();
 
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
@@ -60,12 +63,23 @@ class ICAP extends ScannerBase {
 	public function initScanner() {
 		parent::initScanner();
 		$this->writeHandle = fopen("php://temp", 'w+');
-		$this->request = $this->icapClient->reqmod($this->service, [
-			'Allow' => 204,
-		], [
-			"PUT / HTTP/1.0",
-			"Host: 127.0.0.1"
-		]);
+		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
+			$this->request = $this->icapClient->reqmod($this->service, [
+				'Allow' => 204,
+			], [
+				"PUT / HTTP/1.0",
+				"Host: 127.0.0.1"
+			]);
+		} else {
+			$this->request = $this->icapClient->respmod($this->service, [
+				'Allow' => 204,
+			], [
+				"GET / HTTP/1.0",
+				"Host: 127.0.0.1"
+			], [
+				"HTTP/1.0 OK",
+			]);
+		}
 	}
 
 	protected function writeChunk($chunk) {

@@ -27,7 +27,6 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Filter implements IFilter {
-
 	/** @var IL10N */
 	private $l;
 

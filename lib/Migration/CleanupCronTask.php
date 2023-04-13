@@ -27,7 +27,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class CleanupCronTask implements IRepairStep {
-
 	/** @var IJobList */
 	private $jobList;
 

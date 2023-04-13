@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Antivirus;
 
+use OCA\Files_Antivirus\ICAP\ICAPClient;
 use OCP\IConfig;
 
 /**
@@ -19,6 +20,7 @@ use OCP\IConfig;
  * @method ?string getAvPath()
  * @method ?string getAvInfectedAction()
  * @method ?string getAvStreamMaxLength()
+ * @method string getAvIcapMode()
  * @method ?string getAvIcapRequestService()
  * @method ?string getAvIcapResponseHeader()
  * @method ?string getAvIcapChunkSize()
@@ -33,7 +35,9 @@ use OCP\IConfig;
  * @method null setAvPath(string $avPath)
  * @method null setAvInfectedAction(string $avInfectedAction)
  * @method null setAvIcapScanBackground(string $scanBackground)
+ * @method null setAvIcapMode(string $mode)
  * @method null setAvIcapRequestService($reqService)
+ * @method null setAvIcapResponseHeader($respHeader)
  * @method null setAvStreamMaxLength(int $length)
  */
 class AppConfig {
@@ -54,6 +58,7 @@ class AppConfig {
 		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
 		'av_background_scan' => 'on',
+		'av_icap_mode' => ICAPClient::MODE_REQ_MOD,
 		'av_icap_request_service' => 'avscan',
 		'av_icap_response_header' => 'X-Infection-Found',
 		'av_icap_chunk_size' => '1048576',

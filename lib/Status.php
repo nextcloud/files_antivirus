@@ -13,7 +13,6 @@ use OCA\Files_Antivirus\Db\RuleMapper;
 use Psr\Log\LoggerInterface;
 
 class Status {
-
 	/*
 	 *  The file was not checked (e.g. because the AV daemon wasn't running).
 	 */

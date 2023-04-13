@@ -16,7 +16,6 @@ use \OCA\Files_Antivirus\Db\Rule;
 use \OCA\Files_Antivirus\Db\RuleMapper;
 
 class RuleController extends Controller {
-
 	/** @var RuleMapper */
 	private $ruleMapper;
 

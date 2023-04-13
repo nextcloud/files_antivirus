@@ -26,6 +26,9 @@ namespace OCA\Files_Antivirus\ICAP;
 use RuntimeException;
 
 class ICAPClient {
+	public const MODE_REQ_MOD = 'reqmod';
+	public const MODE_RESP_MOD = 'respmod';
+
 	/** @var string */
 	private $host;
 	/** @var int */
@@ -71,6 +74,19 @@ class ICAPClient {
 	 */
 	public function reqmod(string $service, array $headers, array $requestHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders);
+		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, []);
+	}
+
+	/**
+	 * Send RESPMOD request
+	 *
+	 * @param string $service ICAP service
+	 * @param array $headers
+	 * @param array $requestHeaders
+	 * @return ICAPRequest Response array
+	 */
+	public function respmod(string $service, array $headers, array $requestHeaders, array $responseHeaders): ICAPRequest {
+		$stream = $this->connect();
+		return new ICAPRequest($stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders);
 	}
 }

@@ -19,6 +19,7 @@ jobs:
         php-versions: ['8.0']
         databases: ['sqlite']
         server-versions: [ 'stable24' ]
+        icap-modes: ['reqmod', 'respmod']
 
     name: icap-clmav
 
@@ -72,6 +73,7 @@ jobs:
           ICAP_PORT: 1344
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
+          ICAP_MODE: ${{ matrix.icap-modes }}
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
 
   kaspersky:
@@ -82,6 +84,7 @@ jobs:
         php-versions: ['8.0']
         databases: ['sqlite']
         server-versions: [ 'stable24' ]
+        icap-modes: ['reqmod', 'respmod']
 
     name: icap-kaspersky
 
@@ -138,4 +141,5 @@ jobs:
           ICAP_PORT: 1344
           ICAP_REQUEST: req
           ICAP_HEADER: X-Virus-ID
+          ICAP_MODE: ${{ matrix.icap-modes }}
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php

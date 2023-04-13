@@ -141,9 +141,9 @@ function av_mode_show_options(str, mode = 'slow') {
 		$('tr.av_path').show(mode);
 	}
 	if (str === 'icap'){
-		$('tr.av_icap_service, tr.av_icap_header tr.av_icap_preset').show(mode);
+		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode').show(mode);
 	} else {
-		$('tr.av_icap_service, tr.av_icap_header tr.av_icap_preset').hide(mode);
+		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode').hide(mode);
 	}
 	if (str === 'kaspersky' || str === 'icap') {
 		$('#antivirus-advanced-wrapper').hide(mode);
@@ -212,10 +212,12 @@ $(document).ready(function() {
 		clamav: {
 			service: 'avscan',
 			header: 'X-Infection-Found',
+			mode: 'reqmod',
 		},
 		kaspersky: {
 			service: 'req',
 			header: 'X-Virus-ID',
+			mode: 'reqmod',
 		}
 	}
 	$('#av_icap_preset').on('change', function(e) {
@@ -223,6 +225,7 @@ $(document).ready(function() {
 		if (preset !== 'none') {
 			$('#av_icap_service').val(icapPresets[preset].service);
 			$('#av_icap_header').val(icapPresets[preset].header);
+			$('#av_icap_mode').val(icapPresets[preset].mode);
 		}
 	}).val('none');
 
