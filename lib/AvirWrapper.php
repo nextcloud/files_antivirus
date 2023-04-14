@@ -21,7 +21,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 
 class AvirWrapper extends Wrapper {
-
 	/**
 	 * Modes that are used for writing
 	 * @var array

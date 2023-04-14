@@ -34,8 +34,8 @@ use Psr\Log\LoggerInterface;
  */
 class ICAPTest extends ScannerBaseTest {
 	protected function getScanner(): ScannerBase {
-		if (!getenv('ICAP_HOST') || !getenv('ICAP_PORT') || !getenv('ICAP_REQUEST') || !getenv('ICAP_HEADER')) {
-			$this->markTestSkipped("Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST and ICAP_HEADER to enable icap tests");
+		if (!getenv('ICAP_HOST') || !getenv('ICAP_PORT') || !getenv('ICAP_REQUEST') || !getenv('ICAP_HEADER') || !getenv('ICAP_MODE')) {
+			$this->markTestSkipped("Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST, ICAP_MODE and ICAP_HEADER to enable icap tests");
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);
@@ -51,6 +51,8 @@ class ICAPTest extends ScannerBaseTest {
 						return getenv('ICAP_REQUEST');
 					case 'av_icap_response_header':
 						return getenv('ICAP_HEADER');
+					case 'av_icap_mode':
+						return getenv('ICAP_MODE');
 					case 'av_stream_max_length':
 						return '26214400';
 					case 'av_icap_chunk_size':

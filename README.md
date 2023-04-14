@@ -34,3 +34,27 @@ This app can be configured to work with the executable or the daemon mode (recom
 ## Kaspersky HTTP Details
 
 When running Kaspersky in HTTP mode the [`SessionTimeout`](https://support.kaspersky.com/ScanEngine/2.1/en-US/201030.htm) will need to be set to a value higher than default, a value of 10 minutes (600000 millisecond) or higher is recommended to properly deal with larger uploads
+
+## ICAP (version 5.0 and later)
+
+The app support the ICAP protocol which is a standard supported by various antivirus software products.
+
+Some additional configuration is required depending on the antivirus software used:
+
+- ICAP service: The name of the service the antivirus software expects
+- ICAP virus response header: The name of the header the antivirus software send the details of the detected virus in
+
+### ClamAV ICAP
+
+- ICAP service: `avscan`
+- ICAP virus response header: `X-Infection-Found`
+
+### Kaspersky ICAP
+
+- ICAP service: `req`
+- ICAP virus response header: `X-Virus-ID`
+
+Additionally, the Kaspersky scan engine needs some additional configuration:
+
+- ["Allow204"](https://support.kaspersky.com/ScanEngine/1.0/en-US/201151.htm) should be enabled.
+- For version 2.0 and later, the [virus response header](https://support.kaspersky.com/ScanEngine/1.0/en-US/201214.htm) needs to be configured

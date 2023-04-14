@@ -25,7 +25,6 @@ use JsonSerializable;
  * @method setMatch(string $mach)
  */
 class Rule extends Entity implements JsonSerializable {
-
 	/*
 	 * Rule needs to be validated by the exit code returned by scanner
 	 */

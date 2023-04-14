@@ -17,7 +17,6 @@ use OCA\Files_Antivirus\StatusFactory;
 use Psr\Log\LoggerInterface;
 
 class ExternalClam extends ScannerBase {
-
 	/**
 	 * Daemon/socket mode
 	 */

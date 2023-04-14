@@ -30,7 +30,6 @@ use OCA\Files_Antivirus\StatusFactory;
 use Psr\Log\LoggerInterface;
 
 abstract class ScannerBase implements IScanner {
-
 	/**
 	 * Scan result
 	 */

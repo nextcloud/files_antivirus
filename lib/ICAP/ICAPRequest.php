@@ -29,7 +29,15 @@ class ICAPRequest {
 	/** @var resource */
 	public $stream;
 
-	public function __construct($stream, string $host, string $service, string $method, array $headers, array $requestHeaders) {
+	public function __construct(
+		$stream,
+		string $host,
+		string $service,
+		string $method,
+		array $headers,
+		array $requestHeaders,
+		array $responseHeaders
+	) {
 		$this->stream = $stream;
 
 		if (!array_key_exists('Host', $headers)) {
@@ -48,10 +56,21 @@ class ICAPRequest {
 			return strlen($header) + 2;
 		}, $requestHeaders)) + 2;
 
-		$encapsulated = [
-			'req-hdr' => 0,
-			'req-body' => $requestHeadersLength,
-		];
+		if ($responseHeaders) {
+			$responseHeaderLength = array_sum(array_map(function (string $header) {
+				return strlen($header) + 2;
+			}, $responseHeaders)) + 2;
+			$encapsulated = [
+				'req-hdr' => 0,
+				'res-hdr' => $requestHeadersLength,
+				'res-body' => $requestHeadersLength + $responseHeaderLength,
+			];
+		} else {
+			$encapsulated = [
+				'req-hdr' => 0,
+				'req-body' => $requestHeadersLength,
+			];
+		}
 
 		$headers['Encapsulated'] = '';
 		foreach ($encapsulated as $section => $offset) {
@@ -68,7 +87,14 @@ class ICAPRequest {
 		foreach ($requestHeaders as $requestHeader) {
 			$request .= "$requestHeader\r\n";
 		}
+
 		$request .= "\r\n";
+		if ($responseHeaders) {
+			foreach ($responseHeaders as $responseHeader) {
+				$request .= "$responseHeader\r\n";
+			}
+			$request .= "\r\n";
+		}
 
 		fwrite($this->stream, $request);
 	}

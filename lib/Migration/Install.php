@@ -28,7 +28,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class Install implements IRepairStep {
-
 	/** @var RuleMapper */
 	private $ruleMapper;
 

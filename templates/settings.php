@@ -15,6 +15,7 @@ script('files_antivirus', 'settings');
 							'daemon' => $l->t('ClamAV Daemon'),
 							'socket' => $l->t('ClamAV Daemon (Socket)'),
 							'kaspersky' => $l->t('Kaspersky Daemon'),
+							'icap' => $l->t('ICAP server'),
 						], $_['avMode'])) ?></select>
 					</td>
 					<td></td>
@@ -38,8 +39,16 @@ script('files_antivirus', 'settings');
 					<td><?php p($l->t('ICAP preset'));?></td>
 					<td><select id="av_icap_preset">
 							<option value="none" selected="selected"><?php p($l->t('Select'));?></option>
-							<option value="clamav">ClamAV</option>
+							<option value="clamav">ClamAV / c-icap</option>
 							<option value="kaspersky">Kaspersky</option>
+						</select></td>
+					<td></td>
+				</tr>
+				<tr class="av_icap_mode">
+					<td><?php p($l->t('ICAP mode'));?></td>
+					<td><select id="av_icap_mode" name="avIcapMode">
+							<option value="reqmod">REQMOD</option>
+							<option value="respmod">RESPMOD</option>
 						</select></td>
 					<td></td>
 				</tr>

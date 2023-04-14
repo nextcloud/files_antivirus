@@ -18,7 +18,6 @@ use \OCA\Files_Antivirus\AppConfig;
 use \OCP\AppFramework\Http\JSONResponse;
 
 class SettingsController extends Controller {
-
 	/**
 	 * @var AppConfig
 	 */
@@ -51,9 +50,23 @@ class SettingsController extends Controller {
 	 * @param string $avInfectedAction - action performed on infected files
 	 * @param $avStreamMaxLength - reopen socket after bytes
 	 * @param int $avMaxFileSize - file size limit
+	 * @param string $avIcapMode
 	 * @return JSONResponse
 	 */
-	public function save($avMode, $avSocket, $avHost, $avPort, $avCmdOptions, $avPath, $avInfectedAction, $avStreamMaxLength, $avMaxFileSize) {
+	public function save(
+		$avMode,
+		$avSocket,
+		$avHost,
+		$avPort,
+		$avCmdOptions,
+		$avPath,
+		$avInfectedAction,
+		$avStreamMaxLength,
+		$avMaxFileSize,
+		$avIcapMode,
+		$avIcapRequestService,
+		$avIcapResponseHeader,
+	) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
 		$this->settings->setAvHost($avHost);
@@ -63,6 +76,9 @@ class SettingsController extends Controller {
 		$this->settings->setAvInfectedAction($avInfectedAction);
 		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
 		$this->settings->setAvMaxFileSize($avMaxFileSize);
+		$this->settings->setAvIcapMode($avIcapMode);
+		$this->settings->setAvIcapRequestService($avIcapRequestService);
+		$this->settings->setAvIcapResponseHeader($avIcapResponseHeader);
 
 		try {
 			$scanner = $this->scannerFactory->getScanner();

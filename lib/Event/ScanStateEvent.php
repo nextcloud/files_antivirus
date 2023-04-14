@@ -26,7 +26,6 @@ namespace OCA\Files_Antivirus\Event;
 use OCP\EventDispatcher\Event;
 
 class ScanStateEvent extends Event {
-
 	/** @var bool */
 	private $state;
 

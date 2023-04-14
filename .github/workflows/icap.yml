@@ -65,13 +65,23 @@ jobs:
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force ${{ env.APP_NAME }}
           ./occ config:system:set allow_local_remote_servers --type boolean --value true
-      - name: PHPUnit
+      - name: PHPUnit reqmod
         working-directory: apps/${{ env.APP_NAME }}
         env:
           ICAP_HOST: localhost
           ICAP_PORT: 1344
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
+          ICAP_MODE: reqmod
+        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
+      - name: PHPUnit respmod
+        working-directory: apps/${{ env.APP_NAME }}
+        env:
+          ICAP_HOST: localhost
+          ICAP_PORT: 1344
+          ICAP_REQUEST: avscan
+          ICAP_HEADER: X-Infection-Found
+          ICAP_MODE: respmod
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
 
   kaspersky:
@@ -138,4 +148,5 @@ jobs:
           ICAP_PORT: 1344
           ICAP_REQUEST: req
           ICAP_HEADER: X-Virus-ID
+          ICAP_MODE: reqmod
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
