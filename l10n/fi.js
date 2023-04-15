@@ -24,6 +24,7 @@ OC.L10N.register(
     "ClamAV Executable" : "ClamAV-suoritustiedosto",
     "ClamAV Daemon" : "ClamAV-taustapalvelu",
     "Kaspersky Daemon" : "Kaspersky-taustapalvelu",
+    "ICAP server" : "ICAP-palvelin",
     "Not required in Executable Mode." : "Ei vaadittu suoritettavassa tilassa.",
     "Host" : "Palvelin",
     "Address of Antivirus Host." : "Virustorjuntapalvelimen osoite.",
