@@ -36,6 +36,7 @@ OC.L10N.register(
     "Port number of Antivirus Host." : "Číslo portu hostitele antiviru.",
     "ICAP preset" : "Přednastavené pro ICAP",
     "Select" : "Vybrat",
+    "ICAP mode" : "ICAP režim",
     "ICAP service" : "ICAP služba",
     "ICAP virus response header" : "Záhlaví odpovědi ICAP ohledně viru",
     "Stream Length" : "Délka proudu",
