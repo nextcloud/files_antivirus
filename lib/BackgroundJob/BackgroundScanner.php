@@ -68,7 +68,7 @@ class BackgroundScanner extends TimedJob {
 	public function run($argument): void {
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
 			// Background checking disabled no need to continue
-			$this->logger->debug('Antivirus background scan disablled, skipping');
+			$this->logger->debug('Antivirus background scan disabled, skipping');
 			return;
 		}
 
@@ -169,12 +169,12 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
 			}
 		}
 
 
-		// Run for files that have been scanned in the past. Just start to rescan them as the virus definitaions might have been updated
+		// Run for files that have been scanned in the past. Just start to rescan them as the virus definitions might have been updated
 		try {
 			$result = $this->getOutdatedFiles();
 		} catch (\Exception $e) {
@@ -215,7 +215,7 @@ class BackgroundScanner extends TimedJob {
 					break;
 				}
 			} catch (\Exception $e) {
-				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
 			}
 		}
 	}
