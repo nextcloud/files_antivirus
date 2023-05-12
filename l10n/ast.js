@@ -1,17 +1,9 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Clean" : "Llimpio",
-    "Infected" : "Infeutao",
-    "Scanner output" : "Salida del escaniador",
-    "Saving…" : "Guardando...",
-    "Saved" : "Guardáu",
-    "Host" : "Agospiu",
+    "Antivirus" : "Antivirus",
+    "The file has been removed" : "Quitóse'l ficheru",
     "Port" : "Puertu",
-    "Select" : "Esbillar",
-    "Delete file" : "Desasniciar ficheru",
-    "Save" : "Guardar",
-    "Advanced" : "Avanzao",
     "Description" : "Descripción"
 },
 "nplurals=2; plural=(n != 1);");
