@@ -1,13 +1,13 @@
 {
 	"require-dev": {
-		"christophwurst/nextcloud": "dev-master",
 		"doctrine/dbal": "3.1.4",
 		"php-parallel-lint/php-parallel-lint": "^1.0",
 		"phpunit/phpunit": "^8",
 		"psalm/phar": "^4.3",
 		"icewind/streams": "v0.7.5",
 		"sabre/dav": "^4.2.1",
-		"nextcloud/coding-standard": "^0.4.0"
+		"nextcloud/coding-standard": "^0.4.0",
+		"nextcloud/ocp": "dev-master"
 	},
 	"scripts": {
 		"lint": "parallel-lint --exclude src --exclude vendor --exclude target --exclude build .",
