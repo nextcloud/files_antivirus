@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.1.0] - 2023-05-17
+## Added
+* Support for Nextcloud 27
+
 ## [4.0.1] - 2022-12-06
 ## Fixed
 * Correctly call parent constructor in background job by @come-nc in https://github.com/nextcloud/files_antivirus/pull/254
