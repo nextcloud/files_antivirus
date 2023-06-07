@@ -13,12 +13,12 @@ use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCA\Files_Trashbin\Trash\ITrashManager;
 
 class AvirWrapper extends Wrapper {
 	/**

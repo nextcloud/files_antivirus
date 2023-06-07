@@ -8,12 +8,12 @@
 
 namespace OCA\Files_Antivirus\Controller;
 
-use \OCP\AppFramework\Controller;
-use \OCP\IRequest;
-use OCP\AppFramework\Http\JSONResponse;
-
 use \OCA\Files_Antivirus\Db\Rule;
 use \OCA\Files_Antivirus\Db\RuleMapper;
+use \OCP\AppFramework\Controller;
+
+use \OCP\IRequest;
+use OCP\AppFramework\Http\JSONResponse;
 
 class RuleController extends Controller {
 	/** @var RuleMapper */
