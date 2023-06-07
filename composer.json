@@ -1,16 +1,17 @@
 {
 	"require-dev": {
-		"christophwurst/nextcloud": "dev-master",
+		"nextcloud/ocp": "dev-master",
 		"doctrine/dbal": "3.1.4",
-		"php-parallel-lint/php-parallel-lint": "^1.0",
 		"phpunit/phpunit": "^8",
 		"psalm/phar": "^4.3",
 		"icewind/streams": "v0.7.5",
 		"sabre/dav": "^4.2.1",
-		"nextcloud/coding-standard": "^0.4.0"
+		"nextcloud/coding-standard": "^v1.1.1",
+		"symfony/event-dispatcher": "4.4.30",
+		"psr/clock": "^1.0"
 	},
 	"scripts": {
-		"lint": "parallel-lint --exclude src --exclude vendor --exclude target --exclude build .",
+		"lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/*' -not -path './tests/integration/vendor/*' -print0 | xargs -0 -n1 php -l",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
 		"psalm": "psalm.phar",

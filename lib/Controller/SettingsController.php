@@ -8,14 +8,14 @@
 
 namespace OCA\Files_Antivirus\Controller;
 
-use OCA\Files_Antivirus\Scanner\ScannerFactory;
-use OCA\Files_Antivirus\Status;
-use \OCP\AppFramework\Controller;
-use \OCP\IRequest;
-use \OCP\IL10N;
 use \OCA\Files_Antivirus\AppConfig;
-
+use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
+use \OCP\IL10N;
+use \OCP\IRequest;
+use OCA\Files_Antivirus\Scanner\ScannerFactory;
+
+use OCA\Files_Antivirus\Status;
 
 class SettingsController extends Controller {
 	/**

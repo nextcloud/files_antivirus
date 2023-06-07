@@ -8,8 +8,8 @@
 
 namespace OCA\Files_Antivirus\Db;
 
-use OCP\AppFramework\Db\Entity;
 use JsonSerializable;
+use OCP\AppFramework\Db\Entity;
 
 /**
  * Class Rule

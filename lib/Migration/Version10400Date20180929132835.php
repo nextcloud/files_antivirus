@@ -25,8 +25,8 @@ namespace OCA\Files_Antivirus\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version10400Date20180929132835 extends SimpleMigrationStep {
 	/**

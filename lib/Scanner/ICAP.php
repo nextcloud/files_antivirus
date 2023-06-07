@@ -32,7 +32,7 @@ use OCA\Files_Antivirus\StatusFactory;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
-	/** @var ICAPClient::MODE_REQ_MODE|ICAPClient::MODE_RESP_MOD */
+	/** @var ICAPClient::MODE_REQ_MOD|ICAPClient::MODE_RESP_MOD */
 	private string $mode;
 	private ICAPClient $icapClient;
 	private ?ICAPRequest $request;
