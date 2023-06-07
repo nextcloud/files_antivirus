@@ -7,20 +7,23 @@ on:
       - master
       - stable*
 
+permissions:
+  contents: read
+
 env:
   APP_NAME: files_antivirus
 
 jobs:
-  clam:
+  icap-clamav:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php-versions: ['8.0']
         databases: ['sqlite']
-        server-versions: [ 'stable24' ]
+        server-versions: [ 'stable27' ]
 
-    name: icap-clmav
+    name: icap-clamav
 
     services:
       clam:
@@ -30,24 +33,18 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: Checkout app
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
@@ -84,14 +81,14 @@ jobs:
           ICAP_MODE: respmod
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
 
-  kaspersky:
+  icap-kaspersky:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php-versions: ['8.0']
         databases: ['sqlite']
-        server-versions: [ 'stable24' ]
+        server-versions: [ 'stable27' ]
 
     name: icap-kaspersky
 
@@ -106,24 +103,18 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: Checkout app
-        uses: actions/checkout@v2
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpunit
@@ -150,3 +141,75 @@ jobs:
           ICAP_HEADER: X-Virus-ID
           ICAP_MODE: reqmod
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
+
+  kaspersky:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['8.0']
+        databases: ['sqlite']
+        server-versions: [ 'stable27' ]
+
+    name: kaspersky
+
+    services:
+      kaspersky:
+        image: ghcr.io/icewind1991/kaspersky:latest
+        credentials:
+          username: icewind1991
+          password: ${{ secrets.ghcr_password }}
+        ports:
+          - 1234:80
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          submodules: true
+          repository: nextcloud/server
+          ref: ${{ matrix.server-versions }}
+      - name: Checkout app
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        with:
+          path: apps/${{ env.APP_NAME }}
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+
+      - name: Set up PHPUnit
+        working-directory: apps/${{ env.APP_NAME }}
+        run: composer i
+
+      - name: Set up Nextcloud
+        env:
+          DB_PORT: 4444
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable --force ${{ env.APP_NAME }}
+          ./occ config:system:set allow_local_remote_servers --type boolean --value true
+      - name: PHPUnit
+        working-directory: apps/${{ env.APP_NAME }}
+        env:
+          KASPERSKY_HOST: localhost
+          KASPERSKY_PORT: 1234
+        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ExternalKasperskyTest.php
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: [kaspersky, icap-kaspersky, icap-clamav]
+
+    if: always()
+
+    name: phpunit-scanner-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.kaspersky.result != 'success' }} || ${{ needs.icap-kaspersky.result != 'success' }} || ${{ needs.icap-clamav.result != 'success' }}; then exit 1; fi
