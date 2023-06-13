@@ -17,7 +17,7 @@ OC.L10N.register(
     "Antivirus for files" : "Antivirus para ficheiros",
     "An antivirus app for Nextcloud" : "Unha aplicación de antivirus para o Nextcloud",
     "Greetings {user}," : "Saúdos {user},",
-    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Sentímolo, mais detectouse un malware nun ficheiro que intentou enviar e tivo que ser eliminado.",
+    "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Desculpe, mais detectouse un programa malicioso nun ficheiro que intentou enviar e tivo que ser eliminado.",
     "This email is a notification from {host}. Please, do not reply." : "Este é un correo é unha notificación dende {host}. Non responda.",
     "File uploaded: {file}" : "Ficheiro enviado: {file}",
     "Antivirus for Files" : "Antivirus para Ficheiros",
