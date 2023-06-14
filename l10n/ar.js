@@ -8,6 +8,7 @@ OC.L10N.register(
     "Host" : "المضيف",
     "Port" : "المنفذ",
     "Select" : "تحديد",
+    "bytes" : "بايت",
     "Delete file" : "احذف الملف",
     "Save" : "حفظ",
     "Advanced" : "تعديلات متقدمه",
