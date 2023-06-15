@@ -65,7 +65,7 @@ class SettingsController extends Controller {
 		$avMaxFileSize,
 		$avIcapMode,
 		$avIcapRequestService,
-		$avIcapResponseHeader,
+		$avIcapResponseHeader
 	) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
