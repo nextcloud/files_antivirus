@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "تم الإحتفاظ به",
     "Antivirus for files" : "مضاد الفيروسات للملفات",
     "Antivirus for Files" : "مضاد الفيروسات للملفات",
+    "Mode" : "الطراز",
     "Host" : "المضيف",
     "Port" : "المنفذ",
     "Select" : "تحديد",
