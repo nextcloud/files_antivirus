@@ -60,6 +60,11 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 		</install>
 	</repair-steps>
 
+	<commands>
+		<command>OCA\Files_Antivirus\Command\Status</command>
+		<command>OCA\Files_Antivirus\Command\BackgroundScan</command>
+	</commands>
+
 	<settings>
 		<admin>OCA\Files_Antivirus\Settings\Admin</admin>
 	</settings>

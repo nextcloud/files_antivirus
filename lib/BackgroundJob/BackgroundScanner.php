@@ -10,19 +10,19 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\BackgroundJob;
 
-use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IUserMountCache;
-use OCP\Files\Node;
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -195,7 +195,7 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	/**
-	 * @return iterable<int>
+	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getUnscannedFiles() {
@@ -219,7 +219,7 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
-	 * @return iterable<int>
+	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getToRescanFiles() {
@@ -239,7 +239,7 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
-	 * @return iterable<int>
+	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getOutdatedFiles() {

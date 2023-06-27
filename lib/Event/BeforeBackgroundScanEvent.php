@@ -23,8 +23,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\Event;
 
-use OCP\Files\File;
 use OCP\EventDispatcher\Event;
+use OCP\Files\File;
 
 class BeforeBackgroundScanEvent extends Event {
 	private File $file;
