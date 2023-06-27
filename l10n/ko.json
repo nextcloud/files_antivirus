@@ -13,7 +13,7 @@
     "Virus %s is detected in the file. Upload cannot be completed." : "파일에 %s 바이러스가 감지되었습니다. 업로드할 수 없습니다.",
     "Saved" : "저장됨",
     "Antivirus for files" : "파일 안티바이러스",
-    "Greetings {user}," : "{user} 님 안녕하세요,",
+    "Greetings {user}," : "안녕하세요 {user}님,",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "죄송하지만 업로드하려고 하는 파일에서 멀웨어가 감지되어 삭제되었습니다.",
     "This email is a notification from {host}. Please, do not reply." : "이 이메일은 {host}에서 자동으로 전송한 알림 이메일입니다. 답장하지 마십시오.",
     "File uploaded: {file}" : "업로드한 파일: {file}",
