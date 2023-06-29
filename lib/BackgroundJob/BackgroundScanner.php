@@ -11,17 +11,19 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\BackgroundJob;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IDBConnection;
-use OCP\IUser;
-use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class BackgroundScanner extends TimedJob {
@@ -29,10 +31,11 @@ class BackgroundScanner extends TimedJob {
 	private ScannerFactory $scannerFactory;
 	private AppConfig $appConfig;
 	protected LoggerInterface $logger;
-	protected IUserManager $userManager;
 	protected IDBConnection $db;
 	protected IMimeTypeLoader $mimeTypeLoader;
 	protected ItemFactory $itemFactory;
+	private IUserMountCache $userMountCache;
+	private IEventDispatcher $eventDispatcher;
 	private bool $isCLI;
 
 	public function __construct(
@@ -41,10 +44,11 @@ class BackgroundScanner extends TimedJob {
 		AppConfig $appConfig,
 		IRootFolder $rootFolder,
 		LoggerInterface $logger,
-		IUserManager $userManager,
 		IDBConnection $db,
 		IMimeTypeLoader $mimeTypeLoader,
 		ItemFactory $itemFactory,
+		IUserMountCache $userMountCache,
+		IEventDispatcher $eventDispatcher,
 		bool $isCLI
 	) {
 		parent::__construct($timeFactory);
@@ -52,10 +56,11 @@ class BackgroundScanner extends TimedJob {
 		$this->scannerFactory = $scannerFactory;
 		$this->appConfig = $appConfig;
 		$this->logger = $logger;
-		$this->userManager = $userManager;
 		$this->db = $db;
 		$this->mimeTypeLoader = $mimeTypeLoader;
 		$this->itemFactory = $itemFactory;
+		$this->userMountCache = $userMountCache;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->isCLI = $isCLI;
 
 		// Run once per 15 minutes
@@ -71,156 +76,100 @@ class BackgroundScanner extends TimedJob {
 			$this->logger->debug('Antivirus background scan disabled, skipping');
 			return;
 		}
+		$remaining = $this->getBatchSize();
+		$this->scan($remaining);
+	}
 
+	public function scan(int $max): int {
+		$count = 0;
 		// locate files that are not checked yet
 		try {
-			$result = $this->getUnscannedFiles();
+			$unscanned = $this->getUnscannedFiles();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return;
+			return 0;
 		}
 
+		$unscanned = new \LimitIterator($unscanned, 0, $max);
 		$this->logger->debug('Start background scan');
-		$batchSize = $this->getBatchSize();
 
 		// Run for unscanned files
-		$cnt = 0;
-		while (($row = $result->fetch()) && $cnt < $batchSize) {
-			try {
-				$fileId = $row['fileid'];
-				$users = $this->getUserWithAccessToStorage((int)$row['storage']);
+		$count += $this->processFiles($unscanned);
 
-				foreach ($users as $user) {
-					/** @var IUser $owner */
-					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser) {
-						continue;
-					}
-
-					$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
-					$files = $userFolder->getById($fileId);
-
-					if ($files === []) {
-						continue;
-					}
-
-					$file = array_pop($files);
-					if ($file instanceof File) {
-						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
-							$this->scanOneFile($file);
-						}
-					} else {
-						$this->logger->error('Tried to scan non file');
-					}
-
-					// increased only for successfully scanned files
-					$cnt++;
-					break;
-				}
-			} catch (\Exception $e) {
-				$this->logger->error($e->getMessage(), ['exception' => $e]);
-			}
-		}
-
-		if ($cnt === $batchSize) {
+		if ($count >= $max) {
 			// we are done
-			return;
+			return $count;
 		}
 
 		// Run for updated files
 		try {
-			$result = $this->getToRescanFiles();
+			$rescan = $this->getToRescanFiles();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return;
+			return $count;
 		}
 
-		while (($row = $result->fetch()) && $cnt < $batchSize) {
-			try {
-				$fileId = $row['fileid'];
-				$users = $this->getUserWithAccessToStorage((int)$row['storage']);
+		$rescan = new \LimitIterator($rescan, 0, $max - $count);
+		$count += $this->processFiles($rescan);
 
-				foreach ($users as $user) {
-					/** @var IUser $owner */
-					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser) {
-						continue;
-					}
-
-					$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
-					$files = $userFolder->getById($fileId);
-
-					if ($files === []) {
-						continue;
-					}
-
-					$file = array_pop($files);
-
-					if ($file instanceof File) {
-						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
-							$this->scanOneFile($file);
-						}
-					} else {
-						$this->logger->error('Tried to scan non file');
-					}
-
-					// increased only for successfully scanned files
-					$cnt++;
-					break;
-				}
-			} catch (\Exception $e) {
-				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
-			}
+		if ($count >= $max) {
+			// we are done
+			return $count;
 		}
-
 
 		// Run for files that have been scanned in the past. Just start to rescan them as the virus definitions might have been updated
 		try {
-			$result = $this->getOutdatedFiles();
+			$outdated = $this->getOutdatedFiles();
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return;
+			return $count;
 		}
 
-		while (($row = $result->fetch()) && $cnt < $batchSize) {
+		$outdated = new \LimitIterator($outdated, 0, $max - $count);
+		$this->processFiles($outdated);
+
+		return $count;
+	}
+
+	/**
+	 * @param iterable<int> $fileIds
+	 * @return int
+	 */
+	private function processFiles(iterable $fileIds): int {
+		$count = 0;
+		foreach ($fileIds as $fileId) {
 			try {
-				$fileId = $row['fileid'];
-				$users = $this->getUserWithAccessToStorage((int)$row['storage']);
-
-				foreach ($users as $user) {
-					/** @var IUser $owner */
-					$owner = $this->userManager->get($user['user_id']);
-					if (!$owner instanceof IUser) {
-						continue;
-					}
-
-					$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
-					$files = $userFolder->getById($fileId);
-
-					if ($files === []) {
-						continue;
-					}
-
-					$file = array_pop($files);
-					if ($file instanceof File) {
-						if ($userFolder->nodeExists($userFolder->getRelativePath($file->getPath()))) {
-							$this->scanOneFile($file);
-						}
-					} else {
-						$this->logger->error('Tried to scan non file');
-					}
-
+				$file = $this->getNodeForFile($fileId);
+				if ($file instanceof File) {
+					$this->scanOneFile($file);
 					// increased only for successfully scanned files
-					$cnt++;
-					break;
+					$count++;
+				} else {
+					$this->logger->error('Tried to scan non file');
 				}
 			} catch (\Exception $e) {
 				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
 			}
 		}
+		return $count;
 	}
 
-	protected function getBatchSize(): int {
+	public function getNodeForFile(int $fileId): ?Node {
+		$cachedMounts = $this->userMountCache->getMountsForFileId($fileId);
+
+		foreach ($cachedMounts as $cachedMount) {
+			$userFolder = $this->rootFolder->getUserFolder($cachedMount->getUser()->getUID());
+			$nodes = $userFolder->getById($fileId);
+			foreach ($nodes as $node) {
+				if ($node->isReadable()) {
+					return $node;
+				}
+			}
+		}
+		return null;
+	}
+
+	public function getBatchSize(): int {
 		$batchSize = 10;
 		if ($this->isCLI) {
 			$batchSize = 100;
@@ -245,24 +194,15 @@ class BackgroundScanner extends TimedJob {
 		return $sizeLimitExpr;
 	}
 
-	protected function getUserWithAccessToStorage(int $storageId): array {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('user_id')
-			->from('mounts')
-			->where($qb->expr()->eq('storage_id', $qb->createNamedParameter($storageId)));
-
-		$cursor = $qb->execute();
-		$data = $cursor->fetchAll();
-		$cursor->closeCursor();
-		return $data;
-	}
-
+	/**
+	 * @return \Iterator<int>
+	 * @throws \OCP\DB\Exception
+	 */
 	public function getUnscannedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		$query = $this->db->getQueryBuilder();
-		$query->select('fc.fileid', 'storage')
+		$query->select('fc.fileid')
 			->from('filecache', 'fc')
 			->leftJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
 			->where($query->expr()->isNull('fa.fileid'))
@@ -271,21 +211,37 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		return $query->execute();
+		$result = $query->executeQuery();
+		while (($fileId = $result->fetchOne()) !== false) {
+			yield $fileId;
+		}
 	}
 
-	protected function getToRescanFiles() {
+
+	/**
+	 * @return \Iterator<int>
+	 * @throws \OCP\DB\Exception
+	 */
+	public function getToRescanFiles() {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('fc.fileid', 'fc.storage')
+		$qb->select('fc.fileid')
 			->from('filecache', 'fc')
 			->join('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fc.fileid', 'fa.fileid'))
 			->andWhere($qb->expr()->lt('fa.check_time', 'fc.mtime'))
 			->andWhere($this->getSizeLimitExpression($qb))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		return $qb->execute();
+		$result = $qb->executeQuery();
+		while (($fileId = $result->fetchOne()) !== false) {
+			yield (int)$fileId;
+		}
 	}
 
+
+	/**
+	 * @return \Iterator<int>
+	 * @throws \OCP\DB\Exception
+	 */
 	public function getOutdatedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
@@ -293,7 +249,7 @@ class BackgroundScanner extends TimedJob {
 		$yesterday = time() - (28 * 24 * 60 * 60);
 
 		$query = $this->db->getQueryBuilder();
-		$query->select('fc.fileid', 'fc.storage')
+		$query->select('fc.fileid')
 			->from('filecache', 'fc')
 			->innerJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
 			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
@@ -302,11 +258,15 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		return $query->execute();
+		$result = $query->executeQuery();
+		while (($fileId = $result->fetchOne()) !== false) {
+			yield $fileId;
+		}
 	}
 
 	protected function scanOneFile(File $file): void {
 		$this->logger->debug('Scanning file with fileid: ' . $file->getId());
+		$this->eventDispatcher->dispatchTyped(new BeforeBackgroundScanEvent($file));
 
 		$item = $this->itemFactory->newItem($file, true);
 		$scanner = $this->scannerFactory->getScanner();

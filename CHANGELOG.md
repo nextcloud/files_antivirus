@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [5.1.0] - 2023-05-17
 ## Added
+* Add command to get background scanner status: `occ files_antvirus:status`
+* Add command to trigger the background scanner: `occ files_antivirus:background-scan`
+* Add command to manually scan a single file: `occ files_antivirus:scan`
+* Add command to mark a file as scanner or unscanned: `occ files_antivirus:mark`
+
+## [5.1.1] - 2023-06-15
+## Fixed
+* Fix compatibility with php 7.4
+
+## [5.1.0] - 2023-05-17
+## Added
 * Support for Nextcloud 27
 
 ## [4.0.1] - 2022-12-06

@@ -85,7 +85,7 @@ class BackgroundScannerTest extends TestBase {
 		$scanner = \OC::$server->get(BackgroundScanner::class);
 		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
 
-		$outdated = $scanner->getUnscannedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$outdated = iterator_to_array($scanner->getUnscannedFiles());
 		$this->assertEquals([$newFileId], $outdated);
 	}
 
@@ -96,11 +96,11 @@ class BackgroundScannerTest extends TestBase {
 		/** @var BackgroundScanner $scanner */
 		$scanner = \OC::$server->get(BackgroundScanner::class);
 
-		$outdated = $scanner->getOutdatedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$outdated = iterator_to_array($scanner->getOutdatedFiles());
 		$this->assertEquals([], $outdated);
 
 		$this->updateScannedTime($newFileId, time() - (30 * 24 * 60 * 60));
-		$outdated = $scanner->getOutdatedFiles()->fetchAll(\PDO::FETCH_COLUMN);
+		$outdated = iterator_to_array($scanner->getOutdatedFiles());
 		$this->assertEquals([$newFileId], $outdated);
 	}
 }

@@ -18,6 +18,7 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Psr\Log\LoggerInterface;
@@ -38,6 +39,7 @@ class Item {
 	private IAppManager $appManager;
 	private File $file;
 	private bool $isCron;
+	private ITimeFactory $clock;
 
 	/**
 	 * Item constructor.
@@ -50,6 +52,7 @@ class Item {
 		IRootFolder $rootFolder,
 		IAppManager $appManager,
 		File $file,
+		ITimeFactory $clock,
 		bool $isCron
 	) {
 		$this->config = $appConfig;
@@ -59,6 +62,7 @@ class Item {
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->file = $file;
+		$this->clock = $clock;
 		$this->isCron = $isCron;
 	}
 
@@ -119,7 +123,7 @@ class Item {
 				$msg = 'Infected file found.';
 			}
 			$this->logError($msg . ' ' . $status->getDetails());
-			$this->updateCheckTime();
+			$this->updateCheckTime($this->clock->getTime());
 		}
 	}
 
@@ -138,27 +142,34 @@ class Item {
 	 * 	 * Action to take if this item status is not infected
 	 */
 	public function processClean(): void {
-		$this->updateCheckTime();
+		$this->updateCheckTime($this->clock->getTime());
 	}
 
 	/**
-	 * 	 * Update the check-time of this item to current time
+	 * 	 * Update the check-time of this item to provider time
 	 */
-	private function updateCheckTime(): void {
+	public function updateCheckTime(int $time): void {
 		try {
-			try {
-				$item = $this->itemMapper->findByFileId($this->file->getId());
-				$this->itemMapper->delete($item);
-			} catch (DoesNotExistException $e) {
-				//Just ignore
-			}
+			$this->removeCheckTime();
 
-			$item = new \OCA\Files_Antivirus\Db\Item();
+			$item = new Db\Item();
 			$item->setFileid($this->file->getId());
-			$item->setCheckTime(time());
+			$item->setCheckTime($time);
 			$this->itemMapper->insert($item);
 		} catch (\Exception $e) {
 			$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
+		}
+	}
+
+	/**
+	 * remove the checked time for the item, effectively marking it as unscanned
+	 */
+	public function removeCheckTime(): void {
+		try {
+			$item = $this->itemMapper->findByFileId($this->file->getId());
+			$this->itemMapper->delete($item);
+		} catch (DoesNotExistException $e) {
+			//Just ignore
 		}
 	}
 
