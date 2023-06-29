@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -80,28 +80,5 @@ class BackgroundScan extends Base {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * @param iterable<int> $fileIds
-	 * @return int
-	 */
-	private function processFiles(iterable $fileIds, OutputInterface $output, bool $verbose, string $info): int {
-		$count = 0;
-
-		foreach ($fileIds as $fileId) {
-			if ($verbose) {
-				$node = $this->backgroundScanner->getNodeForFile($fileId);
-				if ($node) {
-					$path = $node->getPath();
-					$output->writeln("  <info>$fileId></info> at <info>$path</info> $info");
-				} else {
-					$output->writeln("  <error>warning: no file found for file $fileId</error>");
-				}
-			}
-			$count++;
-		}
-
-		return $count;
 	}
 }

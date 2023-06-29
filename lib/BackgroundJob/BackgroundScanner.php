@@ -211,7 +211,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
 			yield $fileId;
 		}
@@ -231,7 +231,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($this->getSizeLimitExpression($qb))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
 			yield (int)$fileId;
 		}
@@ -258,7 +258,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
 			yield $fileId;
 		}

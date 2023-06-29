@@ -30,6 +30,7 @@ namespace OCA\Files_Antivirus;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Psr\Log\LoggerInterface;
@@ -41,6 +42,7 @@ class ItemFactory {
 	private LoggerInterface $logger;
 	private IRootFolder $rootFolder;
 	private IAppManager $appManager;
+	private ITimeFactory $clock;
 
 	public function __construct(
 		AppConfig $appConfig,
@@ -48,7 +50,8 @@ class ItemFactory {
 		ItemMapper $itemMapper,
 		LoggerInterface $logger,
 		IRootFolder $rootFolder,
-		IAppManager $appManager
+		IAppManager $appManager,
+		ITimeFactory $clock
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
@@ -56,6 +59,7 @@ class ItemFactory {
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->appManager = $appManager;
+		$this->clock = $clock;
 	}
 
 	public function newItem(File $file, bool $isCron = false): Item {
@@ -67,6 +71,7 @@ class ItemFactory {
 			$this->rootFolder,
 			$this->appManager,
 			$file,
+			$this->clock,
 			$isCron
 		);
 	}
