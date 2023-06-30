@@ -213,7 +213,7 @@ class BackgroundScanner extends TimedJob {
 
 		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
-			yield $fileId;
+			yield (int)$fileId;
 		}
 	}
 
@@ -260,7 +260,7 @@ class BackgroundScanner extends TimedJob {
 
 		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
-			yield $fileId;
+			yield (int)$fileId;
 		}
 	}
 
