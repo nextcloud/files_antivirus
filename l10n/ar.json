@@ -13,6 +13,7 @@
     "Virus %s is detected in the file. Upload cannot be completed." : "تم اكتشاف فيروس %s في الملف. لا يمكن إتمام الرفع.",
     "Saved" : "تم الإحتفاظ به",
     "Antivirus for files" : "مضاد الفيروسات للملفات",
+    "An antivirus app for Nextcloud" : "تطبيق مضاد فيروسات لنكست كلود",
     "Greetings {user}," : "تحياتي {مستخدم}،",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "عذرًا، ولكن تم اكتشاف برنامج ضار في ملف حاولت رفعه وكان لا بد من حذفه.",
     "This email is a notification from {host}. Please, do not reply." : "هذا البريد الإلكتروني هو إشعار من {المضيف}. يرجى عدم الرد.",
