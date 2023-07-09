@@ -39,6 +39,8 @@
     "Path to clamscan executable." : "المسار التنفيذي إلى أداة سطر الأوامر كلام سكان \"clamscan\"",
     "Not required in Daemon Mode." : "غير مطلوب في وضع الدايمون \"Daemon Mode\".",
     "Extra command line options (comma-separated)" : "خيارات سطر أوامر إضافية (مفصولة بفواصل)",
+    "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "حد حجم الملف لعمليات الفحص الدورية للخلفية وعمليات الرفع المجزئة، -1 يعني لا يوجد حد",
+    "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "الحد الأقصى لمسح الخلفية وأقصي حجم لرفع الملف المجزءبالبايت، -1 يعني لا يوجد حد",
     "When infected files are found during a background scan" : "عند العثور على ملفات مصابة أثناء فحص الخلفية",
     "Only log" : "سجل فقط ",
     "Delete file" : "احذف الملف",
