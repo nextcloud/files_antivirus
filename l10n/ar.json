@@ -1,56 +1,62 @@
 { "translations": {
-    "Clean" : "تنظيف",
+    "Clean" : "تطهير",
     "Infected" : "مُصاب",
-    "Unchecked" : "لم يتم التحقق منه",
-    "Scanner exit status" : "حالة خروج الماسح الضوئي",
-    "Scanner output" : "مخرجات الماسح الضوئي",
-    "Saving…" : "جارٍ الحفظ …",
-    "Antivirus" : "مضاد للفيروسات",
-    "File {file} is infected with {virus}" : "الملف {ملف} مصاب بـ {فيروس}",
-    "The file has been removed" : "تمت إزالة الملف",
-    "File containing {virus} detected" : "تم اكتشاف ملف يحتوي على {فيروس}",
+    "Unchecked" : "لم يتم التحقُّق منه",
+    "Scanner exit status" : "حالة خروج الفاحص scanner",
+    "Scanner output" : "مخرجات الفاحص scanner",
+    "Saving…" : "الحفظ جارٍ …",
+    "Antivirus" : "مضاد الفيروسات",
+    "File {file} is infected with {virus}" : "الملف {file} مُصَاب بـ {virus}",
+    "The file has been removed" : "تمّت إزالة الملف",
+    "File containing {virus} detected" : "تمّ اكتشاف ملف يحتوي على {virus}",
     "Antivirus detected a virus" : "اكتشف برنامج مضاد الفيروسات وجود فيروس",
     "Virus %s is detected in the file. Upload cannot be completed." : "تم اكتشاف فيروس %s في الملف. لا يمكن إتمام الرفع.",
-    "Saved" : "تم الإحتفاظ به",
+    "Saved" : "تمّ الحفظ",
     "Antivirus for files" : "مضاد الفيروسات للملفات",
-    "An antivirus app for Nextcloud" : "تطبيق مضاد فيروسات لنكست كلود",
-    "Greetings {user}," : "تحياتي {مستخدم}،",
+    "An antivirus app for Nextcloud" : "تطبيق مضاد فيروسات antivirus لنكست كلاود",
+    "Antivirus for files is an antivirus app for Nextcloud.\n\n* 🕵️‍♂️ When the user uploads a file, it's checked\n* ☢️ Uploaded and infected files will be deleted and a notification will be shown and/or sent via email\n* 🔎 Background Job to scan all files\n* ❓ Use ClamAV (open source), Kaspersky Scan Engine or an ICAP compatible scanner\n\nThis application inspects files that are uploaded to Nextcloud for viruses before they are written to the Nextcloud storage. If a file is identified as a virus, it is either logged or not uploaded to the server. The application relies on the underlying ClamAV virus scanning engine, which the admin points Nextcloud to when configuring the application. Alternatively, a Kaspersky Scan Engine can be configured, which has to run on a separate server.\nFor this app to be effective, the ClamAV virus definitions should be kept up to date. Also note that enabling this app will impact system performance as additional processing is required for every upload. More information is available in the Antivirus documentation." : "تطبيق مضاد الفيروسات Antivirus للملفات في نكست كلاود. \n\n* 🕵️‍♂️ عندما يقوم المستخدم بتحميل ملف ، يتم فحصه \n* ☢️ سيتم حذف الملفات المصابة وسيظهر إشعار بذلك و/أو سيتم إرسال البريد الإلكتروني بالخصوص \n* 🔎 يعمل مهمة في الخلفية لفحص جميع الملفات \n* ❓ يستعمل ClamAV (مفتوح المصدر) أو Kaspersky Scan Engine أو أي فاحص فيروسات متوافق مع ICAP. يفحص هذا التطبيق الملفات التي يجري تحميلها إلى نكست كلاود بحثًا عن الفيروسات قبل التخزين في نكست كلاود. إذا تمّ تحديد ملف على أنه فيروس، فإنه إمّا أن يتم تسجيله في سجل الحركات  log أو لا يتم تحميله على الخادوم. يعتمد التطبيق على محرك فحص الفيروسات ClamAV الأساسي، والذي يحدِّدُه مشرف نكست كلاود عند تكوين التطبيق. كما يمكن كذلك تكوين Kaspersky Scan Engine، و الذي يجب تشغيله على خادوم منفصل. لكي يكون هذا التطبيق فعالاً ، يجب تحديث تعريفات فيروس ClamAV. لاحظ أيضًا أن تمكين هذا التطبيق سيؤثر على أداء النظام حيث أن معالجة إضافية ستجري مع كل عملية تحميل. \n\nيتوفر المزيد من المعلومات في وثائق مكافحة الفيروسات.",
+    "Greetings {user}," : "أهلا، {user}",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "عذرًا، ولكن تم اكتشاف برنامج ضار في ملف حاولت رفعه وكان لا بد من حذفه.",
-    "This email is a notification from {host}. Please, do not reply." : "هذا البريد الإلكتروني هو إشعار من {المضيف}. يرجى عدم الرد.",
-    "File uploaded: {file}" : "تم تحميل الملف: {ملف}",
+    "This email is a notification from {host}. Please, do not reply." : "هذا البريد الإلكتروني هو إشعار آلي من {host}. يُرجى عدم الرد.",
+    "File uploaded: {file}" : "تمّ تحميل الملف: {file}",
     "Antivirus for Files" : "مضاد الفيروسات للملفات",
-    "Mode" : "الطراز",
-    "ClamAV Executable" : "محرك مكافحة الفيروسات كلاماف إسكيوتبل \"ClamAV Executable\"",
-    "ClamAV Daemon" : "محرك مكافحة الفيروسات كلاماف دايمون \"ClamAV Daemon\"",
-    "ClamAV Daemon (Socket)" : "كلاماف دايمون (سوكت)",
-    "Kaspersky Daemon" : "برنامج مكافحة الفيروسات كاسبرسكاي دايمون \"Kaspersky Daemon\"",
-    "Socket" : "مأخذ توصيل",
+    "Mode" : "الوضعية",
+    "ClamAV Executable" : "محرك مكافحة الفيروسات ClamAV Executable",
+    "ClamAV Daemon" : "الحارس المستقر Daemon لـ ClamAV",
+    "ClamAV Daemon (Socket)" : "مَقْبَس Socket الحارس المستقر Daemon (لـ ClamAV)",
+    "Kaspersky Daemon" : "الحارس المستقر لـ Kaspersky",
+    "ICAP server" : "خادوم ICAP ",
+    "Socket" : "مقبس socket",
     "ClamAV Socket." : "كلاماف سوكت \"ClamAV Socket\".",
     "Not required in Executable Mode." : "غير مطلوب في الوضع القابل للتنفيذ.",
     "Host" : "المضيف",
     "Address of Antivirus Host." : "عنوان مضيف مضاد الفيروسات.",
     "Port" : "المنفذ",
     "Port number of Antivirus Host." : "رقم منفذ مضيف مكافحة الفيروسات.",
-    "Select" : "تحديد",
-    "Stream Length" : "طول الدفق/ البث",
-    "ClamAV StreamMaxLength value in bytes." : "قيمة ClamAV StreamMaxLength بالبايت.",
+    "ICAP preset" : "الإعداد المسبق لـ ICAP",
+    "Select" : "حدِّد",
+    "ICAP mode" : "وضعية ICAP",
+    "ICAP service" : "خدمة ICAP",
+    "ICAP virus response header" : "ترويسة جواب ICAP virus",
+    "Stream Length" : "طول المجرى",
+    "ClamAV StreamMaxLength value in bytes." : "أقصى طول StreamMaxLength لمجرى الـ ClamAV  بالبايت.",
     "bytes" : "بايت",
-    "Path to clamscan" : "المسار إلى أداة سطر الأوامر كلام سكان \"clamscan\"",
-    "Path to clamscan executable." : "المسار التنفيذي إلى أداة سطر الأوامر كلام سكان \"clamscan\"",
-    "Not required in Daemon Mode." : "غير مطلوب في وضع الدايمون \"Daemon Mode\".",
-    "Extra command line options (comma-separated)" : "خيارات سطر أوامر إضافية (مفصولة بفواصل)",
-    "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "حد حجم الملف لعمليات الفحص الدورية للخلفية وعمليات الرفع المجزئة، -1 يعني لا يوجد حد",
-    "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "الحد الأقصى لمسح الخلفية وأقصي حجم لرفع الملف المجزءبالبايت، -1 يعني لا يوجد حد",
-    "When infected files are found during a background scan" : "عند العثور على ملفات مصابة أثناء فحص الخلفية",
-    "Only log" : "سجل فقط ",
-    "Delete file" : "احذف الملف",
+    "Path to clamscan" : "المسار إلى clamscan ",
+    "Path to clamscan executable." : "المسار إلى البرنامج التنفيذي clamscan.",
+    "Not required in Daemon Mode." : "غير مطلوب في وضعية \"الحارس المستقر\" Daemon Mode.",
+    "Extra command line options (comma-separated)" : "خيارات إضافية في سطر الأوامر (مفصولة بفواصل)",
+    "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "الحد الأقصى لحجم الملف في عمليات الفحص الدورية في الخلفية وعمليات الرفع المُجزّئة؛ حيث -1 تعني أنه لا يوجد حد.",
+    "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "الحد الأقصى لحجم الملف عند الفحص في الخلفية، وأقصي حجم لرفع الملف المُجزّأ بالبايت؛ حيث -1 تعني أنه لا يوجد حد.",
+    "When infected files are found during a background scan" : "عند العثور على ملفات مصابة أثناء الفحص في الخلفية",
+    "Only log" : "سجّل في log فقط ",
+    "Delete file" : "إحذِف الملف",
     "Save" : "حفظ",
-    "Advanced" : "تعديلات متقدمه",
+    "Advanced" : "مُتقدِّمةٌ",
     "Rules" : "القواعد",
     "Clear All" : "مسح الكل",
     "Reset to defaults" : "إعادة التعيين إلى الإعدادات الافتراضية",
-    "Match by" : "مطابق من قبل",
-    "Scanner exit status or signature to search" : "حالة خروج الماسح أو التوقيع للبحث",
+    "Match by" : "طَابِق بـ",
+    "Scanner exit status or signature to search" : "حالة خروج الفاحص أو التوقيع للبحث",
     "Description" : "الوصف",
     "Mark as" : "التمييز كـ",
     "Add a rule" : "إضافة قاعدة"
