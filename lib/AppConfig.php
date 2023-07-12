@@ -30,6 +30,7 @@ use OCP\IConfig;
  * @method null setAvHost(string $avHost)
  * @method null setAvPort(int $avPort)
  * @method null setAvMaxFileSize(int $fileSize)
+ * @method null setAvScanFirstBytes(int $fileSize)
  * @method null setAvCmdOptions(string $avCmdOptions)
  * @method null setAvChunkSize(int $chunkSize)
  * @method null setAvPath(string $avPath)
@@ -63,6 +64,7 @@ class AppConfig {
 		'av_icap_response_header' => 'X-Infection-Found',
 		'av_icap_chunk_size' => '1048576',
 		'av_icap_connect_timeout' => '5',
+		'av_scan_first_bytes' => -1,
 	];
 
 	/**

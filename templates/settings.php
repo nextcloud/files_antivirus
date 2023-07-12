@@ -90,6 +90,15 @@ script('files_antivirus', 'settings');
 					</td>
 					<td><label for="av_max_file_size" class="a-left"><?php p($l->t('bytes'))?></label></td>
 				</tr>
+				<tr class="av_scan_first_bytes">
+					<td><label for="av_scan_first_bytes"><?php p($l->t('Check only first bytes of the file, -1 means no limit'));?></label></td>
+					<td>
+						<input type="text" id="av_scan_first_bytes" name="avScanFirstBytes" value="<?php p($_['avScanFirstBytes']); ?>"
+						   title="<?php p($l->t('Check only first bytes of the file, -1 means no limit'));?>"
+						/>
+					</td>
+					<td><label for="av_scan_first_bytes" class="a-left"><?php p($l->t('bytes'))?></label></td>
+				</tr>
 				<tr class="infected_action">
 					<td><label for="av_infected_action"><?php p($l->t('When infected files are found during a background scan'));?></label></td>
 					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
