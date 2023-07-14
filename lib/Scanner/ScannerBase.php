@@ -164,6 +164,11 @@ abstract class ScannerBase implements IScanner {
 			return;
 		}
 
+		$scanFirstBytes = (int)$this->appConfig->getAppValue('av_scan_first_bytes');
+		if ($scanFirstBytes > -1 && $this->byteCount >= $scanFirstBytes) {
+			return;
+		}
+
 		$dataLength = strlen($data);
 		$streamSizeLimit = (int)$this->appConfig->getAvStreamMaxLength();
 		if ($this->byteCount + $dataLength > $streamSizeLimit) {

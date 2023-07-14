@@ -50,6 +50,7 @@ class SettingsController extends Controller {
 	 * @param string $avInfectedAction - action performed on infected files
 	 * @param $avStreamMaxLength - reopen socket after bytes
 	 * @param int $avMaxFileSize - file size limit
+	 * @param int $avScanFirstBytes - scan size limit
 	 * @param string $avIcapMode
 	 * @return JSONResponse
 	 */
@@ -63,6 +64,7 @@ class SettingsController extends Controller {
 		$avInfectedAction,
 		$avStreamMaxLength,
 		$avMaxFileSize,
+		$avScanFirstBytes,
 		$avIcapMode,
 		$avIcapRequestService,
 		$avIcapResponseHeader
@@ -76,6 +78,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvInfectedAction($avInfectedAction);
 		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
 		$this->settings->setAvMaxFileSize($avMaxFileSize);
+		$this->settings->setAvScanFirstBytes($avScanFirstBytes);
 		$this->settings->setAvIcapMode($avIcapMode);
 		$this->settings->setAvIcapRequestService($avIcapRequestService);
 		$this->settings->setAvIcapResponseHeader($avIcapResponseHeader);
