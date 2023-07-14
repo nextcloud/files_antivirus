@@ -64,7 +64,7 @@ class SettingsController extends Controller {
 		$avInfectedAction,
 		$avStreamMaxLength,
 		$avMaxFileSize,
-        $avScanFirstBytes,
+		$avScanFirstBytes,
 		$avIcapMode,
 		$avIcapRequestService,
 		$avIcapResponseHeader
