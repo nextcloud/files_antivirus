@@ -40,7 +40,7 @@ class ICAPTest extends ScannerBaseTest {
 
 		$logger = $this->createMock(LoggerInterface::class);
 		$config = $this->createPartialMock(AppConfig::class, ['getter']);
-		$config->method('getter')
+		$config->method('getAppValue')
 			->willReturnCallback(function ($key) {
 				switch ($key) {
 					case 'av_host':
@@ -59,6 +59,8 @@ class ICAPTest extends ScannerBaseTest {
 						return '1048576';
 					case 'av_icap_connect_timeout':
 						return '5';
+					case 'av_scan_first_bytes':
+						return -1;
 				}
 			});
 		return new ICAP($config, $logger, \OC::$server->get(StatusFactory::class));
