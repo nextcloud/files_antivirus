@@ -49,6 +49,7 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Zusätzliche Kommandozeilen-Optionen (mit Komma getrennt)",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Dateigrößenbeschränkung für regelmäßige Hintergrundscans und stückweises hochladen in Bytes, -1 bedeutet keine Begrenzung",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Dateigrößenbeschränkung für Hintergrundscan und stückweises hochladen in Bytes, -1 bedeutet keine Begrenzung",
+    "Check only first bytes of the file, -1 means no limit" : "Nur die ersten Bytes der Datei prüfen, -1 bedeutet keine Begrenzung",
     "When infected files are found during a background scan" : "Wenn infizierte Dateien während eines Hintergrund-Scans gefunden werden",
     "Only log" : "Nur protokollieren",
     "Delete file" : "Datei löschen",

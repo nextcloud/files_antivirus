@@ -47,6 +47,7 @@
     "Extra command line options (comma-separated)" : "خيارات إضافية في سطر الأوامر (مفصولة بفواصل)",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "الحد الأقصى لحجم الملف في عمليات الفحص الدورية في الخلفية وعمليات الرفع المُجزّئة؛ حيث -1 تعني أنه لا يوجد حد.",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "الحد الأقصى لحجم الملف عند الفحص في الخلفية، وأقصي حجم لرفع الملف المُجزّأ بالبايت؛ حيث -1 تعني أنه لا يوجد حد.",
+    "Check only first bytes of the file, -1 means no limit" : "تحقق فقط من البايتات الأولى من الملف، -1 تعني عدم وجود حدٍّ.",
     "When infected files are found during a background scan" : "عند العثور على ملفات مصابة أثناء الفحص في الخلفية",
     "Only log" : "سجّل في log فقط ",
     "Delete file" : "إحذِف الملف",
