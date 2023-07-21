@@ -49,6 +49,7 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "額外的命令列選項（以逗號分隔）",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "定期背景掃描與大量上傳的檔案大小限制，-1 代表無限制",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "背景掃描與大量上傳的檔案大小限制（以位元組為單位），-1 代表無限制",
+    "Check only first bytes of the file, -1 means no limit" : "僅檢查檔案的前幾個位元祖，-1 表示無限制",
     "When infected files are found during a background scan" : "在背景掃描時發現受感染的檔案時",
     "Only log" : "僅記錄",
     "Delete file" : "刪除檔案",
