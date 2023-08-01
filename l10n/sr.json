@@ -47,6 +47,7 @@
     "Extra command line options (comma-separated)" : "Додатне опције командне линије (одвојене зарезом)",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Ограничење величине фајла за периодична скенирања у позадини и отпремања у комадима, -1 значи да нема ограничења",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Ограничење величине фајла у бајтовима за периодична скенирања у позадини и отпремања у комадима, -1 значи да нема ограничења",
+    "Check only first bytes of the file, -1 means no limit" : "Провери само прве бајтове фајла, -1 значи без ограничења",
     "When infected files are found during a background scan" : "Када се нађу инфицирани фајлови за време скенирања у позадини",
     "Only log" : "Само дневник",
     "Delete file" : "Обриши фајл",
