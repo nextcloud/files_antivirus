@@ -49,6 +49,7 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "Komando-lerro gehigarrien aukerak (komaz bereizita)",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Aldizkako atzeko planoko miaketetarako fitxategi tamainaren muga eta zatikatutako igoeretan, -1-k esan nahi du ez duela mugarik",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Atzeko planoko miaketa eta zatikatutako igoeretan fitxategi tamainaren muga bytetan, -1-k esan nahi du ez duela mugarik",
+    "Check only first bytes of the file, -1 means no limit" : "Egiaztatu fitxategiaren lehen byteak bakarrik, -1ek mugarik ez duela esan nahi du",
     "When infected files are found during a background scan" : "Infektatuz gero, atzeko planoko eskaneatzean aurkitzen dira fitxategiak",
     "Only log" : "Log fitxategia soilik",
     "Delete file" : "Ezabatu fitxategia",
