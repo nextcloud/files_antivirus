@@ -145,7 +145,7 @@ class BackgroundScanner extends TimedJob {
 					// increased only for successfully scanned files
 					$count++;
 				} else {
-					$this->logger->error('Tried to scan non file');
+					$this->logger->info('Tried to scan non file');
 				}
 			} catch (\Exception $e) {
 				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
