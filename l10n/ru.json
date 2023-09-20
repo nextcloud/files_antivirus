@@ -47,6 +47,7 @@
     "Extra command line options (comma-separated)" : "Дополнительные опции командной строки (разделённые запятыми)",
     "File size limit for periodic background scans and chunked uploads, -1 means no limit" : "Ограничение размера файла для периодического фонового сканирования и загрузки отдельных фрагментов, -1 означает отсутствие ограничения",
     "Background scan and chunked upload file size limit in bytes, -1 means no limit" : "Ограничение размера файла фонового сканирования и фрагментарной загрузки в байтах, -1 означает отсутствие ограничения",
+    "Check only first bytes of the file, -1 means no limit" : "Проверять только первые байты файла, -1 означает отсутствие ограничений",
     "When infected files are found during a background scan" : "Когда заражённые файлы находятся во время фонового сканирования",
     "Only log" : "Только писать в журнал",
     "Delete file" : "Удалить файл",
