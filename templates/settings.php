@@ -101,7 +101,7 @@ script('files_antivirus', 'settings');
 				</tr>
 				<tr class="infected_action">
 					<td><label for="av_infected_action"><?php p($l->t('When infected files are found during a background scan'));?></label></td>
-					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
+					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file'), 'mark_and_log' => $l->t('Mark and log')], $_['avInfectedAction'])) ?></select></td>
 					<td></td>
 				</tr>
 			</table>

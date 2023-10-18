@@ -51,6 +51,7 @@
     "When infected files are found during a background scan" : "When infected files are found during a background scan",
     "Only log" : "Only log",
     "Delete file" : "Delete file",
+    "Mark and log" : "Mark and log",
     "Save" : "Save",
     "Advanced" : "Advanced",
     "Rules" : "Rules",
