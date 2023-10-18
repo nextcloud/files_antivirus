@@ -53,7 +53,11 @@ class ResponseParser {
 	 * @return IcapResponseStatus
 	 */
 	private function readIcapStatusLine($stream): IcapResponseStatus {
-		$icapHeader = \trim(\fgets($stream));
+		$rawHeader = \fgets($stream);
+		if (!$rawHeader) {
+			throw new RuntimeException("Empty ICAP response");
+		}
+		$icapHeader = \trim($rawHeader);
 		$numValues = \sscanf($icapHeader, "ICAP/%d.%d %d %s", $v1, $v2, $code, $status);
 		if ($numValues !== 4) {
 			throw new RuntimeException("Unknown ICAP response: \"$icapHeader\"");

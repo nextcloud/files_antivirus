@@ -17,6 +17,11 @@
 	padding-left: 6px;
 }
 
+.section-antivirus table input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+}
+
 .section-antivirus table td:last-child {
 	padding-right: 6px;
 	padding-left: 6px;

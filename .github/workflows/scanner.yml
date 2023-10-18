@@ -22,12 +22,13 @@ jobs:
         php-versions: ['8.0']
         databases: ['sqlite']
         server-versions: [ 'stable27' ]
+        transport: ['plain', 'tls']
 
-    name: icap-clamav
+    name: icap-clamav-${{ matrix.transport }}
 
     services:
       clam:
-        image: deepdiver/icap-clamav-service
+        image: ghcr.io/icewind1991/icap-clamav-service-tls
         ports:
           - 1344:1344
 
@@ -66,7 +67,8 @@ jobs:
         working-directory: apps/${{ env.APP_NAME }}
         env:
           ICAP_HOST: localhost
-          ICAP_PORT: 1344
+          ICAP_PORT: ${{ matrix.transport == 'tls' && '1345' || '1344' }}
+          ICAP_TRANSPORT: ${{ matrix.transport }}
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
           ICAP_MODE: reqmod
@@ -75,7 +77,8 @@ jobs:
         working-directory: apps/${{ env.APP_NAME }}
         env:
           ICAP_HOST: localhost
-          ICAP_PORT: 1344
+          ICAP_PORT: ${{ matrix.transport == 'tls' && '1345' || '1344' }}
+          ICAP_TRANSPORT: ${{ matrix.transport }}
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
           ICAP_MODE: respmod

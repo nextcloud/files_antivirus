@@ -53,6 +53,8 @@ class ICAPTest extends ScannerBaseTest {
 						return getenv('ICAP_HEADER');
 					case 'av_icap_mode':
 						return getenv('ICAP_MODE');
+					case 'av_icap_tls':
+						return getenv('ICAP_TRANSPORT') === 'tls';
 					case 'av_stream_max_length':
 						return '26214400';
 					case 'av_icap_chunk_size':
