@@ -15,10 +15,10 @@ use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AvirWrapper extends Wrapper {
 	/**
@@ -60,7 +60,7 @@ class AvirWrapper extends Wrapper {
 		$this->isHomeStorage = $parameters['isHomeStorage'];
 		$this->trashEnabled = $parameters['trashEnabled'];
 
-		/** @var EventDispatcherInterface $eventDispatcher */
+		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
 		$eventDispatcher->addListener(ScanStateEvent::class, function (ScanStateEvent $event) {
 			$this->shouldScan = $event->getState();
