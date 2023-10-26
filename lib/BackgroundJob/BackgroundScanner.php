@@ -146,6 +146,7 @@ class BackgroundScanner extends TimedJob {
 					$count++;
 				} else {
 					$this->logger->info('Tried to scan non file');
+					$this->deleteFileCheckTime($fileId);
 				}
 			} catch (\Exception $e) {
 				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus', 'exception' => $e]);
@@ -262,6 +263,14 @@ class BackgroundScanner extends TimedJob {
 		while (($fileId = $result->fetchOne()) !== false) {
 			yield (int)$fileId;
 		}
+	}
+
+	public function deleteFileCheckTime(int $fileId): void {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('files_antivirus')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
+
+		$result = $query->executeStatement();
 	}
 
 	protected function scanOneFile(File $file): void {
