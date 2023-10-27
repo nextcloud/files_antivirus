@@ -58,3 +58,13 @@ Additionally, the Kaspersky scan engine needs some additional configuration:
 
 - ["Allow204"](https://support.kaspersky.com/ScanEngine/1.0/en-US/201151.htm) should be enabled.
 - For version 2.0 and later, the [virus response header](https://support.kaspersky.com/ScanEngine/1.0/en-US/201214.htm) needs to be configured
+
+### TLS Encryption
+
+Using TLS encryption for the ICAP connection is supported, this requires the ICAP server to use a valid certificate.
+If the certificate isn't signed by a trusted certificate authority, you can import the certificate into Nextcloud's
+certificate bundle using
+
+```shell
+occ security:certificates:import /path/to/certificate
+```

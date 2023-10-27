@@ -52,6 +52,7 @@ class SettingsController extends Controller {
 	 * @param int $avMaxFileSize - file size limit
 	 * @param int $avScanFirstBytes - scan size limit
 	 * @param string $avIcapMode
+	 * @param bool $avIcapTls
 	 * @return JSONResponse
 	 */
 	public function save(
@@ -67,7 +68,8 @@ class SettingsController extends Controller {
 		$avScanFirstBytes,
 		$avIcapMode,
 		$avIcapRequestService,
-		$avIcapResponseHeader
+		$avIcapResponseHeader,
+		$avIcapTls
 	) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
@@ -82,6 +84,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvIcapMode($avIcapMode);
 		$this->settings->setAvIcapRequestService($avIcapRequestService);
 		$this->settings->setAvIcapResponseHeader($avIcapResponseHeader);
+		$this->settings->setAvIcapTls((bool)$avIcapTls);
 
 		try {
 			$scanner = $this->scannerFactory->getScanner();

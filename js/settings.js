@@ -141,9 +141,9 @@ function av_mode_show_options(str, mode = 'slow') {
 		$('tr.av_path').show(mode);
 	}
 	if (str === 'icap'){
-		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode').show(mode);
+		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode, tr.av_icap_tls').show(mode);
 	} else {
-		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode').hide(mode);
+		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode, tr.av_icap_tls').hide(mode);
 	}
 	if (str === 'kaspersky' || str === 'icap') {
 		$('#antivirus-advanced-wrapper').hide(mode);

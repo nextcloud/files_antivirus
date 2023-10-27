@@ -27,8 +27,10 @@ namespace OCA\Files_Antivirus\Scanner;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ICAP\ICAPClient;
 use OCA\Files_Antivirus\ICAP\ICAPRequest;
+use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
@@ -39,11 +41,13 @@ class ICAP extends ScannerBase {
 	private string $service;
 	private string $virusHeader;
 	private int $chunkSize;
+	private bool $tls;
 
 	public function __construct(
 		AppConfig $config,
 		LoggerInterface $logger,
-		StatusFactory $statusFactory
+		StatusFactory $statusFactory,
+		ICertificateManager $certificateManager
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
@@ -53,11 +57,16 @@ class ICAP extends ScannerBase {
 		$this->virusHeader = $config->getAvIcapResponseHeader();
 		$this->chunkSize = (int)$config->getAvIcapChunkSize();
 		$this->mode = $config->getAvIcapMode();
+		$this->tls = $config->getAvIcapTls();
 
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
-		$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
+		if ($this->tls) {
+			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager);
+		} else {
+			$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
+		}
 	}
 
 	public function initScanner() {

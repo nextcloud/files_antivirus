@@ -60,6 +60,7 @@ class AppConfig {
 		'av_infected_action' => 'only_log',
 		'av_background_scan' => 'on',
 		'av_icap_mode' => ICAPClient::MODE_REQ_MOD,
+		'av_icap_tls' => false,
 		'av_icap_request_service' => 'avscan',
 		'av_icap_response_header' => 'X-Infection-Found',
 		'av_icap_chunk_size' => '1048576',
@@ -84,6 +85,14 @@ class AppConfig {
 
 	public function getAvMaxFileSize(): int {
 		return (int)$this->getAppValue('av_max_file_size');
+	}
+
+	public function getAvIcapTls(): bool {
+		return (bool)$this->getAppValue('av_icap_tls');
+	}
+
+	public function setAvIcapTls(bool $enable): void {
+		$this->setAppValue('av_icap_tls', $enable ? '1' : '0');
 	}
 
 	/**

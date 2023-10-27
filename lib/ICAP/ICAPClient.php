@@ -30,11 +30,11 @@ class ICAPClient {
 	public const MODE_RESP_MOD = 'respmod';
 
 	/** @var string */
-	private $host;
+	protected $host;
 	/** @var int */
-	private $port;
+	protected $port;
 	/** @var int */
-	private $connectTimeout;
+	protected $connectTimeout;
 
 	public function __construct(string $host, int $port, int $connectTimeout) {
 		$this->host = $host;
@@ -47,7 +47,7 @@ class ICAPClient {
 	 *
 	 * @return resource
 	 */
-	private function connect() {
+	protected function connect() {
 		$stream = @\stream_socket_client(
 			"tcp://{$this->host}:{$this->port}",
 			$errorCode,
