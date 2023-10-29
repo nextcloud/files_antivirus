@@ -35,6 +35,8 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Antivirus sunucusunun adresi",
     "Port" : "Bağlantı noktası",
     "Port number of Antivirus Host." : "Antivirus sunucusunun bağlantı noktası.",
+    "Tls" : "TLS",
+    "Use TLS encryption." : "TLS şifrelemesi kullanılır.",
     "ICAP preset" : "ICAP hazır ayarı",
     "Select" : "Seçin",
     "ICAP mode" : "ICAP kipi",

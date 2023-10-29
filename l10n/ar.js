@@ -35,6 +35,8 @@ OC.L10N.register(
     "Address of Antivirus Host." : "عنوان مضيف مضاد الفيروسات.",
     "Port" : "المنفذ",
     "Port number of Antivirus Host." : "رقم منفذ مضيف مكافحة الفيروسات.",
+    "Tls" : "Tls",
+    "Use TLS encryption." : "إستَعمِل تشفير TLS",
     "ICAP preset" : "الإعداد المسبق لـ ICAP",
     "Select" : "حدِّد",
     "ICAP mode" : "وضعية ICAP",
