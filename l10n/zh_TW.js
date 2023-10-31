@@ -35,6 +35,8 @@ OC.L10N.register(
     "Address of Antivirus Host." : "防毒主機的地址。",
     "Port" : "連接埠",
     "Port number of Antivirus Host." : "防毒主機的連接埠號。",
+    "Tls" : "TLS",
+    "Use TLS encryption." : "使用 TLS 加密。",
     "ICAP preset" : "ICAP 預先設定集",
     "Select" : "選取",
     "ICAP mode" : "ICAP 模式",
