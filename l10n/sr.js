@@ -35,6 +35,8 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Адреса домаћина антивируса.",
     "Port" : "Порт",
     "Port number of Antivirus Host." : "Број порта домаћина антивируса",
+    "Tls" : "Tls",
+    "Use TLS encryption." : "Користи TLS шифровање.",
     "ICAP preset" : "ICAP поставка",
     "Select" : "Обележи",
     "ICAP mode" : "ICAP режим",

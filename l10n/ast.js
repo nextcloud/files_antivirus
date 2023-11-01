@@ -6,6 +6,7 @@ OC.L10N.register(
     "The file has been removed" : "Quitóse'l ficheru",
     "Port" : "Puertu",
     "bytes" : "bytes",
+    "Save" : "Guardar",
     "Description" : "Descripción"
 },
 "nplurals=2; plural=(n != 1);");
