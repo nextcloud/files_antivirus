@@ -36,7 +36,7 @@ script('files_antivirus', 'settings');
 					<td></td>
 				</tr>
 				<tr class="av_icap_tls">
-					<td><label for="av_icap_tls"><?php p($l->t('Tls'));?></label></td>
+					<td><label for="av_icap_tls"><?php p($l->t('TLS'));?></label></td>
 					<td>
 						<input type="checkbox" id="av_icap_tls" name="avIcapTls" <?php p($_['avIcapTls'] ? 'checked="checked"' : ''); ?>" title="<?php p($l->t('Use TLS encryption.'));?>">
 					</td>
