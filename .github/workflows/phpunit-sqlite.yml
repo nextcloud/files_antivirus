@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Get version matrix
         id: versions
-        uses: icewind1991/nextcloud-version-matrix@a82a7d40fdca32fd814ede3b40b0f657147a1748 # master
+        uses: icewind1991/nextcloud-version-matrix@c2bf575a3516752db5ce2915499d3f694885e2c7 # master
 
   phpunit-sqlite:
     runs-on: ubuntu-latest
