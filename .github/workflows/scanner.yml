@@ -1,4 +1,4 @@
-name: ICAP
+name: Scanner
 
 on:
   pull_request:
@@ -14,14 +14,27 @@ env:
   APP_NAME: files_antivirus
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      php-max: ${{ steps.versions.outputs.php-max }}
+      server-max: ${{ steps.versions.outputs.branches-max }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@111919cfc7b388b7c02cac3c5d53627137adb89f # master
+
   icap-clamav:
     runs-on: ubuntu-latest
+    needs: matrix
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ${{ fromJson(needs.matrix.outputs.php-max) }}
+        server-versions: ${{ fromJson(needs.matrix.outputs.server-max) }}
         databases: ['sqlite']
-        server-versions: [ 'stable27' ]
         transport: ['plain', 'tls']
 
     name: icap-clamav-${{ matrix.transport }}
@@ -86,12 +99,13 @@ jobs:
 
   icap-kaspersky:
     runs-on: ubuntu-latest
+    needs: matrix
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ${{ fromJson(needs.matrix.outputs.php-max) }}
+        server-versions: ${{ fromJson(needs.matrix.outputs.server-max) }}
         databases: ['sqlite']
-        server-versions: [ 'stable27' ]
 
     name: icap-kaspersky
 
@@ -147,12 +161,13 @@ jobs:
 
   kaspersky:
     runs-on: ubuntu-latest
+    needs: matrix
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ${{ fromJson(needs.matrix.outputs.php-max) }}
+        server-versions: ${{ fromJson(needs.matrix.outputs.server-max) }}
         databases: ['sqlite']
-        server-versions: [ 'stable27' ]
 
     name: kaspersky
 
