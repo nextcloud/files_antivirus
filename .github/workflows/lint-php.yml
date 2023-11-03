@@ -21,11 +21,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      php-versions: ${{ steps.versions.outputs.php-versions }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@33020599c934d880fc7fcf6f4e26f812a9ea885a # master
+
   php-lint:
     runs-on: ubuntu-latest
+    needs: matrix
     strategy:
       matrix:
-        php-versions: [ "7.4", "8.0", "8.1", "8.2" ]
+        php-versions: ${{fromJson(needs.matrix.outputs.php-versions)}}
 
     name: php-lint
 
