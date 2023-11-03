@@ -33,7 +33,7 @@
     "Address of Antivirus Host." : "Adresse des Antivirus-Hosts",
     "Port" : "Port",
     "Port number of Antivirus Host." : "Port-Nummer des Antivirus-Hosts.",
-    "Tls" : "TLS",
+    "TLS" : "TLS",
     "Use TLS encryption." : "TLS-Verschlüsselung verwenden.",
     "ICAP preset" : "ICAP-Voreinstellungen",
     "Select" : "Auswählen",

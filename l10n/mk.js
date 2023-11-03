@@ -6,6 +6,7 @@ OC.L10N.register(
     "Mode" : "Мод",
     "Host" : "Домаќин",
     "Port" : "Порта",
+    "TLS" : "TLS",
     "Select" : "Select",
     "Delete file" : "Избриши датотека",
     "Save" : "Зачувај",

@@ -35,6 +35,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Antibirus ostalariaren helbidea.",
     "Port" : "Ataka",
     "Port number of Antivirus Host." : "Antibirus ostalariaren ataka zenbakia.",
+    "TLS" : "TLS",
     "ICAP preset" : "Aurrez ezarritako ICAP ",
     "Select" : "Hautatu",
     "ICAP mode" : "ICAP modua",

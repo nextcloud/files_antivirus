@@ -11,6 +11,7 @@ OC.L10N.register(
     "Saved" : "Ruajtur",
     "Host" : "Strehë",
     "Port" : "Porta",
+    "TLS" : "TLS",
     "Select" : "Zgjidhni",
     "Not required in Daemon Mode." : "Nuk kërkohet në Gjendjen Daemon",
     "When infected files are found during a background scan" : "Kur skedarë të infektuar gjenden gjatë skanimit ",

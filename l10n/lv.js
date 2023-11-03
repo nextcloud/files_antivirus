@@ -24,6 +24,7 @@ OC.L10N.register(
     "Host" : "Resursdators",
     "Address of Antivirus Host." : "Antīvīrusa Hosta adrese",
     "Port" : "Ports",
+    "TLS" : "TLS",
     "Select" : "Atzīmēt",
     "bytes" : "baiti",
     "Path to clamscan" : "Ceļš uz clamscan",

@@ -35,7 +35,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Adresa stroje s antivirem.",
     "Port" : "Port",
     "Port number of Antivirus Host." : "Číslo portu hostitele antiviru.",
-    "Tls" : "TLS",
+    "TLS" : "TLS",
     "Use TLS encryption." : "Použít TLS šifrování.",
     "ICAP preset" : "Přednastavené pro ICAP",
     "Select" : "Vybrat",

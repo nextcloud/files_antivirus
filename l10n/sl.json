@@ -32,6 +32,7 @@
     "Address of Antivirus Host." : "Naslov do gostiteljskega stražnika antivirusnega programa",
     "Port" : "Vrata",
     "Port number of Antivirus Host." : "Vrata do gostiteljskega stražnika antivirusnega programa",
+    "TLS" : "TLS",
     "ICAP preset" : "Privzeti podatki ICAP",
     "Select" : "Izbor",
     "ICAP mode" : "Način ICAP",

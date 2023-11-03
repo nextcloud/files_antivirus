@@ -8,6 +8,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Endereço do Anfitrião de Antivírus.",
     "Port" : "Porta",
     "Port number of Antivirus Host." : "Número da porta do Anfitrião de Antivírus.",
+    "TLS" : "TLS",
     "Select" : "Selecionar",
     "bytes" : "bytes",
     "Delete file" : "Eliminar ficheiro",

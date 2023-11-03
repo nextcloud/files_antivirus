@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Konservita",
     "Host" : "Gastigo",
     "Port" : "Pordo",
+    "TLS" : "TLS",
     "Select" : "Elekti",
     "Delete file" : "Forigi dosieron",
     "Save" : "Konservi",

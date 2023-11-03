@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Spremljeno",
     "Port" : "Priključak",
+    "TLS" : "TLS",
     "Select" : "Select",
     "Save" : "Spremi",
     "Advanced" : "Napredno",

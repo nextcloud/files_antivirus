@@ -35,6 +35,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "آدرس میزبان آنتی ویروس.",
     "Port" : "درگاه",
     "Port number of Antivirus Host." : "شماره درگاه میزبان آنتی ویروس.",
+    "TLS" : "TLS",
     "ICAP preset" : "ICAP preset",
     "Select" : "انتخاب",
     "ICAP mode" : "ICAP mode",

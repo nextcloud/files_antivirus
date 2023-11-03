@@ -35,6 +35,7 @@ OC.L10N.register(
     "Address of Antivirus Host." : "Víruskereső kiszolgáló címe.",
     "Port" : "Port",
     "Port number of Antivirus Host." : "A víruskereső kiszolgáló portszáma.",
+    "TLS" : "TLS",
     "ICAP preset" : "ICAP-előbeállítás",
     "Select" : "Kiválasztás",
     "ICAP mode" : "ICAP mód",

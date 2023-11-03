@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Guardado",
     "Host" : "Servidor",
     "Port" : "Puerto",
+    "TLS" : "TLS",
     "Select" : "Seleccionar",
     "Delete file" : "Borrar archivo",
     "Save" : "Guardar",
