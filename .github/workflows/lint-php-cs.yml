@@ -26,10 +26,10 @@ jobs:
 
       - name: Get php version
         id: versions
-        uses: icewind1991/nextcloud-version-matrix@c2bf575a3516752db5ce2915499d3f694885e2c7 # master
+        uses: icewind1991/nextcloud-version-matrix@c2bf575a3516752db5ce2915499d3f694885e2c7 # v1.0.0
 
       - name: Set up php${{ steps.versions.outputs.php-max }}
-        uses: shivammathur/setup-php@7fdd3ece872ec7ec4c098ae5ab7637d5e0a96067 # v2
+        uses: shivammathur/setup-php@81cd5ae0920b34eef300e1775313071038a53429 # v2
         with:
           php-version: ${{ steps.versions.outputs.php-max }}
           coverage: none
