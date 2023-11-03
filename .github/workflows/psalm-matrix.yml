@@ -18,13 +18,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      ocp-branches: ${{ steps.versions.outputs.ocp-branches }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@bacd550fea85c11c433d3ebdbcfcbccbca18e323 # master
+
   static-analysis:
+    needs: matrix
     runs-on: ubuntu-latest
     strategy:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        ocp-version: [ 'dev-master', 'dev-stable27', 'dev-stable26', 'dev-stable25']
+        ocp-version: ${{fromJson(needs.matrix.outputs.ocp-branches)}}
 
     name: Nextcloud ${{ matrix.ocp-version }}
     steps:
