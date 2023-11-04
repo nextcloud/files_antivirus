@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Saxlanıldı",
     "Host" : "Şəbəkədə ünvan",
     "Port" : "Port",
+    "TLS" : "TLS",
     "Select" : "Select",
     "Save" : "Saxla",
     "Advanced" : "İrəliləmiş",
