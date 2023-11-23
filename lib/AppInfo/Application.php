@@ -18,12 +18,12 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_NAME = 'files_antivirus';
@@ -56,7 +56,7 @@ class Application extends App implements IBootstrap {
 				$l10n = $container->get(IL10N::class);
 				$logger = $container->get(LoggerInterface::class);
 				$activityManager = $container->get(IManager::class);
-				$eventDispatcher = $container->get(EventDispatcherInterface::class);
+				$eventDispatcher = $container->get(IEventDispatcher::class);
 				$appManager = $container->get(IAppManager::class);
 				return new AvirWrapper([
 					'storage' => $storage,

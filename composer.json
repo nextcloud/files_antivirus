@@ -1,6 +1,6 @@
 {
 	"require-dev": {
-		"nextcloud/ocp": "dev-master",
+		"nextcloud/ocp": "dev-stable25",
 		"doctrine/dbal": "3.1.4",
 		"phpunit/phpunit": "^8",
 		"psalm/phar": "^4.3",
