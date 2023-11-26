@@ -31,6 +31,7 @@ OC.L10N.register(
     "Port" : "Portti",
     "Port number of Antivirus Host." : "Virustorjuntapalvelimen portti.",
     "TLS" : "TLS",
+    "Use TLS encryption." : "Käytä TLS-salausta.",
     "ICAP preset" : "ICAP-esiasetus",
     "Select" : "Valitse",
     "ICAP service" : "ICAP-palvelu",
