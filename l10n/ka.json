@@ -1,0 +1,12 @@
+{ "translations": {
+    "Saving…" : "Saving…",
+    "Saved" : "Saved",
+    "Host" : "Host",
+    "Port" : "Port",
+    "Select" : "Select",
+    "Delete file" : "Delete file",
+    "Save" : "Save",
+    "Advanced" : "Advanced",
+    "Description" : "Description"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}
