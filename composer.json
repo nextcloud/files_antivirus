@@ -1,4 +1,9 @@
 {
+	"config": {
+		"platform": {
+			"php": "8.1"
+		}
+	},
 	"require-dev": {
 		"nextcloud/ocp": "dev-stable25",
 		"doctrine/dbal": "3.1.4",
