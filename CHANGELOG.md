@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.4.1] - 2024-01-16
+## Fixed
+* Remove direct link to the infected file in `Activity`
+
 ## [5.1.0] - 2023-05-17
 ## Added
 * Add command to get background scanner status: `occ files_antvirus:status`
