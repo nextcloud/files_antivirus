@@ -100,14 +100,16 @@ class Provider implements IProvider {
 				'id' => $params[0],
 				'name' => $params[0],
 			];
+			$parameters['file'] = [
+				'type' => 'highlight',
+				'id' => $event->getObjectName(),
+				'name' => $event->getObjectName(),
+			];
 
 			if ($event->getMessage() === self::MESSAGE_FILE_DELETED) {
 				$event->setParsedMessage($l->t('The file has been removed'));
-
-				$parameters['file'] = $this->getFileDeleted($event);
 				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-dark.svg'));
 			} else {
-				$parameters['file'] = $this->getFileExisting($event);
 				$event->setIcon($this->urlGenerator->imagePath('files_antivirus', 'shield-red.svg'));
 			}
 		}
@@ -130,25 +132,5 @@ class Provider implements IProvider {
 
 		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
 			->setRichSubject($subject, $parameters);
-	}
-
-	private function getFileExisting(IEvent $event) {
-		$res = $this->getFileDeleted($event);
-		$res['link'] = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $event->getObjectId()]);
-		return $res;
-	}
-
-	/**
-	 * @return (int|string)[]
-	 *
-	 * @psalm-return array{type: 'file', id: int, name: string, path: string}
-	 */
-	private function getFileDeleted(IEvent $event): array {
-		return [
-			'type' => 'file',
-			'id' => $event->getObjectId(),
-			'name' => basename($event->getObjectName()),
-			'path' => $event->getObjectName(),
-		];
 	}
 }
