@@ -134,11 +134,11 @@ jobs:
         databases: ['pgsql']
         server-versions: ['stable24']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
+    name: php${{ matrix.php-versions }}-${{ matrix.databases }}
 
     services:
       postgres:
-        image: postgres
+        image: postgres:14
         ports:
           - 4444:5432/tcp
         env:
@@ -183,8 +183,10 @@ jobs:
         run: |
           mkdir data
           ./occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          php -f index.php
           ./occ app:enable --force ${{ env.APP_NAME }}
-          php -S localhost:8080 &
+      #          php -S localhost:8080 &
+
       - name: PHPUnit
         working-directory: apps/${{ env.APP_NAME }}
         run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml
