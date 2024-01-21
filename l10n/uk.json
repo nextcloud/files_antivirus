@@ -13,7 +13,7 @@
     "Virus %s is detected in the file. Upload cannot be completed." : "У файлі знайдено вірус %s. Завантаження неможливо завершити.",
     "Saved" : "Збережено",
     "Antivirus for files" : "Антивірус для файлів",
-    "An antivirus app for Nextcloud" : "Антивірусна програма для Nextcloud",
+    "An antivirus app for Nextcloud" : "Антивірусний застосунок для Nextcloud",
     "Greetings {user}," : "Вітаю, {user},",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Перепрошую, але у файлі, який ви намагаєтесь завантажити, знайдено шкідливий код. Файл потрібно вилучити.",
     "This email is a notification from {host}. Please, do not reply." : "Цей електронний лист є сповіщенням від {host}. Будь-ласка не відповідайте.",
