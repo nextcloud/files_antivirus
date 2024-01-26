@@ -23,13 +23,18 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\ICAP;
 
+use Psr\Log\LoggerInterface;
+
 class ICAPRequest {
 	public const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
 
 	/** @var resource */
 	public $stream;
 
+	private LoggerInterface $logger;
+
 	public function __construct(
+		LoggerInterface $logger,
 		$stream,
 		string $host,
 		string $service,
@@ -38,6 +43,7 @@ class ICAPRequest {
 		array $requestHeaders,
 		array $responseHeaders
 	) {
+		$this->logger = $logger;
 		$this->stream = $stream;
 
 		if (!array_key_exists('Host', $headers)) {
@@ -105,6 +111,6 @@ class ICAPRequest {
 
 	public function finish(): IcapResponse {
 		fwrite($this->stream, "0\r\n\r\n");
-		return (new ResponseParser())->read_response($this->stream);
+		return (new ResponseParser($this->logger))->read_response($this->stream);
 	}
 }

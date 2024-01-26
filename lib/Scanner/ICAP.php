@@ -63,9 +63,9 @@ class ICAP extends ScannerBase {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
 		if ($this->tls) {
-			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager);
+			$this->icapClient = new ICAPTlsClient($logger, $avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager);
 		} else {
-			$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
+			$this->icapClient = new ICAPClient($logger, $avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
 		}
 	}
 
@@ -125,7 +125,7 @@ class ICAP extends ScannerBase {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}
 		} else {
-			throw new \RuntimeException('Invalid response from ICAP server');
+			throw new \RuntimeException('Invalid response from ICAP server, expected status code 200 or 204, got ' . $code);
 		}
 	}
 

@@ -23,9 +23,16 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\ICAP;
 
+use Psr\Log\LoggerInterface;
 use \RuntimeException;
 
 class ResponseParser {
+	private LoggerInterface $logger;
+
+	public function __construct(LoggerInterface $logger) {
+		$this->logger = $logger;
+	}
+
 	/**
 	 * @param resource $stream
 	 * @return IcapResponse
@@ -57,6 +64,7 @@ class ResponseParser {
 		if (!$rawHeader) {
 			throw new RuntimeException("Empty ICAP response");
 		}
+		$this->logger->debug("processing ICAP response: " . trim($rawHeader), ['app' => 'files_antivirus']);
 		$icapHeader = \trim($rawHeader);
 		$numValues = \sscanf($icapHeader, "ICAP/%d.%d %d %s", $v1, $v2, $code, $status);
 		if ($numValues !== 4) {
@@ -89,6 +97,7 @@ class ResponseParser {
 			if ($prevString === "" && $trimmedHeaderString === "") {
 				break;
 			}
+			$this->logger->debug("processing ICAP headers: " . $trimmedHeaderString, ['app' => 'files_antivirus']);
 			[$headerName, $headerValue] = $this->parseHeader($trimmedHeaderString);
 			if ($headerName !== '') {
 				$headers[$headerName] = $headerValue;

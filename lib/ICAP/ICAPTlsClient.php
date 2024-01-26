@@ -24,18 +24,20 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\ICAP;
 
 use OCP\ICertificateManager;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class ICAPTlsClient extends ICAPClient {
 	private ICertificateManager $certificateManager;
 
 	public function __construct(
+		LoggerInterface $logger,
 		string $host,
 		int $port,
 		int $connectTimeout,
 		ICertificateManager $certificateManager
 	) {
-		parent::__construct($host, $port, $connectTimeout);
+		parent::__construct($logger, $host, $port, $connectTimeout);
 		$this->certificateManager = $certificateManager;
 	}
 

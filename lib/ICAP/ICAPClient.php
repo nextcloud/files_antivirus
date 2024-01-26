@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\ICAP;
 
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 class ICAPClient {
@@ -35,8 +36,10 @@ class ICAPClient {
 	protected $port;
 	/** @var int */
 	protected $connectTimeout;
+	private LoggerInterface $logger;
 
-	public function __construct(string $host, int $port, int $connectTimeout) {
+	public function __construct(LoggerInterface $logger, string $host, int $port, int $connectTimeout) {
+		$this->logger = $logger;
 		$this->host = $host;
 		$this->port = $port;
 		$this->connectTimeout = $connectTimeout;
@@ -74,7 +77,7 @@ class ICAPClient {
 	 */
 	public function reqmod(string $service, array $headers, array $requestHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, []);
+		return new ICAPRequest($this->logger, $stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, []);
 	}
 
 	/**
@@ -87,6 +90,6 @@ class ICAPClient {
 	 */
 	public function respmod(string $service, array $headers, array $requestHeaders, array $responseHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders);
+		return new ICAPRequest($this->logger, $stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders);
 	}
 }
