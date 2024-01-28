@@ -40,6 +40,8 @@ OC.L10N.register(
     "ICAP preset" : "ICAP-Voreinstellungen",
     "Select" : "Auswählen",
     "ICAP mode" : "ICAP-Modus",
+    "REQMOD" : "REQMOD",
+    "RESPMOD" : "RESPMOD",
     "ICAP service" : "ICAP-Dienst",
     "ICAP virus response header" : "ICAP-Virus-Antwort-Header",
     "Stream Length" : "Länge des Datenstroms",
