@@ -40,6 +40,8 @@ OC.L10N.register(
     "ICAP preset" : "ICAP поставка",
     "Select" : "Обележи",
     "ICAP mode" : "ICAP режим",
+    "REQMOD" : "REQMOD",
+    "RESPMOD" : "RESPMOD",
     "ICAP service" : "ICAP сервис",
     "ICAP virus response header" : "ICAP заглавље одговора вируса",
     "Stream Length" : "Дужина тока",
