@@ -82,10 +82,7 @@ class ICAP extends ScannerBase {
 		} else {
 			$this->request = $this->icapClient->respmod($this->service, [
 				'Allow' => 204,
-			], [
-				"GET / HTTP/1.0",
-				"Host: 127.0.0.1"
-			], [
+			], [], [
 				"HTTP/1.0 OK",
 			]);
 		}
