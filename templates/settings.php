@@ -55,8 +55,8 @@ script('files_antivirus', 'settings');
 					<td><?php p($l->t('ICAP mode'));?></td>
 					<td><select id="av_icap_mode" name="avIcapMode">
 							<?php print_unescaped(html_select_options([
-								'reqmod' => $l->t('REQMOD'),
-								'respmod' => $l->t('RESPMOD'),
+								'reqmod' => 'REQMOD',
+								'respmod' => 'RESPMOD',
 							], $_['avIcapMode'])) ?>
 						</select></td>
 					<td></td>
