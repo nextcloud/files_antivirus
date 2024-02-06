@@ -40,8 +40,6 @@ OC.L10N.register(
     "ICAP preset" : "الإعداد المسبق لـ ICAP",
     "Select" : "حدِّد",
     "ICAP mode" : "وضعية ICAP",
-    "REQMOD" : "REQMOD",
-    "RESPMOD" : "RESPMOD",
     "ICAP service" : "خدمة ICAP",
     "ICAP virus response header" : "ترويسة جواب ICAP virus",
     "Stream Length" : "طول المجرى",

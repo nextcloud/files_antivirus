@@ -40,8 +40,6 @@ OC.L10N.register(
     "ICAP preset" : "ICAP hazır ayarı",
     "Select" : "Seçin",
     "ICAP mode" : "ICAP kipi",
-    "REQMOD" : "REQMOD",
-    "RESPMOD" : "RESPMOD",
     "ICAP service" : "ICAP hizmeti",
     "ICAP virus response header" : "ICAP virus yanıtı üst bilgisi",
     "Stream Length" : "Akış uzunluğu",

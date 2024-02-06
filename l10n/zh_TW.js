@@ -40,8 +40,6 @@ OC.L10N.register(
     "ICAP preset" : "ICAP 預先設定集",
     "Select" : "選取",
     "ICAP mode" : "ICAP 模式",
-    "REQMOD" : "REQMOD",
-    "RESPMOD" : "RESPMOD",
     "ICAP service" : "ICAP 服務",
     "ICAP virus response header" : "ICAP 病毒回應標頭",
     "Stream Length" : "串流長度",

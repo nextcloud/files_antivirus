@@ -38,8 +38,6 @@
     "ICAP preset" : "Preselección ICAP",
     "Select" : "Seleccionar",
     "ICAP mode" : "Modo ICAP",
-    "REQMOD" : "REQMOD",
-    "RESPMOD" : "RESPMOD",
     "ICAP service" : "Servicio ICAP",
     "ICAP virus response header" : "Encabezado de respuesta de virus para ICAP",
     "Stream Length" : "Longitud del flujo",
