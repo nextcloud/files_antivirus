@@ -29,6 +29,7 @@ use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
 use OCP\Files\File;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Test extends Base {
@@ -53,12 +54,19 @@ class Test extends Base {
 
 		$this
 			->setName('files_antivirus:test')
-			->setDescription('Test the availability of the configured scanner');
+			->setDescription('Test the availability of the configured scanner')
+			->addOption('debug', null, InputOption::VALUE_NONE, "Enable debug output for supported backends");
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->write("Scanning regular text: ");
 		$scanner = $this->scannerFactory->getScanner();
+		if ($input->getOption('debug')) {
+			$output->writeln("");
+			$scanner->setDebugCallback(function ($content) use ($output) {
+				$output->writeln($content);
+			});
+		}
 		$result = $scanner->scanString("dummy scan content");
 		if ($result->getNumericStatus() !== Status::SCANRESULT_CLEAN) {
 			$details = $result->getDetails();
@@ -70,6 +78,12 @@ class Test extends Base {
 
 		$output->write("Scanning EICAR test file: ");
 		$scanner = $this->scannerFactory->getScanner();
+		if ($input->getOption('debug')) {
+			$output->writeln("");
+			$scanner->setDebugCallback(function ($content) use ($output) {
+				$output->writeln($content);
+			});
+		}
 		$eicar = $this->crypto->decrypt(self::EICAR_ENCRYPTED, 'eicar');
 		$result = $scanner->scanString($eicar);
 		if ($result->getNumericStatus() !== Status::SCANRESULT_INFECTED) {

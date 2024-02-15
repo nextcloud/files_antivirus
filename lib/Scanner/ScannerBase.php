@@ -240,4 +240,8 @@ abstract class ScannerBase implements IScanner {
 	protected function prepareChunk($data) {
 		return $data;
 	}
+
+	public function setDebugCallback(callable $callback): void {
+		// unsupported
+	}
 }
