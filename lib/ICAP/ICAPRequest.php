@@ -29,6 +29,11 @@ class ICAPRequest {
 	/** @var resource */
 	public $stream;
 
+	/**
+	 * @var (callable(string): void)|null $responseCallback
+	 */
+	private $responseCallback;
+
 	public function __construct(
 		$stream,
 		string $host,
@@ -36,9 +41,11 @@ class ICAPRequest {
 		string $method,
 		array $headers,
 		array $requestHeaders,
-		array $responseHeaders
+		array $responseHeaders,
+		callable $responseCallback = null
 	) {
 		$this->stream = $stream;
+		$this->responseCallback = $responseCallback;
 
 		if (!array_key_exists('Host', $headers)) {
 			$headers['Host'] = $host;
@@ -96,6 +103,11 @@ class ICAPRequest {
 			$request .= "\r\n";
 		}
 
+		if ($this->responseCallback) {
+			($this->responseCallback)("ICAP Request headers:");
+			($this->responseCallback)($request);
+		}
+
 		fwrite($this->stream, $request);
 	}
 
@@ -105,6 +117,19 @@ class ICAPRequest {
 
 	public function finish(): IcapResponse {
 		fwrite($this->stream, "0\r\n\r\n");
-		return (new ResponseParser())->read_response($this->stream);
+
+		$parser = new ResponseParser();
+		if ($this->responseCallback) {
+			$response = stream_get_contents($this->stream);
+
+			($this->responseCallback)("ICAP Response:");
+			($this->responseCallback)($response);
+			$stream = fopen('php://temp', 'r+');
+			fwrite($stream, $response);
+			rewind($stream);
+			return $parser->read_response($stream);
+		} else {
+			return $parser->read_response($this->stream);
+		}
 	}
 }

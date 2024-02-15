@@ -31,6 +31,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
@@ -55,7 +56,8 @@ class Scan extends Base {
 		$this
 			->setName('files_antivirus:scan')
 			->setDescription('Scan a file')
-			->addArgument('file', InputArgument::REQUIRED, "Path of the file to scan");
+			->addArgument('file', InputArgument::REQUIRED, "Path of the file to scan")
+			->addOption('debug', null, InputOption::VALUE_NONE, "Enable debug output for supported backends");
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -72,6 +74,11 @@ class Scan extends Base {
 		}
 
 		$scanner = $this->scannerFactory->getScanner();
+		if ($input->getOption('debug')) {
+			$scanner->setDebugCallback(function ($content) use ($output) {
+				$output->writeln($content);
+			});
+		}
 		$item = $this->itemFactory->newItem($node);
 		$result = $scanner->scan($item);
 

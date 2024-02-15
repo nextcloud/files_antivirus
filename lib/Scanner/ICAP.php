@@ -132,4 +132,8 @@ class ICAP extends ScannerBase {
 	protected function shutdownScanner() {
 		$this->scanBuffer();
 	}
+
+	public function setDebugCallback(callable $callback): void {
+		$this->icapClient->setDebugCallback($callback);
+	}
 }

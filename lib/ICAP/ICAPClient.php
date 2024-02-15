@@ -35,11 +35,23 @@ class ICAPClient {
 	protected $port;
 	/** @var int */
 	protected $connectTimeout;
+	/**
+	 * @var (callable(string): void)|null
+	 */
+	private $debugCallback = null;
 
 	public function __construct(string $host, int $port, int $connectTimeout) {
 		$this->host = $host;
 		$this->port = $port;
 		$this->connectTimeout = $connectTimeout;
+	}
+
+	/**
+	 * @param callable(string): void $callback
+	 * @return void
+	 */
+	public function setDebugCallback(callable $callback): void {
+		$this->debugCallback = $callback;
 	}
 
 	/**
@@ -74,7 +86,7 @@ class ICAPClient {
 	 */
 	public function reqmod(string $service, array $headers, array $requestHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, []);
+		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, [], $this->debugCallback);
 	}
 
 	/**
@@ -87,6 +99,6 @@ class ICAPClient {
 	 */
 	public function respmod(string $service, array $headers, array $requestHeaders, array $responseHeaders): ICAPRequest {
 		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders);
+		return new ICAPRequest($stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders, $this->debugCallback);
 	}
 }

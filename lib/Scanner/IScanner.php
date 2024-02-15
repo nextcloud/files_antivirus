@@ -27,6 +27,11 @@ use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 
 interface IScanner {
+	/**
+	 * @param callable(string): void $callback
+	 */
+	public function setDebugCallback(callable $callback): void;
+
 	public function getStatus();
 
 	/**
