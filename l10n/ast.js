@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saving…" : "Guardando…",
     "Antivirus" : "Antivirus",
     "The file has been removed" : "Quitóse'l ficheru",
+    "Saved" : "Guardóse",
     "Port" : "Puertu",
     "TLS" : "TLS",
     "bytes" : "bytes",
