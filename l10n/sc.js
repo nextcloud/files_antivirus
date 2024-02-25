@@ -48,7 +48,7 @@ OC.L10N.register(
     "Advanced" : "Avantzadu",
     "Rules" : "Règulas",
     "Clear All" : "Lìmpia totu",
-    "Reset to defaults" : "Torra a is impostatziones predefinidas",
+    "Reset to defaults" : "Torra a sa cunfiguratzione predefinida",
     "Match by" : "Currispondet pro",
     "Scanner exit status or signature to search" : "Istadu de s'essida de s'iscansionadore o firma de chircare",
     "Description" : "Descritzione",
