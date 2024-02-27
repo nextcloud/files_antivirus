@@ -8,6 +8,7 @@ OC.L10N.register(
     "Port" : "Puertu",
     "TLS" : "TLS",
     "bytes" : "bytes",
+    "Delete file" : "Desaniciar el ficheru",
     "Save" : "Guardar",
     "Description" : "Descripción"
 },
