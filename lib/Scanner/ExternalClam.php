@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use Psr\Log\LoggerInterface;
 
@@ -66,9 +67,16 @@ class ExternalClam extends ScannerBase {
 			['app' => 'files_antivirus']
 		);
 		$handle = $this->getWriteHandle();
+
+		$info = stream_get_meta_data($handle);
 		@fclose($handle);
 
-		$this->status->parseResponse($response);
+		if ($info['timed_out']) {
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			$this->status->setDetails("Socket timed out while scanning");
+		} else {
+			$this->status->parseResponse($response);
+		}
 	}
 
 	protected function prepareChunk($data) {
