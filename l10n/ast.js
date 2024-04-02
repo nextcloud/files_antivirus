@@ -6,6 +6,7 @@ OC.L10N.register(
     "Antivirus" : "Antivirus",
     "The file has been removed" : "Quitóse'l ficheru",
     "Saved" : "Guardóse",
+    "Mode" : "Mou",
     "Host" : "Agospiador",
     "Port" : "Puertu",
     "TLS" : "TLS",
