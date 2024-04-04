@@ -44,7 +44,7 @@ OC.L10N.register(
     "Advanced" : "アドバンスド",
     "Rules" : "ルール",
     "Clear All" : "すべてクリア",
-    "Reset to defaults" : "デフォルトに戻す",
+    "Reset to defaults" : "初期値に戻す",
     "Match by" : "一致する",
     "Scanner exit status or signature to search" : "スキャナの終了ステータスまたは署名を検索する",
     "Description" : "説明",
