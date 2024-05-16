@@ -48,6 +48,7 @@ script('files_antivirus', 'settings');
 							<option value="none" selected="selected"><?php p($l->t('Select'));?></option>
 							<option value="clamav">ClamAV / c-icap</option>
 							<option value="kaspersky">Kaspersky</option>
+							<option value="fortisandbox">FortiSandbox</option>
 						</select></td>
 					<td></td>
 				</tr>
