@@ -218,6 +218,11 @@ $(document).ready(function() {
 			service: 'req',
 			header: 'X-Virus-ID',
 			mode: 'reqmod',
+		},
+		fortisandbox: {
+			service: 'respmod',
+			header: 'X-Infection-Found',
+			mode: 'respmod',
 		}
 	}
 	$('#av_icap_preset').on('change', function(e) {
