@@ -86,7 +86,8 @@ class ICAP extends ScannerBase {
 				"GET / HTTP/1.0",
 				"Host: 127.0.0.1"
 			], [
-				"HTTP/1.0 OK",
+				"HTTP/1.0 200 OK",
+				"Content-Length: 1", // a dummy, non-zero, content length seems to be enough
 			]);
 		}
 	}
