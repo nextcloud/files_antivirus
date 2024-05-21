@@ -23,30 +23,16 @@ use Psr\Log\LoggerInterface;
 class AvirWrapper extends Wrapper {
 	/**
 	 * Modes that are used for writing
-	 * @var array
 	 */
-	private $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
-
-	/** @var ScannerFactory */
-	protected $scannerFactory;
-
-	/** @var IL10N */
-	protected $l10n;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var ActivityManager */
-	protected $activityManager;
-
-	/** @var bool */
-	protected $isHomeStorage;
-
-	/** @var bool */
-	private $shouldScan = true;
-
-	/** @var bool */
-	private $trashEnabled;
+	private array $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
+	protected ScannerFactory$scannerFactory;
+	protected IL10N $l10n;
+	protected LoggerInterface$logger;
+	protected ActivityManager $activityManager;
+	protected bool $isHomeStorage;
+	private bool $shouldScan = true;
+	private bool $trashEnabled;
+	private string $mountPoint;
 
 	/**
 	 * @param array $parameters
@@ -59,6 +45,7 @@ class AvirWrapper extends Wrapper {
 		$this->activityManager = $parameters['activityManager'];
 		$this->isHomeStorage = $parameters['isHomeStorage'];
 		$this->trashEnabled = $parameters['trashEnabled'];
+		$this->mountPoint = $parameters['mount_point'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -106,7 +93,7 @@ class AvirWrapper extends Wrapper {
 
 	private function wrapSteam(string $path, $stream) {
 		try {
-			$scanner = $this->scannerFactory->getScanner();
+			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
 			$scanner->initScanner();
 			return CallbackReadDataWrapper::wrap(
 				$stream,

@@ -72,19 +72,23 @@ class ICAP extends ScannerBase {
 	public function initScanner() {
 		parent::initScanner();
 		$this->writeHandle = fopen("php://temp", 'w+');
+		$path = '/' . trim($this->path, '/');
+		if (str_contains($path, '.ocTransferId') && str_ends_with($path, '.part')) {
+			[$path] = explode('.ocTransferId', $path, 2);
+		}
 		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
 			$this->request = $this->icapClient->reqmod($this->service, [
 				'Allow' => 204,
 			], [
-				"PUT / HTTP/1.0",
-				"Host: 127.0.0.1"
+				"PUT $path HTTP/1.0",
+				"Host: nextcloud"
 			]);
 		} else {
 			$this->request = $this->icapClient->respmod($this->service, [
 				'Allow' => 204,
 			], [
-				"GET / HTTP/1.0",
-				"Host: 127.0.0.1"
+				"GET $path HTTP/1.0",
+				"Host: nextcloud"
 			], [
 				"HTTP/1.0 200 OK",
 				"Content-Length: 1", // a dummy, non-zero, content length seems to be enough

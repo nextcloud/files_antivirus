@@ -60,7 +60,7 @@ class Test extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->write("Scanning regular text: ");
-		$scanner = $this->scannerFactory->getScanner();
+		$scanner = $this->scannerFactory->getScanner('/foo.txt');
 		if ($input->getOption('debug')) {
 			$output->writeln("");
 			$scanner->setDebugCallback(function ($content) use ($output) {
@@ -77,7 +77,7 @@ class Test extends Base {
 		}
 
 		$output->write("Scanning EICAR test file: ");
-		$scanner = $this->scannerFactory->getScanner();
+		$scanner = $this->scannerFactory->getScanner('/test-virus-eicar.txt');
 		if ($input->getOption('debug')) {
 			$output->writeln("");
 			$scanner->setDebugCallback(function ($content) use ($output) {
