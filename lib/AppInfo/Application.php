@@ -67,6 +67,7 @@ class Application extends App implements IBootstrap {
 					'isHomeStorage' => $storage->instanceOfStorage(IHomeStorage::class),
 					'eventDispatcher' => $eventDispatcher,
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
+					'mount_point' => $mountPoint,
 				]);
 			},
 			1

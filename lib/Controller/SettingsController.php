@@ -87,7 +87,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvIcapTls((bool)$avIcapTls);
 
 		try {
-			$scanner = $this->scannerFactory->getScanner();
+			$scanner = $this->scannerFactory->getScanner('/self-test.txt');
 			$result = $scanner->scanString("dummy scan content");
 			$success = $result->getNumericStatus() == Status::SCANRESULT_CLEAN;
 			$message = $success ? $this->l10n->t('Saved') : 'unexpected scan results for test content';

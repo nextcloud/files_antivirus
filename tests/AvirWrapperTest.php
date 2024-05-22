@@ -77,6 +77,7 @@ class AvirWrapperTest extends TestBase {
 			'isHomeStorage' => true,
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
+			'mount_point' => '/' . self::UID . '/files/',
 		]);
 
 		$this->config->expects($this->any())

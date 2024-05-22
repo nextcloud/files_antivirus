@@ -52,6 +52,7 @@ abstract class ScannerBase implements IScanner {
 	protected ?string $lastChunk = null;
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
+	protected string $path = '';
 
 	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		$this->appConfig = $config;
@@ -243,5 +244,9 @@ abstract class ScannerBase implements IScanner {
 
 	public function setDebugCallback(callable $callback): void {
 		// unsupported
+	}
+
+	public function setPath(string $path): void {
+		$this->path = $path;
 	}
 }

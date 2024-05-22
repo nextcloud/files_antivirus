@@ -73,7 +73,7 @@ class Scan extends Base {
 			return 3;
 		}
 
-		$scanner = $this->scannerFactory->getScanner();
+		$scanner = $this->scannerFactory->getScanner($node->getPath());
 		if ($input->getOption('debug')) {
 			$scanner->setDebugCallback(function ($content) use ($output) {
 				$output->writeln($content);

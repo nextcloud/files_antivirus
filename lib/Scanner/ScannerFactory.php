@@ -25,7 +25,7 @@ class ScannerFactory {
 	 *
 	 * @return IScanner
 	 */
-	public function getScanner() {
+	public function getScanner(string $path) {
 		$avMode = $this->appConfig->getAvMode();
 		switch ($avMode) {
 			case 'daemon':
@@ -45,8 +45,9 @@ class ScannerFactory {
 				throw new \InvalidArgumentException('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
 		}
 
-		/** @var IScanner $scanner */
+		/** @var ScannerBase $scanner */
 		$scanner = $this->serverContainer->resolve($scannerClass);
+		$scanner->setPath($path);
 		return $scanner;
 	}
 }

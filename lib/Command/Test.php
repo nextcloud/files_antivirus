@@ -60,7 +60,7 @@ class Test extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->write("Scanning regular text: ");
-		$scanner = $this->scannerFactory->getScanner();
+		$scanner = $this->scannerFactory->getScanner('/foo.txt');
 		if ($input->getOption('debug')) {
 			$output->writeln("");
 			$scanner->setDebugCallback(function ($content) use ($output) {
@@ -77,7 +77,7 @@ class Test extends Base {
 		}
 
 		$output->write("Scanning EICAR test file: ");
-		$scanner = $this->scannerFactory->getScanner();
+		$scanner = $this->scannerFactory->getScanner('/test-virus-eicar.txt');
 		if ($input->getOption('debug')) {
 			$output->writeln("");
 			$scanner->setDebugCallback(function ($content) use ($output) {
@@ -86,6 +86,25 @@ class Test extends Base {
 		}
 		$eicar = $this->crypto->decrypt(self::EICAR_ENCRYPTED, 'eicar');
 		$result = $scanner->scanString($eicar);
+		if ($result->getNumericStatus() !== Status::SCANRESULT_INFECTED) {
+			$details = $result->getDetails();
+			$output->writeln("<error>❌ file not detected $details</error>");
+			return 1;
+		} else {
+			$output->writeln("<info>✓</info>");
+		}
+
+		// send a modified version of the EICAR because some scanners don't hold the scan request
+		// by default for files that haven't been seen before.
+		$output->write("Scanning modified EICAR test file: ");
+		$scanner = $this->scannerFactory->getScanner('/test-virus-eicar-modified.txt');
+		if ($input->getOption('debug')) {
+			$output->writeln("");
+			$scanner->setDebugCallback(function ($content) use ($output) {
+				$output->writeln($content);
+			});
+		}
+		$result = $scanner->scanString($eicar . uniqid());
 		if ($result->getNumericStatus() !== Status::SCANRESULT_INFECTED) {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ file not detected $details</error>");
