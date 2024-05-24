@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Shábháil",
     "Mode" : "Mód",
+    "Port" : "Port",
     "Save" : "Sábháil",
     "Description" : "Cur síos"
 },
