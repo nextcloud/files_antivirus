@@ -5,6 +5,7 @@ OC.L10N.register(
     "Mode" : "Mód",
     "Host" : "Óstach",
     "Port" : "Port",
+    "Select" : "Roghnaigh",
     "Save" : "Sábháil",
     "Advanced" : "Casta",
     "Description" : "Cur síos"
