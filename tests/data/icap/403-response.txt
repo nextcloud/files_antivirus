@@ -1,0 +1,13 @@
+ICAP/1.0 200 OK
+ISTag: "b9eb4f031598bb0b-1716440776"
+Encapsulated: res-hdr=0, res-body=70
+X-Infection-Found: Type=0; Resolution=0; Threat=Eicar;
+X-Virus-ID: Testdatei
+X-Response-Info: Blocked
+X-Response-Description: Durch Löschen gesäubert
+
+HTTP/1.1 403 Forbidden
+Content-Type: text/html
+Content-Length: 0
+
+0

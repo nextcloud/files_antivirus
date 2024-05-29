@@ -66,58 +66,37 @@ class ResponseParser {
 	}
 
 	private function parseResHdr($stream, string $headerValue): array {
-		$encapsulatedHeaders = [];
 		$encapsulatedParts = \explode(",", $headerValue);
 		foreach ($encapsulatedParts as $encapsulatedPart) {
 			$pieces = \explode("=", \trim($encapsulatedPart));
-			if ($pieces[1] === "0") {
-				continue;
+			if ($pieces[0] === "res-hdr") {
+				$offset = (int)$pieces[1];
+				if ($offset > 0) {
+					fseek($stream, $offset);
+				}
+				break;
 			}
-			$rawEncapsulatedHeaders = \fread($stream, (int)$pieces[1]);
-			$encapsulatedHeaders = $this->parseEncapsulatedHeaders($rawEncapsulatedHeaders);
-			// According to the spec we have a single res-hdr part and are not interested in res-body content
-			break;
 		}
+
+		$status = trim(\fgets($stream));
+		$encapsulatedHeaders = $this->readHeaders($stream);
+		$encapsulatedHeaders['HTTP_STATUS'] = $status;
+
 		return $encapsulatedHeaders;
 	}
 
 	private function readHeaders($stream): array {
 		$headers = [];
-		$prevString = "";
 		while (($headerString = \fgets($stream)) !== false) {
 			$trimmedHeaderString = \trim($headerString);
-			if ($prevString === "" && $trimmedHeaderString === "") {
+			if ($trimmedHeaderString === "") {
 				break;
 			}
 			[$headerName, $headerValue] = $this->parseHeader($trimmedHeaderString);
 			if ($headerName !== '') {
 				$headers[$headerName] = $headerValue;
-				if ($headerName == "Encapsulated") {
-					break;
-				}
-			}
-			$prevString = $trimmedHeaderString;
-		}
-		return $headers;
-	}
-
-	private function parseEncapsulatedHeaders(string $headerString): array {
-		$headers = [];
-		$split = \preg_split('/\r?\n/', \trim($headerString));
-		$statusLine = \array_shift($split);
-		if ($statusLine !== null) {
-			$headers['HTTP_STATUS'] = $statusLine;
-		}
-		foreach (\preg_split('/\r?\n/', $headerString) as $line) {
-			if ($line === '') {
-				continue;
-			}
-			[$name, $value] = $this->parseHeader($line);
-			if ($name !== '') {
-				$headers[$name] = $value;
 			}
 		}
-
 		return $headers;
 	}
 
