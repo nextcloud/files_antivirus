@@ -6,6 +6,7 @@ OC.L10N.register(
     "Host" : "Óstach",
     "Port" : "Port",
     "Select" : "Roghnaigh",
+    "Delete file" : "Scrios an comhad",
     "Save" : "Sábháil",
     "Advanced" : "Casta",
     "Description" : "Cur síos"
