@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saving…" : "Shábháil…",
     "Saved" : "Shábháil",
     "Mode" : "Mód",
     "Host" : "Óstach",
