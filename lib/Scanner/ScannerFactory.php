@@ -10,7 +10,6 @@ namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use Psr\Container\ContainerInterface;
 
 class ScannerFactory {
@@ -47,7 +46,7 @@ class ScannerFactory {
 		}
 
 		/** @var ScannerBase $scanner */
-		$scanner = $this->serverContainer->resolve($scannerClass);
+		$scanner = $this->serverContainer->get($scannerClass);
 		$scanner->setPath($path);
 		if ($this->request->getRemoteAddress()) {
 			$scanner->setRequest($this->request);

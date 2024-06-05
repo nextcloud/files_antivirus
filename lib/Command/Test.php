@@ -72,7 +72,7 @@ class Test extends Base {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ $details</error>");
 			return 1;
-		} else if ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
@@ -92,7 +92,7 @@ class Test extends Base {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
-		} else if ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
@@ -113,7 +113,7 @@ class Test extends Base {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
-		} else if ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");

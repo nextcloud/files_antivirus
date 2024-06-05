@@ -31,7 +31,6 @@ use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ICertificateManager;
-use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
@@ -48,7 +47,7 @@ class ICAP extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		ICertificateManager $certificateManager,
+		ICertificateManager $certificateManager
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
@@ -133,8 +132,8 @@ class ICAP extends ScannerBase {
 			if (\strpos($respHeader, '403 Forbidden') || \strpos($respHeader, '403 VirusFound')) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}
-		} else if ($code === 202) {
-			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);;
+		} elseif ($code === 202) {
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
 		} else {
 			throw new \RuntimeException('Invalid response from ICAP server');
 		}

@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\ICAP;
 
-use \RuntimeException;
+use RuntimeException;
 
 class ResponseParser {
 	/**
