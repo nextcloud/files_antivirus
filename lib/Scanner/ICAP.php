@@ -129,6 +129,8 @@ class ICAP extends ScannerBase {
 			if (\strpos($respHeader, '403 Forbidden') || \strpos($respHeader, '403 VirusFound')) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}
+		} else if ($code === 202) {
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);;
 		} else {
 			throw new \RuntimeException('Invalid response from ICAP server');
 		}
