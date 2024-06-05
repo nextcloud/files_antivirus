@@ -48,7 +48,7 @@ class Provider implements IProvider {
 		$this->urlGenerator = $urlGenerator;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== Application::APP_NAME || $event->getType() !== self::TYPE_VIRUS_DETECTED) {
 			throw new \InvalidArgumentException();
 		}

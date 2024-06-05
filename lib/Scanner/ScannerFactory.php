@@ -9,15 +9,15 @@
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
-use OCP\IServerContainer;
+use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 
 class ScannerFactory {
-	protected $appConfig;
-	private $serverContainer;
-
-	public function __construct(AppConfig $appConfig, IServerContainer $serverContainer) {
-		$this->appConfig = $appConfig;
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		protected AppConfig $appConfig,
+		private ContainerInterface $serverContainer,
+		private IRequest $request,
+	) {
 	}
 
 	/**
@@ -46,8 +46,11 @@ class ScannerFactory {
 		}
 
 		/** @var ScannerBase $scanner */
-		$scanner = $this->serverContainer->resolve($scannerClass);
+		$scanner = $this->serverContainer->get($scannerClass);
 		$scanner->setPath($path);
+		if ($this->request->getRemoteAddress()) {
+			$scanner->setRequest($this->request);
+		}
 		return $scanner;
 	}
 }

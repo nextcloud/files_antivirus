@@ -68,10 +68,12 @@ class Test extends Base {
 			});
 		}
 		$result = $scanner->scanString("dummy scan content");
-		if ($result->getNumericStatus() !== Status::SCANRESULT_CLEAN) {
+		if ($result->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ $details</error>");
 			return 1;
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
 		}
@@ -86,10 +88,12 @@ class Test extends Base {
 		}
 		$eicar = $this->crypto->decrypt(self::EICAR_ENCRYPTED, 'eicar');
 		$result = $scanner->scanString($eicar);
-		if ($result->getNumericStatus() !== Status::SCANRESULT_INFECTED) {
+		if ($result->getNumericStatus() === Status::SCANRESULT_CLEAN) {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
 		}
@@ -105,10 +109,12 @@ class Test extends Base {
 			});
 		}
 		$result = $scanner->scanString($eicar . uniqid());
-		if ($result->getNumericStatus() !== Status::SCANRESULT_INFECTED) {
+		if ($result->getNumericStatus() === Status::SCANRESULT_CLEAN) {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
 		}

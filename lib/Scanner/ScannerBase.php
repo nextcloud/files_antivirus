@@ -27,6 +27,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 abstract class ScannerBase implements IScanner {
@@ -53,6 +54,7 @@ abstract class ScannerBase implements IScanner {
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
 	protected string $path = '';
+	protected ?IRequest $request = null;
 
 	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		$this->appConfig = $config;
@@ -248,5 +250,9 @@ abstract class ScannerBase implements IScanner {
 
 	public function setPath(string $path): void {
 		$this->path = $path;
+	}
+
+	public function setRequest(IRequest $request): void {
+		$this->request = $request;
 	}
 }

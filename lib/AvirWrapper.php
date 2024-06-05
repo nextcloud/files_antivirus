@@ -76,7 +76,7 @@ class AvirWrapper extends Wrapper {
 		return $stream;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($this->shouldWrap($path)) {
 			$stream = $this->wrapSteam($path, $stream);
 		}

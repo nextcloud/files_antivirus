@@ -42,7 +42,7 @@ class ICAPRequest {
 		array $headers,
 		array $requestHeaders,
 		array $responseHeaders,
-		callable $responseCallback = null
+		?callable $responseCallback = null
 	) {
 		$this->stream = $stream;
 		$this->responseCallback = $responseCallback;
