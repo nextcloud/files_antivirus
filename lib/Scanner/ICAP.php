@@ -31,13 +31,14 @@ use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ICertificateManager;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
 	/** @var ICAPClient::MODE_REQ_MOD|ICAPClient::MODE_RESP_MOD */
 	private string $mode;
 	private ICAPClient $icapClient;
-	private ?ICAPRequest $request;
+	private ?ICAPRequest $icapRequest;
 	private string $service;
 	private string $virusHeader;
 	private int $chunkSize;
@@ -47,7 +48,7 @@ class ICAP extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		ICertificateManager $certificateManager
+		ICertificateManager $certificateManager,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
@@ -76,19 +77,22 @@ class ICAP extends ScannerBase {
 		if (str_contains($path, '.ocTransferId') && str_ends_with($path, '.part')) {
 			[$path] = explode('.ocTransferId', $path, 2);
 		}
+		$remote = $this->request?->getRemoteAddress();
 		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
-			$this->request = $this->icapClient->reqmod($this->service, [
+			$this->icapRequest = $this->icapClient->reqmod($this->service, [
 				'Allow' => 204,
+				"X-Client-IP" => $remote,
 			], [
 				"PUT $path HTTP/1.0",
 				"Host: nextcloud"
 			]);
 		} else {
-			$this->request = $this->icapClient->respmod($this->service, [
+			$this->icapRequest = $this->icapClient->respmod($this->service, [
 				'Allow' => 204,
+				"X-Client-IP" => $remote,
 			], [
 				"GET $path HTTP/1.0",
-				"Host: nextcloud"
+				"Host: nextcloud",
 			], [
 				"HTTP/1.0 200 OK",
 				"Content-Length: 1", // a dummy, non-zero, content length seems to be enough
@@ -106,13 +110,13 @@ class ICAP extends ScannerBase {
 	private function flushBuffer() {
 		rewind($this->writeHandle);
 		$data = stream_get_contents($this->writeHandle);
-		$this->request->write($data);
+		$this->icapRequest->write($data);
 		$this->writeHandle = fopen("php://temp", 'w+');
 	}
 
 	protected function scanBuffer() {
 		$this->flushBuffer();
-		$response = $this->request->finish();
+		$response = $this->icapRequest->finish();
 		$code = $response->getStatus()->getCode();
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
