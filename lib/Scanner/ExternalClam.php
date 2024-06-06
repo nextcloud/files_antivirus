@@ -48,7 +48,7 @@ class ExternalClam extends ScannerBase {
 			}
 			$this->writeHandle = @fsockopen($avHost, $avPort);
 			if (!$this->getWriteHandle()) {
-				throw new \RuntimeException('The ClamAV module is not in daemon mode.');
+				throw new \RuntimeException('Could not connect to ClamAV via ' . $avHost . ':' . $avPort . '. Please check that ClamAV is running and reachable.');
 			}
 		}
 
