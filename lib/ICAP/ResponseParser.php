@@ -65,17 +65,28 @@ class ResponseParser {
 		return new IcapResponseStatus("$v1.$v2", (int)$code, $status);
 	}
 
-	private function parseResHdr($stream, string $headerValue): array {
+	private function parseEncapsulated(string $headerValue): array {
+		$result = [];
 		$encapsulatedParts = \explode(",", $headerValue);
 		foreach ($encapsulatedParts as $encapsulatedPart) {
 			$pieces = \explode("=", \trim($encapsulatedPart));
-			if ($pieces[0] === "res-hdr") {
-				$offset = (int)$pieces[1];
-				if ($offset > 0) {
-					fseek($stream, $offset);
-				}
-				break;
+			$result[$pieces[0]] = (int)$pieces[1];
+		}
+		return $result;
+	}
+
+	private function parseResHdr($stream, string $headerValue): array {
+		$encapsulated = $this->parseEncapsulated($headerValue);
+		if (isset($encapsulated['res-hdr'])) {
+			if ($encapsulated['res-hdr'] > 0) {
+				fseek($stream, $encapsulated['res-hdr'], SEEK_CUR);
 			}
+		} elseif (isset($encapsulated['req-hdr'])) {
+			if ($encapsulated['req-hdr'] > 0) {
+				fseek($stream, $encapsulated['req-hdr'], SEEK_CUR);
+			}
+		} else {
+			return [];
 		}
 
 		$status = trim(\fgets($stream));

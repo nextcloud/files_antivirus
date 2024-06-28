@@ -1,0 +1,3 @@
+ICAP/1.0 200 OK
+Encapsulated: null-body=0
+ISTag: "b9eb4f031598bb0b-1716440776"

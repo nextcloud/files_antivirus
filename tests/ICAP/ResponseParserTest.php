@@ -35,4 +35,9 @@ class ResponseParserTest extends TestCase {
 		$response = $this->parseResponse(__DIR__ . '/../data/icap/403-response.txt');
 		$this->assertEquals('HTTP/1.1 403 Forbidden', $response->getResponseHeaders()['HTTP_STATUS']);
 	}
+
+	public function testParseNullBody() {
+		$response = $this->parseResponse(__DIR__ . '/../data/icap/null-body.txt');
+		$this->assertEquals([], $response->getResponseHeaders());
+	}
 }
