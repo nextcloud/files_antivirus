@@ -77,12 +77,13 @@ class ICAP extends ScannerBase {
 			[$path] = explode('.ocTransferId', $path, 2);
 		}
 		$remote = $this->request?->getRemoteAddress();
+		$encodedPath = implode("/", array_map("rawurlencode", explode("/", $path)));
 		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
 			$this->icapRequest = $this->icapClient->reqmod($this->service, [
 				'Allow' => 204,
 				"X-Client-IP" => $remote,
 			], [
-				"PUT $path HTTP/1.0",
+				"PUT $encodedPath HTTP/1.0",
 				"Host: nextcloud"
 			]);
 		} else {
@@ -90,7 +91,7 @@ class ICAP extends ScannerBase {
 				'Allow' => 204,
 				"X-Client-IP" => $remote,
 			], [
-				"GET $path HTTP/1.0",
+				"GET $encodedPath HTTP/1.0",
 				"Host: nextcloud",
 			], [
 				"HTTP/1.0 200 OK",
