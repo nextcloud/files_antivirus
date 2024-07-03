@@ -1,3 +1,8 @@
+<!--
+   - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+   - SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+   - SPDX-License-Identifier: AGPL-3.0-only
+-->
 # Nextcloud Antivirus for Files
 [![Build Status](https://travis-ci.org/nextcloud/files_antivirus.svg?branch=master)](https://travis-ci.org/nextcloud/files_antivirus/branches)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)

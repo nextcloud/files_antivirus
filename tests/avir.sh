@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# SPDX-FileCopyrightText: 2014 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 content=$(tee)
 
 if [[ $content =~ .*kitten  ]]; then

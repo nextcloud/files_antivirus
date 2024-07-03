@@ -1,0 +1,70 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+# Authors
+
+- Allan Nordhøy <epost@anotheragency.no>
+- Andy Scherzinger <info@andy-scherzinger.de>
+- Art4 <Art4@users.noreply.github.com>
+- Artem Sidorenko <artem@2realities.com>
+- Bart Visscher <bartv@thisnet.nl>
+- BetaLeaf <BetaLeaf@gmail.com>
+- bgraabek <40198442+bgraabek@users.noreply.github.com>
+- blizzz <blizzz@arthur-schiwon.de>
+- bpatath <github@bp.patathouse.fr>
+- Carl Schwan <carl@carlschwan.eu>
+- Christian Rost <rost@b1-systems.de>
+- Christoph Wurst <christoph@winzerhof-wurst.at>
+- Christopher <kondou@ts.unde.re>
+- Christopher Ng <chrng8@gmail.com>
+- Côme Chilliet <come.chilliet@nextcloud.com>
+- Daniel <mail@danielkesselberg.de>
+- Daniel Calviño Sánchez <danxuliu@gmail.com>
+- Daniel Kesselberg <mail@danielkesselberg.de>
+- David Prévot <david@tilapin.org>
+- Fallon Turner <fcturner@users.noreply.github.com>
+- Florian Steffens <florian.steffens@nextcloud.com>
+- Frank Karlitschek <frank@owncloud.org>
+- fsbruva <fsbruva@yahoo.com>
+- Georgiy Sitnikov <GAS85@users.noreply.github.com>
+- Ilja Neumann <ineumann@owncloud.com>
+- itheiss <ingo.theiss@i-matrixx.de>
+- Jan-Christoph Borchardt <hey@jancborchardt.net>
+- Joas Schilling <coding@schilljs.com>
+- Joas Schilling <nickvergessen@owncloud.com>
+- John Molakvoæ <skjnldsv@protonmail.com>
+- Jonathan Treffler <tessy.powder@gmail.com>
+- Jos Poortvliet <jospoortvliet@gmail.com>
+- Juergen Kellerer <juergen@k123.eu>
+- Julius Härtl <jus@bitgrid.net>
+- k0nsl <i.am@k0nsl.org>
+- kesselb <mail@danielkesselberg.de>
+- libracious <libracious@gmail.com>
+- Lorenzo Tanganelli <lorenzo.tanganelli@hotmail.it>
+- Lukas Reschke <lukas@statuscode.ch>
+- Manuel Delgado López <manuel.delgado@ucr.ac.cr>
+- Marius Blüm <marius@lineone.io>
+- max-nextcloud <max@nextcloud.com>
+- Maxence Lange <maxence@artificial-owl.com>
+- michag86 <micha_g@arcor.de>
+- Morris Jobke <hey@morrisjobke.de>
+- MTRichards <matt@owncloud.com>
+- Petar Ivanković Milošević <pero.milosev@yahoo.com>
+- rakekniven <mark.ziegler@rakekniven.de>
+- RealRancor <RealRancor@users.noreply.github.com>
+- Richard Steinmetz <richard@steinmetz.cloud>
+- Robin Appelman <robin@icewind.nl>
+- Roeland Jago Douma <roeland@famdouma.nl>
+- root <root@devel>
+- Sascha Wiswedel <wiswedel@users.noreply.github.com>
+- Sergio Bertolín <sbertolin@solidgear.es>
+- Simon L <szaimen@e.mail.de>
+- Stephan Orbaugh <62374139+sorbaugh@users.noreply.github.com>
+- Stephan Reichholf <stephan@reichholf.net>
+- Thinksilicon <moritz@blackbook.(none)>
+- Thomas Müller <thomas.mueller@tmit.eu>
+- Valdnet <47037905+Valdnet@users.noreply.github.com>
+- Victor Dubiniuk <victor.dubiniuk@gmail.com>
+- Vincent Petry <pvince81@owncloud.com>
+- Volkan Gezer <volkangezer@gmail.com>

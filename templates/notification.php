@@ -1,3 +1,10 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2012-2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+?>
 <p><?php p(str_replace('{user}', $_['user'], $l->t('Greetings {user},'))); ?> </p>
 <p style='margin-left:20px'><?php p($l->t('Sorry, but a malware was detected in a file you tried to upload and it had to be deleted.')); ?> <br />
    <?php p(str_replace('{host}', $_['host'], $l->t('This email is a notification from {host}. Please, do not reply.'))); ?> </p>
