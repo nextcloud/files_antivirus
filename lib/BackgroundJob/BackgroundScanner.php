@@ -197,6 +197,8 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	/**
+	 * Find files in the filecache that have never been scanned
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
@@ -225,6 +227,8 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
+	 * Find files that have been updated since they got last scanned
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
@@ -245,6 +249,8 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
+	 * Find files that have been last scanned more than 28 days ago
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
