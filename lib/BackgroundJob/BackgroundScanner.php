@@ -10,10 +10,12 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\BackgroundJob;
 
+use Doctrine\DBAL\Driver\ResultStatement;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -251,9 +253,8 @@ class BackgroundScanner extends TimedJob {
 			->where($qb->expr()->eq('storage_id', $qb->createNamedParameter($storageId)));
 
 		$cursor = $qb->execute();
-		$data = $cursor->fetchAll();
-		$cursor->closeCursor();
-		return $data;
+		/** @psalm-suppress UndefinedInterfaceMethod */
+		return $cursor->fetchAll();
 	}
 
 	public function getUnscannedFiles() {

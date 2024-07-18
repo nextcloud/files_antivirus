@@ -20,5 +20,4 @@ class TemporaryHome extends \OC\Files\Storage\Temporary {
 	public function getId() {
 		return "home::" . $this->id;
 	}
-
 }

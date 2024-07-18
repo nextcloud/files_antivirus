@@ -147,9 +147,6 @@ class AvirWrapper extends Wrapper {
 
 	/**
 	 * Synchronously scan data that is written to a file by the bulk upload endpoint
-	 *
-	 * @return false|float|int
-	 * @throws InvalidContentException
 	 */
 	public function file_put_contents($path, $data) {
 		if ($this->shouldWrap($path)) {

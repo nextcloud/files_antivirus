@@ -99,7 +99,8 @@ class BackgroundScannerTest extends TestBase {
 	public function testGetUnscannedFilesExternal() {
 		$this->markAllScanned();
 
-		$scanner = $this->getBackgroundScanner();
+		/** @var BackgroundScanner $scanner */
+		$scanner = \OC::$server->get(BackgroundScanner::class);
 		$newFileId = $this->homeDirectory->newFile("external/foo2", "bar2")->getId();
 
 		$outdated = $scanner->getUnscannedFiles()->fetchAll(\PDO::FETCH_COLUMN);

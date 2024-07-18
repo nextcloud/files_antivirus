@@ -26,7 +26,7 @@ class RuleMapper extends QBMapper {
 	public function deleteAll() {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('files_avir_status');
-		$query->executeStatement();
+		$query->execute();
 		return true;
 	}
 
