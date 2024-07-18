@@ -35,22 +35,28 @@ class BackgroundScannerTest extends TestBase {
 	use UserTrait;
 	use MountProviderTrait;
 
-	/** @var Folder */
-	private $homeDirectory;
+	private Folder $homeDirectory;
+	private Folder $externalDirectory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->createUser("av", "av");
-		$storage = new Temporary();
+		$storage = new TemporaryHome();
 		$storage->mkdir('files');
 		$storage->getScanner()->scan('');
+
+		$external = new Temporary();
+		$external->getScanner()->scan('');
+
 		$this->registerMount("av", $storage, "av");
+		$this->registerMount("av", $external, "av/files/external");
 
 		$this->loginAsUser("av");
 		/** @var IRootFolder $root */
 		$root = \OC::$server->get(IRootFolder::class);
 		$this->homeDirectory = $root->getUserFolder("av");
+		$this->externalDirectory = $this->homeDirectory->get('external');
 	}
 
 	private function markAllScanned() {
@@ -120,6 +126,17 @@ class BackgroundScannerTest extends TestBase {
 
 		$scanner = $this->getBackgroundScanner();
 		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
+		$this->homeDirectory->getParent()->newFile("outside", "bar")->getId();
+
+		$outdated = iterator_to_array($scanner->getUnscannedFiles());
+		$this->assertEquals([$newFileId], $outdated);
+	}
+
+	public function testGetUnscannedFilesExternal() {
+		$this->markAllScanned();
+
+		$scanner = $this->getBackgroundScanner();
+		$newFileId = $this->homeDirectory->newFile("external/foo2", "bar2")->getId();
 
 		$outdated = iterator_to_array($scanner->getUnscannedFiles());
 		$this->assertEquals([$newFileId], $outdated);

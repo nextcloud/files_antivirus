@@ -76,7 +76,7 @@ class ICAP extends ScannerBase {
 		if (str_contains($path, '.ocTransferId') && str_ends_with($path, '.part')) {
 			[$path] = explode('.ocTransferId', $path, 2);
 		}
-		$remote = $this->request?->getRemoteAddress();
+		$remote = $this->request ? $this->request->getRemoteAddress() : null;
 		$encodedPath = implode("/", array_map("rawurlencode", explode("/", $path)));
 		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
 			$this->icapRequest = $this->icapClient->reqmod($this->service, [

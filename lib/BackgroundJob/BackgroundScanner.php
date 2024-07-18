@@ -20,6 +20,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -196,19 +197,25 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	/**
+	 * Find files in the filecache that have never been scanned
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
 	public function getUnscannedFiles() {
-		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
+		$dirMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('fc.fileid')
 			->from('filecache', 'fc')
+			->leftJoin('fc', 'storages', 's', $query->expr()->eq('fc.storage', 's.numeric_id'))
 			->leftJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
 			->where($query->expr()->isNull('fa.fileid'))
-			->andWhere($query->expr()->neq('mimetype', $query->expr()->literal($dirMimeTypeId)))
-			->andWhere($query->expr()->like('path', $query->expr()->literal('files/%')))
+			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
+			->andWhere($query->expr()->orX(
+				$query->expr()->like('path', $query->createNamedParameter('files/%')),
+				$query->expr()->notLike('s.id', $query->createNamedParameter("home::%"))
+			))
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
@@ -220,6 +227,8 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
+	 * Find files that have been updated since they got last scanned
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
@@ -240,6 +249,8 @@ class BackgroundScanner extends TimedJob {
 
 
 	/**
+	 * Find files that have been last scanned more than 28 days ago
+	 *
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
