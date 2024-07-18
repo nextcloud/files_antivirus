@@ -13,11 +13,18 @@ use OCP\IRequest;
 use Psr\Container\ContainerInterface;
 
 class ScannerFactory {
+	protected AppConfig $appConfig;
+	protected ContainerInterface $serverContainer;
+	protected IRequest $request;
+
 	public function __construct(
-		protected AppConfig $appConfig,
-		private ContainerInterface $serverContainer,
-		private IRequest $request,
+		AppConfig $appConfig,
+		ContainerInterface $serverContainer,
+		IRequest $request
 	) {
+		$this->appConfig = $appConfig;
+		$this->serverContainer = $serverContainer;
+		$this->request = $request;
 	}
 
 	/**
