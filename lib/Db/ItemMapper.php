@@ -43,7 +43,7 @@ class ItemMapper extends QBMapper {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('files_antivirus')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($entity->getFileid(), IQueryBuilder::PARAM_INT)));
-		$query->executeStatement();
+		$query->execute();
 
 		return $entity;
 	}
@@ -53,7 +53,7 @@ class ItemMapper extends QBMapper {
 	 *
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
-	 * @throws Exception
+	 * @throws \Exception
 	 * @since 14.0.0
 	 */
 	public function insert(Entity $entity): Entity {
@@ -74,7 +74,7 @@ class ItemMapper extends QBMapper {
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeStatement();
+		$qb->execute();
 
 		return $entity;
 	}

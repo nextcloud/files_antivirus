@@ -55,7 +55,9 @@ jobs:
 
       - name: Set up PHPUnit
         working-directory: apps/${{ env.APP_NAME }}
-        run: composer i
+        run: |
+          rm composer.lock
+          composer i
 
       - name: Set up Nextcloud
         env:

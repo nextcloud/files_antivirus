@@ -81,6 +81,7 @@ class Rule extends Entity implements JsonSerializable {
 	 * Pack data into json
 	 * @return array
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,
