@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2014 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 $TRANSLATIONS = array(
 "Save" => "Uložiť",
 "Advanced" => "Pokročilé",
