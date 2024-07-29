@@ -144,7 +144,7 @@ class BackgroundScanner extends TimedJob {
 					// increased only for successfully scanned files
 					$count++;
 				} else {
-					$this->logger->info('Tried to scan non file');
+					$this->logger->info('Tried to scan non file with Id ' . $fileId);
 					$this->deleteFileCheckTime($fileId);
 				}
 			} catch (\Exception $e) {
