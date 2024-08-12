@@ -8,7 +8,7 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
-use \OCA\Files_Antivirus\Db\RuleMapper;
+use OCA\Files_Antivirus\Db\RuleMapper;
 use Psr\Log\LoggerInterface;
 
 /**

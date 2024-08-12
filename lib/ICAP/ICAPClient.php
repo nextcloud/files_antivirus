@@ -51,14 +51,14 @@ class ICAPClient {
 			$errorMessage,
 			$this->connectTimeout
 		);
-
-		socket_set_timeout($stream, 600);
-
+		
 		if (!$stream) {
 			throw new RuntimeException(
 				"Cannot connect to \"tcp://{$this->host}:{$this->port}\": $errorMessage (code $errorCode)"
 			);
 		}
+
+		socket_set_timeout($stream, 600);
 
 		return $stream;
 	}
