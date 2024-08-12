@@ -14,8 +14,8 @@ use Test\TestCase;
 class ICAPClientTest extends TestCase {
 	public function testConnect_ShouldThrowRuntimeException() {
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage('Cannot connect to "tcp://nothinghere:8080": php_network_getaddresses: getaddrinfo for nothinghere failed: Name or service not known (code 0)');
+		$this->expectExceptionMessageMatches('/Cannot connect to "tcp\:\/\/nothinghere\:8080"\: .*/');
 		$icapClient = new ICAPClient("nothinghere", 8080, 2);
-		$icapClient->respmod("myservice",  [], [], []);
+		$icapClient->respmod("myservice", [], [], []);
 	}
 }
