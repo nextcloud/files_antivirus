@@ -18,6 +18,7 @@ use OCP\IConfig;
  * @method ?string getAvCmdOptions()
  * @method ?string getAvPath()
  * @method ?string getAvInfectedAction()
+ * @method ?string getAvPasswordAction()
  * @method ?string getAvStreamMaxLength()
  * @method string getAvIcapMode()
  * @method ?string getAvIcapRequestService()
@@ -34,6 +35,7 @@ use OCP\IConfig;
  * @method null setAvChunkSize(int $chunkSize)
  * @method null setAvPath(string $avPath)
  * @method null setAvInfectedAction(string $avInfectedAction)
+ * @method null setAvPasswordAction(string $avPasswordAction)
  * @method null setAvIcapScanBackground(string $scanBackground)
  * @method null setAvIcapMode(string $mode)
  * @method null setAvIcapRequestService($reqService)
@@ -65,6 +67,7 @@ class AppConfig {
 		'av_icap_chunk_size' => '1048576',
 		'av_icap_connect_timeout' => '5',
 		'av_scan_first_bytes' => -1,
+		'av_password_action' => 'deny',
 	];
 
 	/**

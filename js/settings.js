@@ -135,22 +135,27 @@ var antivirusSettings = antivirusSettings || {
 
 
 function av_mode_show_options(str, mode = 'slow') {
-	if ( str === 'daemon' || str === 'kaspersky' || str === 'icap'){
+	if ( str === 'daemon' || str === 'kaspersky' || str === 'icap' || str === 'symantec'){
 		$('tr.av_socket, tr.av_path').hide(mode);
 		$('tr.av_host, tr.av_port').show(mode);
 	} else if ( str === 'socket' ) {
 		$('tr.av_socket').show(mode);
 		$('tr.av_path, tr.av_host, tr.av_port').hide(mode);
 	} else if (str === 'executable'){
-		$('tr.av_socket, tr.av_host, tr.av_port').hide(mode);
+		$('tr.av_socket, tr.av_host, tr.av_port, tr.av_password_action').hide(mode);
 		$('tr.av_path').show(mode);
 	}
-	if (str === 'icap'){
+	if (str === 'icap' || str === 'symantec'){
 		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode, tr.av_icap_tls').show(mode);
 	} else {
 		$('tr.av_icap_service, tr.av_icap_header, tr.av_icap_preset, tr.av_icap_mode, tr.av_icap_tls').hide(mode);
 	}
-	if (str === 'kaspersky' || str === 'icap') {
+	if (str === 'symantec'){
+		$('tr.av_password_action').show(mode);
+	} else {
+		$('tr.av_password_action').hide(mode);
+	}
+	if (str === 'kaspersky' || str === 'icap' || str === 'symantec') {
 		$('#antivirus-advanced-wrapper').hide(mode);
 	} else {
 		$('#antivirus-advanced-wrapper').show(mode);

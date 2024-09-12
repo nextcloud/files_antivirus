@@ -47,6 +47,9 @@ class ScannerFactory {
 			case 'icap':
 				$scannerClass = ICAP::class;
 				break;
+			case 'symantec':
+				$scannerClass = SymantecICAP::class;
+				break;
 			default:
 				throw new \InvalidArgumentException('Application is misconfigured. Please check the settings at the admin page. Invalid mode: ' . $avMode);
 		}

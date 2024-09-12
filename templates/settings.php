@@ -23,6 +23,7 @@ script('files_antivirus', 'settings');
 							'socket' => $l->t('ClamAV Daemon (Socket)'),
 							'kaspersky' => $l->t('Kaspersky Daemon'),
 							'icap' => $l->t('ICAP server'),
+							'symantec' => $l->t('Symantec Icap'),
 						], $_['avMode'])) ?></select>
 					</td>
 					<td></td>
@@ -119,6 +120,11 @@ script('files_antivirus', 'settings');
 				<tr class="infected_action">
 					<td><label for="av_infected_action"><?php p($l->t('When infected files are found during a background scan'));?></label></td>
 					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
+					<td></td>
+				</tr>
+				<tr class="av_password_action">
+					<td><label for="av_password_action"><?php p($l->t('Accept password protected files'));?></label></td>
+					<td><select id="av_password_action" name="avPasswordAction"><?php print_unescaped(html_select_options(['accept' => $l->t('Accept'), 'deny' => $l->t('Deny')], $_['avPasswordAction'])) ?></select></td>
 					<td></td>
 				</tr>
 			</table>

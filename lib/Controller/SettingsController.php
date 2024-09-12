@@ -47,6 +47,7 @@ class SettingsController extends Controller {
 	 * @param string $avCmdOptions - extra command line options
 	 * @param string $avPath - path to antivirus executable (Executable mode)
 	 * @param string $avInfectedAction - action performed on infected files
+	 * @param string $avPasswordAction - action performed on password protected files
 	 * @param $avStreamMaxLength - reopen socket after bytes
 	 * @param int $avMaxFileSize - file size limit
 	 * @param int $avScanFirstBytes - scan size limit
@@ -62,6 +63,7 @@ class SettingsController extends Controller {
 		$avCmdOptions,
 		$avPath,
 		$avInfectedAction,
+		$avPasswordAction,
 		$avStreamMaxLength,
 		$avMaxFileSize,
 		$avScanFirstBytes,
@@ -77,6 +79,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvCmdOptions($avCmdOptions);
 		$this->settings->setAvPath($avPath);
 		$this->settings->setAvInfectedAction($avInfectedAction);
+		$this->settings->setAvPasswordAction($avPasswordAction);
 		$this->settings->setAvStreamMaxLength($avStreamMaxLength);
 		$this->settings->setAvMaxFileSize($avMaxFileSize);
 		$this->settings->setAvScanFirstBytes($avScanFirstBytes);
