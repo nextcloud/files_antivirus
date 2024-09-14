@@ -36,6 +36,7 @@ OC.L10N.register(
     "Port" : "Порт",
     "Port number of Antivirus Host." : "Номер порта системы с антивирусом.",
     "TLS" : "TLS",
+    "Use TLS encryption." : "Используйте шифрование TLS.",
     "ICAP preset" : "Предустановка ICAP",
     "Select" : "Выбрать",
     "ICAP mode" : "режим ICAP",
