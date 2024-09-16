@@ -39,7 +39,7 @@ abstract class TestBase extends TestCase {
 
 		$this->config = $this->getMockBuilder(AppConfig::class)
 			->disableOriginalConstructor()
-			->setMethods(['getAvPath', 'getAvChunkSize', 'getAvMode', 'getAppValue', 'getAvHost', 'getAvPort'])
+			->setMethods(['getAvPath', 'getAvChunkSize', 'getAvMode', 'getAppValue', 'getAvHost', 'getAvPort',  'getAvBlockUnscannable'])
 			->getMock();
 
 		$this->config->expects($this->any())

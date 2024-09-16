@@ -79,6 +79,8 @@ class Test extends Base {
 			return 1;
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
+			$output->writeln("<comment>- file could not be scanned</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
 		}
@@ -100,6 +102,8 @@ class Test extends Base {
 			return 1;
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
+		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
+			$output->writeln("<comment>- file could not be scanned</comment>");
 		} else {
 			$output->writeln("<info>✓</info>");
 		}

@@ -80,6 +80,10 @@ class Scan extends Base {
 				$status = "is <error>infected</error>";
 				$exit = 1;
 				break;
+			case \OCA\Files_Antivirus\Status::SCANRESULT_UNSCANNABLE:
+				$status = "is not scannable";
+				$exit = 2;
+				break;
 		}
 		if ($result->getDetails()) {
 			$details = ": " . $result->getDetails();

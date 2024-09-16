@@ -12,23 +12,28 @@ use OCA\Files_Antivirus\Db\RuleMapper;
 use Psr\Log\LoggerInterface;
 
 class Status {
-	/*
+	/**
 	 *  The file was not checked (e.g. because the AV daemon wasn't running).
 	 */
 	public const SCANRESULT_UNCHECKED = -1;
 
-	/*
+	/**
 	 *  The file was checked and found to be clean.
 	 */
 	public const SCANRESULT_CLEAN = 0;
 
-	/*
+	/**
 	 *  The file was checked and found to be infected.
 	 */
 	public const SCANRESULT_INFECTED = 1;
 
-	/*
-	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN
+	/**
+	 * The file cannot be checked (e.g. because it is password protected)
+	 */
+	public const SCANRESULT_UNSCANNABLE = 2;
+
+	/**
+	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN | SCANRESULT_UNSCANNABLE
 	 */
 	protected $numericStatus = self::SCANRESULT_UNCHECKED;
 
@@ -37,12 +42,15 @@ class Status {
 	 */
 	protected $details = '';
 
+	private bool $blockUnscannable = false;
+
 	protected RuleMapper $ruleMapper;
 	protected LoggerInterface $logger;
 
-	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger) {
+	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger, AppConfig $config) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;
+		$this->blockUnscannable = $config->getAvBlockUnscannable();
 	}
 
 	/**
@@ -71,11 +79,11 @@ class Status {
 
 	/**
 	 * @param string $rawResponse
-	 * @param integer $result
+	 * @param ?integer $result
 	 *
 	 * @return void
 	 */
-	public function parseResponse($rawResponse, $result = null) {
+	public function parseResponse(string $rawResponse, int $result = null) {
 		$matches = [];
 
 		if (is_null($result)) { // Daemon or socket mode
@@ -164,6 +172,13 @@ class Status {
 				break;
 			case self::SCANRESULT_CLEAN:
 				$item->processClean();
+				break;
+			case self::SCANRESULT_UNSCANNABLE:
+				if ($this->blockUnscannable) {
+					$item->processInfected($this);
+				} else {
+					$item->processClean();
+				}
 				break;
 		}
 	}

@@ -121,6 +121,15 @@ script('files_antivirus', 'settings');
 					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
 					<td></td>
 				</tr>
+				<tr class="av_block_unscannable">
+					<td><label for="av_block_unscannable"><?php p($l->t('Block unscannable files (such as encrypted archives)'));?></label></td>
+					<td>
+						<input type="checkbox" id="av_block_unscannable" name="avBlockUnscannable"  <?php p($_['avBlockUnscannable'] ? 'checked="checked"' : ''); ?>""
+							   title="<?php p($l->t('Block unscannable files (such as encrypted archives)'));?>"
+						/>
+					</td>
+					<td></td>
+				</tr>
 			</table>
 			<input id="av_submit" type="submit" value="<?php p($l->t('Save'));?>" />
 			<span id="antivirus_save_msg"></span>
