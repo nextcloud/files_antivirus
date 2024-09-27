@@ -90,7 +90,7 @@ class SettingsController extends Controller {
 
 		try {
 			$scanner = $this->scannerFactory->getScanner('/self-test.txt');
-			$result = $scanner->scanString("dummy scan content");
+			$result = $scanner->scanString('dummy scan content');
 			$success = $result->getNumericStatus() == Status::SCANRESULT_CLEAN;
 			$message = $success ? $this->l10n->t('Saved') : 'unexpected scan results for test content';
 		} catch (\Exception $e) {

@@ -43,35 +43,35 @@ class Rule extends Entity implements JsonSerializable {
 	/**
 	 *
 	 * @var int statusType - RULE_TYPE_CODE or RULE_TYPE_MATCH defines whether
-	 *   rule should be checked by the shell exit code or regexp
+	 *          rule should be checked by the shell exit code or regexp
 	 */
 	protected $statusType;
 
 	/**
 	 *
 	 * @var int result - shell exit code for rules
-	 *   of the type RULE_TYPE_CODE, 0 otherwise
+	 *          of the type RULE_TYPE_CODE, 0 otherwise
 	 */
 	protected $result;
 
 	/**
 	 *
 	 * @var string match - regexp to match for rules
-	 *   of the type RULE_TYPE_MATCH, '' otherwise
+	 *             of the type RULE_TYPE_MATCH, '' otherwise
 	 */
 	protected $match;
 
 	/**
 	 *
 	 * @var string description - shell exit code meaning for rules
-	 *   of the type RULE_TYPE_CODE, '' otherwise
+	 *             of the type RULE_TYPE_CODE, '' otherwise
 	 */
 	protected $description;
 
 	/**
 	 *
 	 * @var int status - file check status. SCANRESULT_UNCHECKED, SCANRESULT_INFECTED,
-	 *   SCANRESULT_CLEAN are matching Unknown, Infected and Clean files accordingly.
+	 *          SCANRESULT_CLEAN are matching Unknown, Infected and Clean files accordingly.
 	 */
 	protected $status;
 

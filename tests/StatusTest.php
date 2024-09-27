@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
-use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use Psr\Log\LoggerInterface;
 
@@ -31,7 +30,7 @@ class StatusTest extends TestBase {
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
 		$this->config->method('getAvBlockUnscannable')
-			->willReturnCallback(function() {
+			->willReturnCallback(function () {
 				return $this->blockUnscannable;
 			});
 	}
@@ -47,9 +46,9 @@ class StatusTest extends TestBase {
 		$testStatus->parseResponse('dummy : OK', self::TEST_CLEAN);
 		$cleanScan = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_CLEAN, $cleanScan);
-		$this->assertEquals("", $testStatus->getDetails());
+		$this->assertEquals('', $testStatus->getDetails());
 
-		$scanOutput = "Thu Oct 28 13:02:19 2010 -> /tmp/kitten: Heuristics.Broken.Executable FOUND ";
+		$scanOutput = 'Thu Oct 28 13:02:19 2010 -> /tmp/kitten: Heuristics.Broken.Executable FOUND ';
 		$testStatus->parseResponse($scanOutput, self::TEST_INFECTED);
 		$infectedScan = $testStatus->getNumericStatus();
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_INFECTED, $infectedScan);

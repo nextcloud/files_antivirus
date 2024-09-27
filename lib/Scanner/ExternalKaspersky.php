@@ -42,7 +42,7 @@ class ExternalKaspersky extends ScannerBase {
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The Kaspersky port and host are not set up.');
 		}
-		$this->writeHandle = fopen("php://temp", 'w+');
+		$this->writeHandle = fopen('php://temp', 'w+');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class ExternalKaspersky extends ScannerBase {
 	protected function writeChunk($chunk) {
 		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->scanBuffer();
-			$this->writeHandle = fopen("php://temp", 'w+');
+			$this->writeHandle = fopen('php://temp', 'w+');
 		}
 		parent::writeChunk($chunk);
 	}
@@ -66,7 +66,7 @@ class ExternalKaspersky extends ScannerBase {
 		$body = base64_encode($body);
 		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
 			'json' => [
-				'timeout' => "60000",
+				'timeout' => '60000',
 				'object' => $body,
 			],
 			'connect_timeout' => 5,
@@ -92,7 +92,7 @@ class ExternalKaspersky extends ScannerBase {
 			$this->status->setDetails($scanResult);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
-			if (strpos($scanResult, "DETECT ") === 0) {
+			if (strpos($scanResult, 'DETECT ') === 0) {
 				$scanResult = substr($scanResult, 7);
 			}
 			if (isset($response['detectionName'])) {

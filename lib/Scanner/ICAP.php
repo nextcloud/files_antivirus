@@ -56,31 +56,31 @@ class ICAP extends ScannerBase {
 
 	public function initScanner() {
 		parent::initScanner();
-		$this->writeHandle = fopen("php://temp", 'w+');
+		$this->writeHandle = fopen('php://temp', 'w+');
 		$path = '/' . trim($this->path, '/');
 		if (str_contains($path, '.ocTransferId') && str_ends_with($path, '.part')) {
 			[$path] = explode('.ocTransferId', $path, 2);
 		}
 		$remote = $this->request ? $this->request->getRemoteAddress() : null;
-		$encodedPath = implode("/", array_map("rawurlencode", explode("/", $path)));
+		$encodedPath = implode('/', array_map('rawurlencode', explode('/', $path)));
 		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
 			$this->icapRequest = $this->icapClient->reqmod($this->service, [
 				'Allow' => 204,
-				"X-Client-IP" => $remote,
+				'X-Client-IP' => $remote,
 			], [
 				"PUT $encodedPath HTTP/1.0",
-				"Host: nextcloud"
+				'Host: nextcloud'
 			]);
 		} else {
 			$this->icapRequest = $this->icapClient->respmod($this->service, [
 				'Allow' => 204,
-				"X-Client-IP" => $remote,
+				'X-Client-IP' => $remote,
 			], [
 				"GET $encodedPath HTTP/1.0",
-				"Host: nextcloud",
+				'Host: nextcloud',
 			], [
-				"HTTP/1.0 200 OK",
-				"Content-Length: 1", // a dummy, non-zero, content length seems to be enough
+				'HTTP/1.0 200 OK',
+				'Content-Length: 1', // a dummy, non-zero, content length seems to be enough
 			]);
 		}
 	}
@@ -96,7 +96,7 @@ class ICAP extends ScannerBase {
 		rewind($this->writeHandle);
 		$data = stream_get_contents($this->writeHandle);
 		$this->icapRequest->write($data);
-		$this->writeHandle = fopen("php://temp", 'w+');
+		$this->writeHandle = fopen('php://temp', 'w+');
 	}
 
 	protected function scanBuffer() {

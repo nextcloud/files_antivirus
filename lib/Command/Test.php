@@ -40,33 +40,33 @@ class Test extends Base {
 		$this
 			->setName('files_antivirus:test')
 			->setDescription('Test the availability of the configured scanner')
-			->addOption('debug', null, InputOption::VALUE_NONE, "Enable debug output for supported backends");
+			->addOption('debug', null, InputOption::VALUE_NONE, 'Enable debug output for supported backends');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$output->write("Scanning regular text: ");
+		$output->write('Scanning regular text: ');
 		$scanner = $this->scannerFactory->getScanner('/foo.txt');
 		if ($input->getOption('debug')) {
-			$output->writeln("");
+			$output->writeln('');
 			$scanner->setDebugCallback(function ($content) use ($output) {
 				$output->writeln($content);
 			});
 		}
-		$result = $scanner->scanString("dummy scan content");
+		$result = $scanner->scanString('dummy scan content');
 		if ($result->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 			$details = $result->getDetails();
 			$output->writeln("<error>❌ $details</error>");
 			return 1;
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
-			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
+			$output->writeln('<comment>- file not scanned or scan still pending</comment>');
 		} else {
-			$output->writeln("<info>✓</info>");
+			$output->writeln('<info>✓</info>');
 		}
 
-		$output->write("Scanning EICAR test file: ");
+		$output->write('Scanning EICAR test file: ');
 		$scanner = $this->scannerFactory->getScanner('/test-virus-eicar.txt');
 		if ($input->getOption('debug')) {
-			$output->writeln("");
+			$output->writeln('');
 			$scanner->setDebugCallback(function ($content) use ($output) {
 				$output->writeln($content);
 			});
@@ -78,19 +78,19 @@ class Test extends Base {
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
-			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
+			$output->writeln('<comment>- file not scanned or scan still pending</comment>');
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
-			$output->writeln("<comment>- file could not be scanned</comment>");
+			$output->writeln('<comment>- file could not be scanned</comment>');
 		} else {
-			$output->writeln("<info>✓</info>");
+			$output->writeln('<info>✓</info>');
 		}
 
 		// send a modified version of the EICAR because some scanners don't hold the scan request
 		// by default for files that haven't been seen before.
-		$output->write("Scanning modified EICAR test file: ");
+		$output->write('Scanning modified EICAR test file: ');
 		$scanner = $this->scannerFactory->getScanner('/test-virus-eicar-modified.txt');
 		if ($input->getOption('debug')) {
-			$output->writeln("");
+			$output->writeln('');
 			$scanner->setDebugCallback(function ($content) use ($output) {
 				$output->writeln($content);
 			});
@@ -101,11 +101,11 @@ class Test extends Base {
 			$output->writeln("<error>❌ file not detected $details</error>");
 			return 1;
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
-			$output->writeln("<comment>- file not scanned or scan still pending</comment>");
+			$output->writeln('<comment>- file not scanned or scan still pending</comment>');
 		} elseif ($result->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
-			$output->writeln("<comment>- file could not be scanned</comment>");
+			$output->writeln('<comment>- file could not be scanned</comment>');
 		} else {
-			$output->writeln("<info>✓</info>");
+			$output->writeln('<info>✓</info>');
 		}
 
 		return 0;

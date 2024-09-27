@@ -74,7 +74,7 @@ class DummyClam {
 
 		if (!$isAborted) {
 			$response = strpos($buffer, self::TEST_SIGNATURE) !== false
-				? "Ohoho: Criminal.Joboholic FOUND"
+				? 'Ohoho: Criminal.Joboholic FOUND'
 				: 'Scanned OK'
 			;
 			//echo str_replace('0', '', $buffer) . $response;

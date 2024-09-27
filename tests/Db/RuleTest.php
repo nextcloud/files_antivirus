@@ -22,7 +22,7 @@ class RuleTest extends TestBase {
 			'statusType' => Rule::RULE_TYPE_CODE,
 			'result' => 0,
 			'match' => '',
-			'description' => "",
+			'description' => '',
 			'status' => Status::SCANRESULT_CLEAN
 		];
 		$expected = [
@@ -30,7 +30,7 @@ class RuleTest extends TestBase {
 			'status_type' => Rule::RULE_TYPE_CODE,
 			'result' => 0,
 			'match' => '',
-			'description' => "",
+			'description' => '',
 			'status' => Status::SCANRESULT_CLEAN
 		];
 

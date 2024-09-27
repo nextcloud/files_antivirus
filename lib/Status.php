@@ -83,14 +83,14 @@ class Status {
 	 *
 	 * @return void
 	 */
-	public function parseResponse(string $rawResponse, int $result = null) {
+	public function parseResponse(string $rawResponse, ?int $result = null) {
 		$matches = [];
 
 		if (is_null($result)) { // Daemon or socket mode
 			try {
 				$allRules = $this->getResponseRules();
 			} catch (\Exception $e) {
-				$this->logger->error(__METHOD__.', exception: '.$e->getMessage(), ['app' => 'files_antivirus']);
+				$this->logger->error(__METHOD__ . ', exception: ' . $e->getMessage(), ['app' => 'files_antivirus']);
 				return;
 			}
 
@@ -114,7 +114,7 @@ class Status {
 				// Adding the ASCII text range 32..126 (excluding '`') of the raw socket response to the details.
 				$response = filter_var($rawResponse, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK);
 				if (strlen($response) > 512) {
-					$response = substr($response, 0, 509) . "...";
+					$response = substr($response, 0, 509) . '...';
 				}
 				$this->details = 'No matching rule for response [' . $response . ']. Please check antivirus rules configuration.';
 			}
@@ -140,7 +140,7 @@ class Status {
 					break;
 				case self::SCANRESULT_UNCHECKED:
 					if (!$this->details) {
-						$this->details = 'No matching rule for exit code ' .  $this->numericStatus .'. Please check antivirus rules configuration.' ;
+						$this->details = 'No matching rule for exit code ' . $this->numericStatus . '. Please check antivirus rules configuration.' ;
 					}
 			}
 		}

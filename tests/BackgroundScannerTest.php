@@ -39,7 +39,7 @@ class BackgroundScannerTest extends TestBase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->createUser("av", "av");
+		$this->createUser('av', 'av');
 		$storage = new TemporaryHome();
 		$storage->mkdir('files');
 		$storage->getScanner()->scan('');
@@ -47,13 +47,13 @@ class BackgroundScannerTest extends TestBase {
 		$external = new Temporary();
 		$external->getScanner()->scan('');
 
-		$this->registerMount("av", $storage, "av");
-		$this->registerMount("av", $external, "av/files/external");
+		$this->registerMount('av', $storage, 'av');
+		$this->registerMount('av', $external, 'av/files/external');
 
-		$this->loginAsUser("av");
+		$this->loginAsUser('av');
 		/** @var IRootFolder $root */
 		$root = \OC::$server->get(IRootFolder::class);
-		$this->homeDirectory = $root->getUserFolder("av");
+		$this->homeDirectory = $root->getUserFolder('av');
 		$this->externalDirectory = $this->homeDirectory->get('external');
 	}
 
@@ -87,7 +87,7 @@ class BackgroundScannerTest extends TestBase {
 			->disableOriginalConstructor()
 			->onlyMethods(['getNumericStatus', 'getDetails'])->getMock();
 		$status->method('getNumericStatus')->willReturn(Status::SCANRESULT_CLEAN);
-		$status->method('getDetails')->willReturn("");
+		$status->method('getDetails')->willReturn('');
 		$scanner = $this->createMock(IScanner::class);
 		$scanner->method('scan')
 			->willReturn($status);
@@ -123,8 +123,8 @@ class BackgroundScannerTest extends TestBase {
 		$this->markAllScanned();
 
 		$scanner = $this->getBackgroundScanner();
-		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
-		$this->homeDirectory->getParent()->newFile("outside", "bar")->getId();
+		$newFileId = $this->homeDirectory->newFile('foo', 'bar')->getId();
+		$this->homeDirectory->getParent()->newFile('outside', 'bar')->getId();
 
 		$outdated = iterator_to_array($scanner->getUnscannedFiles());
 		$this->assertEquals([$newFileId], $outdated);
@@ -134,14 +134,14 @@ class BackgroundScannerTest extends TestBase {
 		$this->markAllScanned();
 
 		$scanner = $this->getBackgroundScanner();
-		$newFileId = $this->homeDirectory->newFile("external/foo2", "bar2")->getId();
+		$newFileId = $this->homeDirectory->newFile('external/foo2', 'bar2')->getId();
 
 		$outdated = iterator_to_array($scanner->getUnscannedFiles());
 		$this->assertEquals([$newFileId], $outdated);
 	}
 
 	public function testGetOutdatedFiles() {
-		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
+		$newFileId = $this->homeDirectory->newFile('foo', 'bar')->getId();
 		$this->markAllScanned();
 
 		$scanner = $this->getBackgroundScanner();
@@ -158,7 +158,7 @@ class BackgroundScannerTest extends TestBase {
 		$this->markAllScanned();
 
 		$scanner = $this->getBackgroundScanner();
-		$newFileId = $this->homeDirectory->newFile("foo", "bar")->getId();
+		$newFileId = $this->homeDirectory->newFile('foo', 'bar')->getId();
 
 		$outdated = iterator_to_array($scanner->getUnscannedFiles());
 		$this->assertEquals([$newFileId], $outdated);

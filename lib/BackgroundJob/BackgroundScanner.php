@@ -212,7 +212,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
 			->andWhere($query->expr()->orX(
 				$query->expr()->like('path', $query->createNamedParameter('files/%')),
-				$query->expr()->notLike('s.id', $query->createNamedParameter("home::%"))
+				$query->expr()->notLike('s.id', $query->createNamedParameter('home::%'))
 			))
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
