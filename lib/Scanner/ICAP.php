@@ -105,9 +105,10 @@ class ICAP extends ScannerBase {
 		$code = $response->getStatus()->getCode();
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+		$icapHeaders = $response->getIcapHeaders();
 		if ($code === 200 || $code === 204) {
 			// c-icap/clamav reports this header
-			$virus = $response->getIcapHeaders()[$this->virusHeader] ?? false;
+			$virus = $icapHeaders[$this->virusHeader] ?? false;
 			if ($virus) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 				$this->status->setDetails($virus);
@@ -120,6 +121,17 @@ class ICAP extends ScannerBase {
 			}
 		} elseif ($code === 202) {
 			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+		} elseif ($code === 500 && isset($icapHeaders['X-Error-Code'])) {
+			$uncheckableErrors = ['decode_error', 'max_archive_layers_exceeded', 'password_protected'];
+			$blockedErrors = ['file_type_blocked', 'file_extension_blocked'];
+			$icapErrorCode = $icapHeaders['X-Error-Code'];
+			if (in_array($icapErrorCode, $uncheckableErrors)) {
+				$this->status->setNumericStatus(Status::SCANRESULT_UNSCANNABLE);
+			} elseif (in_array($icapErrorCode, $blockedErrors)) {
+				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
+			} else {
+				throw new \RuntimeException('Invalid response from ICAP server, got error code ' . $icapErrorCode);
+			}
 		} else {
 			throw new \RuntimeException('Invalid response from ICAP server');
 		}
