@@ -17,7 +17,7 @@ abstract class ScannerBaseTest extends TestCase {
 
 	public function testScanClean() {
 		$scanner = $this->getScanner();
-		$status = $scanner->scanString("foo");
+		$status = $scanner->scanString('foo');
 		$this->assertEquals($status->getNumericStatus(), Status::SCANRESULT_CLEAN);
 	}
 	public function testScanEicar() {

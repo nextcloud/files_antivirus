@@ -89,7 +89,7 @@ class ICAPRequest {
 		}
 
 		if ($this->responseCallback) {
-			($this->responseCallback)("ICAP Request headers:");
+			($this->responseCallback)('ICAP Request headers:');
 			($this->responseCallback)($request);
 		}
 
@@ -107,7 +107,7 @@ class ICAPRequest {
 		if ($this->responseCallback) {
 			$response = stream_get_contents($this->stream);
 
-			($this->responseCallback)("ICAP Response:");
+			($this->responseCallback)('ICAP Response:');
 			($this->responseCallback)($response);
 			$stream = fopen('php://temp', 'r+');
 			fwrite($stream, $response);

@@ -100,6 +100,8 @@ class Application extends App implements IBootstrap {
 				$activityManager = $container->get(IManager::class);
 				$eventDispatcher = $container->get(IEventDispatcher::class);
 				$appManager = $container->get(IAppManager::class);
+				/** @var AppConfig $appConfig */
+				$appConfig = $container->get(AppConfig::class);
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
@@ -110,6 +112,7 @@ class Application extends App implements IBootstrap {
 					'eventDispatcher' => $eventDispatcher,
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
+					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
 				]);
 			},
 			1

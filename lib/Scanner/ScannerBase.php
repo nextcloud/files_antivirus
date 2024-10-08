@@ -28,7 +28,7 @@ abstract class ScannerBase implements IScanner {
 
 	protected int $byteCount;
 
-	/** @var  resource */
+	/** @var resource */
 	protected $writeHandle;
 
 	protected AppConfig $appConfig;

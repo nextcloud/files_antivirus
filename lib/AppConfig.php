@@ -65,6 +65,7 @@ class AppConfig {
 		'av_icap_chunk_size' => '1048576',
 		'av_icap_connect_timeout' => '5',
 		'av_scan_first_bytes' => -1,
+		'av_block_unscannable' => false,
 	];
 
 	/**
@@ -92,6 +93,14 @@ class AppConfig {
 
 	public function setAvIcapTls(bool $enable): void {
 		$this->setAppValue('av_icap_tls', $enable ? '1' : '0');
+	}
+
+	public function getAvBlockUnscannable(): bool {
+		return (bool)$this->getAppValue('av_block_unscannable');
+	}
+
+	public function setAvBlockUnscannable(bool $block): void {
+		$this->setAppValue('av_block_unscannable', $block ? '1' : '0');
 	}
 
 	/**

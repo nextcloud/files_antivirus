@@ -42,7 +42,7 @@ class ExternalKaspersky extends ScannerBase {
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The Kaspersky port and host are not set up.');
 		}
-		$this->writeHandle = fopen("php://temp", 'w+');
+		$this->writeHandle = fopen('php://temp', 'w+');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class ExternalKaspersky extends ScannerBase {
 	protected function writeChunk($chunk) {
 		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->scanBuffer();
-			$this->writeHandle = fopen("php://temp", 'w+');
+			$this->writeHandle = fopen('php://temp', 'w+');
 		}
 		parent::writeChunk($chunk);
 	}
@@ -66,7 +66,7 @@ class ExternalKaspersky extends ScannerBase {
 		$body = base64_encode($body);
 		$response = $this->clientService->newClient()->post("$avHost:$avPort/api/v3.0/scanmemory", [
 			'json' => [
-				'timeout' => "60000",
+				'timeout' => '60000',
 				'object' => $body,
 			],
 			'connect_timeout' => 5,
@@ -85,14 +85,14 @@ class ExternalKaspersky extends ScannerBase {
 		} elseif (substr($scanResult, 0, 11) === 'NON_SCANNED' && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {
 			if ($scanResult === 'NON_SCANNED (PASSWORD PROTECTED)') {
 				// if we can't scan the file at all, there is no use in trying to scan it again later
-				$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
+				$this->status->setNumericStatus(Status::SCANRESULT_UNSCANNABLE);
 			} else {
 				$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
 			}
 			$this->status->setDetails($scanResult);
 		} else {
 			$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
-			if (strpos($scanResult, "DETECT ") === 0) {
+			if (strpos($scanResult, 'DETECT ') === 0) {
 				$scanResult = substr($scanResult, 7);
 			}
 			if (isset($response['detectionName'])) {

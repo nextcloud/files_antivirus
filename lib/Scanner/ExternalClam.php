@@ -69,7 +69,7 @@ class ExternalClam extends ScannerBase {
 
 		if ($info['timed_out']) {
 			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
-			$this->status->setDetails("Socket timed out while scanning");
+			$this->status->setDetails('Socket timed out while scanning');
 		} else {
 			$this->status->parseResponse($response);
 		}

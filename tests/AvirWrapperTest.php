@@ -76,6 +76,7 @@ class AvirWrapperTest extends TestBase {
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
 			'mount_point' => '/' . self::UID . '/files/',
+			'block_unscannable' => false,
 		]);
 
 		$this->config->expects($this->any())

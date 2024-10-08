@@ -32,6 +32,7 @@ class AvirWrapper extends Wrapper {
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
 	private string $mountPoint;
+	private bool $blockUnscannable = false;
 
 	/**
 	 * @param array $parameters
@@ -45,6 +46,7 @@ class AvirWrapper extends Wrapper {
 		$this->isHomeStorage = $parameters['isHomeStorage'];
 		$this->trashEnabled = $parameters['trashEnabled'];
 		$this->mountPoint = $parameters['mount_point'];
+		$this->blockUnscannable = $parameters['block_unscannable'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -105,6 +107,9 @@ class AvirWrapper extends Wrapper {
 				function () use ($scanner, $path) {
 					$status = $scanner->completeAsyncScan();
 					if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+						$this->handleInfected($path, $status);
+					}
+					if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
 						$this->handleInfected($path, $status);
 					}
 				}

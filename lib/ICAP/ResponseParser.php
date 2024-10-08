@@ -40,10 +40,10 @@ class ResponseParser {
 	private function readIcapStatusLine($stream): IcapResponseStatus {
 		$rawHeader = \fgets($stream);
 		if (!$rawHeader) {
-			throw new RuntimeException("Empty ICAP response");
+			throw new RuntimeException('Empty ICAP response');
 		}
 		$icapHeader = \trim($rawHeader);
-		$numValues = \sscanf($icapHeader, "ICAP/%d.%d %d %s", $v1, $v2, $code, $status);
+		$numValues = \sscanf($icapHeader, 'ICAP/%d.%d %d %s', $v1, $v2, $code, $status);
 		if ($numValues !== 4) {
 			throw new RuntimeException("Unknown ICAP response: \"$icapHeader\"");
 		}
@@ -52,9 +52,9 @@ class ResponseParser {
 
 	private function parseEncapsulated(string $headerValue): array {
 		$result = [];
-		$encapsulatedParts = \explode(",", $headerValue);
+		$encapsulatedParts = \explode(',', $headerValue);
 		foreach ($encapsulatedParts as $encapsulatedPart) {
-			$pieces = \explode("=", \trim($encapsulatedPart));
+			$pieces = \explode('=', \trim($encapsulatedPart));
 			$result[$pieces[0]] = (int)$pieces[1];
 		}
 		return $result;
@@ -85,7 +85,7 @@ class ResponseParser {
 		$headers = [];
 		while (($headerString = \fgets($stream)) !== false) {
 			$trimmedHeaderString = \trim($headerString);
-			if ($trimmedHeaderString === "") {
+			if ($trimmedHeaderString === '') {
 				break;
 			}
 			[$headerName, $headerValue] = $this->parseHeader($trimmedHeaderString);

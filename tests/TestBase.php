@@ -39,7 +39,7 @@ abstract class TestBase extends TestCase {
 
 		$this->config = $this->getMockBuilder(AppConfig::class)
 			->disableOriginalConstructor()
-			->setMethods(['getAvPath', 'getAvChunkSize', 'getAvMode', 'getAppValue', 'getAvHost', 'getAvPort'])
+			->setMethods(['getAvPath', 'getAvChunkSize', 'getAvMode', 'getAppValue', 'getAvHost', 'getAvPort',  'getAvBlockUnscannable'])
 			->getMock();
 
 		$this->config->expects($this->any())
@@ -62,8 +62,8 @@ abstract class TestBase extends TestCase {
 			->will($this->returnValue('5555'));
 
 		$this->l10n = $this->getMockBuilder(IL10N::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$this->l10n->method('t')->will($this->returnArgument(0));
 	}
 

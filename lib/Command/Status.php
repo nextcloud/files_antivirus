@@ -41,15 +41,15 @@ class Status extends Base {
 		}
 
 		$unscanned = $this->backgroundScanner->getUnscannedFiles();
-		$count = $this->processFiles($unscanned, $output, $verbose, "is unscanned");
+		$count = $this->processFiles($unscanned, $output, $verbose, 'is unscanned');
 		$output->writeln("$count unscanned files");
 
 		$rescan = $this->backgroundScanner->getToRescanFiles();
-		$count = $this->processFiles($rescan, $output, $verbose, "is scheduled for re-scan");
+		$count = $this->processFiles($rescan, $output, $verbose, 'is scheduled for re-scan');
 		$output->writeln("$count files scheduled for re-scan");
 
 		$outdated = $this->backgroundScanner->getOutdatedFiles();
-		$count = $this->processFiles($outdated, $output, $verbose, "has been updated");
+		$count = $this->processFiles($outdated, $output, $verbose, 'has been updated');
 		$output->writeln("$count have been updated since the last scan");
 
 		return 0;

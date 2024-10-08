@@ -37,9 +37,9 @@ class Mark extends Base {
 		$this
 			->setName('files_antivirus:mark')
 			->setDescription('Mark a file as scanned or unscanned')
-			->addOption('forever', 'f', InputOption::VALUE_NONE, "When marking a file as scanned, set it to never rescan the file in the future")
-			->addArgument('file', InputArgument::REQUIRED, "Path of the file to mark")
-			->addArgument('mode', InputArgument::REQUIRED, "Either <info>scanned</info> or <info>unscanned</info>");
+			->addOption('forever', 'f', InputOption::VALUE_NONE, 'When marking a file as scanned, set it to never rescan the file in the future')
+			->addArgument('file', InputArgument::REQUIRED, 'Path of the file to mark')
+			->addArgument('mode', InputArgument::REQUIRED, 'Either <info>scanned</info> or <info>unscanned</info>');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 class ICAPTest extends ScannerBaseTest {
 	protected function getScanner(): ScannerBase {
 		if (!getenv('ICAP_HOST') || !getenv('ICAP_PORT') || !getenv('ICAP_REQUEST') || !getenv('ICAP_HEADER') || !getenv('ICAP_MODE')) {
-			$this->markTestSkipped("Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST, ICAP_MODE and ICAP_HEADER to enable icap tests");
+			$this->markTestSkipped('Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST, ICAP_MODE and ICAP_HEADER to enable icap tests');
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);

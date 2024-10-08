@@ -52,6 +52,7 @@ class SettingsController extends Controller {
 	 * @param int $avScanFirstBytes - scan size limit
 	 * @param string $avIcapMode
 	 * @param bool $avIcapTls
+	 * @param bool $avBlockUnscannable
 	 * @return JSONResponse
 	 */
 	public function save(
@@ -68,7 +69,8 @@ class SettingsController extends Controller {
 		$avIcapMode,
 		$avIcapRequestService,
 		$avIcapResponseHeader,
-		$avIcapTls
+		$avIcapTls,
+		$avBlockUnscannable
 	) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
@@ -84,10 +86,11 @@ class SettingsController extends Controller {
 		$this->settings->setAvIcapRequestService($avIcapRequestService);
 		$this->settings->setAvIcapResponseHeader($avIcapResponseHeader);
 		$this->settings->setAvIcapTls((bool)$avIcapTls);
+		$this->settings->setAvBlockUnscannable((bool)$avBlockUnscannable);
 
 		try {
 			$scanner = $this->scannerFactory->getScanner('/self-test.txt');
-			$result = $scanner->scanString("dummy scan content");
+			$result = $scanner->scanString('dummy scan content');
 			$success = $result->getNumericStatus() == Status::SCANRESULT_CLEAN;
 			$message = $success ? $this->l10n->t('Saved') : 'unexpected scan results for test content';
 		} catch (\Exception $e) {

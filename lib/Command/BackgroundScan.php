@@ -35,7 +35,7 @@ class BackgroundScan extends Base {
 		$this
 			->setName('files_antivirus:background-scan')
 			->setDescription('Run the background scan')
-			->addOption('max', 'm', InputOption::VALUE_REQUIRED, "Maximum number of files to process");
+			->addOption('max', 'm', InputOption::VALUE_REQUIRED, 'Maximum number of files to process');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -61,7 +61,7 @@ class BackgroundScan extends Base {
 
 		$output->writeln("scanned <info>$count</info> files");
 		if ($count === $max) {
-			$output->writeln("  there might still be unscanned files remaining");
+			$output->writeln('  there might still be unscanned files remaining');
 		}
 
 		return 0;

@@ -15,7 +15,7 @@ class ICAPClientTest extends TestCase {
 	public function testConnect_ShouldThrowRuntimeException() {
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessageMatches('/Cannot connect to "tcp\:\/\/nothinghere\:8080"\: .*/');
-		$icapClient = new ICAPClient("nothinghere", 8080, 2);
-		$icapClient->respmod("myservice", [], [], []);
+		$icapClient = new ICAPClient('nothinghere', 8080, 2);
+		$icapClient->respmod('myservice', [], [], []);
 	}
 }
