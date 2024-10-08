@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup krankler
         run: |
-          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.13.3/krankerl
+          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl
           chmod +x krankerl
       - name: Package app
         run: |
