@@ -91,8 +91,10 @@ class Item {
 		$infectedAction = $this->config->getAvInfectedAction();
 
 		$shouldDelete = $infectedAction === 'delete';
+		$shouldMarkAndLog = $infectedAction === 'mark_and_log';
 
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
+		$message = $shouldMarkAndLog ? 'Infected file marked and logged' : '';
 
 		$userFolder = $this->rootFolder->getUserFolder($this->file->getOwner()->getUID());
 		$path = $userFolder->getRelativePath($this->file->getPath());
@@ -105,7 +107,6 @@ class Item {
 			->setAffectedUser($this->file->getOwner()->getUID())
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
-
 		if ($shouldDelete) {
 			if ($this->isCron) {
 				$msg = 'Infected file deleted (during background scan)';
@@ -114,6 +115,16 @@ class Item {
 			}
 			$this->logError($msg . ' ' . $status->getDetails());
 			$this->deleteFile();
+		} else if ($shouldMarkAndLog) {
+			if ($this->isCron) {
+				$msg = 'Infected file found (during background scan)';
+			} else {
+				$msg = 'Infected file found.';
+			}
+			$this->logError('mark and log');
+			$this->logError($msg . ' ' . $status->getDetails());
+			$this->markFile();
+			$this->updateCheckTime($this->clock->getTime());
 		} else {
 			if ($this->isCron) {
 				$msg = 'Infected file found (during background scan)';
@@ -218,6 +229,13 @@ class Item {
 			$trashManager = \OC::$server->get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
+	}
+
+	/**
+	 *    * Mark infected file
+	 */
+	private function markFile(): void {
+		$this->file->move($this->file->getPath() . " [\u{2623} VIRUS DETECTED \u{2620}]");
 	}
 
 	private function generateExtraInfo(): string {
