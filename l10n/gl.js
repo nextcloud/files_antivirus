@@ -55,6 +55,7 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Cando se atopan ficheiros infectados durante un escaneo en segundo plano",
     "Only log" : "Só o rexistro",
     "Delete file" : "Eliminar ficheiro",
+    "Block unscannable files (such as encrypted archives)" : "Bloquear os ficheiros non escaneábeis (como os arquivos cifrados)",
     "Save" : "Gardar",
     "Advanced" : "Avanzado",
     "Rules" : "Regras",

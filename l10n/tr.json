@@ -53,6 +53,7 @@
     "When infected files are found during a background scan" : "Arka plan taraması sırasında virus bulaşmış dosyalar bulunduğunda",
     "Only log" : "Yalnızca günlük kaydı tutulsun",
     "Delete file" : "Dosya silinsin",
+    "Block unscannable files (such as encrypted archives)" : "Taranamayan dosyalar (şifrelenmiş arşivler gibi) engellensin",
     "Save" : "Kaydet",
     "Advanced" : "Gelişmiş",
     "Rules" : "Kurallar",
