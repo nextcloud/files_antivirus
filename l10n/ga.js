@@ -55,6 +55,7 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Nuair a aimsítear comhaid ionfhabhtaithe le linn scanadh cúlra",
     "Only log" : "Amháin logáil",
     "Delete file" : "Scrios an comhad",
+    "Block unscannable files (such as encrypted archives)" : "Cuir bac ar chomhaid nach féidir a scanadh (cosúil le cartlanna criptithe)",
     "Save" : "Sábháil",
     "Advanced" : "Casta",
     "Rules" : "Rialacha",
