@@ -38,7 +38,7 @@ OC.L10N.register(
     "TLS" : "TLS",
     "Use TLS encryption." : "إستَعمِل تشفير TLS",
     "ICAP preset" : "الإعداد المسبق لـ ICAP",
-    "Select" : "حدِّد",
+    "Select" : "تحديد",
     "ICAP mode" : "وضعية ICAP",
     "ICAP service" : "خدمة ICAP",
     "ICAP virus response header" : "ترويسة جواب ICAP virus",
