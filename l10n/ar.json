@@ -52,7 +52,7 @@
     "Check only first bytes of the file, -1 means no limit" : "تحقق فقط من البايتات الأولى من الملف، -1 تعني عدم وجود حدٍّ.",
     "When infected files are found during a background scan" : "عند العثور على ملفات مصابة أثناء الفحص في الخلفية",
     "Only log" : "سجّل في log فقط ",
-    "Delete file" : "إحذِف الملف",
+    "Delete file" : "حذف الملف",
     "Block unscannable files (such as encrypted archives)" : "حظر الملفات غير القابلة للفحص (مثل الأرشيفات المشفرة)",
     "Save" : "حفظ",
     "Advanced" : "مُتقدِّمةٌ",
