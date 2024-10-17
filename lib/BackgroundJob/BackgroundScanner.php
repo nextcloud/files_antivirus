@@ -144,7 +144,7 @@ class BackgroundScanner extends TimedJob {
 					// increased only for successfully scanned files
 					$count++;
 				} else {
-					$this->logger->info('Tried to scan non file');
+					$this->logger->info('Tried to scan non file with Id ' . $fileId);
 					$this->deleteFileCheckTime($fileId);
 				}
 			} catch (\Exception $e) {
@@ -204,10 +204,11 @@ class BackgroundScanner extends TimedJob {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 
 		$query = $this->db->getQueryBuilder();
-		$query->select('fc.fileid')
+		$query->selectDistinct('fc.fileid')
 			->from('filecache', 'fc')
-			->leftJoin('fc', 'storages', 's', $query->expr()->eq('fc.storage', 's.numeric_id'))
+			->innerJoin('fc', 'storages', 's', $query->expr()->eq('fc.storage', 's.numeric_id'))
 			->leftJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
+			->innerJoin('fc', 'mounts', 'm', $query->expr()->eq('s.numeric_id','m.storage_id'))
 			->where($query->expr()->isNull('fa.fileid'))
 			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
 			->andWhere($query->expr()->orX(
