@@ -57,7 +57,7 @@ OC.L10N.register(
     "Advanced" : "高级",
     "Rules" : "规则",
     "Clear All" : "清除所有",
-    "Reset to defaults" : "恢复默认值",
+    "Reset to defaults" : "重置为默认值",
     "Match by" : "匹配",
     "Scanner exit status or signature to search" : "要搜索的扫描器退出状态或签名",
     "Description" : "描述",
