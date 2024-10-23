@@ -210,10 +210,7 @@ class BackgroundScanner extends TimedJob {
 			->leftJoin('fc', 'files_antivirus', 'fa', $query->expr()->eq('fc.fileid', 'fa.fileid'))
 			->where($query->expr()->isNull('fa.fileid'))
 			->andWhere($query->expr()->neq('mimetype', $query->createNamedParameter($dirMimeTypeId)))
-			->andWhere($query->expr()->orX(
-				$query->expr()->like('path', $query->createNamedParameter('files/%')),
-				$query->expr()->notLike('s.id', $query->createNamedParameter('home::%'))
-			))
+			->andWhere($query->expr()->like('path', $query->createNamedParameter('files/%')))
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
