@@ -27,7 +27,7 @@ OC.L10N.register(
     "ClamAV Daemon" : "الحارس المستقر Daemon لـ ClamAV",
     "ClamAV Daemon (Socket)" : "مَقْبَس Socket الحارس المستقر Daemon (لـ ClamAV)",
     "Kaspersky Daemon" : "الحارس المستقر لـ Kaspersky",
-    "ICAP server" : "خادوم ICAP ",
+    "ICAP server" : "خادم ICAP ",
     "Socket" : "مقبس socket",
     "ClamAV Socket." : "كلاماف سوكت \"ClamAV Socket\".",
     "Not required in Executable Mode." : "غير مطلوب في الوضع القابل للتنفيذ.",
