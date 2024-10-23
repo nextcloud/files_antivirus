@@ -141,7 +141,7 @@ class AvirWrapper extends Wrapper {
 	 * @return false|float|int
 	 * @throws InvalidContentException
 	 */
-	public function file_put_contents($path, $data) {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
 			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
 			$scanner->initScanner();
