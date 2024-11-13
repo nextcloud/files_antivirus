@@ -21,6 +21,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 use Test\Traits\MountProviderTrait;
@@ -104,6 +105,7 @@ class BackgroundScannerTest extends TestBase {
 			\OC::$server->get(ItemFactory::class),
 			\OC::$server->get(IUserMountCache::class),
 			\OC::$server->get(IEventDispatcher::class),
+			\OC::$server->get(IConfig::class),
 			false
 		);
 	}

@@ -22,6 +22,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -35,6 +36,7 @@ class BackgroundScanner extends TimedJob {
 	protected ItemFactory $itemFactory;
 	private IUserMountCache $userMountCache;
 	private IEventDispatcher $eventDispatcher;
+	private IConfig $config;
 	private bool $isCLI;
 
 	public function __construct(
@@ -48,6 +50,7 @@ class BackgroundScanner extends TimedJob {
 		ItemFactory $itemFactory,
 		IUserMountCache $userMountCache,
 		IEventDispatcher $eventDispatcher,
+		IConfig $config,
 		bool $isCLI
 	) {
 		parent::__construct($timeFactory);
@@ -60,6 +63,7 @@ class BackgroundScanner extends TimedJob {
 		$this->itemFactory = $itemFactory;
 		$this->userMountCache = $userMountCache;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->config = $config;
 		$this->isCLI = $isCLI;
 
 		// Run once per 15 minutes
@@ -202,6 +206,7 @@ class BackgroundScanner extends TimedJob {
 	 */
 	public function getUnscannedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
+		$instanceId = $this->config->getSystemValue('instanceid', '');
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('fc.fileid')
@@ -214,6 +219,7 @@ class BackgroundScanner extends TimedJob {
 				$query->expr()->like('path', $query->createNamedParameter('files/%')),
 				$query->expr()->notLike('s.id', $query->createNamedParameter('home::%'))
 			))
+			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("appdata_$instanceId/%")))
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 
