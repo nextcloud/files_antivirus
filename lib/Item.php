@@ -127,13 +127,12 @@ class Item {
 
 	/**
 	 * 	 * Action to take if this item status is unclear
-	 * 	 *
+	 * 	 * (often due to exceeded size limit)
 	 *
 	 * @param Status $status
 	 */
 	public function processUnchecked(Status $status): void {
-		//TODO: Show warning to the user: The file can not be checked
-		$this->logError('Not Checked. ' . $status->getDetails());
+		$this->logNotice('File is not checked: ' . $status->getDetails());
 	}
 
 	/**
@@ -243,6 +242,13 @@ class Item {
 		$this->logger->debug($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
 
+	/**
+	 * @param string $message
+	 */
+	public function logNotice($message): void {
+		$this->logger->notice($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
+	}
+	
 	/**
 	 * @param string $message
 	 */
