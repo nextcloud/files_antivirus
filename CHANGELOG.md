@@ -5,6 +5,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.6.1] - 2024-11-19
+## Fixed
+* Ignore files in appdata when counting unscanned files
+
 ## [5.4.1] - 2024-01-16
 ## Fixed
 * Remove direct link to the infected file in `Activity`
