@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Disimpan",
     "Select" : "Select",
     "Save" : "Simpan",
     "Advanced" : "Maju",
