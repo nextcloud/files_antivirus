@@ -5,6 +5,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.0.0-beta.1] - 2025-01-21
+### Added
+* Support for Nextcloud 31
+### Removed
+* Support for Nextcloud 30 and below
+
 ## [5.6.1] - 2024-11-19
 ## Fixed
 * Ignore files in appdata when counting unscanned files
