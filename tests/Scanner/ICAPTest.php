@@ -12,6 +12,7 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,7 +25,7 @@ class ICAPTest extends ScannerBaseTest {
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);
-		$config = $this->createPartialMock(AppConfig::class, ['getter']);
+		$config = $this->createPartialMock(AppConfig::class, ['getAppValue', 'getAvIcapTls']);
 		$config->method('getAppValue')
 			->willReturnCallback(function ($key) {
 				switch ($key) {
@@ -38,8 +39,6 @@ class ICAPTest extends ScannerBaseTest {
 						return getenv('ICAP_HEADER');
 					case 'av_icap_mode':
 						return getenv('ICAP_MODE');
-					case 'av_icap_tls':
-						return getenv('ICAP_TRANSPORT') === 'tls';
 					case 'av_stream_max_length':
 						return '26214400';
 					case 'av_icap_chunk_size':
@@ -47,9 +46,13 @@ class ICAPTest extends ScannerBaseTest {
 					case 'av_icap_connect_timeout':
 						return '5';
 					case 'av_scan_first_bytes':
-						return -1;
+						return '-1';
+					default:
+						return '';
 				}
 			});
-		return new ICAP($config, $logger, \OC::$server->get(StatusFactory::class));
+		$config->method('getAvIcapTls')
+			->willReturn(getenv('ICAP_TRANSPORT') === 'tls');
+		return new ICAP($config, $logger, \OC::$server->get(StatusFactory::class), \OC::$server->get(ICertificateManager::class), false);
 	}
 }
