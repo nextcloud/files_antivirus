@@ -9,6 +9,7 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
 	phpVersion="8.1"
+	errorBaseline="./tests/psalm-baseline.xml"
 >
 	<projectFiles>
 		<directory name="lib"/>

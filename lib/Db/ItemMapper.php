@@ -14,6 +14,9 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<Item>
+ */
 class ItemMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'files_antivirus', Item::class);
@@ -50,8 +53,8 @@ class ItemMapper extends QBMapper {
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
-	 * @param Entity $entity the entity that should be created
-	 * @return Entity the saved entity with the set id
+	 * @param Item $entity the entity that should be created
+	 * @return Item the saved entity with the set id
 	 * @throws Exception
 	 * @since 14.0.0
 	 */

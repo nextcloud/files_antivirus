@@ -57,11 +57,9 @@ class AvirWrapper extends Wrapper {
 
 	/**
 	 * Asynchronously scan data that are written to the file
-	 * @param string $path
-	 * @param string $mode
 	 * @return resource | false
 	 */
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$stream = $this->storage->fopen($path, $mode);
 
 		/*
