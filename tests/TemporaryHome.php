@@ -12,12 +12,12 @@ namespace OCA\Files_Antivirus\Tests;
 class TemporaryHome extends \OC\Files\Storage\Temporary {
 	private string $id;
 
-	public function __construct($arguments = null) {
+	public function __construct($arguments = []) {
 		parent::__construct($arguments);
 		$this->id = uniqid();
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'home::' . $this->id;
 	}
 
