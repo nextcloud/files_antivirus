@@ -32,7 +32,8 @@ class ICAP extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		ICertificateManager $certificateManager
+		ICertificateManager $certificateManager,
+		bool $verifyTlsPeer = true,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
@@ -48,7 +49,7 @@ class ICAP extends ScannerBase {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
 		if ($this->tls) {
-			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager);
+			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager, $verifyTlsPeer);
 		} else {
 			$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
 		}

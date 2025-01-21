@@ -7,8 +7,8 @@
 	"require-dev": {
 		"nextcloud/ocp": "dev-stable25",
 		"doctrine/dbal": "3.1.4",
-		"phpunit/phpunit": "^8",
-		"psalm/phar": "^4.3",
+		"phpunit/phpunit": "^9",
+		"psalm/phar": "^5.26",
 		"icewind/streams": "v0.7.5",
 		"sabre/dav": "^4.2.1",
 		"nextcloud/coding-standard": "^v1.1.1",

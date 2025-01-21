@@ -25,7 +25,7 @@ class ExternalKasperskyTest extends ScannerBaseTest {
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);
-		$config = $this->createPartialMock(AppConfig::class, ['getter']);
+		$config = $this->createPartialMock(AppConfig::class, ['getAppValue']);
 		$config->method('getAppValue')
 			->willReturnCallback(function ($key) {
 				switch ($key) {
@@ -34,7 +34,7 @@ class ExternalKasperskyTest extends ScannerBaseTest {
 					case 'av_port':
 						return getenv('KASPERSKY_PORT');
 					case 'av_scan_first_bytes':
-						return -1;
+						return '-1';
 					default:
 						return '';
 				}

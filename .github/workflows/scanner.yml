@@ -46,6 +46,7 @@ jobs:
         image: ghcr.io/icewind1991/icap-clamav-service-tls
         ports:
           - 1344:1344
+          - 1345:1345
 
     steps:
       - name: Checkout server

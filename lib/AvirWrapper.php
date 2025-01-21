@@ -57,11 +57,9 @@ class AvirWrapper extends Wrapper {
 
 	/**
 	 * Asynchronously scan data that are written to the file
-	 * @param string $path
-	 * @param string $mode
 	 * @return resource | false
 	 */
-	public function fopen($path, $mode) {
+	public function fopen(string $path, string $mode) {
 		$stream = $this->storage->fopen($path, $mode);
 
 		/*
@@ -141,7 +139,7 @@ class AvirWrapper extends Wrapper {
 	 * @return false|float|int
 	 * @throws InvalidContentException
 	 */
-	public function file_put_contents($path, $data) {
+	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
 			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
 			$scanner->initScanner();

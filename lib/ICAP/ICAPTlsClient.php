@@ -13,15 +13,18 @@ use RuntimeException;
 
 class ICAPTlsClient extends ICAPClient {
 	private ICertificateManager $certificateManager;
+	private bool $verifyTlsPeer;
 
 	public function __construct(
 		string $host,
 		int $port,
 		int $connectTimeout,
-		ICertificateManager $certificateManager
+		ICertificateManager $certificateManager,
+		bool $verifyTlsPeer = true,
 	) {
 		parent::__construct($host, $port, $connectTimeout);
 		$this->certificateManager = $certificateManager;
+		$this->verifyTlsPeer = $verifyTlsPeer;
 	}
 
 	/**
@@ -32,6 +35,9 @@ class ICAPTlsClient extends ICAPClient {
 	protected function connect() {
 		$ctx = stream_context_create([
 			'ssl' => [
+				'verify_peer' => $this->verifyTlsPeer,
+				'verify_peer_name' => $this->verifyTlsPeer,
+				'allow_self_signed' => !$this->verifyTlsPeer,
 				'cafile' => $this->certificateManager->getAbsoluteBundlePath()
 			],
 		]);
