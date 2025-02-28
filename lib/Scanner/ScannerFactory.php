@@ -31,7 +31,7 @@ class ScannerFactory {
 	 *
 	 * @return IScanner
 	 */
-	public function getScanner(string $path) {
+	public function getScanner(?string $path) {
 		$avMode = $this->appConfig->getAvMode();
 		switch ($avMode) {
 			case 'daemon':
@@ -53,7 +53,9 @@ class ScannerFactory {
 
 		/** @var ScannerBase $scanner */
 		$scanner = $this->serverContainer->get($scannerClass);
-		$scanner->setPath($path);
+		if ($path !== null) {
+			$scanner->setPath($path);
+		}
 		if ($this->request->getRemoteAddress()) {
 			$scanner->setRequest($this->request);
 		}
