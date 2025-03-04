@@ -31,7 +31,7 @@ class AvirWrapper extends Wrapper {
 	protected bool $isHomeStorage;
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
-	private string $mountPoint;
+	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
 
 	/**
@@ -92,7 +92,7 @@ class AvirWrapper extends Wrapper {
 
 	private function wrapSteam(string $path, $stream) {
 		try {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
+			$scanner = $this->scannerFactory->getScanner($this->mountPoint ? $this->mountPoint . $path : null);
 			$scanner->initScanner();
 			return CallbackReadDataWrapper::wrap(
 				$stream,
