@@ -74,3 +74,6 @@ certificate bundle using
 ```shell
 occ security:certificates:import /path/to/certificate
 ```
+
+### Timeouts of background scan
+For the background scan to work reliably when using php-fpm for Nextcloud, you need to adjust the `default_socket_timeout` in php-fpm to a bigger value than the default of 60 seconds. Depending on how long the scan takes, a value of 600 or even higher is recommended.
