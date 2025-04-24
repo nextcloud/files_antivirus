@@ -113,7 +113,7 @@ class AvirWrapper extends Wrapper {
 				}
 			);
 		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			$this->logger->error('wrapStream: ' . $e->getMessage(), ['exception' => $e]);
 		}
 		return $stream;
 	}
@@ -140,13 +140,17 @@ class AvirWrapper extends Wrapper {
 	 * @throws InvalidContentException
 	 */
 	public function file_put_contents(string $path, mixed $data): int|float|false {
-		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
-			$scanner->initScanner();
-			$status = $scanner->scanString($data);
-			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
-				$this->handleInfected($path, $status);
+		try {
+			if ($this->shouldWrap($path)) {
+				$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
+				$scanner->initScanner();
+				$status = $scanner->scanString($data);
+				if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+					$this->handleInfected($path, $status);
+				}
 			}
+		} catch (\Exception $e) {
+			$this->logger->error('file_put_contents: ' . $e->getMessage(), ['exception' => $e]);
 		}
 
 		return parent::file_put_contents($path, $data);
