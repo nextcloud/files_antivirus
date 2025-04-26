@@ -11,6 +11,7 @@ namespace OCA\Files_Antivirus\Tests;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ExternalClam;
+use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
@@ -122,5 +123,40 @@ class AvirWrapperTest extends TestBase {
 			['/files_external/rootcerts.crt.tmp.0123456789', false],
 			['/root_file', false],
 		];
+	}
+
+	public function testWrapStreamWithNullMountPoint(): void {
+		$scannerFactory = $this->createMock(ScannerFactory::class);
+
+		$wrapper = new AvirWrapper([
+			'storage' => $this->storage,
+			'scannerFactory' => $scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'mount_point' => null,
+			'block_unscannable' => false,
+		]);
+
+		$scanner = $this->createMock(IScanner::class);
+		$scannerFactory->expects(self::once())
+			->method('getScanner')
+			->with(null)
+			->willReturn($scanner);
+		$scanner->expects(self::once())
+			->method('initScanner')
+			->willThrowException(new \Exception('Skip actual wrapping (hackity hack)'));
+
+		$this->logger->expects(self::once())
+			->method('error');
+
+		$expected = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($expected);
+		$actual = self::invokePrivate($wrapper, 'wrapSteam', ['/foo/bar.baz', $expected]);
+		$this->assertEquals($expected, $actual);
+		fclose($expected);
 	}
 }
