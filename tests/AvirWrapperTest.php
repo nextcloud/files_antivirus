@@ -153,12 +153,9 @@ class AvirWrapperTest extends TestBase {
 		$this->logger->expects(self::once())
 			->method('error');
 
-		$class = new \ReflectionClass(AvirWrapper::class);
-		$wrapStreamMethod = $class->getMethod('wrapSteam');
-
 		$expected = fopen('php://memory', 'rwb');
 		$this->assertNotFalse($expected);
-		$actual = $wrapStreamMethod->invokeArgs($wrapper, ['/foo/bar.baz', $expected]);
+		$actual = self::invokePrivate($wrapper, 'wrapSteam', ['/foo/bar.baz', $expected]);
 		$this->assertEquals($expected, $actual);
 		fclose($expected);
 	}
