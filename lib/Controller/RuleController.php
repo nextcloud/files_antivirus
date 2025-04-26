@@ -83,6 +83,7 @@ class RuleController extends Controller {
 			$newRule = $this->ruleMapper->insert($rule);
 		}
 
+		/** @var Rule $newRule */
 		return new JSONResponse($newRule);
 	}
 
