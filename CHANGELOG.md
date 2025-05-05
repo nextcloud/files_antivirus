@@ -5,6 +5,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.0.1] - 2025-05-05
+### Fixed
+* Clean up obsolete etag column
+* Exclude groupfolder trash and version files
+* Handle null mount points gracefully
+
 ## [6.0.0] - 2025-02-28
 ### Added
 * Support for Nextcloud 31
