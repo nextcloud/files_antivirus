@@ -5,6 +5,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.6.2] - 2025-05-05
+## Fixed
+* Clean up obsolete etag column
+* Exclude groupfolder trash and version files
+* Handle null mount points gracefully
+
 ## [5.6.1] - 2024-11-19
 ## Fixed
 * Ignore files in appdata when counting unscanned files
