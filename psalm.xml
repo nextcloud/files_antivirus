@@ -26,6 +26,7 @@
 			<errorLevel type="suppress">
 				<referencedClass name="OC" />
 				<referencedClass name="OCA\Files_External\Service\UserGlobalStoragesService" />
+				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderEncryptionJail" />
 				<referencedClass name="OC\Core\Command\Base" />
 				<referencedClass name="OC\Files\Cache\Wrapper\CacheWrapper" />
 				<referencedClass name="OC\Files\Filesystem" />
