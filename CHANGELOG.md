@@ -5,6 +5,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.6.3] - 2025-05-07
+## Fixed
+* Scan files uploaded to encrypted group folders
+
 ## [5.6.2] - 2025-05-05
 ## Fixed
 * Clean up obsolete etag column
