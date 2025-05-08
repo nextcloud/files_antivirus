@@ -33,7 +33,12 @@ class Status {
 	public const SCANRESULT_UNSCANNABLE = 2;
 
 	/**
-	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN | SCANRESULT_UNSCANNABLE
+	 * The file was marked as ignored (e.g. based on administrator configuration)
+	 */
+	public const SCANRESULT_IGNORE = 2;
+
+	/**
+	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN | SCANRESULT_UNSCANNABLE | SCANRESULT_IGNORE
 	 */
 	protected $numericStatus = self::SCANRESULT_UNCHECKED;
 
@@ -172,6 +177,9 @@ class Status {
 				break;
 			case self::SCANRESULT_CLEAN:
 				$item->processClean();
+				break;
+			case self::SCANRESULT_IGNORE:
+				$item->processIgnore();
 				break;
 			case self::SCANRESULT_UNSCANNABLE:
 				if ($this->blockUnscannable) {
