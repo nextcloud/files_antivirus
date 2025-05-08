@@ -65,6 +65,13 @@ class Item {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getFilePath() {
+		return $this->file->getPath();
+	}
+
+	/**
 	 * Reads a file portion by portion until the very end
 	 *
 	 * @return string|false
@@ -139,6 +146,14 @@ class Item {
 	 * 	 * Action to take if this item status is not infected
 	 */
 	public function processClean(): void {
+		$this->updateCheckTime($this->clock->getTime());
+	}
+
+	/**
+	 * 	 * Action to take if this item status is to be ignored
+	 */
+	public function processIgnore(): void {
+		$this->logNotice('File ignored.');
 		$this->updateCheckTime($this->clock->getTime());
 	}
 

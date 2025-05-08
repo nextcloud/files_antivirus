@@ -29,6 +29,7 @@ use OCP\Files\IHomeStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -44,6 +45,7 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerService(ExternalClam::class, function (ContainerInterface $c) {
 			return new ExternalClam(
+				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -52,6 +54,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(LocalClam::class, function (ContainerInterface $c) {
 			return new LocalClam(
+				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -60,6 +63,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ExternalKaspersky::class, function (ContainerInterface $c) {
 			return new ExternalKaspersky(
+				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -69,6 +73,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ICAP::class, function (ContainerInterface $c) {
 			return new ICAP(
+				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
