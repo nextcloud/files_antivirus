@@ -64,10 +64,7 @@ class Item {
 		$this->isCron = $isCron;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getFilePath() {
+	public function getFilePath(): string {
 		return $this->file->getPath();
 	}
 
@@ -263,7 +260,7 @@ class Item {
 	public function logNotice($message): void {
 		$this->logger->notice($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
-	
+
 	/**
 	 * @param string $message
 	 */

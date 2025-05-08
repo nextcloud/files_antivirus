@@ -35,7 +35,7 @@ class Status {
 	/**
 	 * The file was marked as ignored (e.g. based on administrator configuration)
 	 */
-	public const SCANRESULT_IGNORE = 2;
+	public const SCANRESULT_IGNORE = 3;
 
 	/**
 	 * Should be SCANRESULT_UNCHECKED | SCANRESULT_INFECTED | SCANRESULT_CLEAN | SCANRESULT_UNSCANNABLE | SCANRESULT_IGNORE

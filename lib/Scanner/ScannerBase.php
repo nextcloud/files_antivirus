@@ -11,7 +11,6 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -32,37 +31,22 @@ abstract class ScannerBase implements IScanner {
 	/** @var resource */
 	protected $writeHandle;
 
+	protected AppConfig $appConfig;
+	protected LoggerInterface $logger;
+	protected StatusFactory $statusFactory;
 	protected ?string $lastChunk = null;
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
 	protected string $path = '';
 	protected ?IRequest $request = null;
-	private ?string $ignoreRegex = null;
+	private ?string $ignoreRegex;
 
-	public function __construct(
-		private IConfig $config,
-		protected AppConfig $appConfig,
-		protected LoggerInterface $logger,
-		protected StatusFactory $statusFactory
-	) {
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
+		$this->appConfig = $config;
+		$this->logger = $logger;
+		$this->statusFactory = $statusFactory;
 		$this->status = $this->statusFactory->newStatus();
-		$this->ignoreRegex = $this->getIgnoreRegex();
-	}
-
-	/**
-	 * @return ?string
-	 */
-	private function getIgnoreRegex() {
-		$ignore = $this->config->getSystemValue('antivirus_ignore', null);
-		if (!empty($ignore)) {
-			if (is_string($ignore)) {
-				return $ignore;
-			}
-			if (!is_array($ignore)) {
-				return '/' . implode('|', array_map(function ($i) { return preg_quote($i, '/'); }, $ignore)) . '/';
-			}
-		}
-		return null;
+		$this->ignoreRegex = $this->appConfig->getAppValue('av_ignore_path_regex');
 	}
 
 	/**
@@ -87,7 +71,7 @@ abstract class ScannerBase implements IScanner {
 	 * @return Status
 	 */
 	public function scan(Item $item): Status {
-		if ($this->ignoreRegex !== null && preg_match($this->ignoreRegex, $item->getFilePath()) === 1) {
+		if ($this->ignoreRegex && preg_match($this->ignoreRegex, $item->getFilePath()) === 1) {
 			$this->status->setNumericStatus(Status::SCANRESULT_IGNORE);
 			return $this->getStatus();
 		}

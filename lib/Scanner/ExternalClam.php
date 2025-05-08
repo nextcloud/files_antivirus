@@ -11,7 +11,6 @@ namespace OCA\Files_Antivirus\Scanner;
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
-use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ExternalClam extends ScannerBase {
@@ -20,13 +19,8 @@ class ExternalClam extends ScannerBase {
 	 */
 	private bool $useSocket;
 
-	public function __construct(
-		IConfig $config,
-		AppConfig $appConfig,
-		LoggerInterface $logger,
-		StatusFactory $statusFactory
-	) {
-		parent::__construct($config, $appConfig, $logger, $statusFactory);
+	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
+		parent::__construct($config, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
 	}
 

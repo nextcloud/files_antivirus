@@ -16,7 +16,6 @@ use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\ICertificateManager;
-use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
@@ -30,14 +29,13 @@ class ICAP extends ScannerBase {
 	private bool $tls;
 
 	public function __construct(
-		IConfig $config,
-		AppConfig $appConfig,
+		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		ICertificateManager $certificateManager,
 		bool $verifyTlsPeer = true,
 	) {
-		parent::__construct($config, $appConfig, $logger, $statusFactory);
+		parent::__construct($config, $logger, $statusFactory);
 
 		$avHost = $this->appConfig->getAvHost();
 		$avPort = $this->appConfig->getAvPort();
