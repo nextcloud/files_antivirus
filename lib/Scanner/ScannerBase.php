@@ -32,9 +32,6 @@ abstract class ScannerBase implements IScanner {
 	/** @var resource */
 	protected $writeHandle;
 
-	protected AppConfig $appConfig;
-	protected LoggerInterface $logger;
-	protected StatusFactory $statusFactory;
 	protected ?string $lastChunk = null;
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
