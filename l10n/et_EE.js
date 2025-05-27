@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Salvestamine...",
     "Saved" : "Salvestatud",
+    "Mode" : "Režiim",
     "Host" : "Host",
     "Port" : "Port",
     "TLS" : "TLS",
