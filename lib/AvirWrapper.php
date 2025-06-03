@@ -17,6 +17,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class AvirWrapper extends Wrapper {
@@ -33,6 +34,7 @@ class AvirWrapper extends Wrapper {
 	private bool $trashEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
+	private IUserManager $userManager;
 
 	/**
 	 * @param array $parameters
@@ -47,6 +49,7 @@ class AvirWrapper extends Wrapper {
 		$this->trashEnabled = $parameters['trashEnabled'];
 		$this->mountPoint = $parameters['mount_point'];
 		$this->blockUnscannable = $parameters['block_unscannable'];
+		$this->userManager = $parameters['userManager'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -164,6 +167,7 @@ class AvirWrapper extends Wrapper {
 		}
 
 		$owner = $this->getOwner($path);
+		$user = $this->userManager->get($owner);
 		$this->unlink($path);
 
 		if ($this->trashEnabled) {
@@ -173,10 +177,13 @@ class AvirWrapper extends Wrapper {
 		}
 
 		$this->logger->warning(
-			'Infected file deleted. ' . $status->getDetails()
-			. ' Account: ' . $owner . ' Path: ' . $path,
-			['app' => 'files_antivirus']
-		);
+			'Infected file deleted. ' . $status->getDetails() . ' Account: ' . $owner . ' Path: ' . $path, [
+				'app' => 'files_antivirus',
+				'userId' => $user?->getUID(),
+				'userName' => $user?->getDisplayName(),
+				'file' => $path,
+			]);
+
 
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp(Application::APP_NAME)
@@ -187,8 +194,12 @@ class AvirWrapper extends Wrapper {
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
-		$this->logger->error('Infected file deleted. ' . $status->getDetails() .
-			' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
+		$this->logger->error('Infected file deleted. ' . $status->getDetails() . ' File: ' . $path . ' Account: ' . $owner, [
+			'app' => 'files_antivirus',
+			'userId' => $user?->getUID(),
+			'userName' => $user?->getDisplayName(),
+			'file' => $path,
+		]);
 
 		throw new InvalidContentException(
 			$this->l10n->t(

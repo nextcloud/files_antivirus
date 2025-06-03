@@ -30,6 +30,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -105,6 +106,8 @@ class Application extends App implements IBootstrap {
 				$appManager = $container->get(IAppManager::class);
 				/** @var AppConfig $appConfig */
 				$appConfig = $container->get(AppConfig::class);
+				$userManager = $container->get(IUserManager::class);
+
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
@@ -116,6 +119,7 @@ class Application extends App implements IBootstrap {
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
+					'userManager' => $userManager,
 				]);
 			},
 			1
