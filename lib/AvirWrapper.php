@@ -113,7 +113,9 @@ class AvirWrapper extends Wrapper {
 				}
 			);
 		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			$this->logger->error('AvirWrapper::wrapStream: ' . $e->getMessage(), [
+				'exception' => $e,
+			]);
 		}
 		return $stream;
 	}
@@ -141,11 +143,20 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
-			$scanner->initScanner();
-			$status = $scanner->scanString($data);
-			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
-				$this->handleInfected($path, $status);
+			try {
+				$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
+				$scanner->initScanner();
+			} catch (\Exception $e) {
+				$this->logger->error('AvirWrapper::file_put_contents: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+
+			if (isset($scanner)) {
+				$status = $scanner->scanString($data);
+				if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+					$this->handleInfected($path, $status);
+				}
 			}
 		}
 
