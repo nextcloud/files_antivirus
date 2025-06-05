@@ -15,6 +15,7 @@ use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
@@ -78,6 +79,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
 		]);
 
 		$this->config->expects($this->any())
@@ -139,6 +141,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => null,
 			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
 		]);
 
 		$scanner = $this->createMock(IScanner::class);
