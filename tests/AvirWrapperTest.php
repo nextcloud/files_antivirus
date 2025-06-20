@@ -174,19 +174,7 @@ class AvirWrapperTest extends TestBase {
 			->method('error')
 			->with($this->stringContains('Simulated failure'));
 
-		$wrapper = new class([
-			'storage' => $this->storage,
-			'scannerFactory' => $scannerFactory,
-			'l10n' => $this->l10n,
-			'logger' => $logger,
-			'activityManager' => $this->createMock(\OCP\Activity\IManager::class),
-			'isHomeStorage' => false,
-			'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class),
-			'trashEnabled' => false,
-			'mount_point' => '/',
-			'block_unscannable' => false,
-			'block_unreachable' => 'yes',
-		]) extends \OCA\Files_Antivirus\AvirWrapper {
+		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'block_unreachable' => 'yes', ]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;
 			protected function handleConnectionError(string $path): void {
 				$this->connectionErrorCalled = true;
