@@ -122,8 +122,8 @@ script('files_antivirus', 'settings');
 					<td></td>
 				</tr>
 				<tr class="block_action">
-					<td><label for="av_block_action"><?php p($l->t('Block uploads when scanner is not reachable'));?></label></td>
-					<td><select id="av_block_action" name="avBlockAction"><?php print_unescaped(html_select_options(['yes' => $l->t('Yes'), 'no' => $l->t('No')], $_['avBlockAction'])) ?></select></td>
+					<td><label for="av_block_unreachable"><?php p($l->t('Block uploads when scanner is not reachable'));?></label></td>
+					<td><select id="av_block_unreachable" name="avBlockUnreachable"><?php print_unescaped(html_select_options(['yes' => $l->t('Yes'), 'no' => $l->t('No')], $_['avBlockUnreachable'])) ?></select></td>
 					<td></td>
 				</tr>
 				<tr class="av_block_unscannable">
