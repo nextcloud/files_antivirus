@@ -220,6 +220,8 @@ class BackgroundScanner extends TimedJob {
 				$query->expr()->notLike('s.id', $query->createNamedParameter('home::%'))
 			))
 			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("appdata_$instanceId/%")))
+			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("\_\_groupfolders/versions/%")))
+			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("\_\_groupfolders/trash/%")))
 			->andWhere($this->getSizeLimitExpression($query))
 			->setMaxResults($this->getBatchSize() * 10);
 

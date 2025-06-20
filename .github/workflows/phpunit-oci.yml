@@ -65,6 +65,8 @@ jobs:
       matrix:
         php-versions: ${{ fromJson(needs.matrix.outputs.php-version) }}
         server-versions: ${{ fromJson(needs.matrix.outputs.server-max) }}
+        exclude:
+          - php-versions: 8.4 # The oci8 PHP package does not support it yet
 
     name: OCI PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}
 

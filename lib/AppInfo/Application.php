@@ -17,6 +17,7 @@ use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\LocalClam;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
+use OCA\GroupFolders\Mount\GroupFolderEncryptionJail;
 use OCP\Activity\IManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
@@ -29,6 +30,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -88,8 +90,10 @@ class Application extends App implements IBootstrap {
 		Filesystem::addStorageWrapper(
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
-				if ($storage->instanceOfStorage(Jail::class)) {
-					// No reason to wrap jails again
+				if ($storage->instanceOfStorage(Jail::class)
+					&& !$storage->instanceOfStorage(GroupFolderEncryptionJail::class)) {
+					// No reason to wrap jails again.
+					// Make an exception for encrypted group folders.
 					return $storage;
 				}
 
@@ -102,6 +106,8 @@ class Application extends App implements IBootstrap {
 				$appManager = $container->get(IAppManager::class);
 				/** @var AppConfig $appConfig */
 				$appConfig = $container->get(AppConfig::class);
+				$userManager = $container->get(IUserManager::class);
+
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
@@ -113,6 +119,7 @@ class Application extends App implements IBootstrap {
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
+					'userManager' => $userManager,
 					'block_unreachable' => $appConfig->getAvBlockAction(),
 				]);
 			},

@@ -9,12 +9,15 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
+use OC\User\LoginException;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
+use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
@@ -78,6 +81,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
 			'block_unreachable' => 'yes'
 		]);
 
@@ -140,6 +144,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => null,
 			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
 			'block_unreachable' => 'no',
 		]);
 
@@ -188,6 +193,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => false,
 			'mount_point' => '/',
 			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
 			'block_unreachable' => 'yes',
 		]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;

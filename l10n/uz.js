@@ -6,6 +6,7 @@ OC.L10N.register(
     "Port" : "Port",
     "Select" : "Select",
     "Delete file" : "Delete file",
-    "Save" : "Save"
+    "Save" : "Save",
+    "Description" : "Tavsif"
 },
 "nplurals=1; plural=0;");

@@ -2,10 +2,11 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "Enrollet",
+    "Mode" : "Mod",
     "Host" : "Ostiz",
     "Port" : "Porzh",
     "Select" : "Dibab",
-    "Delete file" : "Diverkañ ar restr",
+    "Delete file" : "Dilemel ar restr",
     "Save" : "Enrollañ",
     "Advanced" : "Araokadennet",
     "Description" : "Diskrivadur"

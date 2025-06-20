@@ -32,7 +32,7 @@ OC.L10N.register(
     "Not required in Daemon Mode." : "Nav vajadzīgs Daemon ŗežīmā.",
     "When infected files are found during a background scan" : "Kad inficētas datnes ir atrastas fona skenēšanā",
     "Only log" : "Tikai logot",
-    "Delete file" : "Dzēst datni",
+    "Delete file" : "Izdzēst datni",
     "Save" : "Saglabāt",
     "Advanced" : "Paplašināti",
     "Rules" : "Noteikumi",
