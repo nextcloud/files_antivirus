@@ -33,6 +33,7 @@ class AvirWrapper extends Wrapper {
 	private bool $trashEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
+	private string $blockUnReachable = 'yes';
 
 	/**
 	 * @param array $parameters
@@ -47,6 +48,7 @@ class AvirWrapper extends Wrapper {
 		$this->trashEnabled = $parameters['trashEnabled'];
 		$this->mountPoint = $parameters['mount_point'];
 		$this->blockUnscannable = $parameters['block_unscannable'];
+		$this->blockUnReachable = $parameters['block_unreachable'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -116,7 +118,11 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			if($this->blockUnReachable == 'yes') {
+				$this->handleConnectionError($path);
+			}
 		}
+
 		return $stream;
 	}
 
@@ -202,4 +208,32 @@ class AvirWrapper extends Wrapper {
 			)
 		);
 	}
+
+	/**
+	 * @throws InvalidContentException
+	 */
+	protected function handleConnectionError(string $path): void {
+		//prevent from going to trashbin
+		if ($this->trashEnabled) {
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->pauseTrash();
+		}
+
+		$this->unlink($path);
+
+		if ($this->trashEnabled) {
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->resumeTrash();
+		}
+
+		throw new InvalidContentException(
+			$this->l10n->t(
+				'%s. Upload cannot be completed.',
+				['No connection to anti virus']
+			)
+		);
+	}
+
 }

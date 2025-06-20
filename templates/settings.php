@@ -121,6 +121,11 @@ script('files_antivirus', 'settings');
 					<td><select id="av_infected_action" name="avInfectedAction"><?php print_unescaped(html_select_options(['only_log' => $l->t('Only log'), 'delete' => $l->t('Delete file')], $_['avInfectedAction'])) ?></select></td>
 					<td></td>
 				</tr>
+				<tr class="block_action">
+					<td><label for="av_block_action"><?php p($l->t('Block uploads when scanner is not reachable'));?></label></td>
+					<td><select id="av_block_action" name="avBlockAction"><?php print_unescaped(html_select_options(['yes' => $l->t('Yes'), 'no' => $l->t('No')], $_['avBlockAction'])) ?></select></td>
+					<td></td>
+				</tr>
 				<tr class="av_block_unscannable">
 					<td><label for="av_block_unscannable"><?php p($l->t('Block unscannable files (such as encrypted archives)'));?></label></td>
 					<td>

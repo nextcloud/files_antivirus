@@ -137,6 +137,7 @@ class Application extends App implements IBootstrap {
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
+					'block_unreachable' => $appConfig->getAvBlockAction(),
 				]);
 			},
 			1
