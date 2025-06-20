@@ -47,7 +47,7 @@ class SettingsController extends Controller {
 	 * @param string $avCmdOptions - extra command line options
 	 * @param string $avPath - path to antivirus executable (Executable mode)
 	 * @param string $avInfectedAction - action performed on infected files
-	 * @param string $avBlockAction - block upload if scanner not reachable
+	 * @param string $avBlockUnreachable - block upload if scanner not reachable
 	 * @param $avStreamMaxLength - reopen socket after bytes
 	 * @param int $avMaxFileSize - file size limit
 	 * @param int $avScanFirstBytes - scan size limit
@@ -64,7 +64,7 @@ class SettingsController extends Controller {
 		$avCmdOptions,
 		$avPath,
 		$avInfectedAction,
-		$avBlockAction,
+		$avBlockUnreachable,
 		$avStreamMaxLength,
 		$avMaxFileSize,
 		$avScanFirstBytes,
@@ -89,7 +89,7 @@ class SettingsController extends Controller {
 		$this->settings->setAvIcapResponseHeader($avIcapResponseHeader);
 		$this->settings->setAvIcapTls((bool)$avIcapTls);
 		$this->settings->setAvBlockUnscannable((bool)$avBlockUnscannable);
-		$this->settings->setAvBlockAction($avBlockAction);
+		$this->settings->setAvBlockUnreachable($avBlockUnreachable);
 
 		try {
 			$scanner = $this->scannerFactory->getScanner('/self-test.txt');
