@@ -18,6 +18,7 @@ use OCP\IConfig;
  * @method ?string getAvCmdOptions()
  * @method ?string getAvPath()
  * @method ?string getAvInfectedAction()
+ * @method ?string getAvBlockAction()
  * @method ?string getAvStreamMaxLength()
  * @method string getAvIcapMode()
  * @method ?string getAvIcapRequestService()
@@ -34,6 +35,7 @@ use OCP\IConfig;
  * @method null setAvChunkSize(int $chunkSize)
  * @method null setAvPath(string $avPath)
  * @method null setAvInfectedAction(string $avInfectedAction)
+ * @method null setAvBlockAction(string $avBlockAction)
  * @method null setAvIcapScanBackground(string $scanBackground)
  * @method null setAvIcapMode(string $mode)
  * @method null setAvIcapRequestService($reqService)
@@ -57,6 +59,7 @@ class AppConfig {
 		'av_max_file_size' => -1,
 		'av_stream_max_length' => '26214400',
 		'av_infected_action' => 'only_log',
+		'av_block_action' => 'yes',
 		'av_background_scan' => 'on',
 		'av_icap_mode' => ICAPClient::MODE_REQ_MOD,
 		'av_icap_tls' => false,
