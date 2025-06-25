@@ -120,6 +120,7 @@ class Application extends App implements IBootstrap {
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
 					'userManager' => $userManager,
+					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
 				]);
 			},
 			1
