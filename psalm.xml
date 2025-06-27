@@ -31,6 +31,7 @@
 				<referencedClass name="OC\Files\Cache\Wrapper\CacheWrapper" />
 				<referencedClass name="OC\Files\Filesystem" />
 				<referencedClass name="OC\Files\Storage\Wrapper\Wrapper" />
+				<referencedClass name="OCP\Files\Storage\ISharedStorage" />
 			</errorLevel>
 		</UndefinedClass>
 	</issueHandlers>
