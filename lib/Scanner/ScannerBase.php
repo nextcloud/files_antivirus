@@ -205,6 +205,8 @@ abstract class ScannerBase implements IScanner {
 			$this->byteCount += $bytesWritten;
 			$this->lastChunk = $data;
 			return true;
+		} else {
+			$this->logger->warning("tried to write $dataLength bytes to antivirus but only managed to write $bytesWritten bytes.");
 		}
 		return false;
 	}
