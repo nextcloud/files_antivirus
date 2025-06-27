@@ -76,6 +76,10 @@ class Scan extends Base {
 				$status = 'is <info>clean</info>';
 				$exit = 0;
 				break;
+			case \OCA\Files_Antivirus\Status::SCANRESULT_IGNORE:
+				$status = 'is <info>ignored</info>';
+				$exit = 0;
+				break;
 			case \OCA\Files_Antivirus\Status::SCANRESULT_INFECTED:
 				$status = 'is <error>infected</error>';
 				$exit = 1;
