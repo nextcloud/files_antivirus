@@ -17,6 +17,7 @@ use OCA\Files_Antivirus\Scanner\ICAP;
 use OCA\Files_Antivirus\Scanner\LocalClam;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
+use OCA\Files_Sharing\SharedStorage;
 use OCA\GroupFolders\Mount\GroupFolderEncryptionJail;
 use OCP\Activity\IManager;
 use OCP\App\IAppManager;
@@ -91,7 +92,8 @@ class Application extends App implements IBootstrap {
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
 				if ($storage->instanceOfStorage(Jail::class)
-					&& !$storage->instanceOfStorage(GroupFolderEncryptionJail::class)) {
+					&& ($storage->instanceOfStorage(SharedStorage::class)
+						|| !$storage->instanceOfStorage(GroupFolderEncryptionJail::class))) {
 					// No reason to wrap jails again.
 					// Make an exception for encrypted group folders.
 					return $storage;
