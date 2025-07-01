@@ -54,6 +54,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "هنگامی که فایل های آلوده در طول اسکن پس زمینه یافت می شوند",
     "Only log" : "فقط سوابق",
     "Delete file" : "حذف فایل",
+    "Yes" : "بله",
+    "No" : "خیر",
     "Save" : "ذخیره",
     "Advanced" : "پیشرفته",
     "Rules" : "قوانین",

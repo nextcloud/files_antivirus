@@ -17,6 +17,7 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Kur skedarë të infektuar gjenden gjatë skanimit ",
     "Only log" : "Vetëm log",
     "Delete file" : "Fshi skedarin",
+    "Yes" : "Po",
     "Save" : "Ruaj",
     "Advanced" : "Të avancuara",
     "Rules" : "Rregulla",

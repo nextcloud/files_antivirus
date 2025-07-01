@@ -47,6 +47,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Όταν βρεθούν μολυσμένα αρχεία κατά τη διάρκεια σάρωσης στο παρασκήνιο",
     "Only log" : "Μόνο αρχείο καταγραφής",
     "Delete file" : "Διαγραφή αρχείου",
+    "Yes" : "Ναι",
+    "No" : "Όχι",
     "Save" : "Αποθήκευση",
     "Advanced" : "Προχωρημένοι",
     "Rules" : "Κανόνες",

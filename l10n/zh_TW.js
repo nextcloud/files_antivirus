@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "在背景掃描時發現受感染的檔案時",
     "Only log" : "僅記錄",
     "Delete file" : "刪除檔案",
+    "Yes" : "是",
+    "No" : "否",
     "Block unscannable files (such as encrypted archives)" : "封鎖無法掃描的檔案（例如加密的檔案）",
     "Save" : "儲存",
     "Advanced" : "進階",

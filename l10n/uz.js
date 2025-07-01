@@ -6,6 +6,8 @@ OC.L10N.register(
     "Port" : "Port",
     "Select" : "Select",
     "Delete file" : "Delete file",
+    "Yes" : "Ha",
+    "No" : "Yo`q",
     "Save" : "Save",
     "Description" : "Tavsif"
 },

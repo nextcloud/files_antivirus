@@ -40,6 +40,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "När infekterade filer hittas under en bakgrundssökning",
     "Only log" : "Logga endast",
     "Delete file" : "Ta bort fil",
+    "Yes" : "Ja",
+    "No" : "Nej",
     "Save" : "Spara",
     "Advanced" : "Avancerat",
     "Rules" : "Regler",

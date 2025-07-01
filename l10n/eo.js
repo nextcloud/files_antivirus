@@ -8,6 +8,8 @@ OC.L10N.register(
     "TLS" : "TLS",
     "Select" : "Elekti",
     "Delete file" : "Forigi dosieron",
+    "Yes" : "Jes",
+    "No" : "Ne",
     "Save" : "Konservi",
     "Advanced" : "Progresinta",
     "Description" : "Priskribo"

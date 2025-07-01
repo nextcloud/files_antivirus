@@ -53,6 +53,8 @@
     "When infected files are found during a background scan" : "当在后台扫描中发现受感染文件时",
     "Only log" : "仅日志",
     "Delete file" : "删除文件",
+    "Yes" : "是",
+    "No" : "否",
     "Block unscannable files (such as encrypted archives)" : "屏蔽无法扫描的文件（例如加密的文件）",
     "Save" : "保存",
     "Advanced" : "高级",

@@ -50,6 +50,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Ko so pri ozadnjem preučevanju najdene okužene datoteke",
     "Only log" : "Le beleži",
     "Delete file" : "Izbriši datoteko",
+    "Yes" : "Da",
+    "No" : "Ne",
     "Save" : "Shrani",
     "Advanced" : "Napredne možnosti",
     "Rules" : "Pravila",

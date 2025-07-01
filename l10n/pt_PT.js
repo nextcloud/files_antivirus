@@ -12,6 +12,8 @@ OC.L10N.register(
     "Select" : "Selecionar",
     "bytes" : "bytes",
     "Delete file" : "Eliminar ficheiro",
+    "Yes" : "Sim",
+    "No" : "Não",
     "Save" : "Guardar",
     "Advanced" : "Avançado",
     "Description" : "Descrição"

@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Када се нађу инфицирани фајлови за време скенирања у позадини",
     "Only log" : "Само дневник",
     "Delete file" : "Обриши фајл",
+    "Yes" : "Да",
+    "No" : "Не",
     "Block unscannable files (such as encrypted archives)" : "Блокирај фајлове који не могу да се скенирају (као што су шифроване архиве)",
     "Save" : "Сачувај",
     "Advanced" : "Напредно",

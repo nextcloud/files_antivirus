@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Ha egy fertőzött fájlt talál háttérbeli átvizsgálás során",
     "Only log" : "Csak naplózza",
     "Delete file" : "Fájl törlése",
+    "Yes" : "Igen",
+    "No" : "Nem",
     "Save" : "Mentés",
     "Advanced" : "Speciális",
     "Rules" : "Szabályok",

@@ -51,6 +51,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Quan es troben fitxers infectats durant un escanejat en segon pla",
     "Only log" : "Només mostra-ho al registre",
     "Delete file" : "Suprimeix el fitxer",
+    "Yes" : "Sí",
+    "No" : "No",
     "Save" : "Desa",
     "Advanced" : "Avançat",
     "Rules" : "Regles",

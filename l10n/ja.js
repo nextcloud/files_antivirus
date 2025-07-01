@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "バックグラウンドスキャン中に感染ファイルが見つかった場合",
     "Only log" : "ログのみ",
     "Delete file" : "ファイルを削除",
+    "Yes" : "はい",
+    "No" : "いいえ",
     "Block unscannable files (such as encrypted archives)" : "スキャン不可能なファイル（暗号化されたアーカイブなど）をブロックする",
     "Save" : "保存",
     "Advanced" : "アドバンスド",

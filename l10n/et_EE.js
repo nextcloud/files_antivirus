@@ -54,6 +54,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Kui taustakontrolli käigus tuvastatakse viirusega nakatatud fail",
     "Only log" : "Logi see teave",
     "Delete file" : "Kustuta fail",
+    "Yes" : "Jah",
+    "No" : "Ei",
     "Block unscannable files (such as encrypted archives)" : "Blokeeri mitteskaneeritavad failid (näiteks krüptitud arhiivid)",
     "Save" : "Salvesta",
     "Advanced" : "Täpsem",

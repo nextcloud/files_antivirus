@@ -41,6 +41,8 @@ OC.L10N.register(
     "Not required in Daemon Mode." : "Ei vaadittu taustapalvelutilassa.",
     "Only log" : "Vain logitus",
     "Delete file" : "Poista tiedosto",
+    "Yes" : "Kyllä",
+    "No" : "Ei",
     "Save" : "Tallenna",
     "Advanced" : "Lisäasetukset",
     "Rules" : "Säännöt",

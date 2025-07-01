@@ -33,6 +33,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Kad inficētas datnes ir atrastas fona skenēšanā",
     "Only log" : "Tikai logot",
     "Delete file" : "Izdzēst datni",
+    "Yes" : "Jā",
+    "No" : "Nē",
     "Save" : "Saglabāt",
     "Advanced" : "Paplašināti",
     "Rules" : "Noteikumi",

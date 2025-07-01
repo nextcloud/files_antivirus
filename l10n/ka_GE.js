@@ -31,6 +31,7 @@ OC.L10N.register(
     "Extra command line options (comma-separated)" : "ექსტრა კონსოლის პარამეტრი (გამოყოფილი-მძიმით)",
     "Only log" : "მხოლოდ ჩაიწეროს ლოგი",
     "Delete file" : "გაუქმდეს ფაილი",
+    "Yes" : "დიახ",
     "Save" : "შენახვა",
     "Advanced" : "მოწინავე",
     "Rules" : "წესები",

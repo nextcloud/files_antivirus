@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Når inficerede filer findes under en baggrundsscanning",
     "Only log" : "Kun Log",
     "Delete file" : "Slet fil",
+    "Yes" : "Ja",
+    "No" : "Nej",
     "Block unscannable files (such as encrypted archives)" : "Bloker filer, der ikke kan scannes (såsom krypterede arkiver)",
     "Save" : "Gem",
     "Advanced" : "Avanceret",

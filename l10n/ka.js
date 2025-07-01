@@ -7,6 +7,8 @@ OC.L10N.register(
     "Port" : "Port",
     "Select" : "Select",
     "Delete file" : "Delete file",
+    "Yes" : "კი",
+    "No" : "არა",
     "Save" : "Save",
     "Advanced" : "Advanced",
     "Description" : "Description"

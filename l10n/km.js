@@ -6,6 +6,8 @@ OC.L10N.register(
     "Port" : "ច្រក",
     "TLS" : "TLS",
     "Select" : "Select",
+    "Yes" : "បាទ ឬចាស",
+    "No" : "ទេ",
     "Save" : "រក្សាទុក",
     "Advanced" : "កម្រិត​ខ្ពស់",
     "Description" : "ការ​អធិប្បាយ"

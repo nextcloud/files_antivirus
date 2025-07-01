@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Pokud jsou při skenování na pozadí nalezeny nakažené soubory",
     "Only log" : "Pouze zaznamenávat",
     "Delete file" : "Smazat soubor",
+    "Yes" : "Ano",
+    "No" : "Ne",
     "Block unscannable files (such as encrypted archives)" : "Blokovat soubory, které není možné skenovat (jako například šifrované archivy)",
     "Save" : "Uložit",
     "Advanced" : "Pokročilé",

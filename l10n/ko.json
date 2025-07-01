@@ -50,6 +50,8 @@
     "When infected files are found during a background scan" : "백그라운드 검사 시 감염된 파일을 찾았을 때",
     "Only log" : "로그만",
     "Delete file" : "파일 삭제",
+    "Yes" : "예",
+    "No" : "아니오",
     "Save" : "저장",
     "Advanced" : "고급",
     "Rules" : "규칙",

@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Когда заражённые файлы находятся во время фонового сканирования",
     "Only log" : "Только писать в журнал",
     "Delete file" : "Удалить файл",
+    "Yes" : "Да",
+    "No" : "Нет",
     "Save" : "Сохранить",
     "Advanced" : "Дополнительно",
     "Rules" : "Правила",

@@ -55,6 +55,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Arka plan taraması sırasında virus bulaşmış dosyalar bulunduğunda",
     "Only log" : "Yalnızca günlük kaydı tutulsun",
     "Delete file" : "Dosya silinsin",
+    "Yes" : "Evet",
+    "No" : "Hayır",
     "Block unscannable files (such as encrypted archives)" : "Taranamayan dosyalar (şifrelenmiş arşivler gibi) engellensin",
     "Save" : "Kaydet",
     "Advanced" : "Gelişmiş",

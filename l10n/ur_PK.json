@@ -1,5 +1,7 @@
 { "translations": {
     "Select" : "Select",
+    "Yes" : "ہاں",
+    "No" : "نہیں",
     "Save" : "حفظ",
     "Advanced" : "ایڈوانسڈ",
     "Description" : "تصریح"

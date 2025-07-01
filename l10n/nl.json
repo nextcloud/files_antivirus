@@ -53,6 +53,8 @@
     "When infected files are found during a background scan" : "Wanneer besmette bestanden worden gevonden gedurende een achtergrondscan",
     "Only log" : "Alleen loggen",
     "Delete file" : "Bestand verwijderen",
+    "Yes" : "Ja",
+    "No" : "Nee",
     "Block unscannable files (such as encrypted archives)" : "Niet-scanbare bestanden blokkeren (zoals gecodeerde archieven)",
     "Save" : "Opslaan",
     "Advanced" : "Geavanceerd",
