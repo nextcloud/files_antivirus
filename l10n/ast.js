@@ -13,6 +13,8 @@ OC.L10N.register(
     "Select" : "Seleicionar",
     "bytes" : "bytes",
     "Delete file" : "Desaniciar el ficheru",
+    "Yes" : "Sí",
+    "No" : "Non",
     "Save" : "Guardar",
     "Description" : "Descripción"
 },

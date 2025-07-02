@@ -6,6 +6,8 @@ OC.L10N.register(
     "Port" : "Port",
     "TLS" : "TLS",
     "Select" : "Select",
+    "Yes" : "Bəli",
+    "No" : "Xeyir",
     "Save" : "Saxla",
     "Advanced" : "İrəliləmiş",
     "Description" : "Açıqlanma"
