@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Imehifadhiwa",
+    "Select" : "Chagua",
     "Delete file" : "Futa faili",
     "Yes" : "Ndiyo",
     "No" : "Hapana",
