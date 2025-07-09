@@ -40,7 +40,7 @@ OC.L10N.register(
     "Rules" : "Noteikumi",
     "Clear All" : "Notīrīt visu",
     "Reset to defaults" : "Atiestatīt uz noklusējuma",
-    "Scanner exit status or signature to search" : "Skenera izejas statuss vai elektroniskais paraksts, ko meklēt",
+    "Scanner exit status or signature to search" : "Nolasītāja izejas stāvoklis vai paraksts, ko meklēt",
     "Description" : "Apraksts",
     "Mark as" : "Atzīmēt kā",
     "Add a rule" : "Pievienot noteikumu"
