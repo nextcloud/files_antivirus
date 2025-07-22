@@ -5,6 +5,8 @@ OC.L10N.register(
     "Port" : "Priključak",
     "TLS" : "TLS",
     "Select" : "Select",
+    "Yes" : "Da",
+    "No" : "Ne",
     "Save" : "Spremi",
     "Advanced" : "Napredno",
     "Description" : "Opis"

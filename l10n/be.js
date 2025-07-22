@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Select" : "Выбраць",
+    "Delete file" : "Выдаліць файл",
     "Yes" : "Так",
     "No" : "Не",
     "Save" : "Захаваць"

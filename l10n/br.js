@@ -7,6 +7,7 @@ OC.L10N.register(
     "Port" : "Porzh",
     "Select" : "Dibab",
     "Delete file" : "Dilemel ar restr",
+    "No" : "Ket",
     "Save" : "Enrollañ",
     "Advanced" : "Araokadennet",
     "Description" : "Diskrivadur"
