@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Захавана",
+    "Port" : "Порт",
     "Select" : "Выбраць",
     "Delete file" : "Выдаліць файл",
     "Yes" : "Так",
