@@ -8,7 +8,7 @@ OC.L10N.register(
     "Delete file" : "Delete file",
     "Yes" : "Ha",
     "No" : "Yo`q",
-    "Save" : "Save",
+    "Save" : "Saqlash",
     "Description" : "Tavsif"
 },
 "nplurals=1; plural=0;");
