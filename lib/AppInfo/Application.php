@@ -26,6 +26,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
@@ -90,7 +91,8 @@ class Application extends App implements IBootstrap {
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
 				if ($storage->instanceOfStorage(Jail::class)
-					&& !$storage->instanceOfStorage(GroupFolderEncryptionJail::class)) {
+					&& ($storage->instanceOfStorage(ISharedStorage::class)
+						|| !$storage->instanceOfStorage(GroupFolderEncryptionJail::class))) {
 					// No reason to wrap jails again.
 					// Make an exception for encrypted group folders.
 					return $storage;
