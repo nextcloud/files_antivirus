@@ -4,7 +4,7 @@ OC.L10N.register(
     "Clean" : "Tīrs",
     "Infected" : "Inficēts",
     "Unchecked" : "Neatzīmēts",
-    "Scanner exit status" : "Skenera izejas statuss",
+    "Scanner exit status" : "Skenera izejas stāvoklis",
     "Scanner output" : "Skenera izvade",
     "Saving…" : "Saglabā...",
     "Antivirus" : "Antivīruss",
