@@ -5,6 +5,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.0.3] - 2025-08-04
+## Fixed
+* Faster loading for SharedStorage
+* Check if groupfolder encryption is enabled before wrapping a jail
+* Handle ClamAV not responding properly
+
 ## [6.0.2] - 2025-05-07
 ## Fixed
 * Scan files uploaded to encrypted group folders

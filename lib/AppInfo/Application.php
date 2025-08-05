@@ -26,8 +26,10 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -37,6 +39,9 @@ use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_NAME = 'files_antivirus';
+
+	private ?bool $groupFolderEncryptionEnabled = null;
+	private ?IAppConfig $appConfig = null;
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_NAME, $urlParams);
@@ -85,17 +90,33 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+		$this->appConfig = $context->getServerContainer()->get(IAppConfig::class);
 	}
 
 	/**
 	 * 	 * Add wrapper for local storages
 	 */
 	public function setupWrapper(): void {
+		if ($this->groupFolderEncryptionEnabled === null && $this->appConfig) {
+			$this->groupFolderEncryptionEnabled = $this->appConfig->getValueString(
+				'groupfolders',
+				'enable_encryption',
+				'false',
+			) === 'true';
+		}
+
 		Filesystem::addStorageWrapper(
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
 				if ($storage->instanceOfStorage(Jail::class)
-					&& !$storage->instanceOfStorage(GroupFolderEncryptionJail::class)) {
+					&& (
+						$storage->instanceOfStorage(ISharedStorage::class)
+						|| !(
+							$this->groupFolderEncryptionEnabled
+							&& $storage->instanceOfStorage(GroupFolderEncryptionJail::class)
+						)
+					)
+				) {
 					// No reason to wrap jails again.
 					// Make an exception for encrypted group folders.
 					return $storage;
