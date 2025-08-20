@@ -17,6 +17,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
@@ -36,6 +37,7 @@ class AvirWrapper extends Wrapper {
 	private bool $blockUnscannable = false;
 	private IUserManager $userManager;
 	private string $blockUnReachable = 'yes';
+	private IRequest $request;
 
 	/**
 	 * @param array $parameters
@@ -52,6 +54,7 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnscannable = $parameters['block_unscannable'];
 		$this->userManager = $parameters['userManager'];
 		$this->blockUnReachable = $parameters['block_unreachable'];
+		$this->request = $parameters['request'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -106,7 +109,7 @@ class AvirWrapper extends Wrapper {
 
 		// Try to extract actual path for ocTransferId files (because the name is hashed)
 		$anchor = 'files/' . trim($this->mountPoint, '/') . '/';
-		$actualPath = explode($anchor, $_SERVER['REQUEST_URI'], 2);
+		$actualPath = explode($anchor, $this->request->getPathInfo(), 2);
 		if (count($actualPath) < 2) {
 			return $this->mountPoint . $path;
 		}
