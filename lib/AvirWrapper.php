@@ -95,9 +95,28 @@ class AvirWrapper extends Wrapper {
 			);
 	}
 
+	private function getPathForScanner(string $path): ?string {
+		if ($this->mountPoint === null) {
+			return null;
+		}
+
+		if (!preg_match('/\.ocTransferId\d+\.part$/i', $path)) {
+			return $this->mountPoint . $path;
+		}
+
+		// Try to extract actual path for ocTransferId files (because the name is hashed)
+		$anchor = 'files/' . trim($this->mountPoint, '/') . '/';
+		$actualPath = explode($anchor, $_SERVER['REQUEST_URI'], 2);
+		if (count($actualPath) < 2) {
+			return $this->mountPoint . $path;
+		}
+
+		return $this->mountPoint . 'files/' . trim($actualPath[1], '/');
+	}
+
 	private function wrapSteam(string $path, $stream) {
 		try {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint ? $this->mountPoint . $path : null);
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
 			return CallbackReadDataWrapper::wrap(
 				$stream,
@@ -149,7 +168,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
 			$status = $scanner->scanString($data);
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
