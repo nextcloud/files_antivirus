@@ -103,7 +103,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	private function getPathForScanner(string $path): ?string {
 		$defaultReturnValue = null;
-		if ($this->mountPoint === null) {
+		if ($this->mountPoint !== null) {
 			$defaultReturnValue = $this->mountPoint . $path;
 		}
 
