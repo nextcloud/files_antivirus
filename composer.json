@@ -11,7 +11,7 @@
 		"psalm/phar": "^4.3",
 		"icewind/streams": "v0.7.5",
 		"sabre/dav": "^4.2.1",
-		"nextcloud/coding-standard": "^v1.1.1",
+		"nextcloud/coding-standard": "=v1.1.1",
 		"symfony/event-dispatcher": "4.4.30",
 		"psr/clock": "^1.0"
 	},

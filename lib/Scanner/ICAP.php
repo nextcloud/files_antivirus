@@ -35,7 +35,7 @@ class ICAP extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		ICertificateManager $certificateManager,
+		ICertificateManager $certificateManager
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 

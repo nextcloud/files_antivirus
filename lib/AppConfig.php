@@ -250,8 +250,8 @@ class AppConfig {
 		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($key);
 		} else {
-			throw new \BadFunctionCallException($methodName .
-				' does not exist');
+			throw new \BadFunctionCallException($methodName
+				. ' does not exist');
 		}
 	}
 }

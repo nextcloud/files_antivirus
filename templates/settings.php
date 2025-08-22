@@ -29,17 +29,17 @@ script('files_antivirus', 'settings');
 				</tr>
 				<tr class="av_socket">
 					<td><label for="av_socket"><?php p($l->t('Socket'));?></label></td>
-					<td><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('ClamAV Socket.')).' '.$l->t('Not required in Executable Mode.'); ?>"></td>
+					<td><input type="text" id="av_socket" name="avSocket" value="<?php p($_['avSocket']); ?>" title="<?php p($l->t('ClamAV Socket.')) . ' ' . $l->t('Not required in Executable Mode.'); ?>"></td>
 					<td></td>
 				</tr>
 				<tr class="av_host">
 					<td><label for="av_host"><?php p($l->t('Host'));?></label></td>
-					<td><input type="text" id="av_host" name="avHost" value="<?php p($_['avHost']); ?>" title="<?php p($l->t('Address of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></td>
+					<td><input type="text" id="av_host" name="avHost" value="<?php p($_['avHost']); ?>" title="<?php p($l->t('Address of Antivirus Host.')) . ' ' . $l->t('Not required in Executable Mode.');?>"></td>
 					<td></td>
 				</tr>
 				<tr class="av_port">
 					<td><label for="av_port"><?php p($l->t('Port'));?></label></td>
-					<td><input type="text" id="av_port" name="avPort" value="<?php p($_['avPort']); ?>" title="<?php p($l->t('Port number of Antivirus Host.')). ' ' .$l->t('Not required in Executable Mode.');?>"></td>
+					<td><input type="text" id="av_port" name="avPort" value="<?php p($_['avPort']); ?>" title="<?php p($l->t('Port number of Antivirus Host.')) . ' ' . $l->t('Not required in Executable Mode.');?>"></td>
 					<td></td>
 				</tr>
 				<tr class="av_icap_tls">
@@ -83,14 +83,14 @@ script('files_antivirus', 'settings');
 					<td><label for="av_stream_max_length"><?php p($l->t('Stream Length'));?></label></td>
 					<td>
 					<input type="text" id="av_stream_max_length" name="avStreamMaxLength" value="<?php p($_['avStreamMaxLength']); ?>"
-						   title="<?php p($l->t('ClamAV StreamMaxLength value in bytes.')). ' ' .$l->t('Not required in Executable Mode.');?>"
+						   title="<?php p($l->t('ClamAV StreamMaxLength value in bytes.')) . ' ' . $l->t('Not required in Executable Mode.');?>"
 					/>
 					</td>
 					<td><label for="av_stream_max_length" class="a-left"><?php p($l->t('bytes'))?></label></td>
 				</tr>
 				<tr class="av_path">
 					<td><label for="av_path"><?php p($l->t('Path to clamscan'));?></label></td>
-					<td><input type="text" id="av_path" name="avPath" value="<?php p($_['avPath']); ?>" title="<?php p($l->t('Path to clamscan executable.')). ' ' .$l->t('Not required in Daemon Mode.');?>" /></td>
+					<td><input type="text" id="av_path" name="avPath" value="<?php p($_['avPath']); ?>" title="<?php p($l->t('Path to clamscan executable.')) . ' ' . $l->t('Not required in Daemon Mode.');?>" /></td>
 					<td></td>
 				</tr>
 				<tr class="av_path">

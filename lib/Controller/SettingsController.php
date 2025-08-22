@@ -102,8 +102,8 @@ class SettingsController extends Controller {
 		}
 
 		return new JSONResponse(
-			['data' =>
-				['message' => $message],
+			['data'
+				=> ['message' => $message],
 				'status' => $success ? 'success' : 'error',
 				'settings' => $this->settings->getAllValues(),
 			]
