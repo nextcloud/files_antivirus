@@ -51,7 +51,7 @@ class Item {
 		IAppManager $appManager,
 		File $file,
 		ITimeFactory $clock,
-		bool $isCron
+		bool $isCron,
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
@@ -248,7 +248,7 @@ class Item {
 	public function logNotice($message): void {
 		$this->logger->notice($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
-	
+
 	/**
 	 * @param string $message
 	 */

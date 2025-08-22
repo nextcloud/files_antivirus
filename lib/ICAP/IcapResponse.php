@@ -19,7 +19,7 @@ class IcapResponse {
 	public function __construct(
 		IcapResponseStatus $status,
 		array $headers,
-		array $responseHeaders
+		array $responseHeaders,
 	) {
 		$this->status = $status;
 		$this->headers = $headers;
