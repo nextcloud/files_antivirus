@@ -98,23 +98,25 @@ class AvirWrapper extends Wrapper {
 			);
 	}
 
+	/**
+	 * Try to extract actual path for .ocTransferId.part files (because the name is hashed).
+	 */
 	private function getPathForScanner(string $path): ?string {
+		$defaultReturnValue = null;
 		if ($this->mountPoint === null) {
-			return null;
+			$defaultReturnValue = $this->mountPoint . $path;
 		}
 
 		if (!preg_match('/\.ocTransferId\d+\.part$/i', $path)) {
-			return $this->mountPoint . $path;
+			return $defaultReturnValue;
 		}
 
-		// Try to extract actual path for ocTransferId files (because the name is hashed)
-		$anchor = 'files/' . trim($this->mountPoint, '/') . '/';
-		$actualPath = explode($anchor, $this->request->getPathInfo(), 2);
-		if (count($actualPath) < 2) {
-			return $this->mountPoint . $path;
+		$davFilesPrefix = '/dav/files';
+		if (!str_starts_with($this->request->getPathInfo(), $davFilesPrefix)) {
+			return $defaultReturnValue;
 		}
 
-		return $this->mountPoint . 'files/' . trim($actualPath[1], '/');
+		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
 	}
 
 	private function wrapSteam(string $path, $stream) {
