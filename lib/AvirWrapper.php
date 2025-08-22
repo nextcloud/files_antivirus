@@ -147,6 +147,9 @@ class AvirWrapper extends Wrapper {
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 				$this->handleInfected($path, $status);
 			}
+			if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
+				$this->handleInfected($path, $status);
+			}
 		}
 
 		return parent::file_put_contents($path, $data);
