@@ -78,6 +78,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
+			'block_unreachable' => 'yes'
 		]);
 
 		$this->config->expects($this->any())
@@ -139,6 +140,7 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => null,
 			'block_unscannable' => false,
+			'block_unreachable' => 'no',
 		]);
 
 		$scanner = $this->createMock(IScanner::class);
@@ -159,4 +161,32 @@ class AvirWrapperTest extends TestBase {
 		$this->assertEquals($expected, $actual);
 		fclose($expected);
 	}
+
+	public function testHandleConnectionErrorIsTriggered(): void {
+		// Simulate ScannerFactory throwing an exception
+		$scannerFactory = $this->createMock(ScannerFactory::class);
+		$scannerFactory->expects(self::once())
+			->method('getScanner')
+			->willThrowException(new \Exception('Simulated failure'));
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects(self::once())
+			->method('error')
+			->with($this->stringContains('Simulated failure'));
+
+		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'block_unreachable' => 'yes', ]) extends \OCA\Files_Antivirus\AvirWrapper {
+			public bool $connectionErrorCalled = false;
+			protected function handleConnectionError(string $path): void {
+				$this->connectionErrorCalled = true;
+				parent::handleConnectionError($path);
+			}
+		};
+
+		$this->expectException(\OCP\Files\InvalidContentException::class);
+
+		$stream = fopen('php://memory', 'rwb');
+		$wrapper->writeStream('anyfile.txt', $stream);
+		$this->assertTrue($wrapper->connectionErrorCalled, 'Expected handleConnectionError to be called');
+	}
+
 }

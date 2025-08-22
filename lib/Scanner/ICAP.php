@@ -28,6 +28,9 @@ class ICAP extends ScannerBase {
 	private int $chunkSize;
 	private bool $tls;
 
+	private ICertificateManager $certificateManager;
+	private int $avIcapConnectionTimeout;
+
 	public function __construct(
 		AppConfig $config,
 		LoggerInterface $logger,
@@ -36,52 +39,64 @@ class ICAP extends ScannerBase {
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
-		$avHost = $this->appConfig->getAvHost();
-		$avPort = $this->appConfig->getAvPort();
 		$this->service = $config->getAvIcapRequestService();
 		$this->virusHeader = $config->getAvIcapResponseHeader();
 		$this->chunkSize = (int)$config->getAvIcapChunkSize();
 		$this->mode = $config->getAvIcapMode();
 		$this->tls = $config->getAvIcapTls();
+		$this->certificateManager = $certificateManager;
+		$this->avIcapConnectionTimeout = (int)$config->getAvIcapConnectTimeout();
 
-		if (!($avHost && $avPort)) {
-			throw new \RuntimeException('The ICAP port and host are not set up.');
-		}
-		if ($this->tls) {
-			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout(), $certificateManager);
-		} else {
-			$this->icapClient = new ICAPClient($avHost, (int)$avPort, (int)$config->getAvIcapConnectTimeout());
-		}
 	}
 
 	public function initScanner() {
 		parent::initScanner();
 		$this->writeHandle = fopen('php://temp', 'w+');
+		if ($this->writeHandle === false) {
+			throw new \RuntimeException('Failed to open temporary write handle.');
+		}
+
+		$avHost = $this->appConfig->getAvHost();
+		$avPort = $this->appConfig->getAvPort();
+		if (!($avHost && $avPort)) {
+			throw new \RuntimeException('The ICAP port and host are not set up.');
+		}
+		if ($this->tls) {
+			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, $this->avIcapConnectionTimeout, $this->certificateManager);
+		} else {
+			$this->icapClient = new ICAPClient($avHost, (int)$avPort, $this->avIcapConnectionTimeout);
+		}
+
 		$path = '/' . trim($this->path, '/');
 		if (str_contains($path, '.ocTransferId') && str_ends_with($path, '.part')) {
 			[$path] = explode('.ocTransferId', $path, 2);
 		}
 		$remote = $this->request ? $this->request->getRemoteAddress() : null;
 		$encodedPath = implode('/', array_map('rawurlencode', explode('/', $path)));
-		if ($this->mode === ICAPClient::MODE_REQ_MOD) {
-			$this->icapRequest = $this->icapClient->reqmod($this->service, [
-				'Allow' => 204,
-				'X-Client-IP' => $remote,
-			], [
-				"PUT $encodedPath HTTP/1.0",
-				'Host: nextcloud'
-			]);
-		} else {
-			$this->icapRequest = $this->icapClient->respmod($this->service, [
-				'Allow' => 204,
-				'X-Client-IP' => $remote,
-			], [
-				"GET $encodedPath HTTP/1.0",
-				'Host: nextcloud',
-			], [
-				'HTTP/1.0 200 OK',
-				'Content-Length: 1', // a dummy, non-zero, content length seems to be enough
-			]);
+
+		try {
+			if ($this->mode === ICAPClient::MODE_REQ_MOD) {
+				$this->icapRequest = $this->icapClient->reqmod($this->service, [
+					'Allow' => 204,
+					'X-Client-IP' => $remote,
+				], [
+					"PUT $encodedPath HTTP/1.0",
+					'Host: nextcloud'
+				]);
+			} else {
+				$this->icapRequest = $this->icapClient->respmod($this->service, [
+					'Allow' => 204,
+					'X-Client-IP' => $remote,
+				], [
+					"GET $encodedPath HTTP/1.0",
+					'Host: nextcloud',
+				], [
+					'HTTP/1.0 200 OK',
+					'Content-Length: 1', // a dummy, non-zero, content length seems to be enough
+				]);
+			}
+		} catch (\Throwable $e) {
+			throw new \RuntimeException('Failed to initialize ICAP request: ' . $e->getMessage(), 0, $e);
 		}
 	}
 

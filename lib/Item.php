@@ -248,7 +248,7 @@ class Item {
 	public function logNotice($message): void {
 		$this->logger->notice($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
 	}
-	
+
 	/**
 	 * @param string $message
 	 */
