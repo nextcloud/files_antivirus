@@ -24,7 +24,7 @@ class Mark extends Base {
 
 	public function __construct(
 		IRootFolder $rootFolder,
-		ItemFactory $itemFactory
+		ItemFactory $itemFactory,
 	) {
 		parent::__construct();
 		$this->rootFolder = $rootFolder;

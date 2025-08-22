@@ -23,7 +23,7 @@ class ExternalKaspersky extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		IClientService $clientService
+		IClientService $clientService,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->clientService = $clientService;

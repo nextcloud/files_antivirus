@@ -24,9 +24,9 @@ class AvirWrapper extends Wrapper {
 	 * Modes that are used for writing
 	 */
 	private array $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
-	protected ScannerFactory$scannerFactory;
+	protected ScannerFactory $scannerFactory;
 	protected IL10N $l10n;
-	protected LoggerInterface$logger;
+	protected LoggerInterface $logger;
 	protected ActivityManager $activityManager;
 	protected bool $isHomeStorage;
 	private bool $shouldScan = true;
@@ -116,7 +116,7 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			if($this->blockUnReachable == 'yes') {
+			if ($this->blockUnReachable == 'yes') {
 				$this->handleConnectionError($path);
 			}
 		}
@@ -196,8 +196,8 @@ class AvirWrapper extends Wrapper {
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
-		$this->logger->error('Infected file deleted. ' . $status->getDetails() .
-			' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
+		$this->logger->error('Infected file deleted. ' . $status->getDetails()
+			. ' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
 
 		throw new InvalidContentException(
 			$this->l10n->t(

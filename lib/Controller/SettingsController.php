@@ -72,7 +72,7 @@ class SettingsController extends Controller {
 		$avIcapRequestService,
 		$avIcapResponseHeader,
 		$avIcapTls,
-		$avBlockUnscannable
+		$avBlockUnscannable,
 	) {
 		$this->settings->setAvMode($avMode);
 		$this->settings->setAvSocket($avSocket);
@@ -102,8 +102,8 @@ class SettingsController extends Controller {
 		}
 
 		return new JSONResponse(
-			['data' =>
-				['message' => $message],
+			['data'
+				=> ['message' => $message],
 				'status' => $success ? 'success' : 'error',
 				'settings' => $this->settings->getAllValues(),
 			]
