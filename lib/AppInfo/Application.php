@@ -32,6 +32,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICertificateManager;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -142,6 +143,7 @@ class Application extends App implements IBootstrap {
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
 					'userManager' => $userManager,
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
+					'request' => $container->get(IRequest::class),
 				]);
 			},
 			1
