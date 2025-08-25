@@ -27,7 +27,7 @@ class Scan extends Base {
 	public function __construct(
 		IRootFolder $rootFolder,
 		ScannerFactory $scannerFactory,
-		ItemFactory $itemFactory
+		ItemFactory $itemFactory,
 	) {
 		parent::__construct();
 		$this->rootFolder = $rootFolder;

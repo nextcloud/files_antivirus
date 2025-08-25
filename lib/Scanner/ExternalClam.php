@@ -38,7 +38,11 @@ class ExternalClam extends ScannerBase {
 
 		if ($this->useSocket) {
 			$avSocket = $this->appConfig->getAvSocket();
-			$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
+			if (str_starts_with($avSocket, 'tcp')) {
+				$this->writeHandle = stream_socket_client($avSocket, $errno, $errstr, 5);
+			} else {
+				$this->writeHandle = stream_socket_client('unix://' . $avSocket, $errno, $errstr, 5);
+			}
 			if (!$this->getWriteHandle()) {
 				throw new \RuntimeException('Cannot connect to "' . $avSocket . '": ' . $errstr . ' (code ' . $errno . ')');
 			}

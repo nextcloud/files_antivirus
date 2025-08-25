@@ -24,15 +24,16 @@ class AvirWrapper extends Wrapper {
 	 * Modes that are used for writing
 	 */
 	private array $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
-	protected ScannerFactory$scannerFactory;
+	protected ScannerFactory $scannerFactory;
 	protected IL10N $l10n;
-	protected LoggerInterface$logger;
+	protected LoggerInterface $logger;
 	protected ActivityManager $activityManager;
 	protected bool $isHomeStorage;
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
+	private string $blockUnReachable = 'yes';
 
 	/**
 	 * @param array $parameters
@@ -47,6 +48,7 @@ class AvirWrapper extends Wrapper {
 		$this->trashEnabled = $parameters['trashEnabled'];
 		$this->mountPoint = $parameters['mount_point'];
 		$this->blockUnscannable = $parameters['block_unscannable'];
+		$this->blockUnReachable = $parameters['block_unreachable'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -114,7 +116,11 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			if ($this->blockUnReachable == 'yes') {
+				$this->handleConnectionError($path);
+			}
 		}
+
 		return $stream;
 	}
 
@@ -145,6 +151,9 @@ class AvirWrapper extends Wrapper {
 			$scanner->initScanner();
 			$status = $scanner->scanString($data);
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+				$this->handleInfected($path, $status);
+			}
+			if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
 				$this->handleInfected($path, $status);
 			}
 		}
@@ -187,8 +196,8 @@ class AvirWrapper extends Wrapper {
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
 
-		$this->logger->error('Infected file deleted. ' . $status->getDetails() .
-			' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
+		$this->logger->error('Infected file deleted. ' . $status->getDetails()
+			. ' File: ' . $path . ' Account: ' . $owner, ['app' => 'files_antivirus']);
 
 		throw new InvalidContentException(
 			$this->l10n->t(
@@ -197,4 +206,32 @@ class AvirWrapper extends Wrapper {
 			)
 		);
 	}
+
+	/**
+	 * @throws InvalidContentException
+	 */
+	protected function handleConnectionError(string $path): void {
+		//prevent from going to trashbin
+		if ($this->trashEnabled) {
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->pauseTrash();
+		}
+
+		$this->unlink($path);
+
+		if ($this->trashEnabled) {
+			/** @var ITrashManager $trashManager */
+			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager->resumeTrash();
+		}
+
+		throw new InvalidContentException(
+			$this->l10n->t(
+				'%s. Upload cannot be completed.',
+				['No connection to anti virus']
+			)
+		);
+	}
+
 }
