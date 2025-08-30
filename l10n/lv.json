@@ -16,7 +16,7 @@
     "Antivirus for files" : "Antīvīruss datnēm",
     "Greetings {user}," : "Sveiciens {user}.",
     "Sorry, but a malware was detected in a file you tried to upload and it had to be deleted." : "Atvainojamies, bet datnē, kuru mēģināji augšupielādēt, tika noteikta ļaunatūra, un to nācās izdzēst.",
-    "This email is a notification from {host}. Please, do not reply." : "Šis e-pasts ir paziņojums no {host}. Lūdzu neatbildiet uz to.",
+    "This email is a notification from {host}. Please, do not reply." : "Šis e-pasta ziņojums ir paziņojums no {host}. Lūgums neatbildēt.",
     "File uploaded: {file}" : "Datne augšupielādēta: {file}",
     "Antivirus for Files" : "Antīvīruss datnēm",
     "Mode" : "Režīms",
