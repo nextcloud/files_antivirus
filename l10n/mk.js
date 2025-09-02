@@ -10,6 +10,8 @@ OC.L10N.register(
     "Select" : "Select",
     "bytes" : "бајти",
     "Delete file" : "Избриши датотека",
+    "Yes" : "Да",
+    "No" : "Не",
     "Save" : "Зачувај",
     "Advanced" : "Напредно",
     "Description" : "Опис"
