@@ -87,7 +87,7 @@ class BackgroundScanner extends TimedJob {
 		$count = 0;
 		// locate files that are not checked yet
 		try {
-			$unscanned = $this->getUnscannedFiles();
+			$unscanned = $this->getUnscannedFiles($max);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return 0;
@@ -204,7 +204,7 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getUnscannedFiles() {
+	public function getUnscannedFiles(?int $limit = null) {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 		$instanceId = $this->config->getSystemValue('instanceid', '');
 
@@ -223,7 +223,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("\_\_groupfolders/versions/%")))
 			->andWhere($query->expr()->notLike('fc.path', $query->createNamedParameter("\_\_groupfolders/trash/%")))
 			->andWhere($this->getSizeLimitExpression($query))
-			->setMaxResults($this->getBatchSize() * 10);
+			->setMaxResults($limit ?? ($this->getBatchSize() * 10));
 
 		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
