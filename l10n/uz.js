@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saving…" : "Saving…",
     "Saved" : "Saved",
+    "Mode" : "Rejim",
     "Port" : "Port",
     "Select" : "Select",
     "Delete file" : "Delete file",
