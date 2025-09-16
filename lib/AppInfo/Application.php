@@ -142,6 +142,7 @@ class Application extends App implements IBootstrap {
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
 					'userManager' => $userManager,
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
+					'chunk_size' => $appConfig->getAvChunkSize(),
 				]);
 			},
 			1

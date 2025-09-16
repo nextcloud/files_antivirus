@@ -36,6 +36,7 @@ class AvirWrapper extends Wrapper {
 	private bool $blockUnscannable = false;
 	private IUserManager $userManager;
 	private string $blockUnReachable = 'yes';
+	private int $chunkSize;
 
 	/**
 	 * @param array $parameters
@@ -52,6 +53,7 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnscannable = $parameters['block_unscannable'];
 		$this->userManager = $parameters['userManager'];
 		$this->blockUnReachable = $parameters['block_unreachable'];
+		$this->chunkSize = $parameters['chunk_size'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -92,10 +94,44 @@ class AvirWrapper extends Wrapper {
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0
 					|| strpos($path, '/files/') === 0)
-			);
+			)
+			&& !$this->isPartFile($path);
+	}
+
+	private function isPartFile(string $path): bool {
+		return preg_match('/\.ocTransferId\d+\.part$/i', $path);
+	}
+
+	public function rename(string $source, string $target): bool {
+		if (!$this->isPartFile($source) || !$this->shouldWrap($target)) {
+			return parent::rename($source, $target);
+		}
+
+		$scanner = $this->scannerFactory->getScanner($this->mountPoint . $target);
+		$scanner->initScanner();
+
+		$stream = $this->fopen($source, 'rb');
+		while ($data = fread($stream, $this->chunkSize)) {
+			$scanner->onAsyncData($data);
+		}
+		fclose($stream);
+
+		$status = $scanner->completeAsyncScan();
+		if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+			$this->handleInfected($source, $status);
+		}
+		if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
+			$this->handleInfected($source, $status);
+		}
+
+		return parent::rename($source, $target);
 	}
 
 	private function wrapSteam(string $path, $stream) {
+		if ($this->isPartFile($path)) {
+			return $stream;
+		}
+
 		try {
 			$scanner = $this->scannerFactory->getScanner($this->mountPoint ? $this->mountPoint . $path : null);
 			$scanner->initScanner();
