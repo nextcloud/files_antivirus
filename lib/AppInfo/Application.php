@@ -32,6 +32,7 @@ use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -138,6 +139,7 @@ class Application extends App implements IBootstrap {
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
+					'request' => $container->get(IRequest::class),
 				]);
 			},
 			1

@@ -15,6 +15,7 @@ use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
@@ -78,7 +79,8 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
-			'block_unreachable' => 'yes'
+			'block_unreachable' => 'yes',
+			'request' => $this->createMock(IRequest::class),
 		]);
 
 		$this->config->expects($this->any())
@@ -141,6 +143,7 @@ class AvirWrapperTest extends TestBase {
 			'mount_point' => null,
 			'block_unscannable' => false,
 			'block_unreachable' => 'no',
+			'request' => $this->createMock(IRequest::class),
 		]);
 
 		$scanner = $this->createMock(IScanner::class);
@@ -174,7 +177,7 @@ class AvirWrapperTest extends TestBase {
 			->method('error')
 			->with($this->stringContains('Simulated failure'));
 
-		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'block_unreachable' => 'yes', ]) extends \OCA\Files_Antivirus\AvirWrapper {
+		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'block_unreachable' => 'yes', 'request' => $this->createMock(IRequest::class) ]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;
 			protected function handleConnectionError(string $path): void {
 				$this->connectionErrorCalled = true;

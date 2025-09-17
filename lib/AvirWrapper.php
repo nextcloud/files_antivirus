@@ -17,6 +17,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
 use OCP\IL10N;
+use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
 class AvirWrapper extends Wrapper {
@@ -34,6 +35,7 @@ class AvirWrapper extends Wrapper {
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
 	private string $blockUnReachable = 'yes';
+	private IRequest $request;
 
 	/**
 	 * @param array $parameters
@@ -49,6 +51,7 @@ class AvirWrapper extends Wrapper {
 		$this->mountPoint = $parameters['mount_point'];
 		$this->blockUnscannable = $parameters['block_unscannable'];
 		$this->blockUnReachable = $parameters['block_unreachable'];
+		$this->request = $parameters['request'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -94,9 +97,30 @@ class AvirWrapper extends Wrapper {
 			);
 	}
 
+	/**
+	 * Try to extract actual path for .ocTransferId.part files (because the name is hashed).
+	 */
+	private function getPathForScanner(string $path): ?string {
+		$defaultReturnValue = null;
+		if ($this->mountPoint !== null) {
+			$defaultReturnValue = $this->mountPoint . $path;
+		}
+
+		if (!preg_match('/\.ocTransferId\d+\.part$/i', $path)) {
+			return $defaultReturnValue;
+		}
+
+		$davFilesPrefix = '/dav/files';
+		if (!str_starts_with($this->request->getPathInfo(), $davFilesPrefix)) {
+			return $defaultReturnValue;
+		}
+
+		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
+	}
+
 	private function wrapSteam(string $path, $stream) {
 		try {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint ? $this->mountPoint . $path : null);
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
 			return CallbackReadDataWrapper::wrap(
 				$stream,
@@ -149,7 +173,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function file_put_contents($path, $data) {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->mountPoint . $path);
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
 			$status = $scanner->scanString($data);
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
