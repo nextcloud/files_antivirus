@@ -13,6 +13,7 @@ use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\GroupFolders\Folder\FolderManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
@@ -26,18 +27,20 @@ class AvirWrapper extends Wrapper {
 	 * Modes that are used for writing
 	 */
 	private array $writingModes = ['r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'];
-	protected ScannerFactory$scannerFactory;
+	protected ScannerFactory $scannerFactory;
 	protected IL10N $l10n;
-	protected LoggerInterface$logger;
+	protected LoggerInterface $logger;
 	protected ActivityManager $activityManager;
 	protected bool $isHomeStorage;
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
+	private bool $groupFoldersEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
 	private IUserManager $userManager;
 	private string $blockUnReachable = 'yes';
 	private IRequest $request;
+	private string $dontScanDir = '';
 
 	/**
 	 * @param array $parameters
@@ -55,6 +58,8 @@ class AvirWrapper extends Wrapper {
 		$this->userManager = $parameters['userManager'];
 		$this->blockUnReachable = $parameters['block_unreachable'];
 		$this->request = $parameters['request'];
+		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
+		$this->dontScanDir = $parameters['dont_scan_directory'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -91,6 +96,25 @@ class AvirWrapper extends Wrapper {
 	}
 
 	private function shouldWrap(string $path): bool {
+		if ($this->dontScanDir != '') {
+			if (strpos($path, "/".$this->dontScanDir."/") != 0) {
+				//dont scan directory with name dontScanDir
+				return false;
+			}
+			if ($this->groupFoldersEnabled) {
+				/** @var FolderManager $folderManager */
+				$folderManager = \OC::$server->query(FolderManager::class);
+
+				if (preg_match('#^/?__groupfolders/(\d+)#', $path, $matches)) {
+					$folderId = (int)$matches[1];
+					$folder = $folderManager->getFolder($folderId);
+					if (($folderId == $folder->id) && ($folder->mountPoint === $this->dontScanDir)) {
+						//dont scan group folder with name dontScanDir
+						return false;
+					}
+				}
+			}
+		}
 		return $this->shouldScan
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0

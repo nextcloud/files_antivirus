@@ -144,6 +144,8 @@ class Application extends App implements IBootstrap {
 					'userManager' => $userManager,
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
 					'request' => $container->get(IRequest::class),
+					'groupFoldersEnabled' => $appManager->isEnabledForUser('groupfolders'),
+					'dont_scan_directory' => $appConfig->getAvDontScanDir(),
 				]);
 			},
 			1
