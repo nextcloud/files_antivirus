@@ -19,6 +19,7 @@ use OCP\IConfig;
  * @method ?string getAvPath()
  * @method ?string getAvInfectedAction()
  * @method ?string getAvBlockUnreachable()
+ * @method ?string getAvDontScanDir()
  * @method ?string getAvStreamMaxLength()
  * @method string getAvIcapMode()
  * @method ?string getAvIcapRequestService()
@@ -36,6 +37,7 @@ use OCP\IConfig;
  * @method null setAvPath(string $avPath)
  * @method null setAvInfectedAction(string $avInfectedAction)
  * @method null setAvBlockUnreachable(string $avBlockUnreachable)
+ * @method null setAvDontScanDir(string $avDontScanDir)
  * @method null setAvIcapScanBackground(string $scanBackground)
  * @method null setAvIcapMode(string $mode)
  * @method null setAvIcapRequestService($reqService)
@@ -69,6 +71,7 @@ class AppConfig {
 		'av_icap_connect_timeout' => '5',
 		'av_scan_first_bytes' => -1,
 		'av_block_unscannable' => false,
+		'av_dont_scan_dir' => '',
 	];
 
 	/**
