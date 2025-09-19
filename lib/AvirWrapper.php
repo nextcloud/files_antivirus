@@ -96,8 +96,8 @@ class AvirWrapper extends Wrapper {
 
 	private function shouldWrap(string $path): bool {
 		if ($this->dontScanDir != '') {
-			if (strpos($path, "/".$this->dontScanDir."/") != 0) {
-				//dont scan directory with name dontScanDir
+			if (str_contains($this->mountPoint . $path, "/".$this->dontScanDir."/")) {
+				//don't scan directory or new group folder named dontScanDir
 				return false;
 			}
 			if ($this->groupFoldersEnabled) {
@@ -108,7 +108,7 @@ class AvirWrapper extends Wrapper {
 					$folderId = (int)$matches[1];
 					$folder = $folderManager->getFolder($folderId);
 					if (($folderId == $folder->id) && ($folder->mountPoint === $this->dontScanDir)) {
-						//dont scan group folder with name dontScanDir
+						//don't scan old group folder named dontScanDir
 						return false;
 					}
 				}
