@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus\AppInfo;
 
 use OC\Files\Filesystem;
@@ -91,22 +92,19 @@ class Application extends App implements IBootstrap {
 	}
 
 	/**
-	 * 	 * Add wrapper for local storages
+	 * Add wrapper for local storages
 	 */
 	public function setupWrapper(): void {
 		if ($this->groupFolderEncryptionEnabled === null && $this->appConfig) {
-			$this->groupFolderEncryptionEnabled = $this->appConfig->getValueString(
-				'groupfolders',
-				'enable_encryption',
-				'false',
-			) === 'true';
+			$this->groupFolderEncryptionEnabled = $this->appConfig->getValueBool('groupfolders', 'enable_encryption');
 		}
 
 		Filesystem::addStorageWrapper(
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
-				if ($storage->instanceOfStorage(Jail::class)
-					&& (
+				if (
+					$storage->instanceOfStorage(AvirWrapper::class) &&
+					$storage->instanceOfStorage(Jail::class) && (
 						$storage->instanceOfStorage(ISharedStorage::class)
 						|| !(
 							$this->groupFolderEncryptionEnabled
@@ -148,7 +146,7 @@ class Application extends App implements IBootstrap {
 					'dont_scan_directory' => $appConfig->getAvDontScanDir(),
 				]);
 			},
-			1
+			1,
 		);
 	}
 }
