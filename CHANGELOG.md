@@ -5,6 +5,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.6.6] - 2025-09-22
+## Fixed
+* Extract actual path when scanning ocTransferId files
+* Use given limit when retrieving unscanned files
+
 ## [5.6.4] - 2025-08-04
 ## Fixed
 * Faster loading for SharedStorage
