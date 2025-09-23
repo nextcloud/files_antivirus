@@ -78,7 +78,7 @@ class AvirWrapperTest extends TestBase {
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
-			'dont_scan_directory' => 'escape-scan',
+			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
 			'block_unreachable' => 'yes',
@@ -128,6 +128,9 @@ class AvirWrapperTest extends TestBase {
 			['/files_external/rootcerts.crt.tmp.0123456789', false],
 			['/root_file', false],
 			['files/escape-scan/my_file_2', false],
+			['files/dont-scan/my_file_2', false],
+			['files/dont-scan/scan/my_file_2', false],
+			['files/scan/my_file_2', true],
 			['files/scanforvirus/my_file_2', true],
 		];
 	}
@@ -145,7 +148,7 @@ class AvirWrapperTest extends TestBase {
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
-			'dont_scan_directory' => 'escape-scan',
+			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
 			'mount_point' => null,
 			'block_unscannable' => false,
 			'block_unreachable' => 'no',
