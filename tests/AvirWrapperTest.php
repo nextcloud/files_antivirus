@@ -78,6 +78,8 @@ class AvirWrapperTest extends TestBase {
 			'isHomeStorage' => true,
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
 			'mount_point' => '/' . self::UID . '/files/',
 			'block_unscannable' => false,
 			'userManager' => $this->createMock(IUserManager::class),
@@ -127,6 +129,11 @@ class AvirWrapperTest extends TestBase {
 			['/files_external/rootcerts.crt', false],
 			['/files_external/rootcerts.crt.tmp.0123456789', false],
 			['/root_file', false],
+			['files/escape-scan/my_file_2', false],
+			['files/dont-scan/my_file_2', false],
+			['files/dont-scan/scan/my_file_2', false],
+			['files/scan/my_file_2', true],
+			['files/scanforvirus/my_file_2', true],
 		];
 	}
 
@@ -142,6 +149,8 @@ class AvirWrapperTest extends TestBase {
 			'isHomeStorage' => true,
 			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
 			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
 			'mount_point' => null,
 			'block_unscannable' => false,
 			'userManager' => $this->createMock(IUserManager::class),
@@ -183,7 +192,7 @@ class AvirWrapperTest extends TestBase {
 			->method('error')
 			->with($this->stringContains('Simulated failure'));
 
-		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'userManager' => $this->createMock(IUserManager::class), 'block_unreachable' => 'yes', 'request' => $this->createMock(IRequest::class) ]) extends \OCA\Files_Antivirus\AvirWrapper {
+		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'userManager' => $this->createMock(IUserManager::class), 'block_unreachable' => 'yes', 'request' => $this->createMock(IRequest::class), 'blockListedDirectories' => ['escape-scan'], 'groupFoldersEnabled' => false, ]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;
 			protected function handleConnectionError(string $path): void {
 				$this->connectionErrorCalled = true;
