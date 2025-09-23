@@ -38,7 +38,7 @@ class AvirWrapper extends Wrapper {
 	private bool $blockUnscannable = false;
 	private string $blockUnReachable = 'yes';
 	private IRequest $request;
-	private string $dontScanDir = '';
+	private array $blockListedDirectories = [];
 
 	/**
 	 * @param array $parameters
@@ -56,7 +56,7 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnReachable = $parameters['block_unreachable'];
 		$this->request = $parameters['request'];
 		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
-		$this->dontScanDir = $parameters['dont_scan_directory'];
+		$this->blockListedDirectories = $parameters['blockListedDirectories'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -95,20 +95,23 @@ class AvirWrapper extends Wrapper {
 	}
 
 	private function shouldWrap(string $path): bool {
-		if ($this->dontScanDir != '') {
-			if (str_contains($this->mountPoint . $path, "/".$this->dontScanDir."/")) {
-				//don't scan directory or new group folder named dontScanDir
+		if ($this->blockListedDirectories) {
+			$relativePathParts = explode('/', $this->mountPoint . $path);
+			if (array_intersect($relativePathParts, $this->blockListedDirectories)) {
+				// Don't scan directory or new group folders in the block list
 				return false;
 			}
 			if ($this->groupFoldersEnabled) {
 				/** @var FolderManager $folderManager */
-				$folderManager = \OC::$server->query(FolderManager::class);
+				$folderManager = \OCP\Server::get(FolderManager::class);
 
 				if (preg_match('#^/?__groupfolders/(\d+)#', $path, $matches)) {
 					$folderId = (int)$matches[1];
 					$folder = $folderManager->getFolder($folderId);
-					if (($folderId == $folder->id) && ($folder->mountPoint === $this->dontScanDir)) {
-						//don't scan old group folder named dontScanDir
+
+					if ($folderId === $folder->id
+						&& in_array($folder->mountPoint, $this->blockListedDirectories)) {
+						// Don't scan old group folders in the block list
 						return false;
 					}
 				}
