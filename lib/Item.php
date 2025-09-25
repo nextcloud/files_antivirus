@@ -101,7 +101,7 @@ class Item {
 		$activity->setApp(Application::APP_NAME)
 			->setSubject(Provider::SUBJECT_VIRUS_DETECTED_SCAN, [$status->getDetails()])
 			->setMessage($message)
-			->setObject('file', $this->file->getId(), $path)
+			->setObject('file', $this->file->getId(), $path ?? '')
 			->setAffectedUser($this->file->getOwner()->getUID())
 			->setType(Provider::TYPE_VIRUS_DETECTED);
 		$this->activityManager->publish($activity);
