@@ -3,9 +3,10 @@ OC.L10N.register(
     {
     "Select" : "Fren",
     "Delete file" : "Kkes afaylu",
-    "Yes" : "Oui",
+    "Yes" : "Ih",
     "No" : "Uhu",
     "Save" : "Sekles",
-    "Advanced" : "Talqayt"
+    "Advanced" : "Talqayt",
+    "Description" : "Aglam"
 },
 "nplurals=2; plural=(n != 1);");
