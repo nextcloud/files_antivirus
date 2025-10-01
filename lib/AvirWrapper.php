@@ -122,10 +122,16 @@ class AvirWrapper extends Wrapper {
 		try {
 			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
+			$amountRead = 0;
 			return CallbackReadDataWrapper::wrap(
 				$stream,
-				function ($count, $data) use ($scanner) {
-					$scanner->onAsyncData($data);
+				function ($count, $data) use ($scanner, $stream, &$amountRead) {
+					$pos = ftell($stream);
+					// don't scan twice when the stream is seeked backwards during reading
+					if ($pos > $amountRead) {
+						$scanner->onAsyncData($data);
+						$amountRead = $pos;
+					}
 				},
 				function ($data) use ($scanner) {
 					$scanner->onAsyncData($data);
