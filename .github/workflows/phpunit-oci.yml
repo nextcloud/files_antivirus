@@ -21,7 +21,7 @@ jobs:
   matrix:
     runs-on: ubuntu-latest-low
     outputs:
-      php-version: ${{ steps.versions.outputs.php-available-list }}
+      php-version: ${{ steps.versions.outputs.php-min-list }}
       server-max: ${{ steps.versions.outputs.branches-max-list }}
     steps:
       - name: Checkout app
@@ -65,8 +65,6 @@ jobs:
       matrix:
         php-versions: ${{ fromJson(needs.matrix.outputs.php-version) }}
         server-versions: ${{ fromJson(needs.matrix.outputs.server-max) }}
-        exclude:
-          - php-versions: 8.4 # The oci8 PHP package does not support it yet
 
     name: OCI PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}
 
