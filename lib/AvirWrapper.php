@@ -13,6 +13,7 @@ use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\GroupFolders\Folder\FolderManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
@@ -32,10 +33,12 @@ class AvirWrapper extends Wrapper {
 	protected bool $isHomeStorage;
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
+	private bool $groupFoldersEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
 	private string $blockUnReachable = 'yes';
 	private IRequest $request;
+	private array $blockListedDirectories = [];
 
 	/**
 	 * @param array $parameters
@@ -52,6 +55,8 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnscannable = $parameters['block_unscannable'];
 		$this->blockUnReachable = $parameters['block_unreachable'];
 		$this->request = $parameters['request'];
+		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
+		$this->blockListedDirectories = $parameters['blockListedDirectories'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -90,6 +95,28 @@ class AvirWrapper extends Wrapper {
 	}
 
 	private function shouldWrap(string $path): bool {
+		if ($this->blockListedDirectories) {
+			$relativePathParts = explode('/', $this->mountPoint . $path);
+			if (array_intersect($relativePathParts, $this->blockListedDirectories)) {
+				// Don't scan directory or new group folders in the block list
+				return false;
+			}
+			if ($this->groupFoldersEnabled) {
+				/** @var FolderManager $folderManager */
+				$folderManager = \OCP\Server::get(FolderManager::class);
+
+				if (preg_match('#^/?__groupfolders/(\d+)#', $path, $matches)) {
+					$folderId = (int)$matches[1];
+					$folder = $folderManager->getFolder($folderId);
+
+					if ($folderId === $folder['id']
+						&& in_array($folder['mount_point'], $this->blockListedDirectories)) {
+						// Don't scan old group folders in the block list
+						return false;
+					}
+				}
+			}
+		}
 		return $this->shouldScan
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0
