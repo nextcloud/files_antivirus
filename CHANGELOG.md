@@ -5,6 +5,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [5.6.7] - 2025-10-14
+## Added
+* Config to allow av_blocklisted_directories
+
 ## [5.6.6] - 2025-09-22
 ## Fixed
 * Extract actual path when scanning ocTransferId files
