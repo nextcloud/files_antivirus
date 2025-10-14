@@ -107,8 +107,8 @@ class AvirWrapper extends Wrapper {
 					$folderId = (int)$matches[1];
 					$folder = $folderManager->getFolder($folderId);
 
-					if ($folderId === $folder->id
-						&& in_array($folder->mountPoint, $this->blockListedDirectories)) {
+					if ($folderId === $folder['id']
+						&& in_array($folder['mount_point'], $this->blockListedDirectories)) {
 						// Don't scan old group folders in the block list
 						return false;
 					}
