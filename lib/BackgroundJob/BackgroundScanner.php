@@ -51,7 +51,7 @@ class BackgroundScanner extends TimedJob {
 		IUserMountCache $userMountCache,
 		IEventDispatcher $eventDispatcher,
 		IConfig $config,
-		bool $isCLI,
+		bool $isCLI
 	) {
 		parent::__construct($timeFactory);
 		$this->rootFolder = $rootFolder;

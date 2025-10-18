@@ -44,27 +44,27 @@ class LocalClam extends ScannerBase {
 			throw new \RuntimeException('The antivirus executable could not be found at ' . $this->avPath);
 		}
 	}
-
+	
 	/**
 	 * @return void
 	 */
 	public function initScanner() {
 		parent::initScanner();
-
+		
 		// using 2>&1 to grab the full command-line output.
 		$cmd = $this->avPath . ' ' . $this->appConfig->getCmdline() . ' - 2>&1';
 		$descriptorSpec = [
 			0 => ['pipe', 'r'], // STDIN
 			1 => ['pipe', 'w']  // STDOUT
 		];
-
+		
 		$this->process = proc_open($cmd, $descriptorSpec, $this->pipes);
 		if (!is_resource($this->process)) {
 			throw new \RuntimeException('Error starting process');
 		}
 		$this->writeHandle = $this->pipes[0];
 	}
-
+	
 	/**
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LocalClam extends ScannerBase {
 		@fclose($this->pipes[0]);
 		$output = stream_get_contents($this->pipes[1]);
 		@fclose($this->pipes[1]);
-
+		
 		$result = proc_close($this->process);
 		$this->logger->debug(
 			'Exit code :: ' . $result . ' Response :: ' . $output,

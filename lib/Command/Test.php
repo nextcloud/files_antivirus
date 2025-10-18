@@ -22,11 +22,11 @@ class Test extends Base {
 	private Crypto $crypto;
 
 	// This is the EICAR test file, encrypted using the password 'eicar' to prevent any AV scanner from picking up this file
-	public const EICAR_ENCRYPTED = 'f413c7d6bb75cb67d474a36f27e776b7b51a68b2a26746465b659c7cd'
-		. 'f13d8dea5d5932bc1afe1e34aa28ce75127d6bd6918bbad07503d16257a843fb46ed3dff04b12'
-		. '34d9b112aa556d396dc3afa0c4|cfaa1a828814db5ceb96fd8ab8f2c9e9|0b97b04d59a91ca64'
-		. '73117bcec8672b64a8abf6e6dec8ae70dcc0c05d7639d3dc8329afae8480197fb6f5b366f2c89'
-		. '629a01502a56f72c3bcb7eff3aeb1a6426|3';
+	public const EICAR_ENCRYPTED = 'f413c7d6bb75cb67d474a36f27e776b7b51a68b2a26746465b659c7cd' .
+		'f13d8dea5d5932bc1afe1e34aa28ce75127d6bd6918bbad07503d16257a843fb46ed3dff04b12' .
+		'34d9b112aa556d396dc3afa0c4|cfaa1a828814db5ceb96fd8ab8f2c9e9|0b97b04d59a91ca64' .
+		'73117bcec8672b64a8abf6e6dec8ae70dcc0c05d7639d3dc8329afae8480197fb6f5b366f2c89' .
+		'629a01502a56f72c3bcb7eff3aeb1a6426|3';
 
 	public function __construct(ScannerFactory $scannerFactory, Crypto $crypto) {
 		parent::__construct();

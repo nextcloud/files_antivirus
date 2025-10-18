@@ -31,7 +31,7 @@ class ItemFactory {
 		LoggerInterface $logger,
 		IRootFolder $rootFolder,
 		IAppManager $appManager,
-		ITimeFactory $clock,
+		ITimeFactory $clock
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;

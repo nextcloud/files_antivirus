@@ -19,7 +19,7 @@ class ScannerFactory {
 	public function __construct(
 		AppConfig $appConfig,
 		ContainerInterface $serverContainer,
-		IRequest $request,
+		IRequest $request
 	) {
 		$this->appConfig = $appConfig;
 		$this->serverContainer = $serverContainer;

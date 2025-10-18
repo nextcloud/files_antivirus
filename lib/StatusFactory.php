@@ -17,7 +17,7 @@ class StatusFactory {
 	public function __construct(
 		RuleMapper $ruleMapper,
 		LoggerInterface $logger,
-		AppConfig $config,
+		AppConfig $config
 	) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;

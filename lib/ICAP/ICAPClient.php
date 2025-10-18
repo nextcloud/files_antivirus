@@ -51,7 +51,7 @@ class ICAPClient {
 			$errorMessage,
 			$this->connectTimeout
 		);
-
+		
 		if (!$stream) {
 			throw new RuntimeException(
 				"Cannot connect to \"tcp://{$this->host}:{$this->port}\": $errorMessage (code $errorCode)"
