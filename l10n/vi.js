@@ -8,6 +8,8 @@ OC.L10N.register(
     "Port" : "Cổng",
     "Select" : "Chọn",
     "Delete file" : "Xóa tệp",
+    "Yes" : "Có",
+    "No" : "Không",
     "Save" : "Lưu",
     "Advanced" : "Nâng cao",
     "Description" : "Mô tả"

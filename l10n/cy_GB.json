@@ -1,6 +1,8 @@
 { "translations": {
     "Saved" : "Wedi'u cadw",
     "Select" : "Select",
+    "Yes" : "Ie",
+    "No" : "Na",
     "Save" : "Cadw",
     "Advanced" : "Uwch",
     "Description" : "Disgrifiad"

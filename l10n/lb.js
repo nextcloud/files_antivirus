@@ -5,6 +5,8 @@ OC.L10N.register(
     "Host" : "Host",
     "Port" : "Port",
     "Select" : "Select",
+    "Yes" : "Jo",
+    "No" : "Nee",
     "Save" : "Späicheren",
     "Advanced" : "Erweidert",
     "Description" : "Beschreiwung"

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Saved" : "Պահված",
     "TLS" : "TLS",
     "Select" : "Select",
+    "Yes" : "Այո",
+    "No" : "Ոչ",
     "Save" : "Պահպանել",
     "Description" : "Նկարագրություն"
 },

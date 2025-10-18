@@ -44,6 +44,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Cando is archìvios impestados s'agatant in un'iscansione in segundu pianu ",
     "Only log" : "Registru isceti",
     "Delete file" : "Cantzella archìviu",
+    "Yes" : "Si",
+    "No" : "No",
     "Save" : "Sarva",
     "Advanced" : "Avantzadu",
     "Rules" : "Règulas",

@@ -8,6 +8,8 @@ OC.L10N.register(
     "TLS" : "TLS",
     "Select" : "เลือก",
     "Delete file" : "ลบไฟล์",
+    "Yes" : "ใช่",
+    "No" : "ไม่ตกลง",
     "Save" : "บันทึก",
     "Advanced" : "ขั้นสูง",
     "Description" : "คำอธิบาย"

@@ -5,6 +5,8 @@ OC.L10N.register(
     "Host" : "হোস্ট",
     "Port" : "পোর্ট",
     "Select" : "সিলেক্ট",
+    "Yes" : "হ্যাঁ",
+    "No" : "না",
     "Save" : "সংরক্ষণ",
     "Advanced" : "সুচারু",
     "Description" : "বিবরণ"

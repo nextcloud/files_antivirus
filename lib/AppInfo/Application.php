@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus\AppInfo;
 
 use OC\Files\Filesystem;
@@ -31,9 +32,9 @@ use OCP\Files\Storage\IStorage;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICertificateManager;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -51,7 +52,6 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerService(ExternalClam::class, function (ContainerInterface $c) {
 			return new ExternalClam(
-				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -60,7 +60,6 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(LocalClam::class, function (ContainerInterface $c) {
 			return new LocalClam(
-				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -69,7 +68,6 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ExternalKaspersky::class, function (ContainerInterface $c) {
 			return new ExternalKaspersky(
-				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -79,7 +77,6 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ICAP::class, function (ContainerInterface $c) {
 			return new ICAP(
-				$c->get(IConfig::class),
 				$c->get(AppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -95,22 +92,19 @@ class Application extends App implements IBootstrap {
 	}
 
 	/**
-	 * 	 * Add wrapper for local storages
+	 * Add wrapper for local storages
 	 */
 	public function setupWrapper(): void {
 		if ($this->groupFolderEncryptionEnabled === null && $this->appConfig) {
-			$this->groupFolderEncryptionEnabled = $this->appConfig->getValueString(
-				'groupfolders',
-				'enable_encryption',
-				'false',
-			) === 'true';
+			$this->groupFolderEncryptionEnabled = $this->appConfig->getValueBool('groupfolders', 'enable_encryption');
 		}
 
 		Filesystem::addStorageWrapper(
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
-				if ($storage->instanceOfStorage(Jail::class)
-					&& (
+				if (
+					$storage->instanceOfStorage(AvirWrapper::class) &&
+					$storage->instanceOfStorage(Jail::class) && (
 						$storage->instanceOfStorage(ISharedStorage::class)
 						|| !(
 							$this->groupFolderEncryptionEnabled
@@ -132,6 +126,8 @@ class Application extends App implements IBootstrap {
 				$appManager = $container->get(IAppManager::class);
 				/** @var AppConfig $appConfig */
 				$appConfig = $container->get(AppConfig::class);
+				$userManager = $container->get(IUserManager::class);
+
 				return new AvirWrapper([
 					'storage' => $storage,
 					'scannerFactory' => $scannerFactory,
@@ -143,11 +139,14 @@ class Application extends App implements IBootstrap {
 					'trashEnabled' => $appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
 					'block_unscannable' => $appConfig->getAvBlockUnscannable(),
+					'userManager' => $userManager,
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
 					'request' => $container->get(IRequest::class),
+					'groupFoldersEnabled' => $appManager->isEnabledForUser('groupfolders'),
+					'blockListedDirectories' => $appConfig->getAvBlocklistedDirectories(),
 				]);
 			},
-			1
+			1,
 		);
 	}
 }

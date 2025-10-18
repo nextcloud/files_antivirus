@@ -54,6 +54,8 @@ OC.L10N.register(
     "When infected files are found during a background scan" : "Infektatuz gero, atzeko planoko eskaneatzean aurkitzen dira fitxategiak",
     "Only log" : "Log fitxategia soilik",
     "Delete file" : "Ezabatu fitxategia",
+    "Yes" : "Bai",
+    "No" : "Ez",
     "Save" : "Gorde",
     "Advanced" : "Aurreratua",
     "Rules" : "Arauak",

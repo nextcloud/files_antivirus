@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saved" : "Wedi'u cadw",
     "Select" : "Select",
+    "Yes" : "Ie",
+    "No" : "Na",
     "Save" : "Cadw",
     "Advanced" : "Uwch",
     "Description" : "Disgrifiad"

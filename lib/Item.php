@@ -119,7 +119,6 @@ class Item {
 			} else {
 				$msg = 'Infected file deleted.';
 			}
-			$this->logError($msg . ' ' . $status->getDetails());
 			$this->deleteFile();
 		} else {
 			if ($this->isCron) {
@@ -127,9 +126,10 @@ class Item {
 			} else {
 				$msg = 'Infected file found.';
 			}
-			$this->logError($msg . ' ' . $status->getDetails());
 			$this->updateCheckTime($this->clock->getTime());
 		}
+
+		$this->logError($msg . ' ' . $status->getDetails());
 	}
 
 	/**
@@ -190,6 +190,7 @@ class Item {
 	 */
 	private function feof(): bool {
 		$isDone = feof($this->fileHandle);
+
 		if ($isDone) {
 			$this->logDebug('Scan is done');
 			$handle = $this->fileHandle;
@@ -253,21 +254,45 @@ class Item {
 	/**
 	 * @param string $message
 	 */
-	public function logDebug($message): void {
-		$this->logger->debug($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
+	public function logDebug(string $message): void {
+		$this->logger->debug($message . $this->generateExtraInfo(), [
+			'app' => 'files_antivirus',
+			'userId' => $this->file->getOwner()->getUID(),
+			'userName' => $this->file->getOwner()->getDisplayName(),
+			'fileId' => $this->file->getId(),
+			'filePath' => $this->file->getPath(),
+			'fileName' => $this->file->getName(),
+			'fileUploadTime' => $this->file->getUploadTime(),
+		]);
 	}
 
 	/**
 	 * @param string $message
 	 */
-	public function logNotice($message): void {
-		$this->logger->notice($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
+	public function logNotice(string $message): void {
+		$this->logger->notice($message . $this->generateExtraInfo(), [
+			'app' => 'files_antivirus',
+			'userId' => $this->file->getOwner()->getUID(),
+			'userName' => $this->file->getOwner()->getDisplayName(),
+			'fileId' => $this->file->getId(),
+			'filePath' => $this->file->getPath(),
+			'fileName' => $this->file->getName(),
+			'fileUploadTime' => $this->file->getUploadTime(),
+		]);
 	}
 
 	/**
 	 * @param string $message
 	 */
-	public function logError($message): void {
-		$this->logger->error($message . $this->generateExtraInfo(), ['app' => 'files_antivirus']);
+	public function logError(string $message): void {
+		$this->logger->error($message . $this->generateExtraInfo(), [
+			'app' => 'files_antivirus',
+			'userId' => $this->file->getOwner()->getUID(),
+			'userName' => $this->file->getOwner()->getDisplayName(),
+			'fileId' => $this->file->getId(),
+			'filePath' => $this->file->getPath(),
+			'fileName' => $this->file->getName(),
+			'fileUploadTime' => $this->file->getUploadTime(),
+		]);
 	}
 }

@@ -35,6 +35,8 @@ OC.L10N.register(
     "Path to clamscan" : "Kelias į clamscan",
     "Path to clamscan executable." : "Kelias į clamscan vykdomąjį.",
     "Delete file" : "Ištrinti failą",
+    "Yes" : "Taip",
+    "No" : "Ne",
     "Save" : "Įrašyti",
     "Advanced" : "Išplėstiniai",
     "Rules" : "Taisyklės",

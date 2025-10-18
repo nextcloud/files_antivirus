@@ -1,9 +1,13 @@
 { "translations": {
     "Saving…" : "Saving…",
     "Saved" : "Saved",
+    "Mode" : "Rejim",
     "Port" : "Port",
     "Select" : "Select",
     "Delete file" : "Delete file",
-    "Save" : "Save"
+    "Yes" : "Ha",
+    "No" : "Yo`q",
+    "Save" : "Saqlash",
+    "Description" : "Tavsif"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

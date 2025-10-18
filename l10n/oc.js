@@ -8,6 +8,8 @@ OC.L10N.register(
     "Port" : "Pòrt",
     "Select" : "Select",
     "Delete file" : "Suprimir fichièr",
+    "Yes" : "Òc",
+    "No" : "Non",
     "Save" : "Salvar",
     "Description" : "Descripcion"
 },

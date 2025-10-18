@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Select" : "ເລືອກ",
     "Delete file" : "ລຶບຟາຍ",
+    "No" : "ບໍ່",
     "Save" : "ບັນທຶກ",
     "Advanced" : "ຂັ້ນສູງ"
 },

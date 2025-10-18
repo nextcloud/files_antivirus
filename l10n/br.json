@@ -1,9 +1,11 @@
 { "translations": {
     "Saved" : "Enrollet",
+    "Mode" : "Mod",
     "Host" : "Ostiz",
     "Port" : "Porzh",
     "Select" : "Dibab",
-    "Delete file" : "Diverkañ ar restr",
+    "Delete file" : "Dilemel ar restr",
+    "No" : "Ket",
     "Save" : "Enrollañ",
     "Advanced" : "Araokadennet",
     "Description" : "Diskrivadur"

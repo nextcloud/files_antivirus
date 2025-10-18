@@ -1,6 +1,8 @@
 { "translations": {
     "Saved" : "Disimpan",
     "Select" : "Select",
+    "Yes" : "Ya",
+    "No" : "Tidak",
     "Save" : "Simpan",
     "Advanced" : "Maju",
     "Description" : "Keterangan"

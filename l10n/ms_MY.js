@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Saved" : "Disimpan",
     "Select" : "Select",
+    "Yes" : "Ya",
+    "No" : "Tidak",
     "Save" : "Simpan",
     "Advanced" : "Maju",
     "Description" : "Keterangan"

@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest-low
     outputs:
       php-version: ${{ steps.versions.outputs.php-min-list }}
-      server-max: ${{ steps.versions.outputs.branches-max-list }}
+      server-max: ${{ steps.versions.outputs.branches-min-list }}
     steps:
       - name: Checkout app
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1

@@ -8,7 +8,10 @@ OC.L10N.register(
     "Port" : "Порта",
     "TLS" : "TLS",
     "Select" : "Select",
+    "bytes" : "бајти",
     "Delete file" : "Избриши датотека",
+    "Yes" : "Да",
+    "No" : "Не",
     "Save" : "Зачувај",
     "Advanced" : "Напредно",
     "Description" : "Опис"

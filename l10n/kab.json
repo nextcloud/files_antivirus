@@ -1,0 +1,10 @@
+{ "translations": {
+    "Select" : "Fren",
+    "Delete file" : "Kkes afaylu",
+    "Yes" : "Ih",
+    "No" : "Uhu",
+    "Save" : "Sekles",
+    "Advanced" : "Talqayt",
+    "Description" : "Aglam"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

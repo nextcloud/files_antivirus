@@ -117,7 +117,7 @@ jobs:
         image: ghcr.io/icewind1991/kaspersky-cap:latest
         credentials:
           username: icewind1991
-          password: ${{ secrets.ghcr_password }}
+          password: ${{ secrets.GHCR_PASSWORD }}
         ports:
           - 1344:1344
 
@@ -179,7 +179,7 @@ jobs:
         image: ghcr.io/icewind1991/kaspersky:latest
         credentials:
           username: icewind1991
-          password: ${{ secrets.ghcr_password }}
+          password: ${{ secrets.GHCR_PASSWORD }}
         ports:
           - 1234:80
 

@@ -8,6 +8,7 @@ OC.L10N.register(
     "TLS" : "TLS",
     "Select" : "Seleccionar",
     "Delete file" : "Borrar archivo",
+    "Yes" : "Sí",
     "Save" : "Guardar",
     "Advanced" : "Avanzado",
     "Description" : "Descripción"
