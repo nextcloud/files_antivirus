@@ -5,6 +5,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.1.0] - 2025-10-16
+### Added
+* Support for Nextcloud 32
+
 ## [6.0.0-beta.1] - 2025-01-21
 ### Added
 * Support for Nextcloud 31
