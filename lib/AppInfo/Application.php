@@ -143,6 +143,7 @@ class Application extends App implements IBootstrap {
 					'block_unreachable' => $appConfig->getAvBlockUnreachable(),
 					'request' => $container->get(IRequest::class),
 					'groupFoldersEnabled' => $appManager->isEnabledForUser('groupfolders'),
+					'e2eeEnabled' => $appManager->isEnabledForUser('end_to_end_encryption'),
 					'blockListedDirectories' => $appConfig->getAvBlocklistedDirectories(),
 				]);
 			},

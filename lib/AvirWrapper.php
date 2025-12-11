@@ -17,6 +17,8 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -35,6 +37,7 @@ class AvirWrapper extends Wrapper {
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
 	private bool $groupFoldersEnabled;
+	private bool $e2eeEnabled;
 	private ?string $mountPoint;
 	private bool $blockUnscannable = false;
 	private IUserManager $userManager;
@@ -59,6 +62,7 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnReachable = $parameters['block_unreachable'];
 		$this->request = $parameters['request'];
 		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
+		$this->e2eeEnabled = $parameters['e2eeEnabled'];
 		$this->blockListedDirectories = $parameters['blockListedDirectories'];
 
 		/** @var IEventDispatcher $eventDispatcher */
@@ -118,6 +122,25 @@ class AvirWrapper extends Wrapper {
 				}
 			}
 		}
+
+		if ($this->e2eeEnabled) {
+			// Don't scan E2EE metadata files.
+			$config = \OCP\Server::get(IConfig::class);
+			$instanceId = $config->getSystemValue('instanceid', null);
+			if (str_starts_with($path, "appdata_$instanceId/end_to_end_encryption/")) {
+				return false;
+			}
+			// Don't scan E2EE files.
+			$parentId = $this->storage->getCache()->getParentId($path);
+			$rootFolder = \OCP\Server::get(IRootFolder::class);
+			$owner = $this->storage->getOwner($path);
+			$userFolder = $rootFolder->getUserFolder($owner);
+			$node = $userFolder->getFirstNodeById($parentId);
+			if ($node->isEncrypted()) {
+				return false;
+			}
+		}
+
 		return $this->shouldScan
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0
