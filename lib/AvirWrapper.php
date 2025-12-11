@@ -134,10 +134,12 @@ class AvirWrapper extends Wrapper {
 			$parentId = $this->storage->getCache()->getParentId($path);
 			$rootFolder = \OCP\Server::get(IRootFolder::class);
 			$owner = $this->storage->getOwner($path);
-			$userFolder = $rootFolder->getUserFolder($owner);
-			$node = $userFolder->getFirstNodeById($parentId);
-			if ($node !== null && $node->isEncrypted()) {
-				return false;
+			if ($owner !== false) {
+				$userFolder = $rootFolder->getUserFolder($owner);
+				$node = $userFolder->getFirstNodeById($parentId);
+				if ($node !== null && $node->isEncrypted()) {
+					return false;
+				}
 			}
 		}
 
