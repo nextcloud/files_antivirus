@@ -112,17 +112,21 @@ class Item {
 			} else {
 				$msg = 'Infected file deleted.';
 			}
-			$this->deleteFile();
 		} else {
 			if ($this->isCron) {
 				$msg = 'Infected file found (during background scan)';
 			} else {
 				$msg = 'Infected file found.';
 			}
-			$this->updateCheckTime($this->clock->getTime());
 		}
 
 		$this->logError($msg . ' ' . $status->getDetails());
+
+		if ($shouldDelete) {
+			$this->deleteFile();
+		} else {
+			$this->updateCheckTime($this->clock->getTime());
+		}
 	}
 
 	/**
