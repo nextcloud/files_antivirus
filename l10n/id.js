@@ -8,6 +8,8 @@ OC.L10N.register(
     "TLS" : "TLS",
     "Select" : "Pilih",
     "Delete file" : "Hapus berkas",
+    "Yes" : "Ya",
+    "No" : "Tidak",
     "Save" : "Simpan",
     "Advanced" : "Lanjutan",
     "Description" : "Deskrisi"
