@@ -7,6 +7,7 @@ OC.L10N.register(
     "Port" : "Port",
     "TLS" : "TLS",
     "Select" : "Pilih",
+    "bytes" : "byte",
     "Delete file" : "Hapus berkas",
     "Yes" : "Ya",
     "No" : "Tidak",
