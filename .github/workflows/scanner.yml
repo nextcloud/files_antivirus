@@ -43,7 +43,7 @@ jobs:
 
     services:
       clam:
-        image: ghcr.io/icewind1991/icap-clamav-service-tls
+        image: ghcr.io/icewind1991/icap-clamav-service-tls # zizmor: ignore[unpinned-images]
         ports:
           - 1344:1344
           - 1345:1345
@@ -52,12 +52,14 @@ jobs:
       - name: Checkout server
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
       - name: Checkout app
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
@@ -114,7 +116,7 @@ jobs:
 
     services:
       kaspersky:
-        image: ghcr.io/icewind1991/kaspersky-cap:latest
+        image: ghcr.io/icewind1991/kaspersky-cap:latest # zizmor: ignore[unpinned-images]
         credentials:
           username: icewind1991
           password: ${{ secrets.GHCR_PASSWORD }}
@@ -125,12 +127,14 @@ jobs:
       - name: Checkout server
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
       - name: Checkout app
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
@@ -176,7 +180,7 @@ jobs:
 
     services:
       kaspersky:
-        image: ghcr.io/icewind1991/kaspersky:latest
+        image: ghcr.io/icewind1991/kaspersky:latest # zizmor: ignore[unpinned-images]
         credentials:
           username: icewind1991
           password: ${{ secrets.GHCR_PASSWORD }}
@@ -187,12 +191,14 @@ jobs:
       - name: Checkout server
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           submodules: true
           repository: nextcloud/server
           ref: ${{ matrix.server-versions }}
       - name: Checkout app
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
+          persist-credentials: false
           path: apps/${{ env.APP_NAME }}
 
       - name: Set up php ${{ matrix.php-versions }}
