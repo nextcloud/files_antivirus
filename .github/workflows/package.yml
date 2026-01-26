@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Setup krankler
         run: |
           wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl
@@ -21,7 +23,7 @@ jobs:
       - name: Package app
         run: |
           ./krankerl package
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ${{ env.APP_NAME }}.tar.gz
           path: build/artifacts/${{ env.APP_NAME }}.tar.gz
