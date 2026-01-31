@@ -228,6 +228,11 @@ $(document).ready(function() {
 			service: 'respmod',
 			header: 'X-Infection-Found',
 			mode: 'respmod',
+		},
+		eset: {
+			service: 'scan',
+			header: 'X-Infection-Found',
+			mode: 'respmod',
 		}
 	}
 	$('#av_icap_preset').on('change', function(e) {
