@@ -264,7 +264,15 @@ class BackgroundScanner extends TimedJob {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		// We do not want to keep scanning the same files. So only scan them once per 28 days at most.
-		$yesterday = time() - (28 * 24 * 60 * 60);
+		// $yesterday = time() - (28 * 24 * 60 * 60);
+
+		// Rescan interval is configurable via av_rescan_days (default: 28)
+		$rescanDays = (int)($this->appConfig->getAppValue('av_rescan_days') ?? 28);
+		if ($rescanDays < 1) {
+			$rescanDays = 28;
+		}
+		$yesterday = time() - ($rescanDays * 24 * 60 * 60);
+
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('fc.fileid')
