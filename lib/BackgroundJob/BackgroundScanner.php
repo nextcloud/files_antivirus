@@ -263,10 +263,9 @@ class BackgroundScanner extends TimedJob {
 	public function getOutdatedFiles() {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
-		// We do not want to keep scanning the same files. So only scan them once per 28 days at most.
+		// We do not want to keep scanning the same files. Thus, we make rescan interval configurable, with a default/fallback value of once per 28 days at most.
 		// $yesterday = time() - (28 * 24 * 60 * 60);
-
-		// Rescan interval is configurable via av_rescan_days (default: 28)
+		// Rescan interval is configurable via av_rescan_days (default: 28 days)
 		$rescanDays = (int)($this->appConfig->getAppValue('av_rescan_days') ?? 28);
 		if ($rescanDays < 1) {
 			$rescanDays = 28;
