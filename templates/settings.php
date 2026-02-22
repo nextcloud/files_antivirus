@@ -56,6 +56,7 @@ script('files_antivirus', 'settings');
 							<option value="clamav">ClamAV / c-icap</option>
 							<option value="kaspersky">Kaspersky</option>
 							<option value="fortisandbox">FortiSandbox</option>
+							<option value="eset">ESET Security</option>
 						</select></td>
 					<td></td>
 				</tr>
