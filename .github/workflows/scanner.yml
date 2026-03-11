@@ -90,7 +90,7 @@ jobs:
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
           ICAP_MODE: reqmod
-        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
+        run: ./vendor-bin/phpunit/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
       - name: PHPUnit respmod
         working-directory: apps/${{ env.APP_NAME }}
         env:
@@ -100,7 +100,7 @@ jobs:
           ICAP_REQUEST: avscan
           ICAP_HEADER: X-Infection-Found
           ICAP_MODE: respmod
-        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
+        run: ./vendor-bin/phpunit/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
 
   icap-kaspersky:
     runs-on: ubuntu-latest
@@ -164,7 +164,7 @@ jobs:
           ICAP_REQUEST: req
           ICAP_HEADER: X-Virus-ID
           ICAP_MODE: reqmod
-        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
+        run: ./vendor-bin/phpunit/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ICAPTest.php
 
   kaspersky:
     runs-on: ubuntu-latest
@@ -225,7 +225,7 @@ jobs:
         env:
           KASPERSKY_HOST: localhost
           KASPERSKY_PORT: 1234
-        run: ./vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ExternalKasperskyTest.php
+        run: ./vendor-bin/phpunit/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml tests/Scanner/ExternalKasperskyTest.php
 
   summary:
     permissions:
