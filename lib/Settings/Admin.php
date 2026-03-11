@@ -12,7 +12,7 @@ use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 	public function __construct(
-		private readonly AppConfig $config
+		private readonly AppConfig $config,
 	) {
 	}
 

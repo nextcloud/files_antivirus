@@ -23,7 +23,7 @@ class Scan extends Base {
 	public function __construct(
 		private readonly IRootFolder $rootFolder,
 		private readonly ScannerFactory $scannerFactory,
-		private readonly ItemFactory $itemFactory
+		private readonly ItemFactory $itemFactory,
 	) {
 		parent::__construct();
 	}

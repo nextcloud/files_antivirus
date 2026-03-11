@@ -15,7 +15,7 @@ class ScannerFactory {
 	public function __construct(
 		private readonly AppConfig $appConfig,
 		private readonly ContainerInterface $serverContainer,
-		private readonly IRequest $request
+		private readonly IRequest $request,
 	) {
 	}
 

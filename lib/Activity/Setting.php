@@ -11,7 +11,7 @@ use OCP\IL10N;
 
 class Setting implements ISetting {
 	public function __construct(
-		private readonly IL10N $l
+		private readonly IL10N $l,
 	) {
 	}
 

@@ -22,7 +22,7 @@ class ICAPClient {
 	public function __construct(
 		protected readonly string $host,
 		protected readonly int $port,
-		protected readonly int $connectTimeout
+		protected readonly int $connectTimeout,
 	) {
 	}
 
@@ -46,7 +46,7 @@ class ICAPClient {
 			$errorMessage,
 			$this->connectTimeout
 		);
-		
+
 		if (!$stream) {
 			throw new RuntimeException(
 				"Cannot connect to \"tcp://{$this->host}:{$this->port}\": $errorMessage (code $errorCode)"

@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Mark extends Base {
 	public function __construct(
 		private readonly IRootFolder $rootFolder,
-		private readonly ItemFactory $itemFactory
+		private readonly ItemFactory $itemFactory,
 	) {
 		parent::__construct();
 	}

@@ -20,7 +20,7 @@ class PropfindPlugin extends ServerPlugin {
 
 	public function __construct(
 		private readonly AppConfig $appConfig,
-		private readonly IEventDispatcher $eventDispatcher
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 

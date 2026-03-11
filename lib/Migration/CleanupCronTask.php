@@ -12,7 +12,7 @@ use OCP\Migration\IRepairStep;
 
 class CleanupCronTask implements IRepairStep {
 	public function __construct(
-		private readonly IJobList $jobList
+		private readonly IJobList $jobList,
 	) {
 	}
 

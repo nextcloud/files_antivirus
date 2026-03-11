@@ -12,7 +12,7 @@ class IcapResponseStatus {
 	public function __construct(
 		private readonly string $version,
 		private readonly int $code,
-		private readonly string $status
+		private readonly string $status,
 	) {
 	}
 

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Status extends Base {
 	public function __construct(
 		private readonly AppConfig $appConfig,
-		private readonly BackgroundScanner $backgroundScanner
+		private readonly BackgroundScanner $backgroundScanner,
 	) {
 		parent::__construct();
 	}

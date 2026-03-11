@@ -39,7 +39,7 @@ class BackgroundScanner extends TimedJob {
 		private readonly IUserMountCache $userMountCache,
 		private readonly IEventDispatcher $eventDispatcher,
 		private readonly IConfig $config,
-		private readonly bool $isCLI
+		private readonly bool $isCLI,
 	) {
 		parent::__construct($timeFactory);
 

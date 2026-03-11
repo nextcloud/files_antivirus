@@ -38,9 +38,9 @@ abstract class ScannerBase implements IScanner {
 	protected ?IRequest $request = null;
 
 	public function __construct(
-		protected readonly AppConfig       $appConfig,
+		protected readonly AppConfig $appConfig,
 		protected readonly LoggerInterface $logger,
-		private readonly StatusFactory     $statusFactory
+		private readonly StatusFactory $statusFactory,
 	) {
 		$this->status = $this->statusFactory->newStatus();
 	}

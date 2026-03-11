@@ -62,8 +62,8 @@ class FilesystemSetupListener implements IEventListener {
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
 				if (
-					$storage->instanceOfStorage(AvirWrapper::class) &&
-					$storage->instanceOfStorage(Jail::class) && (
+					$storage->instanceOfStorage(AvirWrapper::class)
+					&& $storage->instanceOfStorage(Jail::class) && (
 						$storage->instanceOfStorage(ISharedStorage::class)
 						|| !(
 							$this->groupFolderEncryptionEnabled

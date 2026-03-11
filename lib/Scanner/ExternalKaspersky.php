@@ -22,7 +22,7 @@ class ExternalKaspersky extends ScannerBase {
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		private readonly IClientService $clientService
+		private readonly IClientService $clientService,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 		$this->chunkSize = 10 * 1024 * 1024;

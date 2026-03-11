@@ -21,7 +21,7 @@ class BackgroundScan extends Base {
 	public function __construct(
 		private readonly AppConfig $appConfig,
 		private readonly BackgroundScanner $backgroundScanner,
-		private readonly IEventDispatcher $eventDispatcher
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}

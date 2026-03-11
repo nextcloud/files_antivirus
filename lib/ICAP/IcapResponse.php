@@ -12,7 +12,7 @@ class IcapResponse {
 	public function __construct(
 		private readonly IcapResponseStatus $status,
 		private readonly array $headers,
-		private readonly array $responseHeaders
+		private readonly array $responseHeaders,
 	) {
 	}
 

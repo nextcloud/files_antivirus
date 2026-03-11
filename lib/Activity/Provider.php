@@ -23,7 +23,7 @@ class Provider implements IProvider {
 
 	public function __construct(
 		private readonly IFactory $languageFactory,
-		private readonly IURLGenerator $urlGenerator
+		private readonly IURLGenerator $urlGenerator,
 	) {
 	}
 

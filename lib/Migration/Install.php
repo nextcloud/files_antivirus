@@ -14,7 +14,7 @@ use OCP\Migration\IRepairStep;
 class Install implements IRepairStep {
 	public function __construct(
 		private readonly RuleMapper $ruleMapper,
-		private readonly IConfig $config
+		private readonly IConfig $config,
 	) {
 	}
 
