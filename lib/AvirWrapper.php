@@ -48,6 +48,7 @@ class AvirWrapper extends Wrapper {
 	private array $blockListedDirectories;
 
 	/**
+	 * @psalm-suppress MoreSpecificImplementedParamType
 	 * @param array{
 	 *     storage: IStorage,
 	 *     scannerFactory: ScannerFactory,

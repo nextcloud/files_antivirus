@@ -21,7 +21,12 @@
 		<directory name="vendor/nextcloud/ocp"/>
 	</extraFiles>
 	<stubs>
-		<file name="tests/stub.phpstub" preloadClasses="true"/>
+		<file name="tests/stubs/oc_files_filesystem.php" preloadClasses="true"/>
+		<file name="tests/stubs/oc_files_storage_storage.php" preloadClasses="true"/>
+		<file name="tests/stubs/oc_files_storage_wrapper_wrapper.php" preloadClasses="true"/>
+		<file name="tests/stubs/oc_files_storage_wrapper_jail.php" preloadClasses="true"/>
+		<file name="tests/stubs/oca_dav_upload_futurefile.php" preloadClasses="true"/>
+		<file name="tests/stubs/oca_files_trashbin_trash_itrashmanager.php" preloadClasses="true"/>
 	</stubs>
 	<issueHandlers>
 		<UndefinedClass>
