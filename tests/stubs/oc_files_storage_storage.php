@@ -23,36 +23,22 @@ use OCP\Files\Storage\IStorage;
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  */
 interface Storage extends IStorage, ILockingStorage {
-	public function getCache(string $path = '', ?IStorage $storage = null): ICache
-    {
-    }
+	public function getCache(string $path = '', ?IStorage $storage = null): ICache;
 
-	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner
-    {
-    }
+	public function getScanner(string $path = '', ?IStorage $storage = null): IScanner;
 
-	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher
-    {
-    }
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher;
 
-	public function getPropagator(?IStorage $storage = null): IPropagator
-    {
-    }
+	public function getPropagator(?IStorage $storage = null): IPropagator;
 
-	public function getUpdater(?IStorage $storage = null): IUpdater
-    {
-    }
+	public function getUpdater(?IStorage $storage = null): IUpdater;
 
-	public function getStorageCache(): \OC\Files\Cache\Storage
-    {
-    }
+	public function getStorageCache(): \OC\Files\Cache\Storage;
 
 	/**
 	 * @return ?array<string, mixed>
 	 */
-	public function getMetaData(string $path): ?array
-    {
-    }
+	public function getMetaData(string $path): ?array;
 
 	/**
 	 * Get the contents of a directory with metadata
@@ -69,7 +55,5 @@ interface Storage extends IStorage, ILockingStorage {
 	 *
 	 * @return \Traversable<array<string, mixed>>
 	 */
-	public function getDirectoryContent(string $directory): \Traversable
-    {
-    }
+	public function getDirectoryContent(string $directory): \Traversable;
 }
