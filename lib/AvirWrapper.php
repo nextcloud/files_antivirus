@@ -220,7 +220,7 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			if($this->blockUnReachable) {
+			if ($this->blockUnReachable) {
 				$this->handleConnectionError($path);
 			}
 		}
