@@ -18,18 +18,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class BackgroundScan extends Base {
-	private BackgroundScanner $backgroundScanner;
-	private AppConfig $appConfig;
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(AppConfig $appConfig, BackgroundScanner $backgroundScanner, IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		private readonly AppConfig $appConfig,
+		private readonly BackgroundScanner $backgroundScanner,
+		private readonly IEventDispatcher $eventDispatcher
+	) {
 		parent::__construct();
-		$this->backgroundScanner = $backgroundScanner;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->appConfig = $appConfig;
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -38,6 +36,7 @@ class BackgroundScan extends Base {
 			->addOption('max', 'm', InputOption::VALUE_REQUIRED, 'Maximum number of files to process');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$verbose = (bool)$input->getOption('verbose');
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {

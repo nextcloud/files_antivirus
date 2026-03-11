@@ -20,22 +20,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Scan extends Base {
-	private ScannerFactory $scannerFactory;
-	private IRootFolder $rootFolder;
-	private ItemFactory $itemFactory;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		ScannerFactory $scannerFactory,
-		ItemFactory $itemFactory
+		private readonly IRootFolder $rootFolder,
+		private readonly ScannerFactory $scannerFactory,
+		private readonly ItemFactory $itemFactory
 	) {
 		parent::__construct();
-		$this->rootFolder = $rootFolder;
-		$this->scannerFactory = $scannerFactory;
-		$this->itemFactory = $itemFactory;
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -45,6 +39,7 @@ class Scan extends Base {
 			->addOption('debug', null, InputOption::VALUE_NONE, 'Enable debug output for supported backends');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getArgument('file');
 		try {

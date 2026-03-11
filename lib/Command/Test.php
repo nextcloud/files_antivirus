@@ -18,9 +18,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Test extends Base {
-	private ScannerFactory $scannerFactory;
-	private Crypto $crypto;
-
 	// This is the EICAR test file, encrypted using the password 'eicar' to prevent any AV scanner from picking up this file
 	public const EICAR_ENCRYPTED = 'f413c7d6bb75cb67d474a36f27e776b7b51a68b2a26746465b659c7cd' .
 		'f13d8dea5d5932bc1afe1e34aa28ce75127d6bd6918bbad07503d16257a843fb46ed3dff04b12' .
@@ -28,13 +25,15 @@ class Test extends Base {
 		'73117bcec8672b64a8abf6e6dec8ae70dcc0c05d7639d3dc8329afae8480197fb6f5b366f2c89' .
 		'629a01502a56f72c3bcb7eff3aeb1a6426|3';
 
-	public function __construct(ScannerFactory $scannerFactory, Crypto $crypto) {
+	public function __construct(
+		private readonly ScannerFactory $scannerFactory,
+		private readonly Crypto $crypto
+	) {
 		parent::__construct();
-		$this->scannerFactory = $scannerFactory;
-		$this->crypto = $crypto;
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -43,6 +42,7 @@ class Test extends Base {
 			->addOption('debug', null, InputOption::VALUE_NONE, 'Enable debug output for supported backends');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->write('Scanning regular text: ');
 		$scanner = $this->scannerFactory->getScanner('/foo.txt');

@@ -52,6 +52,7 @@ class FilesystemSetupListener implements IEventListener {
 		$this->groupFolderEncryptionEnabled = $appConfig->getValueBool('groupfolders', 'enable_encryption');
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforeFileSystemSetupEvent) {
 			return;

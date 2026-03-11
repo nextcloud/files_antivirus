@@ -19,19 +19,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Mark extends Base {
-	private IRootFolder $rootFolder;
-	private ItemFactory $itemFactory;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		ItemFactory $itemFactory
+		private readonly IRootFolder $rootFolder,
+		private readonly ItemFactory $itemFactory
 	) {
 		parent::__construct();
-		$this->rootFolder = $rootFolder;
-		$this->itemFactory = $itemFactory;
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -42,6 +38,7 @@ class Mark extends Base {
 			->addArgument('mode', InputArgument::REQUIRED, 'Either <info>scanned</info> or <info>unscanned</info>');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getArgument('file');
 		$forever = $input->getOption('forever');

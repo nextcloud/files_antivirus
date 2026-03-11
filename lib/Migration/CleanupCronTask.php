@@ -11,21 +11,18 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class CleanupCronTask implements IRepairStep {
-	/** @var IJobList */
-	private $jobList;
-
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
+	public function __construct(
+		private readonly IJobList $jobList
+	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Cleanup cron task';
 	}
 
-	/**
-	 * @return void
-	 */
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$this->jobList->remove('OCA\Files_Antivirus\Cron\Task');
 	}
 }

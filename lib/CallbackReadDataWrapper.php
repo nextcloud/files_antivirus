@@ -27,6 +27,7 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	 *
 	 * @throws \BadMethodCallException
 	 */
+	#[\Override]
 	public static function wrap($source, $read = null, $write = null, $close = null, $readDir = null, $preClose = null) {
 		$context = stream_context_create([
 			'callbackReadData' => [
@@ -44,6 +45,7 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	/**
 	 * @return true
 	 */
+	#[\Override]
 	protected function open() {
 		$context = $this->loadContext('callbackReadData');
 
@@ -54,6 +56,7 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 		return true;
 	}
 
+	#[\Override]
 	public function stream_read($count) {
 		$result = parent::stream_read($count);
 		if (is_callable($this->readDataCallback)) {

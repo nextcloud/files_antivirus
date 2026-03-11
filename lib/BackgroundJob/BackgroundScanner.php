@@ -27,44 +27,21 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class BackgroundScanner extends TimedJob {
-	protected IRootFolder $rootFolder;
-	private ScannerFactory $scannerFactory;
-	private AppConfig $appConfig;
-	protected LoggerInterface $logger;
-	protected IDBConnection $db;
-	protected IMimeTypeLoader $mimeTypeLoader;
-	protected ItemFactory $itemFactory;
-	private IUserMountCache $userMountCache;
-	private IEventDispatcher $eventDispatcher;
-	private IConfig $config;
-	private bool $isCLI;
-
 	public function __construct(
-		ITimeFactory $timeFactory,
-		ScannerFactory $scannerFactory,
-		AppConfig $appConfig,
-		IRootFolder $rootFolder,
-		LoggerInterface $logger,
-		IDBConnection $db,
-		IMimeTypeLoader $mimeTypeLoader,
-		ItemFactory $itemFactory,
-		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher,
-		IConfig $config,
-		bool $isCLI
+		private readonly ITimeFactory $timeFactory,
+		private readonly ScannerFactory $scannerFactory,
+		private readonly AppConfig $appConfig,
+		private readonly IRootFolder $rootFolder,
+		private readonly LoggerInterface $logger,
+		private readonly IDBConnection $db,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
+		private readonly ItemFactory $itemFactory,
+		private readonly IUserMountCache $userMountCache,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly IConfig $config,
+		private readonly bool $isCLI
 	) {
 		parent::__construct($timeFactory);
-		$this->rootFolder = $rootFolder;
-		$this->scannerFactory = $scannerFactory;
-		$this->appConfig = $appConfig;
-		$this->logger = $logger;
-		$this->db = $db;
-		$this->mimeTypeLoader = $mimeTypeLoader;
-		$this->itemFactory = $itemFactory;
-		$this->userMountCache = $userMountCache;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->config = $config;
-		$this->isCLI = $isCLI;
 
 		// Run once per 15 minutes
 		$this->setInterval(60 * 15);
@@ -73,6 +50,7 @@ class BackgroundScanner extends TimedJob {
 	/**
 	 * Background scanner main job
 	 */
+	#[\Override]
 	public function run($argument): void {
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
 			// Background checking disabled no need to continue
@@ -204,7 +182,7 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getUnscannedFiles(?int $limit = null) {
+	public function getUnscannedFiles(?int $limit = null): iterable {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
 		$instanceId = $this->config->getSystemValue('instanceid', '');
 
@@ -238,7 +216,7 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getToRescanFiles() {
+	public function getToRescanFiles(): iterable {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('fc.fileid')
 			->from('filecache', 'fc')
@@ -260,7 +238,7 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getOutdatedFiles() {
+	public function getOutdatedFiles(): iterable {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		// We do not want to keep scanning the same files. So only scan them once per 28 days at most.

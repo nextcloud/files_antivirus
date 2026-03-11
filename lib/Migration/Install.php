@@ -12,25 +12,19 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class Install implements IRepairStep {
-	/** @var RuleMapper */
-	private $ruleMapper;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(RuleMapper $ruleMapper, IConfig $config) {
-		$this->ruleMapper = $ruleMapper;
-		$this->config = $config;
+	public function __construct(
+		private readonly RuleMapper $ruleMapper,
+		private readonly IConfig $config
+	) {
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return 'Populare default rules';
 	}
 
-	/**
-	 * @return void
-	 */
-	public function run(IOutput $output) {
+	#[\Override]
+	public function run(IOutput $output): void {
 		$rules = $this->ruleMapper->findAll();
 
 		if ($rules === []) {

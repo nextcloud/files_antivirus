@@ -32,7 +32,7 @@ interface IScanner {
 	 *
 	 * @param string $data
 	 */
-	public function onAsyncData($data);
+	public function onAsyncData(string $data): void;
 
 	/**
 	 * Async scan - resource is closed

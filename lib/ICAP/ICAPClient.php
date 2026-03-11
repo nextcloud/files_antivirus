@@ -14,21 +14,16 @@ class ICAPClient {
 	public const MODE_REQ_MOD = 'reqmod';
 	public const MODE_RESP_MOD = 'respmod';
 
-	/** @var string */
-	protected $host;
-	/** @var int */
-	protected $port;
-	/** @var int */
-	protected $connectTimeout;
 	/**
 	 * @var (callable(string): void)|null
 	 */
 	private $debugCallback = null;
 
-	public function __construct(string $host, int $port, int $connectTimeout) {
-		$this->host = $host;
-		$this->port = $port;
-		$this->connectTimeout = $connectTimeout;
+	public function __construct(
+		protected readonly string $host,
+		protected readonly int $port,
+		protected readonly int $connectTimeout
+	) {
 	}
 
 	/**

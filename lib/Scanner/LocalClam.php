@@ -38,11 +38,9 @@ class LocalClam extends ScannerBase {
 			throw new \RuntimeException('The antivirus executable could not be found at ' . $this->avPath);
 		}
 	}
-	
-	/**
-	 * @return void
-	 */
-	public function initScanner() {
+
+	#[\Override]
+	public function initScanner(): void {
 		parent::initScanner();
 		
 		// using 2>&1 to grab the full command-line output.
@@ -58,11 +56,9 @@ class LocalClam extends ScannerBase {
 		}
 		$this->writeHandle = $this->pipes[0];
 	}
-	
-	/**
-	 * @return void
-	 */
-	protected function shutdownScanner() {
+
+	#[\Override]
+	protected function shutdownScanner():void {
 		@fclose($this->pipes[0]);
 		$output = stream_get_contents($this->pipes[1]);
 		@fclose($this->pipes[1]);

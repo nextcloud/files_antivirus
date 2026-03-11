@@ -37,6 +37,7 @@ class ItemMapper extends QBMapper {
 		return $this->findEntity($query);
 	}
 
+	#[\Override]
 	public function delete(Entity $entity): Entity {
 		if (!($entity instanceof Item)) {
 			throw new \InvalidArgumentException();
@@ -58,6 +59,7 @@ class ItemMapper extends QBMapper {
 	 * @throws Exception
 	 * @since 14.0.0
 	 */
+	#[\Override]
 	public function insert(Entity $entity): Entity {
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved

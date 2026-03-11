@@ -11,38 +11,39 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Filter implements IFilter {
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $url;
-
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
-		$this->url = $url;
+	public function __construct(
+		private readonly IL10N $l,
+		private readonly IURLGenerator $url,
+	) {
 	}
 
-	public function getIdentifier() {
+	#[\Override]
+	public function getIdentifier(): string {
 		return 'files_antivirus';
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return $this->l->t('Antivirus');
 	}
 
-	public function getPriority() {
+	#[\Override]
+	public function getPriority(): int {
 		return 70;
 	}
 
-	public function getIcon() {
+	#[\Override]
+	public function getIcon(): string {
 		return $this->url->imagePath('files_antivirus', 'shield-dark.svg');
 	}
 
-	public function filterTypes(array $types) {
+	#[\Override]
+	public function filterTypes(array $types): array {
 		return $types;
 	}
 
-	public function allowedApps() {
+	#[\Override]
+	public function allowedApps(): array {
 		return ['files_antivirus'];
 	}
 }

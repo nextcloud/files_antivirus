@@ -15,36 +15,22 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class PropfindPlugin extends ServerPlugin {
-	/** @var Server */
-	private $server;
-
-	/** @var AppConfig */
-	private $appConfig;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private Server $server;
 
 
-	public function __construct(AppConfig $appConfig, IEventDispatcher $eventDispatcher) {
-		$this->appConfig = $appConfig;
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(
+		private readonly AppConfig $appConfig,
+		private readonly IEventDispatcher $eventDispatcher
+	) {
 	}
 
-	/**
-	 * @return void
-	 */
-	public function initialize(Server $server) {
+	#[\Override]
+	public function initialize(Server $server): void {
 		$server->on('beforeMove', [$this, 'beforeMove'], 90);
 		$this->server = $server;
 	}
 
-	/**
-	 * @param string $sourcePath source path
-	 * @param string $destination destination path
-	 *
-	 * @return void
-	 */
-	public function beforeMove($sourcePath, $destination) {
+	public function beforeMove(string $sourcePath, string $destination): void {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
 		if (!$sourceNode instanceof FutureFile) {
 			// skip handling as the source is not a chunked FutureFile

@@ -31,31 +31,27 @@ abstract class ScannerBase implements IScanner {
 	/** @var resource */
 	protected $writeHandle;
 
-	protected AppConfig $appConfig;
-	protected LoggerInterface $logger;
-	protected StatusFactory $statusFactory;
 	protected ?string $lastChunk = null;
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
 	protected string $path = '';
 	protected ?IRequest $request = null;
 
-	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
-		$this->appConfig = $config;
-		$this->logger = $logger;
-		$this->statusFactory = $statusFactory;
+	public function __construct(
+		protected readonly AppConfig       $appConfig,
+		protected readonly LoggerInterface $logger,
+		private readonly StatusFactory     $statusFactory
+	) {
 		$this->status = $this->statusFactory->newStatus();
 	}
 
 	/**
 	 * Close used resources
 	 */
-	abstract protected function shutdownScanner();
+	abstract protected function shutdownScanner(): void;
 
-	/**
-	 * @return Status
-	 */
-	public function getStatus() {
+	#[\Override]
+	public function getStatus(): Status {
 		if ($this->infectedStatus instanceof Status) {
 			return $this->infectedStatus;
 		}
@@ -68,6 +64,7 @@ abstract class ScannerBase implements IScanner {
 	 * @param Item $item
 	 * @return Status
 	 */
+	#[\Override]
 	public function scan(Item $item): Status {
 		$this->initScanner();
 
@@ -86,6 +83,7 @@ abstract class ScannerBase implements IScanner {
 		return $this->getStatus();
 	}
 
+	#[\Override]
 	public function scanString(string $data): Status {
 		$this->initScanner();
 
@@ -96,14 +94,10 @@ abstract class ScannerBase implements IScanner {
 	}
 
 	/**
-	 * 	 * Async scan - new portion of data is available
-	 * 	 *
-	 *
-	 * @param string $data
-	 *
-	 * @return void
+	 * Async scan - new portion of data is available
 	 */
-	public function onAsyncData($data) {
+	#[\Override]
+	public function onAsyncData(string $data): void {
 		$this->writeChunk($data);
 	}
 
@@ -112,17 +106,17 @@ abstract class ScannerBase implements IScanner {
 	 *
 	 * @return Status
 	 */
+	#[\Override]
 	public function completeAsyncScan(): Status {
 		$this->shutdownScanner();
 		return $this->getStatus();
 	}
 
 	/**
-	 * 	 * Open write handle. etc
-	 *
-	 * @return void
+	 * Open write handle. etc
 	 */
-	public function initScanner() {
+	#[\Override]
+	public function initScanner(): void {
 		$this->byteCount = 0;
 		if ($this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 			$this->infectedStatus = clone $this->status;
@@ -130,23 +124,13 @@ abstract class ScannerBase implements IScanner {
 		$this->status = $this->statusFactory->newStatus();
 	}
 
-	/**
-	 * @param string $chunk
-	 *
-	 * @return void
-	 */
-	protected function writeChunk($chunk) {
+	protected function writeChunk(string $chunk): void {
 		$this->fwrite(
 			$this->prepareChunk($chunk)
 		);
 	}
 
-	/**
-	 * @param string $data
-	 *
-	 * @return void
-	 */
-	final protected function fwrite($data) {
+	final protected function fwrite(string $data): void {
 		if ($this->isAborted) {
 			return;
 		}
@@ -183,10 +167,7 @@ abstract class ScannerBase implements IScanner {
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
-	protected function retry() {
+	protected function retry(): bool {
 		$this->initScanner();
 		if (!is_null($this->lastChunk)) {
 			return $this->writeRaw($this->lastChunk);
@@ -194,11 +175,7 @@ abstract class ScannerBase implements IScanner {
 		return true;
 	}
 
-	/**
-	 * @param $data
-	 * @return bool
-	 */
-	protected function writeRaw(string $data) {
+	protected function writeRaw(string $data): bool {
 		$dataLength = strlen($data);
 		$bytesWritten = @fwrite($this->getWriteHandle(), $data);
 		if ($bytesWritten === $dataLength) {
@@ -220,14 +197,12 @@ abstract class ScannerBase implements IScanner {
 
 	/**
 	 * Prepare chunk (if required)
-	 *
-	 * @param string $data
-	 * @return string
 	 */
-	protected function prepareChunk($data) {
+	protected function prepareChunk(string $data): string {
 		return $data;
 	}
 
+	#[\Override]
 	public function setDebugCallback(callable $callback): void {
 		// unsupported
 	}

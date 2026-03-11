@@ -21,18 +21,14 @@ class Provider implements IProvider {
 
 	public const MESSAGE_FILE_DELETED = 'file_deleted';
 
-	/** @var IFactory */
-	private $languageFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IFactory $languageFactory, IURLGenerator $urlGenerator) {
-		$this->languageFactory = $languageFactory;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private readonly IFactory $languageFactory,
+		private readonly IURLGenerator $urlGenerator
+	) {
 	}
 
-	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
+	#[\Override]
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== Application::APP_NAME || $event->getType() !== self::TYPE_VIRUS_DETECTED) {
 			throw new \InvalidArgumentException();
 		}

@@ -32,6 +32,7 @@ class Application extends App implements IBootstrap {
 		parent::__construct(self::APP_NAME, $urlParams);
 	}
 
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerService(ExternalClam::class, function (ContainerInterface $c) {
 			return new ExternalClam(
@@ -70,6 +71,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeFileSystemSetupEvent::class, FilesystemSetupListener::class);
 	}
 
+	#[\Override]
 	public function boot(IBootContext $context): void {
 	}
 }

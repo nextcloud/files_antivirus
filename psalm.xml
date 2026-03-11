@@ -10,6 +10,7 @@
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
 	phpVersion="8.1"
 	errorBaseline="./tests/psalm-baseline.xml"
+	findUnusedCode="false"
 >
 	<projectFiles>
 		<directory name="lib"/>
@@ -21,6 +22,7 @@
 		<directory name="vendor/nextcloud/ocp"/>
 	</extraFiles>
 	<stubs>
+		<file name="tests/stubs/oc_hooks_emitter.php" preloadClasses="true"/>
 		<file name="tests/stubs/oc_files_filesystem.php" preloadClasses="true"/>
 		<file name="tests/stubs/oc_files_storage_storage.php" preloadClasses="true"/>
 		<file name="tests/stubs/oc_files_storage_wrapper_wrapper.php" preloadClasses="true"/>
