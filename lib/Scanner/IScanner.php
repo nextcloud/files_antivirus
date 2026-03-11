@@ -17,7 +17,7 @@ interface IScanner {
 	 */
 	public function setDebugCallback(callable $callback): void;
 
-	public function getStatus();
+	public function getStatus(): Status;
 
 	/**
 	 * Synchronous scan

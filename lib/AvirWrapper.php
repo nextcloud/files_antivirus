@@ -119,7 +119,7 @@ class AvirWrapper extends Wrapper {
 		return parent::writeStream($path, $stream, $size);
 	}
 
-	private function shouldWrap(string $path): bool {
+	public function shouldWrap(string $path): bool {
 		if ($this->blockListedDirectories) {
 			$relativePathParts = explode('/', $this->mountPoint . $path);
 			if (array_intersect($relativePathParts, $this->blockListedDirectories)) {
@@ -191,7 +191,7 @@ class AvirWrapper extends Wrapper {
 		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
 	}
 
-	private function wrapSteam(string $path, $stream) {
+	public function wrapSteam(string $path, $stream) {
 		try {
 			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
