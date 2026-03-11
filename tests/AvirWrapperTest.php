@@ -10,11 +10,9 @@ namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
 use OCA\Files_Antivirus\AvirWrapper;
-use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
-use OCA\Files_Antivirus\StatusFactory;
 use OCP\Activity\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
