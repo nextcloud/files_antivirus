@@ -14,10 +14,12 @@ use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\GroupFolders\Folder\FolderManager;
+use OCP\Activity\IManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -39,14 +41,31 @@ class AvirWrapper extends Wrapper {
 	private bool $groupFoldersEnabled;
 	private bool $e2eeEnabled;
 	private ?string $mountPoint;
-	private bool $blockUnscannable = false;
+	private bool $blockUnscannable;
 	private IUserManager $userManager;
-	private string $blockUnReachable = 'yes';
+	private bool $blockUnReachable;
 	private IRequest $request;
-	private array $blockListedDirectories = [];
+	private array $blockListedDirectories;
 
 	/**
-	 * @param array $parameters
+	 * @param array{
+	 *     storage: IStorage,
+	 *     scannerFactory: ScannerFactory,
+	 *     l10n: IL10N,
+	 *     logger: LoggerInterface,
+	 *     activityManager: IManager,
+	 *     isHomeStorage: bool,
+	 *     eventDispatcher: IEventDispatcher,
+	 *     trashEnabled: bool,
+	 *     mount_point: string,
+	 *     block_unscannable: bool,
+	 *     userManager: IUserManager,
+	 *     block_unreachable: bool,
+	 *     request: IRequest,
+	 *     groupFoldersEnabled: bool,
+	 *     e2eeEnabled: bool,
+	 *     blockListedDirectories: array
+	 * } $parameters
 	 */
 	public function __construct($parameters) {
 		parent::__construct($parameters);
@@ -201,7 +220,7 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			if($this->blockUnReachable == 'yes') {
+			if($this->blockUnReachable) {
 				$this->handleConnectionError($path);
 			}
 		}
