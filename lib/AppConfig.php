@@ -19,7 +19,6 @@ use OCP\IConfig;
  * @method ?string getAvPath()
  * @method ?string getAvInfectedAction()
  * @method ?string getAvBlockUnreachable()
- * @method ?string getAvBlocklistedDirectories()
  * @method ?string getAvStreamMaxLength()
  * @method string getAvIcapMode()
  * @method ?string getAvIcapRequestService()
@@ -258,8 +257,8 @@ class AppConfig {
 		} elseif (strpos($methodName, 'get') === 0) {
 			return $this->getter($key);
 		} else {
-			throw new \BadFunctionCallException($methodName .
-				' does not exist');
+			throw new \BadFunctionCallException($methodName
+				. ' does not exist');
 		}
 	}
 }

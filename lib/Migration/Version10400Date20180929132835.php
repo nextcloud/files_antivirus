@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,12 +14,10 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version10400Date20180929132835 extends SimpleMigrationStep {
 	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
+	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+	#[\Override]
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
