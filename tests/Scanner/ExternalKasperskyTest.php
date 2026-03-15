@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @group DB
  */
-class ExternalKasperskyTest extends ScannerBaseTest {
+class ExternalKasperskyTest extends ScannerBaseTestAbstract {
 	protected function getScanner(): ScannerBase {
 		if (!getenv('KASPERSKY_HOST') || !getenv('KASPERSKY_PORT')) {
 			$this->markTestSkipped('Set KASPERSKY_HOST and KASPERSKY_PORT to enable kaspersky tests');

@@ -12,7 +12,7 @@ use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\Status;
 use Test\TestCase;
 
-abstract class ScannerBaseTest extends TestCase {
+abstract class ScannerBaseTestAbstract extends TestCase {
 	abstract protected function getScanner(): ScannerBase;
 
 	public function testScanClean() {

@@ -14,9 +14,13 @@ use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\GroupFolders\Folder\FolderManager;
+use OCP\Activity\IManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\InvalidContentException;
+use OCP\Files\IRootFolder;
+use OCP\Files\Storage\IStorage;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -35,15 +39,34 @@ class AvirWrapper extends Wrapper {
 	private bool $shouldScan = true;
 	private bool $trashEnabled;
 	private bool $groupFoldersEnabled;
+	private bool $e2eeEnabled;
 	private ?string $mountPoint;
-	private bool $blockUnscannable = false;
+	private bool $blockUnscannable;
 	private IUserManager $userManager;
-	private string $blockUnReachable = 'yes';
+	private bool $blockUnReachable;
 	private IRequest $request;
-	private array $blockListedDirectories = [];
+	private array $blockListedDirectories;
 
 	/**
-	 * @param array $parameters
+	 * @psalm-suppress MoreSpecificImplementedParamType
+	 * @param array{
+	 *     storage: IStorage,
+	 *     scannerFactory: ScannerFactory,
+	 *     l10n: IL10N,
+	 *     logger: LoggerInterface,
+	 *     activityManager: IManager,
+	 *     isHomeStorage: bool,
+	 *     eventDispatcher: IEventDispatcher,
+	 *     trashEnabled: bool,
+	 *     mount_point: string,
+	 *     block_unscannable: bool,
+	 *     userManager: IUserManager,
+	 *     block_unreachable: bool,
+	 *     request: IRequest,
+	 *     groupFoldersEnabled: bool,
+	 *     e2eeEnabled: bool,
+	 *     blockListedDirectories: array
+	 * } $parameters
 	 */
 	public function __construct($parameters) {
 		parent::__construct($parameters);
@@ -59,6 +82,7 @@ class AvirWrapper extends Wrapper {
 		$this->blockUnReachable = $parameters['block_unreachable'];
 		$this->request = $parameters['request'];
 		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
+		$this->e2eeEnabled = $parameters['e2eeEnabled'];
 		$this->blockListedDirectories = $parameters['blockListedDirectories'];
 
 		/** @var IEventDispatcher $eventDispatcher */
@@ -95,7 +119,7 @@ class AvirWrapper extends Wrapper {
 		return parent::writeStream($path, $stream, $size);
 	}
 
-	private function shouldWrap(string $path): bool {
+	public function shouldWrap(string $path): bool {
 		if ($this->blockListedDirectories) {
 			$relativePathParts = explode('/', $this->mountPoint . $path);
 			if (array_intersect($relativePathParts, $this->blockListedDirectories)) {
@@ -118,6 +142,27 @@ class AvirWrapper extends Wrapper {
 				}
 			}
 		}
+
+		if ($this->e2eeEnabled) {
+			// Don't scan E2EE metadata files.
+			$config = \OCP\Server::get(IConfig::class);
+			$instanceId = $config->getSystemValue('instanceid', null);
+			if (str_starts_with($path, "appdata_$instanceId/end_to_end_encryption/")) {
+				return false;
+			}
+			// Don't scan E2EE files.
+			$parentId = $this->storage->getCache()->getParentId($path);
+			$rootFolder = \OCP\Server::get(IRootFolder::class);
+			$owner = $this->storage->getOwner($path);
+			if ($owner !== false) {
+				$userFolder = $rootFolder->getUserFolder($owner);
+				$node = $userFolder->getFirstNodeById($parentId);
+				if ($node !== null && $node->isEncrypted()) {
+					return false;
+				}
+			}
+		}
+
 		return $this->shouldScan
 			&& (!$this->isHomeStorage
 				|| (strpos($path, 'files/') === 0
@@ -146,7 +191,7 @@ class AvirWrapper extends Wrapper {
 		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
 	}
 
-	private function wrapSteam(string $path, $stream) {
+	public function wrapSteam(string $path, $stream) {
 		try {
 			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
 			$scanner->initScanner();
@@ -176,7 +221,7 @@ class AvirWrapper extends Wrapper {
 			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			if($this->blockUnReachable == 'yes') {
+			if ($this->blockUnReachable) {
 				$this->handleConnectionError($path);
 			}
 		}

@@ -30,16 +30,19 @@ abstract class TestBase extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		\OC_App::loadApp('files_antivirus');
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		\OC_App::loadApp('files_antivirus');
+		\OC::$server->get(AppConfig::class)->setAvBlockUnreachable('no');
+
+		$this->db = \OC::$server->get(IDBConnection::class);
 
 		$this->application = new Application();
 		$this->container = $this->application->getContainer();
 
 		$this->config = $this->getMockBuilder(AppConfig::class)
 			->disableOriginalConstructor()
-			->setMethods(['getAvPath', 'getAvChunkSize', 'getAvMode', 'getAppValue', 'getAvHost', 'getAvPort',  'getAvBlockUnscannable'])
+			->onlyMethods(['getAvChunkSize', 'getAppValue', 'getAvBlockUnscannable'])
+			->addMethods(['getAvPath', 'getAvMode', 'getAvHost', 'getAvPort'])
 			->getMock();
 
 		$this->config->expects($this->any())

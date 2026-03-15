@@ -51,7 +51,7 @@ class Item {
 		IAppManager $appManager,
 		File $file,
 		ITimeFactory $clock,
-		bool $isCron
+		bool $isCron,
 	) {
 		$this->config = $appConfig;
 		$this->activityManager = $activityManager;
@@ -119,17 +119,21 @@ class Item {
 			} else {
 				$msg = 'Infected file deleted.';
 			}
-			$this->deleteFile();
 		} else {
 			if ($this->isCron) {
 				$msg = 'Infected file found (during background scan)';
 			} else {
 				$msg = 'Infected file found.';
 			}
-			$this->updateCheckTime($this->clock->getTime());
 		}
 
 		$this->logError($msg . ' ' . $status->getDetails());
+
+		if ($shouldDelete) {
+			$this->deleteFile();
+		} else {
+			$this->updateCheckTime($this->clock->getTime());
+		}
 	}
 
 	/**

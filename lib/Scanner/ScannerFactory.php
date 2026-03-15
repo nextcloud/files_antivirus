@@ -12,26 +12,17 @@ use OCP\IRequest;
 use Psr\Container\ContainerInterface;
 
 class ScannerFactory {
-	protected AppConfig $appConfig;
-	protected ContainerInterface $serverContainer;
-	protected IRequest $request;
-
 	public function __construct(
-		AppConfig $appConfig,
-		ContainerInterface $serverContainer,
-		IRequest $request
+		private readonly AppConfig $appConfig,
+		private readonly ContainerInterface $serverContainer,
+		private readonly IRequest $request,
 	) {
-		$this->appConfig = $appConfig;
-		$this->serverContainer = $serverContainer;
-		$this->request = $request;
 	}
 
 	/**
 	 * Produce a scanner instance
-	 *
-	 * @return IScanner
 	 */
-	public function getScanner(?string $path) {
+	public function getScanner(?string $path): IScanner {
 		$avMode = $this->appConfig->getAvMode();
 		switch ($avMode) {
 			case 'daemon':

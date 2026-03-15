@@ -6,7 +6,7 @@ OC.L10N.register(
     "Unchecked" : "Nezkontrolováno",
     "Scanner exit status" : "Návratový stav skeneru",
     "Scanner output" : "Výstup ze skeneru",
-    "Saving…" : "Ukládání…",
+    "Saving…" : "Ukládání …",
     "Antivirus" : "Antivirus",
     "File {file} is infected with {virus}" : "Soubor {file} je infikován virem {virus}",
     "The file has been removed" : "Soubor byl odebrán",

@@ -15,16 +15,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
-	private BackgroundScanner $backgroundScanner;
-	private AppConfig $appConfig;
-
-	public function __construct(AppConfig $appConfig, BackgroundScanner $backgroundScanner) {
+	public function __construct(
+		private readonly AppConfig $appConfig,
+		private readonly BackgroundScanner $backgroundScanner,
+	) {
 		parent::__construct();
-		$this->backgroundScanner = $backgroundScanner;
-		$this->appConfig = $appConfig;
 	}
 
-	protected function configure() {
+	#[\Override]
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -32,6 +31,7 @@ class Status extends Base {
 			->setDescription('Antivirus scanner status');
 	}
 
+	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$verbose = (bool)$input->getOption('verbose');
 		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
