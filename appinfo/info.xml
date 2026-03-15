@@ -49,7 +49,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<screenshot>https://raw.githubusercontent.com/nextcloud/files_antivirus/master/screenshots/1.png</screenshot>
 
 	<dependencies>
-		<nextcloud min-version="32" max-version="34" />
+		<nextcloud min-version="32" max-version="33" />
 	</dependencies>
 
 	<background-jobs>
