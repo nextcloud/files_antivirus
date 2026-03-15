@@ -10,6 +10,7 @@ namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class LocalClam extends ScannerBase {
@@ -27,8 +28,13 @@ class LocalClam extends ScannerBase {
 	 */
 	private $process;
 
-	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
-		parent::__construct($config, $logger, $statusFactory);
+	public function __construct(
+		IConfig $config,
+		AppConfig $appConfig,
+		LoggerInterface $logger,
+		StatusFactory $statusFactory
+	) {
+		parent::__construct($config, $appConfig, $logger, $statusFactory);
 
 		// get the path to the executable
 		$this->avPath = escapeshellcmd($this->appConfig->getAvPath());

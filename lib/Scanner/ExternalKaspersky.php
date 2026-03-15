@@ -13,18 +13,20 @@ use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ExternalKaspersky extends ScannerBase {
 	private int $chunkSize;
 
 	public function __construct(
-		AppConfig $config,
+		IConfig $config,
+		AppConfig $appConfig,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		private readonly IClientService $clientService,
 	) {
-		parent::__construct($config, $logger, $statusFactory);
+		parent::__construct($config, $appConfig, $logger, $statusFactory);
 		$this->chunkSize = 10 * 1024 * 1024;
 	}
 
