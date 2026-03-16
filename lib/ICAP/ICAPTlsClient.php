@@ -12,19 +12,14 @@ use OCP\ICertificateManager;
 use RuntimeException;
 
 class ICAPTlsClient extends ICAPClient {
-	private ICertificateManager $certificateManager;
-	private bool $verifyTlsPeer;
-
 	public function __construct(
 		string $host,
 		int $port,
 		int $connectTimeout,
-		ICertificateManager $certificateManager,
-		bool $verifyTlsPeer = true,
+		private readonly ICertificateManager $certificateManager,
+		private readonly bool $verifyTlsPeer = true,
 	) {
 		parent::__construct($host, $port, $connectTimeout);
-		$this->certificateManager = $certificateManager;
-		$this->verifyTlsPeer = $verifyTlsPeer;
 	}
 
 	/**
@@ -32,6 +27,7 @@ class ICAPTlsClient extends ICAPClient {
 	 *
 	 * @return resource
 	 */
+	#[\Override]
 	protected function connect() {
 		$ctx = stream_context_create([
 			'ssl' => [

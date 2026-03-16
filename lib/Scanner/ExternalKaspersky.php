@@ -16,24 +16,20 @@ use OCP\Http\Client\IClientService;
 use Psr\Log\LoggerInterface;
 
 class ExternalKaspersky extends ScannerBase {
-	private IClientService $clientService;
 	private int $chunkSize;
 
 	public function __construct(
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		IClientService $clientService
+		private readonly IClientService $clientService,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
-		$this->clientService = $clientService;
 		$this->chunkSize = 10 * 1024 * 1024;
 	}
 
-	/**
-	 * @return void
-	 */
-	public function initScanner() {
+	#[\Override]
+	public function initScanner(): void {
 		parent::initScanner();
 
 		$avHost = $this->appConfig->getAvHost();
@@ -45,10 +41,8 @@ class ExternalKaspersky extends ScannerBase {
 		$this->writeHandle = fopen('php://temp', 'w+');
 	}
 
-	/**
-	 * @return void
-	 */
-	protected function writeChunk($chunk) {
+	#[\Override]
+	protected function writeChunk(string $chunk): void {
 		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->scanBuffer();
 			$this->writeHandle = fopen('php://temp', 'w+');
@@ -102,10 +96,8 @@ class ExternalKaspersky extends ScannerBase {
 		}
 	}
 
-	/**
-	 * @return void
-	 */
-	protected function shutdownScanner() {
+	#[\Override]
+	protected function shutdownScanner(): void {
 		$this->scanBuffer();
 	}
 }

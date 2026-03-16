@@ -28,16 +28,14 @@ class ICAP extends ScannerBase {
 	private int $chunkSize;
 	private bool $tls;
 
-	private bool $verifyTlsPeer = true;
-	private ICertificateManager $certificateManager;
 	private int $avIcapConnectionTimeout;
 
 	public function __construct(
 		AppConfig $config,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
-		ICertificateManager $certificateManager,
-		bool $verifyTlsPeer = true,
+		private readonly ICertificateManager $certificateManager,
+		private readonly bool $verifyTlsPeer = true,
 	) {
 		parent::__construct($config, $logger, $statusFactory);
 
@@ -46,13 +44,12 @@ class ICAP extends ScannerBase {
 		$this->chunkSize = (int)$config->getAvIcapChunkSize();
 		$this->mode = $config->getAvIcapMode();
 		$this->tls = $config->getAvIcapTls();
-		$this->verifyTlsPeer = $verifyTlsPeer;
-		$this->certificateManager = $certificateManager;
 		$this->avIcapConnectionTimeout = (int)$config->getAvIcapConnectTimeout();
 
 	}
 
-	public function initScanner() {
+	#[\Override]
+	public function initScanner(): void {
 		parent::initScanner();
 		$this->writeHandle = fopen('php://temp', 'w+');
 		if ($this->writeHandle === false) {
@@ -100,21 +97,22 @@ class ICAP extends ScannerBase {
 		}
 	}
 
-	protected function writeChunk($chunk) {
+	#[\Override]
+	protected function writeChunk(string $chunk): void {
 		if (ftell($this->writeHandle) > $this->chunkSize) {
 			$this->flushBuffer();
 		}
 		parent::writeChunk($chunk);
 	}
 
-	private function flushBuffer() {
+	private function flushBuffer(): void {
 		rewind($this->writeHandle);
 		$data = stream_get_contents($this->writeHandle);
 		$this->icapRequest->write($data);
 		$this->writeHandle = fopen('php://temp', 'w+');
 	}
 
-	protected function scanBuffer() {
+	protected function scanBuffer(): void {
 		$this->flushBuffer();
 		$response = $this->icapRequest->finish();
 		$code = $response->getStatus()->getCode();
@@ -152,10 +150,12 @@ class ICAP extends ScannerBase {
 		}
 	}
 
-	protected function shutdownScanner() {
+	#[\Override]
+	protected function shutdownScanner(): void {
 		$this->scanBuffer();
 	}
 
+	#[\Override]
 	public function setDebugCallback(callable $callback): void {
 		$this->icapClient->setDebugCallback($callback);
 	}

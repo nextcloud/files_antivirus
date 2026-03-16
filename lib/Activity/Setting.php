@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,38 +10,43 @@ use OCP\Activity\ISetting;
 use OCP\IL10N;
 
 class Setting implements ISetting {
-	/** @var IL10N */
-	private $l;
-
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function __construct(
+		private readonly IL10N $l,
+	) {
 	}
 
-	public function getIdentifier() {
+	#[\Override]
+	public function getIdentifier(): string {
 		return Provider::TYPE_VIRUS_DETECTED;
 	}
 
-	public function getName() {
+	#[\Override]
+	public function getName(): string {
 		return $this->l->t('Antivirus detected a virus');
 	}
 
-	public function getPriority() {
+	#[\Override]
+	public function getPriority(): int {
 		return 70;
 	}
 
-	public function canChangeStream() {
+	#[\Override]
+	public function canChangeStream(): bool {
 		return false;
 	}
 
-	public function isDefaultEnabledStream() {
+	#[\Override]
+	public function isDefaultEnabledStream(): bool {
 		return true;
 	}
 
-	public function canChangeMail() {
+	#[\Override]
+	public function canChangeMail(): bool {
 		return false;
 	}
 
-	public function isDefaultEnabledMail() {
+	#[\Override]
+	public function isDefaultEnabledMail(): bool {
 		return false;
 	}
 }
