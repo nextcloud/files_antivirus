@@ -10,12 +10,15 @@ use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Admin implements ISettings {
 	public function __construct(
 		private readonly ConfigLexicon $configLexicon,
 		private readonly IInitialState $initialState,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -23,7 +26,12 @@ class Admin implements ISettings {
 	public function getForm() {
 		$data = $this->configLexicon->getAllConfigValues();
 
-		return new TemplateResponse('files_antivirus', 'settings', $data, TemplateResponse::RENDER_AS_BLANK);
+		$this->initialState->provideInitialState('config', $data);
+		$this->initialState->provideInitialState('docUrl', $this->urlGenerator->linkToDocs('admin-antivirus-configuration'));
+
+		Util::addStyle(Application::APP_NAME, Application::APP_NAME . '-adminSettings');
+		Util::addScript(Application::APP_NAME, Application::APP_NAME . '-adminSettings');
+		return new TemplateResponse(Application::APP_NAME, 'settings', renderAs: TemplateResponse::RENDER_AS_BLANK);
 	}
 
 	#[\Override]

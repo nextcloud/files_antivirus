@@ -1,0 +1,35 @@
+{
+	"name": "files_antivirus",
+	"version": "6.3.0-dev.0",
+	"private": true,
+	"description": "Antivirus for files - Nextcloud app",
+	"license": "AGPL-3.0-or-later",
+	"author": "Nextcloud GmbH and Nextcloud contributors",
+	"type": "module",
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite --mode development build",
+		"watch": "vite --mode development --watch"
+	},
+	"dependencies": {
+		"@mdi/js": "^7.4.47",
+		"@nextcloud/axios": "^2.5.2",
+		"@nextcloud/dialogs": "^7.3.0",
+		"@nextcloud/initial-state": "^3.0.0",
+		"@nextcloud/l10n": "^3.4.1",
+		"@nextcloud/router": "^3.1.0",
+		"@nextcloud/vue": "^9.6.0",
+		"vue": "^3.5.30"
+	},
+	"devDependencies": {
+		"@nextcloud/eslint-config": "^9.0.0-beta.8",
+		"@nextcloud/vite-config": "^2.5.2",
+		"@vue/tsconfig": "^0.9.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1"
+	},
+	"engines": {
+		"node": "^24",
+		"npm": "^11.3.0"
+	}
+}

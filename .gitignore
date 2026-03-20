@@ -50,3 +50,4 @@ nbproject
 tests/clover.xml
 *.cache
 vendor
+node_modules
