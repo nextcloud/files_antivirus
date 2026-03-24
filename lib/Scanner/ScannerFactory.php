@@ -7,13 +7,14 @@
  */
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IRequest;
 use Psr\Container\ContainerInterface;
 
 class ScannerFactory {
 	public function __construct(
-		private readonly AppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly ContainerInterface $serverContainer,
 		private readonly IRequest $request,
 	) {
@@ -23,7 +24,7 @@ class ScannerFactory {
 	 * Produce a scanner instance
 	 */
 	public function getScanner(?string $path): IScanner {
-		$avMode = $this->appConfig->getAvMode();
+		$avMode = $this->appConfig->getAppValueString(ConfigLexicon::AV_MODE);
 		switch ($avMode) {
 			case 'daemon':
 			case 'socket':

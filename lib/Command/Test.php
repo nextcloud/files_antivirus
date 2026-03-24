@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Command;
 
 use OC\Core\Command\Base;
-use OC\Security\Crypto;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
-use OCP\Files\File;
+use OCP\Security\ICrypto;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +26,7 @@ class Test extends Base {
 
 	public function __construct(
 		private readonly ScannerFactory $scannerFactory,
-		private readonly Crypto $crypto,
+		private readonly ICrypto $crypto,
 	) {
 		parent::__construct();
 	}

@@ -7,8 +7,10 @@
  */
 namespace OCA\Files_Antivirus;
 
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Db\RuleMapper;
+use OCP\AppFramework\Services\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 class Status {
@@ -44,13 +46,14 @@ class Status {
 
 	private bool $blockUnscannable = false;
 
-	protected RuleMapper $ruleMapper;
-	protected LoggerInterface $logger;
-
-	public function __construct(RuleMapper $ruleMapper, LoggerInterface $logger, AppConfig $config) {
+	public function __construct(
+		protected RuleMapper $ruleMapper,
+		protected LoggerInterface $logger,
+		IAppConfig $config,
+	) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;
-		$this->blockUnscannable = $config->getAvBlockUnscannable();
+		$this->blockUnscannable = $config->getAppValueBool(ConfigLexicon::AV_BLOCK_UNSCANNABLE);
 	}
 
 	/**

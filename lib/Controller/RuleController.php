@@ -15,10 +15,12 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class RuleController extends Controller {
-	/** @var RuleMapper */
-	private $ruleMapper;
 
-	public function __construct($appName, IRequest $request, RuleMapper $ruleMapper) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private RuleMapper $ruleMapper,
+	) {
 		parent::__construct($appName, $request);
 		$this->ruleMapper = $ruleMapper;
 	}

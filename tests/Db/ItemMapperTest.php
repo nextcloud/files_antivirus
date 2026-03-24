@@ -12,6 +12,7 @@ use OCA\Files_Antivirus\Db\Item;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -23,7 +24,7 @@ class ItemMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->itemMapper = new ItemMapper(\OC::$server->get(IDBConnection::class));
+		$this->itemMapper = new ItemMapper(Server::get(IDBConnection::class));
 	}
 
 	public function testGetNonExisting() {
