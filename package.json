@@ -11,6 +11,7 @@
 		"dev": "vite --mode development build",
 		"lint": "eslint",
 		"lint:fix": "eslint --fix",
+		"ts:check": "vue-tsc --noEmit",
 		"watch": "vite --mode development --watch"
 	},
 	"dependencies": {
@@ -29,7 +30,8 @@
 		"@vue/tsconfig": "^0.9.1",
 		"eslint": "^9.39.4",
 		"typescript": "^5.9.3",
-		"vite": "^7.3.1"
+		"vite": "^7.3.1",
+		"vue-tsc": "^3.2.6"
 	},
 	"engines": {
 		"node": "^24",
