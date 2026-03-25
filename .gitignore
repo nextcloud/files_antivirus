@@ -50,6 +50,9 @@ nbproject
 # Mac OS
 .DS_Store
 
+/playwright-report
+/test-results
+
 tests/clover.xml
 *.cache
 vendor

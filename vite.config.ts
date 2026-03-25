@@ -5,6 +5,7 @@
 
 import { createAppConfig } from '@nextcloud/vite-config'
 import { resolve } from 'node:path'
+import { defineConfig } from 'vitest/config'
 
 // replaced by vite
 declare const __dirname: string
@@ -15,9 +16,10 @@ export default createAppConfig({
 	extractLicenseInformation: {
 		includeSourceMaps: true,
 	},
-	config: {
+	config: defineConfig({
 		test: {
 			environment: 'jsdom',
+			include: ['src/**/*.{test,spec}.ts'],
 		},
-	},
+	}),
 })

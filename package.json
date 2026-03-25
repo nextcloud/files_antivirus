@@ -12,7 +12,7 @@
 		"lint": "eslint",
 		"lint:fix": "eslint --fix",
 		"test": "vitest run",
-		"test:watch": "vitest",
+		"test:e2e": "playwright test",
 		"ts:check": "vue-tsc --noEmit",
 		"watch": "vite --mode development --watch"
 	},
@@ -27,8 +27,10 @@
 		"vue": "^3.5.30"
 	},
 	"devDependencies": {
+		"@nextcloud/e2e-test-server": "^0.4.0",
 		"@nextcloud/eslint-config": "^9.0.0-beta.8",
 		"@nextcloud/vite-config": "^2.5.2",
+		"@playwright/test": "^1.58.2",
 		"@vue/tsconfig": "^0.9.1",
 		"eslint": "^9.39.4",
 		"jsdom": "^29.0.1",
