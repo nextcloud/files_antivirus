@@ -4,15 +4,20 @@
  */
 
 import { createAppConfig } from '@nextcloud/vite-config'
-import { join } from 'path'
+import { resolve } from 'node:path'
 
 // replaced by vite
 declare const __dirname: string
 
 export default createAppConfig({
-	adminSettings: join(__dirname, 'src', 'adminSettings.ts'),
+	adminSettings: resolve(__dirname, 'src', 'adminSettings.ts'),
 }, {
 	extractLicenseInformation: {
 		includeSourceMaps: true,
+	},
+	config: {
+		test: {
+			environment: 'jsdom',
+		},
 	},
 })
