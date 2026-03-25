@@ -9,6 +9,8 @@
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite --mode development build",
+		"lint": "eslint",
+		"lint:fix": "eslint --fix",
 		"watch": "vite --mode development --watch"
 	},
 	"dependencies": {
@@ -25,6 +27,7 @@
 		"@nextcloud/eslint-config": "^9.0.0-beta.8",
 		"@nextcloud/vite-config": "^2.5.2",
 		"@vue/tsconfig": "^0.9.1",
+		"eslint": "^9.39.4",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1"
 	},
