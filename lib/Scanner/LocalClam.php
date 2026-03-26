@@ -8,8 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 class LocalClam extends ScannerBase {
@@ -27,11 +28,15 @@ class LocalClam extends ScannerBase {
 	 */
 	private $process;
 
-	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
-		parent::__construct($config, $logger, $statusFactory);
+	public function __construct(
+		IAppConfig $appConfig,
+		LoggerInterface $logger,
+		StatusFactory $statusFactory,
+	) {
+		parent::__construct($appConfig, $logger, $statusFactory);
 
 		// get the path to the executable
-		$this->avPath = escapeshellcmd($this->appConfig->getAvPath());
+		$this->avPath = escapeshellcmd($this->appConfig->getAppValueString(ConfigLexicon::AV_PATH));
 
 		// check that the executable is available
 		if (!file_exists($this->avPath)) {
@@ -44,7 +49,7 @@ class LocalClam extends ScannerBase {
 		parent::initScanner();
 
 		// using 2>&1 to grab the full command-line output.
-		$cmd = $this->avPath . ' ' . $this->appConfig->getCmdline() . ' - 2>&1';
+		$cmd = $this->avPath . ' ' . $this->getCmdline() . ' - 2>&1';
 		$descriptorSpec = [
 			0 => ['pipe', 'r'], // STDIN
 			1 => ['pipe', 'w']  // STDOUT
@@ -55,6 +60,14 @@ class LocalClam extends ScannerBase {
 			throw new \RuntimeException('Error starting process');
 		}
 		$this->writeHandle = $this->pipes[0];
+	}
+
+	protected function getCmdLine(): string {
+		$shellArgs = $this->appConfig->getAppValueArray(ConfigLexicon::AV_CMD_OPTIONS);
+
+		$shellArgs = array_map(escapeshellarg(...), $shellArgs);
+
+		return implode(' ', $shellArgs);
 	}
 
 	#[\Override]

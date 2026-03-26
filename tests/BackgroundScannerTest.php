@@ -9,7 +9,6 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
-use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\BackgroundJob\BackgroundScanner;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\IScanner;
@@ -23,13 +22,13 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class BackgroundScannerTest extends TestBase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -52,16 +51,14 @@ class BackgroundScannerTest extends TestBase {
 		$this->registerMount('av', $external, 'av/files/external');
 
 		$this->loginAsUser('av');
-		/** @var IRootFolder $root */
-		$root = \OC::$server->get(IRootFolder::class);
+		$root = Server::get(IRootFolder::class);
 		$this->homeDirectory = $root->getUserFolder('av');
 		$this->externalDirectory = $this->homeDirectory->get('external');
 	}
 
 	private function markAllScanned() {
 		$now = time();
-		/** @var IDBConnection $db */
-		$db = \OC::$server->get(IDBConnection::class);
+		$db = Server::get(IDBConnection::class);
 
 		$db->getQueryBuilder()->delete('files_antivirus')->executeStatement();
 
@@ -95,24 +92,23 @@ class BackgroundScannerTest extends TestBase {
 		$scannerFactory->method('getScanner')
 			->willReturn($scanner);
 		return new BackgroundScanner(
-			\OC::$server->get(ITimeFactory::class),
+			Server::get(ITimeFactory::class),
 			$scannerFactory,
-			\OC::$server->get(AppConfig::class),
-			\OC::$server->get(IRootFolder::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IDBConnection::class),
-			\OC::$server->get(IMimeTypeLoader::class),
-			\OC::$server->get(ItemFactory::class),
-			\OC::$server->get(IUserMountCache::class),
-			\OC::$server->get(IEventDispatcher::class),
-			\OC::$server->get(IConfig::class),
+			$this->config,
+			Server::get(IRootFolder::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMimeTypeLoader::class),
+			Server::get(ItemFactory::class),
+			Server::get(IUserMountCache::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(IConfig::class),
 			false
 		);
 	}
 
 	private function updateScannedTime(int $fileId, int $time) {
-		/** @var IDBConnection $db */
-		$db = \OC::$server->get(IDBConnection::class);
+		$db = Server::get(IDBConnection::class);
 
 		$query = $db->getQueryBuilder();
 		$query->update('files_antivirus')

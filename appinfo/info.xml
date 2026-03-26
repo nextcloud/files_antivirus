@@ -59,6 +59,7 @@ For this app to be effective, the ClamAV virus definitions should be kept up to 
 	<repair-steps>
 		<pre-migration>
 			<step>OCA\Files_Antivirus\Migration\CleanupCronTask</step>
+			<step>OCA\Files_Antivirus\Migration\ConvertAppConfig</step>
 		</pre-migration>
 		<install>
 			<step>OCA\Files_Antivirus\Migration\Install</step>

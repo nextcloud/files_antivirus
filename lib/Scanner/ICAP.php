@@ -9,12 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\ICAP\ICAPClient;
 use OCA\Files_Antivirus\ICAP\ICAPRequest;
 use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
@@ -31,20 +32,20 @@ class ICAP extends ScannerBase {
 	private int $avIcapConnectionTimeout;
 
 	public function __construct(
-		AppConfig $config,
+		IAppConfig $appConfig,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		private readonly ICertificateManager $certificateManager,
 		private readonly bool $verifyTlsPeer = true,
 	) {
-		parent::__construct($config, $logger, $statusFactory);
+		parent::__construct($appConfig, $logger, $statusFactory);
 
-		$this->service = $config->getAvIcapRequestService();
-		$this->virusHeader = $config->getAvIcapResponseHeader();
-		$this->chunkSize = (int)$config->getAvIcapChunkSize();
-		$this->mode = $config->getAvIcapMode();
-		$this->tls = $config->getAvIcapTls();
-		$this->avIcapConnectionTimeout = (int)$config->getAvIcapConnectTimeout();
+		$this->service = $appConfig->getAppValueString(ConfigLexicon::AV_ICAP_REQUEST_SERVICE);
+		$this->virusHeader = $appConfig->getAppValueString(ConfigLexicon::AV_ICAP_RESPONSE_HEADER);
+		$this->chunkSize = $appConfig->getAppValueInt(ConfigLexicon::AV_ICAP_CHUNK_SIZE);
+		$this->mode = $appConfig->getAppValueString(ConfigLexicon::AV_ICAP_MODE);
+		$this->tls = $appConfig->getAppValueBool(ConfigLexicon::AV_ICAP_TLS);
+		$this->avIcapConnectionTimeout = $appConfig->getAppValueInt(ConfigLexicon::AV_ICAP_CONNECT_TIMEOUT);
 
 	}
 
@@ -56,15 +57,15 @@ class ICAP extends ScannerBase {
 			throw new \RuntimeException('Failed to open temporary write handle.');
 		}
 
-		$avHost = $this->appConfig->getAvHost();
-		$avPort = $this->appConfig->getAvPort();
+		$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+		$avPort = $this->appConfig->getAppValueInt(ConfigLexicon::AV_PORT);
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
 		if ($this->tls) {
-			$this->icapClient = new ICAPTlsClient($avHost, (int)$avPort, $this->avIcapConnectionTimeout, $this->certificateManager, $this->verifyTlsPeer);
+			$this->icapClient = new ICAPTlsClient($avHost, $avPort, $this->avIcapConnectionTimeout, $this->certificateManager, $this->verifyTlsPeer);
 		} else {
-			$this->icapClient = new ICAPClient($avHost, (int)$avPort, $this->avIcapConnectionTimeout);
+			$this->icapClient = new ICAPClient($avHost, $avPort, $this->avIcapConnectionTimeout);
 		}
 
 		$path = '/' . trim($this->path, '/');

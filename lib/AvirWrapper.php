@@ -24,6 +24,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class AvirWrapper extends Wrapper {
@@ -271,8 +272,7 @@ class AvirWrapper extends Wrapper {
 	private function handleInfected(string $path, Status $status): void {
 		//prevent from going to trashbin
 		if ($this->trashEnabled) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->pauseTrash();
 		}
 
@@ -281,8 +281,7 @@ class AvirWrapper extends Wrapper {
 		$this->unlink($path);
 
 		if ($this->trashEnabled) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
 
@@ -325,16 +324,14 @@ class AvirWrapper extends Wrapper {
 	protected function handleConnectionError(string $path): void {
 		//prevent from going to trashbin
 		if ($this->trashEnabled) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->pauseTrash();
 		}
 
 		$this->unlink($path);
 
 		if ($this->trashEnabled) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->query(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
 
