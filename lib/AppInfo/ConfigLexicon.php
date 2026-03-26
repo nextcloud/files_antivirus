@@ -204,7 +204,7 @@ class ConfigLexicon implements ILexicon {
 	 */
 	private function camelCase(string $property): string {
 		$split = explode('_', $property);
-		$ucFirst = implode('', array_map('ucfirst', $split));
+		$ucFirst = implode('', array_map(ucfirst(...), $split));
 		return lcfirst($ucFirst);
 	}
 }

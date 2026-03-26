@@ -65,19 +65,9 @@ class LocalClam extends ScannerBase {
 	protected function getCmdLine(): string {
 		$shellArgs = $this->appConfig->getAppValueArray(ConfigLexicon::AV_CMD_OPTIONS);
 
-		if (!empty($shellArgs)) {
-			$shellArgs = array_map(function ($i) {
-				return escapeshellarg($i);
-			},
-				$shellArgs
-			);
-		}
+		$shellArgs = array_map(escapeshellarg(...), $shellArgs);
 
-		$preparedArgs = '';
-		if (count($shellArgs)) {
-			$preparedArgs = implode(' ', $shellArgs);
-		}
-		return $preparedArgs;
+		return implode(' ', $shellArgs);
 	}
 
 	#[\Override]
