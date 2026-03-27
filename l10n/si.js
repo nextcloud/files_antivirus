@@ -4,11 +4,13 @@ OC.L10N.register(
     "Antivirus" : "ප්‍රතිවයිරස",
     "The file has been removed" : "ගොනුව ඉවත් කර ඇත",
     "Antivirus for files" : "ගොනු සඳහා ප්‍රතිවයිරස",
-    "Antivirus for Files" : "ගොනු සඳහා ප්‍රතිවයිරස",
+    "Description" : "විස්තරය",
+    "Create" : "සාදන්න",
+    "Save" : "සුරකින්න",
+    "Actions" : "ක්‍රියාමාර්ග",
+    "Edit" : "සංස්කරණය",
     "Host" : " ධාරකය",
     "Select" : "තෝරන්න",
-    "No" : "නැහැ",
-    "Save" : "සුරකින්න",
-    "Description" : "විස්තරය"
+    "Antivirus for Files" : "ගොනු සඳහා ප්‍රතිවයිරස"
 },
 "nplurals=2; plural=(n != 1);");
