@@ -13,7 +13,7 @@
 	"require-dev": {
 		"nextcloud/ocp": "dev-master",
 		"doctrine/dbal": "3.1.4",
-		"icewind/streams": "v0.7.5",
+		"icewind/streams": "v0.7.8",
 		"sabre/dav": "^4.2.1",
 		"symfony/event-dispatcher": "4.4.30",
 		"psr/clock": "^1.0"
