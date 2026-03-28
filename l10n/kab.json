@@ -1,0 +1,11 @@
+{ "translations": {
+    "Description" : "Aglam",
+    "Create" : "Snulfu-d",
+    "Save" : "Sekles",
+    "Actions" : "Tigawin",
+    "Edit" : "Ẓreg",
+    "Delete" : "Kkes",
+    "Delete file" : "Kkes afaylu",
+    "Select" : "Fren"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

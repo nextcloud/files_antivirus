@@ -1,0 +1,8 @@
+{ "translations": {
+    "Create" : "Crear",
+    "Actions" : "Acions",
+    "Delete" : "Borrar",
+    "Host" : "Host",
+    "Port" : "Puerto"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
