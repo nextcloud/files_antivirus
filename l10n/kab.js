@@ -1,12 +1,13 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Select" : "Fren",
-    "Delete file" : "Kkes afaylu",
-    "Yes" : "Ih",
-    "No" : "Uhu",
+    "Description" : "Aglam",
+    "Create" : "Snulfu-d",
     "Save" : "Sekles",
-    "Advanced" : "Talqayt",
-    "Description" : "Aglam"
+    "Actions" : "Tigawin",
+    "Edit" : "Ẓreg",
+    "Delete" : "Kkes",
+    "Delete file" : "Kkes afaylu",
+    "Select" : "Fren"
 },
 "nplurals=2; plural=(n != 1);");

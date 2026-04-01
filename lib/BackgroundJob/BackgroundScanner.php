@@ -8,10 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Antivirus\BackgroundJob;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -30,7 +31,7 @@ class BackgroundScanner extends TimedJob {
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
 		private readonly ScannerFactory $scannerFactory,
-		private readonly AppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly IRootFolder $rootFolder,
 		private readonly LoggerInterface $logger,
 		private readonly IDBConnection $db,
@@ -52,7 +53,7 @@ class BackgroundScanner extends TimedJob {
 	 */
 	#[\Override]
 	public function run($argument): void {
-		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
+		if ($this->appConfig->getAppValueBool(ConfigLexicon::AV_BACKGROUND_SCAN) === false) {
 			// Background checking disabled no need to continue
 			$this->logger->debug('Antivirus background scan disabled, skipping');
 			return;
@@ -163,7 +164,7 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	protected function getSizeLimitExpression(IQueryBuilder $qb) {
-		$sizeLimit = $this->appConfig->getAvMaxFileSize();
+		$sizeLimit = $this->appConfig->getAppValueInt(ConfigLexicon::AV_MAX_FILE_SIZE);
 		if ($sizeLimit === -1) {
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
 		} else {

@@ -11,17 +11,24 @@ namespace OCA\Files_Antivirus;
 
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Item {
+	// See http://php.net/manual/en/function.stream-wrapper-register.php#74765
+	// and \OC_Helper::streamCopy
+	protected const CHUNK_SIZE = 8192;
+
 	/**
 	 * file handle, user to read from the file
 	 *
@@ -29,39 +36,20 @@ class Item {
 	 */
 	protected $fileHandle;
 
-	private AppConfig $config;
-	private ActivityManager $activityManager;
-	private ItemMapper $itemMapper;
-	private LoggerInterface $logger;
-	private IRootFolder $rootFolder;
-	private IAppManager $appManager;
-	private File $file;
-	private bool $isCron;
-	private ITimeFactory $clock;
-
 	/**
 	 * Item constructor.
 	 */
 	public function __construct(
-		AppConfig $appConfig,
-		ActivityManager $activityManager,
-		ItemMapper $itemMapper,
-		LoggerInterface $logger,
-		IRootFolder $rootFolder,
-		IAppManager $appManager,
-		File $file,
-		ITimeFactory $clock,
-		bool $isCron,
+		private IAppConfig $config,
+		private ActivityManager $activityManager,
+		private ItemMapper $itemMapper,
+		private LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private IAppManager $appManager,
+		private File $file,
+		private ITimeFactory $clock,
+		private bool $isCron,
 	) {
-		$this->config = $appConfig;
-		$this->activityManager = $activityManager;
-		$this->itemMapper = $itemMapper;
-		$this->appManager = $appManager;
-		$this->logger = $logger;
-		$this->rootFolder = $rootFolder;
-		$this->file = $file;
-		$this->clock = $clock;
-		$this->isCron = $isCron;
 	}
 
 	/**
@@ -79,7 +67,7 @@ class Item {
 		}
 
 		if (!is_null($this->fileHandle) && !$this->feof()) {
-			return fread($this->fileHandle, $this->config->getAvChunkSize());
+			return fread($this->fileHandle, self::CHUNK_SIZE);
 		}
 		return false;
 	}
@@ -88,8 +76,7 @@ class Item {
 	 * 	 * Action to take if this item is infected
 	 */
 	public function processInfected(Status $status): void {
-		$infectedAction = $this->config->getAvInfectedAction();
-
+		$infectedAction = $this->config->getAppValueString(ConfigLexicon::AV_INFECTED_ACTION);
 		$shouldDelete = $infectedAction === 'delete';
 
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
@@ -207,19 +194,17 @@ class Item {
 	}
 
 	/**
-	 * 	 * Delete infected file
+	 * Delete infected file
 	 */
 	private function deleteFile(): void {
 		//prevent from going to trashbin
 		if ($this->appManager->isEnabledForUser('files_trashbin')) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->get(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->pauseTrash();
 		}
 		$this->file->delete();
 		if ($this->appManager->isEnabledForUser('files_trashbin')) {
-			/** @var ITrashManager $trashManager */
-			$trashManager = \OC::$server->get(ITrashManager::class);
+			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
 	}

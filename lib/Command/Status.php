@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Command;
 
 use OC\Core\Command\Base;
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\BackgroundJob\BackgroundScanner;
+use OCP\AppFramework\Services\IAppConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
 	public function __construct(
-		private readonly AppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly BackgroundScanner $backgroundScanner,
 	) {
 		parent::__construct();
@@ -34,7 +35,7 @@ class Status extends Base {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$verbose = (bool)$input->getOption('verbose');
-		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
+		if ($this->appConfig->getAppValueBool(ConfigLexicon::AV_BACKGROUND_SCAN) === false) {
 			// Background checking disabled no need to continue
 			$output->writeln('Antivirus background scan disabled');
 			return 0;

@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
@@ -17,7 +18,10 @@ use OCP\Activity\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
@@ -25,28 +29,18 @@ use Test\Traits\UserTrait;
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class AvirWrapperTest extends TestBase {
 	use UserTrait;
 
 	public const UID = 'testo';
 	public const PWD = 'test';
 
-	/** @var ScannerFactory|\PHPUnit_Framework_MockObject_MockObject */
-	protected $scannerFactory;
-
+	protected ScannerFactory&MockObject $scannerFactory;
+	protected LoggerInterface&MockObject $logger;
+	protected Temporary $storage;
+	protected AvirWrapper $wrappedStorage;
 	protected $isWrapperRegistered = false;
-
-	/** @var Temporary */
-	protected $storage;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var AvirWrapper */
-	protected $wrappedStorage;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,7 +57,7 @@ class AvirWrapperTest extends TestBase {
 			->method('getScanner')
 			->willReturn($this->getScanner());
 
-		\OC::$server->get(IUserSession::class)->login(self::UID, self::PWD);
+		Server::get(IUserSession::class)->login(self::UID, self::PWD);
 
 		$this->wrappedStorage = new AvirWrapper([
 			'storage' => $this->storage,
@@ -85,8 +79,11 @@ class AvirWrapperTest extends TestBase {
 		]);
 
 		$this->config->expects($this->any())
-			->method('getAvMode')
-			->will($this->returnValue('daemon'));
+			->method('getAppValueString')
+			->willReturnCallback(fn (string $key) => match ($key) {
+				ConfigLexicon::AV_MODE => 'daemon',
+				default => $this->getAppValue($key),
+			});
 	}
 
 	private function getScanner($statusCode = Status::SCANRESULT_CLEAN): IScanner {

@@ -1,10 +1,9 @@
 { "translations": {
     "Saved" : "Disimpan",
-    "Select" : "Select",
-    "Yes" : "Ya",
-    "No" : "Tidak",
+    "Description" : "Keterangan",
     "Save" : "Simpan",
-    "Advanced" : "Maju",
-    "Description" : "Keterangan"
+    "Edit" : "Sunting",
+    "Delete" : "Padam",
+    "Select" : "Select"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

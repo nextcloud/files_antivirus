@@ -1,11 +1,10 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Select" : "Select",
-    "Yes" : "ہاں",
-    "No" : "نہیں",
+    "Description" : "تصریح",
     "Save" : "حفظ",
-    "Advanced" : "ایڈوانسڈ",
-    "Description" : "تصریح"
+    "Edit" : "تدوین کریں",
+    "Delete" : "حذف کریں",
+    "Select" : "Select"
 },
 "nplurals=2; plural=(n != 1);");

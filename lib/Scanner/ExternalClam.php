@@ -8,9 +8,10 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 class ExternalClam extends ScannerBase {
@@ -19,9 +20,9 @@ class ExternalClam extends ScannerBase {
 	 */
 	private bool $useSocket;
 
-	public function __construct(AppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
+	public function __construct(IAppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
 		parent::__construct($config, $logger, $statusFactory);
-		$this->useSocket = $this->appConfig->getAvMode() === 'socket';
+		$this->useSocket = $this->appConfig->getAppValueString(ConfigLexicon::AV_MODE) === 'socket';
 	}
 
 	#[\Override]
@@ -29,7 +30,7 @@ class ExternalClam extends ScannerBase {
 		parent::initScanner();
 
 		if ($this->useSocket) {
-			$avSocket = $this->appConfig->getAvSocket();
+			$avSocket = $this->appConfig->getAppValueString(ConfigLexicon::AV_SOCKET);
 			if (str_starts_with($avSocket, 'tcp')) {
 				$this->writeHandle = stream_socket_client($avSocket, $errno, $errstr, 5);
 			} else {
@@ -39,8 +40,8 @@ class ExternalClam extends ScannerBase {
 				throw new \RuntimeException('Cannot connect to "' . $avSocket . '": ' . $errstr . ' (code ' . $errno . ')');
 			}
 		} else {
-			$avHost = $this->appConfig->getAvHost();
-			$avPort = (int)$this->appConfig->getAvPort();
+			$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+			$avPort = $this->appConfig->getAppValueInt(ConfigLexicon::AV_PORT);
 			if (!($avHost && $avPort)) {
 				throw new \RuntimeException('The ClamAV port and host are not set up.');
 			}

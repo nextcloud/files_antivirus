@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: CC0-1.0
+
+version: 2
+updates:
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: sunday
+    time: "09:00"
+    timezone: Europe/Paris
+
+- package-ecosystem: composer
+  directories:
+    - "/"
+    - "/vendor-bin/*"
+  open-pull-requests-limit: 10
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "dependencies"
+
+- package-ecosystem: npm
+  directory: "/"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "dependencies"
+  groups:
+    vite:
+      patterns:
+        - "vite"
+        - "@nextcloud/vite-config"
+    vitest:
+      patterns:
+        - "vitest"
+        - "@vitest/*"

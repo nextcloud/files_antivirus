@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Http\Client\IClientService;
 use Psr\Log\LoggerInterface;
 
@@ -19,12 +20,12 @@ class ExternalKaspersky extends ScannerBase {
 	private int $chunkSize;
 
 	public function __construct(
-		AppConfig $config,
+		IAppConfig $appConfig,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		private readonly IClientService $clientService,
 	) {
-		parent::__construct($config, $logger, $statusFactory);
+		parent::__construct($appConfig, $logger, $statusFactory);
 		$this->chunkSize = 10 * 1024 * 1024;
 	}
 
@@ -32,8 +33,8 @@ class ExternalKaspersky extends ScannerBase {
 	public function initScanner(): void {
 		parent::initScanner();
 
-		$avHost = $this->appConfig->getAvHost();
-		$avPort = $this->appConfig->getAvPort();
+		$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+		$avPort = $this->appConfig->getAppValueInt(ConfigLexicon::AV_PORT);
 
 		if (!($avHost && $avPort)) {
 			throw new \RuntimeException('The Kaspersky port and host are not set up.');
@@ -53,8 +54,8 @@ class ExternalKaspersky extends ScannerBase {
 	protected function scanBuffer(): void {
 		rewind($this->writeHandle);
 
-		$avHost = $this->appConfig->getAvHost();
-		$avPort = $this->appConfig->getAvPort();
+		$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+		$avPort = $this->appConfig->getAppValueInt(ConfigLexicon::AV_PORT);
 
 		$body = \stream_get_contents($this->writeHandle);
 		$body = base64_encode($body);

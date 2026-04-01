@@ -1,17 +1,18 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving…" : "Konservado...",
     "Saved" : "Konservita",
+    "Advanced settings" : "Altanivela agordo",
+    "Description" : "Priskribo",
+    "Save" : "Konservi",
+    "Actions" : "Agoj",
+    "Edit" : "Modifi",
+    "Delete" : "Forigi",
+    "Delete file" : "Forigi dosieron",
+    "Failed to save settings" : "Konservo de agordoj malsukcesis",
     "Host" : "Gastigo",
     "Port" : "Pordo",
-    "TLS" : "TLS",
     "Select" : "Elekti",
-    "Delete file" : "Forigi dosieron",
-    "Yes" : "Jes",
-    "No" : "Ne",
-    "Save" : "Konservi",
-    "Advanced" : "Progresinta",
-    "Description" : "Priskribo"
+    "Settings saved" : "Agordoj konservitaj"
 },
 "nplurals=2; plural=(n != 1);");

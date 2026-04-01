@@ -5,9 +5,6 @@
 -->
 # Nextcloud Antivirus for Files
 [![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/files_antivirus)](https://api.reuse.software/info/github.com/nextcloud/files_antivirus)
-[![Build Status](https://travis-ci.org/nextcloud/files_antivirus.svg?branch=master)](https://travis-ci.org/nextcloud/files_antivirus/branches)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_antivirus/?branch=master)
 
 `files_antivirus` **is an antivirus app for [Nextcloud](https://nextcloud.com/) using [ClamAV](http://www.clamav.net) or Kaspersky.**
 
