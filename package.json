@@ -30,7 +30,7 @@
 		"@nextcloud/e2e-test-server": "^0.4.0",
 		"@nextcloud/eslint-config": "^9.0.0-beta.8",
 		"@nextcloud/vite-config": "^2.5.2",
-		"@playwright/test": "^1.58.2",
+		"@playwright/test": "^1.59.1",
 		"@vue/tsconfig": "^0.9.1",
 		"eslint": "^9.39.4",
 		"jsdom": "^29.0.1",
