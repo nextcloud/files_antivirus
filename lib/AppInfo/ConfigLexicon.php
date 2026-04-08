@@ -41,6 +41,7 @@ class ConfigLexicon implements ILexicon {
 	public const AV_BACKGROUND_SCAN = 'av_background_scan';
 	public const AV_SCAN_BATCH_SIZE = 'av_scan_batch_size';
 	public const AV_SCAN_BATCH_SIZE_CLI = 'av_scan_batch_size_cli';
+	public const AV_SCAN_INTERVAL = 'av_scan_interval';
 
 	#[Override]
 	public function getStrictness(): Strictness {
@@ -127,6 +128,12 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::INT,
 				defaultRaw: 100,
 				definition: 'Number of files processed by the background scanner per run when triggered via the CLI cron. Lower this to throttle ClamAV load (e.g. while clearing a backlog after upgrades).',
+			),
+			new Entry(
+				key: self::AV_SCAN_INTERVAL,
+				type: ValueType::INT,
+				defaultRaw: 900,
+				definition: 'Minimum number of seconds between background scanner runs. The effective interval is also bounded by the cron mechanism (ajax/webcron/system cron).',
 			),
 			new Entry(
 				key: self::AV_STREAM_MAX_LENGTH,
