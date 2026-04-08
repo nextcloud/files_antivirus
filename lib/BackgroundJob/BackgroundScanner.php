@@ -153,9 +153,14 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	public function getBatchSize(): int {
-		$batchSize = 10;
 		if ($this->isCLI) {
-			$batchSize = 100;
+			$batchSize = $this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_BATCH_SIZE_CLI);
+		} else {
+			$batchSize = $this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_BATCH_SIZE);
+		}
+
+		if ($batchSize < 1) {
+			$batchSize = $this->isCLI ? 100 : 10;
 		}
 
 		$this->logger->debug('Batch size is: ' . $batchSize);
