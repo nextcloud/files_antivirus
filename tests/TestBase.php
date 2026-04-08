@@ -76,6 +76,12 @@ abstract class TestBase extends TestCase {
 				return false;
 			case ConfigLexicon::AV_RESCAN_DAYS:
 				return 28;
+			case ConfigLexicon::AV_SCAN_INTERVAL:
+				return 900;
+			case ConfigLexicon::AV_SCAN_BATCH_SIZE:
+				return 10;
+			case ConfigLexicon::AV_SCAN_BATCH_SIZE_CLI:
+				return 100;
 			default:
 				throw new \RuntimeException("Unexpected config key: $configKey");
 		}
