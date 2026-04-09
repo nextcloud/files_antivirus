@@ -10,29 +10,27 @@ namespace OCA\Files_Antivirus\Tests;
 
 use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 abstract class TestBase extends TestCase {
-	/** @var IDBConnection */
-	protected $db;
-	/** @var Application */
-	protected $application;
-	/** @var IAppContainer */
-	protected $container;
-	/** @var AppConfig|\PHPUnit_Framework_MockObject_MockObject */
-	protected $config;
-	/** @var IL10N */
-	protected $l10n;
-
+	protected IDBConnection $db;
+	protected Application $application;
+	protected ContainerInterface $container;
+	protected AppConfig&MockObject $config;
+	protected IL10N&MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
-		\OC_App::loadApp('files_antivirus');
+		Server::get(IAppManager::class)->loadApp('files_antivirus');
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = Server::get(IDBConnection::class);
 
 		$this->application = new Application();
 		$this->container = $this->application->getContainer();
@@ -53,7 +51,15 @@ abstract class TestBase extends TestCase {
 			->will($this->returnValue('executable'));
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->will($this->returnCallback([$this, 'getAppValue']));
+			->willReturnCallback(function ($methodName) {
+				switch ($methodName) {
+					case 'getAvPath':
+						return  __DIR__ . '/avir.sh';
+					case 'getAvMode':
+						return 'executable';
+				}
+				return '';
+			});
 		$this->config->expects($this->any())
 			->method('getAvHost')
 			->will($this->returnValue('localhost'));
@@ -65,14 +71,5 @@ abstract class TestBase extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10n->method('t')->will($this->returnArgument(0));
-	}
-
-	public function getAppValue($methodName) {
-		switch ($methodName) {
-			case 'getAvPath':
-				return  __DIR__ . '/avir.sh';
-			case 'getAvMode':
-				return 'executable';
-		}
 	}
 }
