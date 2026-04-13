@@ -130,7 +130,7 @@ class ICAP extends ScannerBase {
 
 			// kaspersky(pre 2020 product editions) and McAfee handling
 			$respHeader = $response->getResponseHeaders()['HTTP_STATUS'] ?? '';
-			if (\strpos($respHeader, '403 Forbidden') || \strpos($respHeader, '403 VirusFound')) {
+			if (\str_contains($respHeader, '403 Forbidden') || \str_contains($respHeader, '403 VirusFound')) {
 				$this->status->setNumericStatus(Status::SCANRESULT_INFECTED);
 			}
 		} elseif ($code === 202) {
