@@ -74,6 +74,8 @@ abstract class TestBase extends TestCase {
 				return true;
 			case ConfigLexicon::AV_BLOCK_UNSCANNABLE:
 				return false;
+			case ConfigLexicon::AV_RESCAN_DAYS:
+				return 28;
 			default:
 				throw new \RuntimeException("Unexpected config key: $configKey");
 		}

@@ -246,7 +246,7 @@ class BackgroundScanner extends TimedJob {
 		// $yesterday = time() - (28 * 24 * 60 * 60);
 
 		// Rescan interval is configurable via av_rescan_days (default: 28)
-		$rescanDays = $this->appConfig->getAppValueInt('av_rescan_days', 28);
+		$rescanDays = $this->appConfig->getAppValueInt(ConfigLexicon::AV_RESCAN_DAYS, 28);
 		if ($rescanDays < 1) {
 			$rescanDays = 28;
 		}
