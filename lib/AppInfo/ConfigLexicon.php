@@ -39,6 +39,7 @@ class ConfigLexicon implements ILexicon {
 	public const AV_BLOCK_UNSCANNABLE = 'av_block_unscannable';
 	public const AV_BLOCKLISTED_DIRECTORIES = 'av_blocklisted_directories';
 	public const AV_BACKGROUND_SCAN = 'av_background_scan';
+	public const AV_RESCAN_DAYS = 'av_rescan_days';
 
 	#[Override]
 	public function getStrictness(): Strictness {
@@ -167,6 +168,12 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::INT,
 				defaultRaw: 5,
 				definition: 'Connection timeout for ICAP requests in seconds.',
+			),
+			new Entry(
+				key: self::AV_RESCAN_DAYS,
+				type: ValueType::INT,
+				defaultRaw: 28,
+				definition: 'Rescan interval for existing files in days.',
 			),
 		];
 	}
