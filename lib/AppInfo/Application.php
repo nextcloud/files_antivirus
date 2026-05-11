@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus\AppInfo;
 
 use OCA\Files_Antivirus\Listener\FilesystemSetupListener;
+use OCA\Files_Antivirus\Listener\NodeWrittenListener;
 use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
 use OCA\Files_Antivirus\Scanner\ICAP;
@@ -20,6 +21,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\ICertificateManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -70,6 +72,7 @@ class Application extends App implements IBootstrap {
 		}, false);
 
 		$context->registerEventListener(BeforeFileSystemSetupEvent::class, FilesystemSetupListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, NodeWrittenListener::class);
 	}
 
 	#[\Override]
