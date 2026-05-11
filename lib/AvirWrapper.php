@@ -47,6 +47,7 @@ class AvirWrapper extends Wrapper {
 	private bool $blockUnReachable;
 	private IRequest $request;
 	private array $blockListedDirectories;
+	private ScannedPathsRegistry $scannedPathsRegistry;
 
 	/**
 	 * @psalm-suppress MoreSpecificImplementedParamType
@@ -66,7 +67,8 @@ class AvirWrapper extends Wrapper {
 	 *     request: IRequest,
 	 *     groupFoldersEnabled: bool,
 	 *     e2eeEnabled: bool,
-	 *     blockListedDirectories: array
+	 *     blockListedDirectories: array,
+	 *     scannedPathsRegistry: ScannedPathsRegistry,
 	 * } $parameters
 	 */
 	public function __construct($parameters) {
@@ -85,6 +87,7 @@ class AvirWrapper extends Wrapper {
 		$this->groupFoldersEnabled = $parameters['groupFoldersEnabled'];
 		$this->e2eeEnabled = $parameters['e2eeEnabled'];
 		$this->blockListedDirectories = $parameters['blockListedDirectories'];
+		$this->scannedPathsRegistry = $parameters['scannedPathsRegistry'];
 
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $parameters['eventDispatcher'];
@@ -172,6 +175,36 @@ class AvirWrapper extends Wrapper {
 	}
 
 	/**
+	 * Build the registry key for a path: the absolute path the committed file will have,
+	 * matching Node::getPath() used in NodeWrittenListener.
+	 *
+	 * For hashed .part files (e.g. abc123.ocTransferId1234.part) the real filename is
+	 * not recoverable from the storage path — we must read it from the DAV request URI,
+	 * the same technique used by getPathForScanner(). The DAV URI has the form
+	 * /dav/files/{username}/{relative_path}, which maps to /{username}/files/{relative_path}
+	 * in Node::getPath().
+	 */
+	private function getRegistryPath(string $path): string {
+		if (preg_match('/\.ocTransferId\d+\.part$/i', $path)) {
+			$davFilesPrefix = '/dav/files';
+			$pathInfo = $this->request->getPathInfo();
+			if (str_starts_with($pathInfo, $davFilesPrefix)) {
+				$afterPrefix = substr($pathInfo, strlen($davFilesPrefix)); // /{username}/{relative}
+				$secondSlash = strpos($afterPrefix, '/', 1);
+				if ($secondSlash !== false) {
+					// Insert /files between the username segment and the rest of the path
+					return substr($afterPrefix, 0, $secondSlash) . '/files' . substr($afterPrefix, $secondSlash);
+				}
+			}
+		}
+
+		// Non-hashed paths (file_put_contents, writeStream, or non-DAV uploads):
+		// mount point + storage-relative path is already the correct absolute path.
+		$normalizedPath = preg_replace('/\.ocTransferId\d+\.part$/i', '', $path) ?? $path;
+		return rtrim($this->mountPoint ?? '', '/') . '/' . ltrim($normalizedPath, '/');
+	}
+
+	/**
 	 * Try to extract actual path for .ocTransferId.part files (because the name is hashed).
 	 */
 	private function getPathForScanner(string $path): ?string {
@@ -221,6 +254,16 @@ class AvirWrapper extends Wrapper {
 					if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 						$this->handleConnectionError($path);
 					}
+					// Register result only when the file is accepted (not blocked).
+					// UNCHECKED without block_unreachable means AV was unreachable — do NOT
+					// mark as scanned so the background scanner retries it.
+					if (
+						$status->getNumericStatus() === Status::SCANRESULT_CLEAN
+						|| ($status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE && !$this->blockUnscannable)
+					) {
+						$registryPath = $this->getRegistryPath($path);
+						$this->scannedPathsRegistry->registerResult($registryPath, $status->getNumericStatus());
+					}
 				}
 			);
 		} catch (\Exception $e) {
@@ -266,6 +309,13 @@ class AvirWrapper extends Wrapper {
 			}
 			if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
 				$this->handleConnectionError($path);
+			}
+			// Register result only when the file is accepted (not blocked).
+			if (
+				$status->getNumericStatus() === Status::SCANRESULT_CLEAN
+				|| ($status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE && !$this->blockUnscannable)
+			) {
+				$this->scannedPathsRegistry->registerResult($this->getRegistryPath($path), $status->getNumericStatus());
 			}
 		}
 

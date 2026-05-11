@@ -11,6 +11,7 @@ namespace OCA\Files_Antivirus\Listener;
 
 use OCA\Files_Antivirus\Db\Item;
 use OCA\Files_Antivirus\Db\ItemMapper;
+use OCA\Files_Antivirus\ScannedPathsRegistry;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\Event;
@@ -25,6 +26,7 @@ class NodeWrittenListener implements IEventListener {
 		private readonly ItemMapper $itemMapper,
 		private readonly ITimeFactory $timeFactory,
 		private readonly LoggerInterface $logger,
+		private readonly ScannedPathsRegistry $scannedPathsRegistry,
 	) {
 	}
 
@@ -39,7 +41,16 @@ class NodeWrittenListener implements IEventListener {
 			return;
 		}
 
-		// Mark file as scanned after upload completes
+		// Only mark as scanned when AvirWrapper recorded a successful scan result.
+		// If the AV scanner was unreachable and the upload was allowed through
+		// (block_unreachable: false), no result is registered and the file will be
+		// picked up by the background scanner instead.
+		$nodePath = $node->getPath();
+		$registryResult = $this->scannedPathsRegistry->getResult($nodePath);
+		if ($registryResult === null) {
+			return;
+		}
+
 		try {
 			$this->markFileAsScanned($node->getId());
 		} catch (\Exception $e) {
