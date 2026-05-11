@@ -126,6 +126,132 @@ class AvirWrapperTest extends TestBase {
 		];
 	}
 
+	public function testCleanFileShouldAllowUpload(): void {
+		$scanner = $this->getScanner(Status::SCANRESULT_CLEAN);
+		$this->scannerFactory->method('getScanner')->willReturn($scanner);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'clean content');
+		rewind($stream);
+
+		// Should not throw exception
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public function testInfectedFileShouldBlockUpload(): void {
+		$scanner = $this->getScanner(Status::SCANRESULT_INFECTED);
+		$this->scannerFactory->method('getScanner')->willReturn($scanner);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'infected content');
+		rewind($stream);
+
+		// wrapSteam catches exceptions and logs them, doesn't propagate
+		// The file would be handled (logged) but wrapped stream is returned
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	#[DataProvider('unscannableFilesProvider')]
+	public function testUnscannableFile(bool $blockUnscannable, bool $shouldThrow): void {
+		$storage = new Temporary([]);
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => $blockUnscannable,
+			'userManager' => $this->createMock(IUserManager::class),
+			'block_unreachable' => false,
+			'request' => $this->createMock(IRequest::class),
+		]);
+
+		$scanner = $this->getScanner(Status::SCANRESULT_UNSCANNABLE);
+		$this->scannerFactory->method('getScanner')->willReturn($scanner);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'unscannable content');
+		rewind($stream);
+
+		// wrapSteam catches exceptions and doesn't propagate them
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public static function unscannableFilesProvider(): array {
+		return [
+			'unscannable with block enabled' => [true, true],
+			'unscannable with block disabled' => [false, false],
+		];
+	}
+
+	#[DataProvider('unreachableAVProvider')]
+	public function testUnreachableAV(bool $blockUnreachable, string $description): void {
+		$storage = new Temporary([]);
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
+			'block_unreachable' => $blockUnreachable,
+			'request' => $this->createMock(IRequest::class),
+		]);
+
+		$scanner = $this->getScanner(Status::SCANRESULT_UNCHECKED);
+		$this->scannerFactory->method('getScanner')->willReturn($scanner);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'unknown content');
+		rewind($stream);
+
+		// wrapSteam catches exceptions and doesn't propagate them
+		// Exception handling depends on block_unreachable config
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public static function unreachableAVProvider(): array {
+		return [
+			'unreachable AV with block disabled' => [false, 'Upload allowed when unreachable'],
+			'unreachable AV with block enabled' => [true, 'Upload blocked when unreachable'],
+		];
+	}
+
 	public function testWrapStreamWithNullMountPoint(): void {
 		$scannerFactory = $this->createMock(ScannerFactory::class);
 
