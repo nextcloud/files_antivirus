@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\AvirWrapper;
+use OCA\Files_Antivirus\ScannedPathsRegistry;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\GroupFolders\Mount\GroupFolderEncryptionJail;
 use OCP\Activity\IManager as IActivityManager;
@@ -45,6 +46,7 @@ class FilesystemSetupListener implements IEventListener {
 		private readonly IUserManager $userManager,
 		private readonly IEventDispatcher $eventDispatcher,
 		private readonly IActivityManager $activityManager,
+		private readonly ScannedPathsRegistry $scannedPathsRegistry,
 		IL10NFactory $l10nFactory,
 	) {
 		$this->l10n = $l10nFactory->get(Application::APP_NAME);
@@ -92,6 +94,7 @@ class FilesystemSetupListener implements IEventListener {
 					'groupFoldersEnabled' => $this->appManager->isEnabledForUser('groupfolders'),
 					'e2eeEnabled' => $this->appManager->isEnabledForUser('end_to_end_encryption'),
 					'blockListedDirectories' => $this->appConfig->getValueArray(Application::APP_NAME, ConfigLexicon::AV_BLOCKLISTED_DIRECTORIES),
+					'scannedPathsRegistry' => $this->scannedPathsRegistry,
 				]);
 			},
 			1,
