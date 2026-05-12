@@ -218,6 +218,9 @@ class AvirWrapper extends Wrapper {
 					if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
 						$this->handleInfected($path, $status);
 					}
+					if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+						$this->handleConnectionError($path);
+					}
 				}
 			);
 		} catch (\Exception $e) {
@@ -260,6 +263,9 @@ class AvirWrapper extends Wrapper {
 			}
 			if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
 				$this->handleInfected($path, $status);
+			}
+			if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+				$this->handleConnectionError($path);
 			}
 		}
 
