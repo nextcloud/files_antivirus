@@ -13,6 +13,7 @@ use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -66,8 +67,9 @@ class BackgroundScanner extends TimedJob {
 		$this->config = $config;
 		$this->isCLI = $isCLI;
 
-		// Run once per 15 minutes
-		$this->setInterval(60 * 15);
+		$this->setInterval((int)$this->appConfig->getAppValue('av_scan_interval'));
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setAllowParallelRuns(false);
 	}
 
 	/**
@@ -174,9 +176,10 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	public function getBatchSize(): int {
-		$batchSize = 10;
 		if ($this->isCLI) {
-			$batchSize = 100;
+			$batchSize = (int)$this->appConfig->getAppValue('av_scan_batch_size_cli');
+		} else {
+			$batchSize = (int)$this->appConfig->getAppValue('av_scan_batch_size');
 		}
 
 		$this->logger->debug('Batch size is: ' . $batchSize);
