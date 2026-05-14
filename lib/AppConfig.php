@@ -72,6 +72,8 @@ class AppConfig {
 		'av_scan_first_bytes' => -1,
 		'av_block_unscannable' => false,
 		'av_blocklisted_directories' => '[]',
+		'av_scan_batch_size' => 10,
+		'av_scan_batch_size_cli' => 100,
 	];
 
 	/**
