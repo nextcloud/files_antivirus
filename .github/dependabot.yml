@@ -10,6 +10,8 @@ updates:
     day: sunday
     time: "09:00"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 10
 
 - package-ecosystem: composer
   directories:
@@ -21,6 +23,8 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 10
   labels:
     - "3. to review"
     - "dependencies"
@@ -34,6 +38,8 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
+  cooldown:
+    default-days: 10
   labels:
     - "3. to review"
     - "dependencies"
