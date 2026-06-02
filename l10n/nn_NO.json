@@ -9,6 +9,7 @@
     "Delete file" : "Slett fil",
     "Host" : "Tenar",
     "Port" : "Port",
-    "Select" : "Vel"
+    "Select" : "Vel",
+    "Saving …" : "Lagrar …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

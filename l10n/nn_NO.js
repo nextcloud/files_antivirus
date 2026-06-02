@@ -11,6 +11,7 @@ OC.L10N.register(
     "Delete file" : "Slett fil",
     "Host" : "Tenar",
     "Port" : "Port",
-    "Select" : "Vel"
+    "Select" : "Vel",
+    "Saving …" : "Lagrar …"
 },
 "nplurals=2; plural=(n != 1);");
