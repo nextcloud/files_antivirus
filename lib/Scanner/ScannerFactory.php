@@ -53,4 +53,8 @@ class ScannerFactory {
 		}
 		return $scanner;
 	}
+
+	public function getDummyScanner(): IScanner {
+		return $this->serverContainer->get(DummyScanner::class);
+	}
 }

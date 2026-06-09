@@ -128,7 +128,6 @@ class AvirWrapperTest extends TestBase {
 
 	public function testCleanFileShouldAllowUpload(): void {
 		$scanner = $this->getScanner(Status::SCANRESULT_CLEAN);
-		$this->scannerFactory->method('getScanner')->willReturn($scanner);
 
 		$stream = fopen('php://memory', 'rwb');
 		$this->assertNotFalse($stream);
@@ -136,7 +135,7 @@ class AvirWrapperTest extends TestBase {
 		rewind($stream);
 
 		// Should not throw exception
-		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
 		$this->assertNotNull($result);
 		// Consume stream to trigger scanning callbacks
 		stream_get_contents($result);
@@ -145,7 +144,6 @@ class AvirWrapperTest extends TestBase {
 
 	public function testInfectedFileShouldBlockUpload(): void {
 		$scanner = $this->getScanner(Status::SCANRESULT_INFECTED);
-		$this->scannerFactory->method('getScanner')->willReturn($scanner);
 
 		$stream = fopen('php://memory', 'rwb');
 		$this->assertNotFalse($stream);
@@ -154,7 +152,7 @@ class AvirWrapperTest extends TestBase {
 
 		// wrapSteam catches exceptions and logs them, doesn't propagate
 		// The file would be handled (logged) but wrapped stream is returned
-		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
 		$this->assertNotNull($result);
 		// Consume stream to trigger scanning callbacks
 		stream_get_contents($result);
@@ -184,7 +182,6 @@ class AvirWrapperTest extends TestBase {
 		]);
 
 		$scanner = $this->getScanner(Status::SCANRESULT_UNSCANNABLE);
-		$this->scannerFactory->method('getScanner')->willReturn($scanner);
 
 		$stream = fopen('php://memory', 'rwb');
 		$this->assertNotFalse($stream);
@@ -192,7 +189,7 @@ class AvirWrapperTest extends TestBase {
 		rewind($stream);
 
 		// wrapSteam catches exceptions and doesn't propagate them
-		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
 		$this->assertNotNull($result);
 		// Consume stream to trigger scanning callbacks
 		stream_get_contents($result);
@@ -229,7 +226,6 @@ class AvirWrapperTest extends TestBase {
 		]);
 
 		$scanner = $this->getScanner(Status::SCANRESULT_UNCHECKED);
-		$this->scannerFactory->method('getScanner')->willReturn($scanner);
 
 		$stream = fopen('php://memory', 'rwb');
 		$this->assertNotFalse($stream);
@@ -238,7 +234,7 @@ class AvirWrapperTest extends TestBase {
 
 		// wrapSteam catches exceptions and doesn't propagate them
 		// Exception handling depends on block_unreachable config
-		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream);
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
 		$this->assertNotNull($result);
 		// Consume stream to trigger scanning callbacks
 		stream_get_contents($result);
@@ -250,47 +246,6 @@ class AvirWrapperTest extends TestBase {
 			'unreachable AV with block disabled' => [false, 'Upload allowed when unreachable'],
 			'unreachable AV with block enabled' => [true, 'Upload blocked when unreachable'],
 		];
-	}
-
-	public function testWrapStreamWithNullMountPoint(): void {
-		$scannerFactory = $this->createMock(ScannerFactory::class);
-
-		$wrapper = new AvirWrapper([
-			'storage' => $this->storage,
-			'scannerFactory' => $scannerFactory,
-			'l10n' => $this->l10n,
-			'logger' => $this->logger,
-			'activityManager' => $this->createMock(IManager::class),
-			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
-			'trashEnabled' => true,
-			'groupFoldersEnabled' => false,
-			'e2eeEnabled' => false,
-			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
-			'mount_point' => null,
-			'block_unscannable' => false,
-			'userManager' => $this->createMock(IUserManager::class),
-			'block_unreachable' => false,
-			'request' => $this->createMock(IRequest::class),
-		]);
-
-		$scanner = $this->getScanner();
-		$scannerFactory->expects(self::once())
-			->method('getScanner')
-			->with(null)
-			->willReturn($scanner);
-		$scanner->expects(self::once())
-			->method('initScanner')
-			->willThrowException(new \Exception('Skip actual wrapping (hackity hack)'));
-
-		$this->logger->expects(self::once())
-			->method('error');
-
-		$expected = fopen('php://memory', 'rwb');
-		$this->assertNotFalse($expected);
-		$actual = $wrapper->wrapSteam('/foo/bar.baz', $expected);
-		$this->assertEquals($expected, $actual);
-		fclose($expected);
 	}
 
 	public function testHandleConnectionErrorIsTriggered(): void {
@@ -307,7 +262,7 @@ class AvirWrapperTest extends TestBase {
 
 		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'userManager' => $this->createMock(IUserManager::class), 'block_unreachable' => 'yes', 'request' => $this->createMock(IRequest::class), 'blockListedDirectories' => ['escape-scan'], 'groupFoldersEnabled' => false, 'e2eeEnabled' => false, ]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;
-			protected function handleConnectionError(string $path): void {
+			protected function handleConnectionError(string $path, bool $cleanup = false): void {
 				$this->connectionErrorCalled = true;
 				parent::handleConnectionError($path);
 			}
