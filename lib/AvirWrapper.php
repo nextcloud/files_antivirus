@@ -11,6 +11,7 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
+use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\GroupFolders\Folder\FolderManager;
@@ -93,29 +94,42 @@ class AvirWrapper extends Wrapper {
 		});
 	}
 
+	private function getAvScanner(string $path): IScanner {
+		try {
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
+			$scanner->initScanner();
+			return $scanner;
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			if ($this->blockUnReachable) {
+				$this->handleConnectionError($path);
+			} else {
+				return $this->scannerFactory->getDummyScanner();
+			}
+		}
+	}
+
 	/**
 	 * Asynchronously scan data that are written to the file
 	 * @return resource | false
 	 */
 	public function fopen(string $path, string $mode) {
-		$stream = $this->storage->fopen($path, $mode);
-
-		/*
-		 * Only check when
-		 *  - it is a resource
-		 *  - it is a writing mode
-		 *  - if it is a homestorage it starts with files/
-		 *  - if it is not a homestorage we always wrap (external storages)
-		 */
-		if ($this->shouldWrap($path) && is_resource($stream) && $this->isWritingMode($mode)) {
-			$stream = $this->wrapSteam($path, $stream);
+		if ($this->shouldWrap($path) && $this->isWritingMode($mode)) {
+			$scanner = $this->getAvScanner($path);
+			$stream = $this->storage->fopen($path, $mode);
+			if (is_resource($stream)) {
+				$stream = $this->wrapSteam($path, $stream, $scanner);
+			}
+			return $stream;
+		} else {
+			return $this->storage->fopen($path, $mode);
 		}
-		return $stream;
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($this->shouldWrap($path)) {
-			$stream = $this->wrapSteam($path, $stream);
+			$scanner = $this->getAvScanner($path);
+			$stream = $this->wrapSteam($path, $stream, $scanner);
 		}
 		return parent::writeStream($path, $stream, $size);
 	}
@@ -192,44 +206,34 @@ class AvirWrapper extends Wrapper {
 		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
 	}
 
-	public function wrapSteam(string $path, $stream) {
-		try {
-			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
-			$scanner->initScanner();
-			$amountRead = 0;
-			return CallbackReadDataWrapper::wrap(
-				$stream,
-				function ($count, $data) use ($scanner, $stream, &$amountRead) {
-					$pos = ftell($stream);
-					// don't scan twice when the stream is seeked backwards during reading
-					if ($pos > $amountRead) {
-						$scanner->onAsyncData($data);
-						$amountRead = $pos;
-					}
-				},
-				function ($data) use ($scanner) {
+	public function wrapSteam(string $path, $stream, IScanner $scanner) {
+		$amountRead = 0;
+		return CallbackReadDataWrapper::wrap(
+			$stream,
+			function ($count, $data) use ($scanner, $stream, &$amountRead) {
+				$pos = ftell($stream);
+				// don't scan twice when the stream is seeked backwards during reading
+				if ($pos > $amountRead) {
 					$scanner->onAsyncData($data);
-				},
-				function () use ($scanner, $path) {
-					$status = $scanner->completeAsyncScan();
-					if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
-						$this->handleInfected($path, $status);
-					}
-					if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
-						$this->handleInfected($path, $status);
-					}
-					if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
-						$this->handleConnectionError($path);
-					}
+					$amountRead = $pos;
 				}
-			);
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			if ($this->blockUnReachable) {
-				$this->handleConnectionError($path);
+			},
+			function ($data) use ($scanner) {
+				$scanner->onAsyncData($data);
+			},
+			function () use ($scanner, $path) {
+				$status = $scanner->completeAsyncScan();
+				if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
+					$this->handleInfected($path, $status);
+				}
+				if ($this->blockUnscannable && $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE) {
+					$this->handleInfected($path, $status);
+				}
+				if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
+					$this->handleConnectionError($path, true);
+				}
 			}
-		}
-		return $stream;
+		);
 	}
 
 	/**
@@ -327,18 +331,20 @@ class AvirWrapper extends Wrapper {
 	/**
 	 * @throws InvalidContentException
 	 */
-	protected function handleConnectionError(string $path): void {
-		//prevent from going to trashbin
-		if ($this->trashEnabled) {
-			$trashManager = Server::get(ITrashManager::class);
-			$trashManager->pauseTrash();
-		}
+	protected function handleConnectionError(string $path, bool $cleanup = false): void {
+		if ($cleanup) {
+			//prevent from going to trashbin
+			if ($this->trashEnabled) {
+				$trashManager = Server::get(ITrashManager::class);
+				$trashManager->pauseTrash();
+			}
 
-		$this->unlink($path);
+			$this->unlink($path);
 
-		if ($this->trashEnabled) {
-			$trashManager = Server::get(ITrashManager::class);
-			$trashManager->resumeTrash();
+			if ($this->trashEnabled) {
+				$trashManager = Server::get(ITrashManager::class);
+				$trashManager->resumeTrash();
+			}
 		}
 
 		throw new InvalidContentException(
