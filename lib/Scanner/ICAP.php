@@ -10,9 +10,10 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
-use OCA\Files_Antivirus\ICAP\ICAPClient;
-use OCA\Files_Antivirus\ICAP\ICAPRequest;
-use OCA\Files_Antivirus\ICAP\ICAPTlsClient;
+use OCA\Files_Antivirus\Net\ICAP\ICAPClient;
+use OCA\Files_Antivirus\Net\ICAP\ICAPRequest;
+use OCA\Files_Antivirus\Net\TcpClient;
+use OCA\Files_Antivirus\Net\TlsClient;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\AppFramework\Services\IAppConfig;
@@ -63,10 +64,11 @@ class ICAP extends ScannerBase {
 			throw new \RuntimeException('The ICAP port and host are not set up.');
 		}
 		if ($this->tls) {
-			$this->icapClient = new ICAPTlsClient($avHost, $avPort, $this->avIcapConnectionTimeout, $this->certificateManager, $this->verifyTlsPeer);
+			$transport = new TlsClient($avHost, $avPort, $this->avIcapConnectionTimeout, $this->certificateManager, $this->verifyTlsPeer);
 		} else {
-			$this->icapClient = new ICAPClient($avHost, $avPort, $this->avIcapConnectionTimeout);
+			$transport = new TcpClient($avHost, $avPort, $this->avIcapConnectionTimeout);
 		}
+		$this->icapClient = new ICAPClient($transport);
 
 		$path = '/' . trim($this->path, '/');
 		$remote = $this->request ? $this->request->getRemoteAddress() : null;
