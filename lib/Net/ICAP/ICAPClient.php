@@ -6,8 +6,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Antivirus\ICAP;
+namespace OCA\Files_Antivirus\Net\ICAP;
 
+use OCA\Files_Antivirus\Net\TcpClient;
 use RuntimeException;
 
 class ICAPClient {
@@ -20,9 +21,7 @@ class ICAPClient {
 	private $debugCallback = null;
 
 	public function __construct(
-		protected readonly string $host,
-		protected readonly int $port,
-		protected readonly int $connectTimeout,
+		private readonly TcpClient $transport
 	) {
 	}
 
@@ -35,30 +34,6 @@ class ICAPClient {
 	}
 
 	/**
-	 * Connect to ICAP server
-	 *
-	 * @return resource
-	 */
-	protected function connect() {
-		$stream = @\stream_socket_client(
-			"tcp://{$this->host}:{$this->port}",
-			$errorCode,
-			$errorMessage,
-			$this->connectTimeout
-		);
-
-		if (!$stream) {
-			throw new RuntimeException(
-				"Cannot connect to \"tcp://{$this->host}:{$this->port}\": $errorMessage (code $errorCode)"
-			);
-		}
-
-		socket_set_timeout($stream, 600);
-
-		return $stream;
-	}
-
-	/**
 	 * Send REQMOD request
 	 *
 	 * @param string $service ICAP service
@@ -67,8 +42,8 @@ class ICAPClient {
 	 * @return ICAPRequest Response array
 	 */
 	public function reqmod(string $service, array $headers, array $requestHeaders): ICAPRequest {
-		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'REQMOD', $headers, $requestHeaders, [], $this->debugCallback);
+		$stream = $this->transport->connect();
+		return new ICAPRequest($stream, $this->transport->host, $service, 'REQMOD', $headers, $requestHeaders, [], $this->debugCallback);
 	}
 
 	/**
@@ -80,7 +55,7 @@ class ICAPClient {
 	 * @return ICAPRequest Response array
 	 */
 	public function respmod(string $service, array $headers, array $requestHeaders, array $responseHeaders): ICAPRequest {
-		$stream = $this->connect();
-		return new ICAPRequest($stream, $this->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders, $this->debugCallback);
+		$stream = $this->transport->connect();
+		return new ICAPRequest($stream, $this->transport->host, $service, 'RESPMOD', $headers, $requestHeaders, $responseHeaders, $this->debugCallback);
 	}
 }
