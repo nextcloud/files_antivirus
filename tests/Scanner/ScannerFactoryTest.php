@@ -39,8 +39,8 @@ class ScannerFactoryTest extends TestCase {
 	}
 
 	public function testGetScanner() {
-		$instanceA = $this->scannerFactory->getScanner('/dev/null');
-		$instanceB = $this->scannerFactory->getScanner('/dev/null');
+		$instanceA = $this->scannerFactory->getScanner('/dev/null', null);
+		$instanceB = $this->scannerFactory->getScanner('/dev/null', null);
 
 		$this->assertNotSame($instanceA, $instanceB);
 	}

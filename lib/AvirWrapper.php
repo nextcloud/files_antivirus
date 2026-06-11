@@ -94,9 +94,9 @@ class AvirWrapper extends Wrapper {
 		});
 	}
 
-	private function getAvScanner(string $path): IScanner {
+	private function getAvScanner(string $path, ?int $size): IScanner {
 		try {
-			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path), $size);
 			$scanner->initScanner();
 			return $scanner;
 		} catch (\Exception $e) {
@@ -115,7 +115,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function fopen(string $path, string $mode) {
 		if ($this->shouldWrap($path) && $this->isWritingMode($mode)) {
-			$scanner = $this->getAvScanner($path);
+			$scanner = $this->getAvScanner($path, null);
 			$stream = $this->storage->fopen($path, $mode);
 			if (is_resource($stream)) {
 				$stream = $this->wrapSteam($path, $stream, $scanner);
@@ -128,7 +128,7 @@ class AvirWrapper extends Wrapper {
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->getAvScanner($path);
+			$scanner = $this->getAvScanner($path, $size);
 			$stream = $this->wrapSteam($path, $stream, $scanner);
 		}
 		return parent::writeStream($path, $stream, $size);
@@ -265,7 +265,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path), strlen($data));
 			$scanner->initScanner();
 			$status = $scanner->scanString($data);
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
