@@ -12,9 +12,7 @@ use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\Tests\TestBase;
 
-/**
- * @group DB
- */
+#[\PHPUnit\Framework\Attributes\Group('DB')]
 class RuleTest extends TestBase {
 	public function testJsonSerialize() {
 		$data = [
