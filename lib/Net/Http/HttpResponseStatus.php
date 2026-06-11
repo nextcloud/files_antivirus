@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Antivirus\Net\ICAP;
+namespace OCA\Files_Antivirus\Net\Http;
 
-class IcapResponseStatus {
+class HttpResponseStatus {
 	public function __construct(
 		private readonly string $version,
 		private readonly int $code,

@@ -6,16 +6,18 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Antivirus\Tests\ICAP;
+namespace OCA\Files_Antivirus\Tests\Net\Icap;
 
-use OCA\Files_Antivirus\ICAP\ICAPClient;
+use OCA\Files_Antivirus\Net\Icap\IcapClient;
+use OCA\Files_Antivirus\Net\TcpClient;
 use Test\TestCase;
 
-class ICAPClientTest extends TestCase {
+class IcapClientTest extends TestCase {
 	public function testConnect_ShouldThrowRuntimeException() {
 		$this->expectException(\RuntimeException::class);
 		$this->expectExceptionMessageMatches('/Cannot connect to "tcp\:\/\/nothinghere\:8080"\: .*/');
-		$icapClient = new ICAPClient('nothinghere', 8080, 2);
+		$transport = new TcpClient('nothinghere', 8080, 1);
+		$icapClient = new IcapClient($transport);
 		$icapClient->respmod('myservice', [], [], []);
 	}
 }
