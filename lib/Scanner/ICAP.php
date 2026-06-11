@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Scanner;
 
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
-use OCA\Files_Antivirus\Net\ICAP\ICAPClient;
-use OCA\Files_Antivirus\Net\ICAP\ICAPRequest;
+use OCA\Files_Antivirus\Net\Icap\IcapClient;
+use OCA\Files_Antivirus\Net\Icap\IcapRequest;
 use OCA\Files_Antivirus\Net\TcpClient;
 use OCA\Files_Antivirus\Net\TlsClient;
 use OCA\Files_Antivirus\Status;
@@ -24,13 +24,18 @@ class ICAP extends ScannerBase {
 	/** @var ICAPClient::MODE_REQ_MOD|ICAPClient::MODE_RESP_MOD */
 	private string $mode;
 	private ICAPClient $icapClient;
-	private ?ICAPRequest $icapRequest;
+	private ?IcapRequest $icapRequest;
 	private string $service;
 	private string $virusHeader;
 	private int $chunkSize;
 	private bool $tls;
 
 	private int $avIcapConnectionTimeout;
+
+	/**
+	 * @var (callable(string): void)|null $debugCallback
+	 */
+	private $debugCallback;
 
 	public function __construct(
 		IAppConfig $appConfig,
@@ -68,14 +73,17 @@ class ICAP extends ScannerBase {
 		} else {
 			$transport = new TcpClient($avHost, $avPort, $this->avIcapConnectionTimeout);
 		}
-		$this->icapClient = new ICAPClient($transport);
+		$this->icapClient = new IcapClient($transport);
+		if ($this->debugCallback) {
+			$this->icapClient->setDebugCallback($this->debugCallback);
+		}
 
 		$path = '/' . trim($this->path, '/');
 		$remote = $this->request ? $this->request->getRemoteAddress() : null;
 		$encodedPath = implode('/', array_map('rawurlencode', explode('/', $path)));
 
 		try {
-			if ($this->mode === ICAPClient::MODE_REQ_MOD) {
+			if ($this->mode === IcapClient::MODE_REQ_MOD) {
 				$this->icapRequest = $this->icapClient->reqmod($this->service, [
 					'Allow' => 204,
 					'X-Client-IP' => $remote,
@@ -95,6 +103,7 @@ class ICAP extends ScannerBase {
 					'Content-Length: 1', // a dummy, non-zero, content length seems to be enough
 				]);
 			}
+			$this->icapRequest->init();
 		} catch (\Throwable $e) {
 			throw new \RuntimeException('Failed to initialize ICAP request: ' . $e->getMessage(), 0, $e);
 		}
@@ -121,7 +130,7 @@ class ICAP extends ScannerBase {
 		$code = $response->getStatus()->getCode();
 
 		$this->status->setNumericStatus(Status::SCANRESULT_CLEAN);
-		$icapHeaders = $response->getIcapHeaders();
+		$icapHeaders = $response->getHeaders();
 		if ($code === 200 || $code === 204) {
 			// c-icap/clamav reports this header
 			$virus = $icapHeaders[$this->virusHeader] ?? false;
@@ -160,6 +169,6 @@ class ICAP extends ScannerBase {
 
 	#[\Override]
 	public function setDebugCallback(callable $callback): void {
-		$this->icapClient->setDebugCallback($callback);
+		$this->debugCallback = $callback;
 	}
 }
