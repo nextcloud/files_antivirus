@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Antivirus\ICAP;
+namespace OCA\Files_Antivirus\Net\ICAP;
 
 class ICAPRequest {
 	public const USER_AGENT = 'NC-ICAP-CLIENT/0.5.0';
