@@ -100,7 +100,7 @@ class ICAP extends ScannerBase {
 					'Host: nextcloud',
 				], [
 					'HTTP/1.0 200 OK',
-					'Content-Length: 1', // a dummy, non-zero, content length seems to be enough
+					'Content-Length: ' . ($this->size ?? 1), // a dummy, non-zero, content length seems to be enough
 				]);
 			}
 			$this->icapRequest->init();
