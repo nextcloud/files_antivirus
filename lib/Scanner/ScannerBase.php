@@ -36,6 +36,7 @@ abstract class ScannerBase implements IScanner {
 	protected bool $isLogUsed = false;
 	protected bool $isAborted = false;
 	protected string $path = '';
+	protected ?int $size = null;
 	protected ?IRequest $request = null;
 
 	public function __construct(
@@ -210,6 +211,10 @@ abstract class ScannerBase implements IScanner {
 
 	public function setPath(string $path): void {
 		$this->path = $path;
+	}
+
+	public function setSize(int $size): void {
+		$this->size = $size;
 	}
 
 	public function setRequest(IRequest $request): void {
