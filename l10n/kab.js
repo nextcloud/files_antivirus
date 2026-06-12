@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_antivirus",
     {
+    "Saved" : "Yettwasekles",
+    "Clear all" : "Kkes kulec",
     "Description" : "Aglam",
     "Create" : "Snulfu-d",
     "Save" : "Sekles",
@@ -8,6 +10,11 @@ OC.L10N.register(
     "Edit" : "Ẓreg",
     "Delete" : "Kkes",
     "Delete file" : "Kkes afaylu",
-    "Select" : "Fren"
+    "Mode" : "Askar",
+    "Host" : "Asenneftaɣ",
+    "Port" : "Tawwurt",
+    "Select" : "Fren",
+    "Settings saved" : "Iγewwaṛen ttwakelsen",
+    "Saving …" : "Asekles …"
 },
 "nplurals=2; plural=(n != 1);");
