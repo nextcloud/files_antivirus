@@ -9,6 +9,7 @@ OC.L10N.register(
     "Save" : "සුරකින්න",
     "Actions" : "ක්‍රියාමාර්ග",
     "Edit" : "සංස්කරණය",
+    "Delete" : "Delete",
     "Host" : " ධාරකය",
     "Select" : "තෝරන්න",
     "Antivirus for Files" : "ගොනු සඳහා ප්‍රතිවයිරස"
