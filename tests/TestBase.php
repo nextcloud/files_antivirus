@@ -53,7 +53,7 @@ abstract class TestBase extends TestCase {
 			->willReturnCallback($this->getAppValue(...));
 
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->l10n->method('t')->will($this->returnArgument(0));
+		$this->l10n->method('t')->willReturnArgument(0);
 	}
 
 	public function getAppValue($configKey) {
