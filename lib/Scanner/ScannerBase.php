@@ -37,6 +37,7 @@ abstract class ScannerBase implements IScanner {
 	protected bool $isAborted = false;
 	protected string $path = '';
 	protected ?IRequest $request = null;
+	private ?string $ignoreRegex;
 
 	public function __construct(
 		protected readonly IAppConfig $appConfig,
@@ -44,6 +45,7 @@ abstract class ScannerBase implements IScanner {
 		private readonly StatusFactory $statusFactory,
 	) {
 		$this->status = $this->statusFactory->newStatus();
+		$this->ignoreRegex = $this->appConfig->getAppValue('av_ignore_path_regex');
 	}
 
 	/**
@@ -67,6 +69,11 @@ abstract class ScannerBase implements IScanner {
 	 */
 	#[\Override]
 	public function scan(Item $item): Status {
+		if ($this->ignoreRegex && preg_match($this->ignoreRegex, $item->getFilePath()) === 1) {
+			$this->status->setNumericStatus(Status::SCANRESULT_IGNORE);
+			return $this->getStatus();
+		}
+
 		$this->initScanner();
 
 		try {
