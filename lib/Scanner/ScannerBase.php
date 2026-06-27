@@ -12,6 +12,7 @@ use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -37,13 +38,32 @@ abstract class ScannerBase implements IScanner {
 	protected bool $isAborted = false;
 	protected string $path = '';
 	protected ?IRequest $request = null;
+	private ?string $ignoreRegex = null;
 
 	public function __construct(
+		private readonly IConfig $config,
 		protected readonly IAppConfig $appConfig,
 		protected readonly LoggerInterface $logger,
 		private readonly StatusFactory $statusFactory,
 	) {
 		$this->status = $this->statusFactory->newStatus();
+		$this->ignoreRegex = $this->getIgnoreRegex();
+	}
+
+	/**
+	 * @return ?string
+	 */
+	private function getIgnoreRegex() {
+		$ignore = $this->config->getSystemValue('antivirus_ignore', null);
+		if (!empty($ignore)) {
+			if (is_string($ignore)) {
+				return $ignore;
+			}
+			if (!is_array($ignore)) {
+				return '/' . implode('|', array_map(function ($i) { return preg_quote($i, '/'); }, $ignore)) . '/';
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -67,6 +87,11 @@ abstract class ScannerBase implements IScanner {
 	 */
 	#[\Override]
 	public function scan(Item $item): Status {
+		if ($this->ignoreRegex !== null && preg_match($this->ignoreRegex, $item->getFilePath()) === 1) {
+			$this->status->setNumericStatus(Status::SCANRESULT_IGNORE);
+			return $this->getStatus();
+		}
+
 		$this->initScanner();
 
 		try {

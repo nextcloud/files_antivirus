@@ -22,6 +22,7 @@ use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -38,6 +39,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ExternalClam::class, function (ContainerInterface $c) {
 			return new ExternalClam(
+				$c->get(IConfig::class),
 				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -46,6 +48,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(LocalClam::class, function (ContainerInterface $c) {
 			return new LocalClam(
+				$c->get(IConfig::class),
 				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -54,6 +57,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ExternalKaspersky::class, function (ContainerInterface $c) {
 			return new ExternalKaspersky(
+				$c->get(IConfig::class),
 				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
@@ -63,6 +67,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(ICAP::class, function (ContainerInterface $c) {
 			return new ICAP(
+				$c->get(IConfig::class),
 				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
