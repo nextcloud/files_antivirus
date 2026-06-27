@@ -1,6 +1,4 @@
 { "translations": {
-    "Antivirus" : "Antivírus",
-    "Virus %s is detected in the file. Upload cannot be completed." : "O vírus %s foi detectado no arquivo. O upload não pode ser concluído.",
     "Saved" : "Guardado",
     "Advanced settings" : "Definições Avançadas",
     "Description" : "Descrição",
