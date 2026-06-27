@@ -8,11 +8,13 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Antivirus\BackgroundJob;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Event\BeforeBackgroundScanEvent;
 use OCA\Files_Antivirus\ItemFactory;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -30,7 +32,7 @@ class BackgroundScanner extends TimedJob {
 	public function __construct(
 		private readonly ITimeFactory $timeFactory,
 		private readonly ScannerFactory $scannerFactory,
-		private readonly AppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly IRootFolder $rootFolder,
 		private readonly LoggerInterface $logger,
 		private readonly IDBConnection $db,
@@ -43,8 +45,9 @@ class BackgroundScanner extends TimedJob {
 	) {
 		parent::__construct($timeFactory);
 
-		// Run once per 15 minutes
-		$this->setInterval(60 * 15);
+		$this->setInterval($this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_INTERVAL));
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setAllowParallelRuns(false);
 	}
 
 	/**
@@ -52,7 +55,7 @@ class BackgroundScanner extends TimedJob {
 	 */
 	#[\Override]
 	public function run($argument): void {
-		if ($this->appConfig->getAppValue('av_background_scan') !== 'on') {
+		if ($this->appConfig->getAppValueBool(ConfigLexicon::AV_BACKGROUND_SCAN) === false) {
 			// Background checking disabled no need to continue
 			$this->logger->debug('Antivirus background scan disabled, skipping');
 			return;
@@ -84,7 +87,7 @@ class BackgroundScanner extends TimedJob {
 
 		// Run for updated files
 		try {
-			$rescan = $this->getToRescanFiles();
+			$rescan = $this->getToRescanFiles($max - $count);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $count;
@@ -100,7 +103,7 @@ class BackgroundScanner extends TimedJob {
 
 		// Run for files that have been scanned in the past. Just start to rescan them as the virus definitions might have been updated
 		try {
-			$outdated = $this->getOutdatedFiles();
+			$outdated = $this->getOutdatedFiles($max - $count);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return $count;
@@ -152,9 +155,10 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	public function getBatchSize(): int {
-		$batchSize = 10;
 		if ($this->isCLI) {
-			$batchSize = 100;
+			$batchSize = $this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_BATCH_SIZE_CLI);
+		} else {
+			$batchSize = $this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_BATCH_SIZE);
 		}
 
 		$this->logger->debug('Batch size is: ' . $batchSize);
@@ -163,7 +167,7 @@ class BackgroundScanner extends TimedJob {
 	}
 
 	protected function getSizeLimitExpression(IQueryBuilder $qb) {
-		$sizeLimit = $this->appConfig->getAvMaxFileSize();
+		$sizeLimit = $this->appConfig->getAppValueInt(ConfigLexicon::AV_MAX_FILE_SIZE);
 		if ($sizeLimit === -1) {
 			$sizeLimitExpr = $qb->expr()->neq('fc.size', $qb->expr()->literal('0'));
 		} else {
@@ -216,14 +220,14 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getToRescanFiles(): iterable {
+	public function getToRescanFiles(?int $limit = null): iterable {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('fc.fileid')
 			->from('filecache', 'fc')
 			->join('fc', 'files_antivirus', 'fa', $qb->expr()->eq('fc.fileid', 'fa.fileid'))
 			->andWhere($qb->expr()->lt('fa.check_time', 'fc.mtime'))
 			->andWhere($this->getSizeLimitExpression($qb))
-			->setMaxResults($this->getBatchSize() * 10);
+			->setMaxResults($limit ?? ($this->getBatchSize() * 10));
 
 		$result = $qb->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {
@@ -238,11 +242,19 @@ class BackgroundScanner extends TimedJob {
 	 * @return \Iterator<int>
 	 * @throws \OCP\DB\Exception
 	 */
-	public function getOutdatedFiles(): iterable {
+	public function getOutdatedFiles(?int $limit = null): iterable {
 		$dirMimeTypeId = $this->mimeTypeLoader->getId('httpd/unix-directory');
 
 		// We do not want to keep scanning the same files. So only scan them once per 28 days at most.
-		$yesterday = time() - (28 * 24 * 60 * 60);
+		// $yesterday = time() - (28 * 24 * 60 * 60);
+
+		// Rescan interval is configurable via av_rescan_days (default: 28)
+		$rescanDays = $this->appConfig->getAppValueInt(ConfigLexicon::AV_RESCAN_DAYS, 28);
+		if ($rescanDays < 1) {
+			$rescanDays = 28;
+		}
+		$yesterday = time() - ($rescanDays * 24 * 60 * 60);
+
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('fc.fileid')
@@ -252,7 +264,7 @@ class BackgroundScanner extends TimedJob {
 			->andWhere($query->expr()->like('path', $query->expr()->literal('files/%')))
 			->andWhere($query->expr()->lt('check_time', $query->createNamedParameter($yesterday)))
 			->andWhere($this->getSizeLimitExpression($query))
-			->setMaxResults($this->getBatchSize() * 10);
+			->setMaxResults($limit ?? ($this->getBatchSize() * 10));
 
 		$result = $query->executeQuery();
 		while (($fileId = $result->fetchOne()) !== false) {

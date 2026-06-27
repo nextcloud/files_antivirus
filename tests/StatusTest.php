@@ -8,12 +8,12 @@
 
 namespace OCA\Files_Antivirus\Tests;
 
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Db\RuleMapper;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class StatusTest extends TestBase {
 
 	// See OCA\Files_Antivirus\Status::init for details
@@ -29,9 +29,10 @@ class StatusTest extends TestBase {
 		$this->ruleMapper = new RuleMapper($this->db);
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
-		$this->config->method('getAvBlockUnscannable')
-			->willReturnCallback(function () {
-				return $this->blockUnscannable;
+		$this->config->method('getAppValueBool')
+			->willReturnCallback(fn (string $key) => match ($key) {
+				ConfigLexicon::AV_BLOCK_UNREACHABLE => $this->blockUnscannable,
+				default => $this->getAppValue($key),
 			});
 	}
 

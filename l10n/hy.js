@@ -2,11 +2,10 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "Պահված",
-    "TLS" : "TLS",
-    "Select" : "Select",
-    "Yes" : "Այո",
-    "No" : "Ոչ",
+    "Description" : "Նկարագրություն",
     "Save" : "Պահպանել",
-    "Description" : "Նկարագրություն"
+    "Edit" : "մշակել",
+    "Delete" : "հեռացնել",
+    "Select" : "Select"
 },
 "nplurals=2; plural=(n != 1);");

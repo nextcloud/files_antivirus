@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\Tests\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
 use OCA\Files_Antivirus\Scanner\ScannerBase;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\Http\Client\IClientService;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Psr\Log\LoggerInterface;
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class ExternalKasperskyTest extends ScannerBaseTestAbstract {
 	protected function getScanner(): ScannerBase {
 		if (!getenv('KASPERSKY_HOST') || !getenv('KASPERSKY_PORT')) {
@@ -25,20 +25,17 @@ class ExternalKasperskyTest extends ScannerBaseTestAbstract {
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);
-		$config = $this->createPartialMock(AppConfig::class, ['getAppValue']);
-		$config->method('getAppValue')
-			->willReturnCallback(function ($key) {
-				switch ($key) {
-					case 'av_host':
-						return getenv('KASPERSKY_HOST');
-					case 'av_port':
-						return getenv('KASPERSKY_PORT');
-					case 'av_scan_first_bytes':
-						return '-1';
-					default:
-						return '';
-				}
-			});
-		return new ExternalKaspersky($config, $logger, \OC::$server->get(StatusFactory::class), \OC::$server->get(IClientService::class));
+		return new ExternalKaspersky($this->config, $logger, Server::get(StatusFactory::class), Server::get(IClientService::class));
+	}
+
+	protected static function configMock(string $key): mixed {
+		switch ($key) {
+			case ConfigLexicon::AV_HOST:
+				return getenv('KASPERSKY_HOST');
+			case ConfigLexicon::AV_PORT:
+				return (int)getenv('KASPERSKY_PORT');
+			default:
+				return parent::configMock($key);
+		}
 	}
 }

@@ -2,13 +2,13 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "সংরক্ষণ করা হলো",
+    "Description" : "বিবরণ",
+    "Save" : "সংরক্ষণ",
+    "Actions" : "পদক্ষেপসমূহ",
+    "Edit" : "সম্পাদনা",
+    "Delete" : "মুছে",
     "Host" : "হোস্ট",
     "Port" : "পোর্ট",
-    "Select" : "সিলেক্ট",
-    "Yes" : "হ্যাঁ",
-    "No" : "না",
-    "Save" : "সংরক্ষণ",
-    "Advanced" : "সুচারু",
-    "Description" : "বিবরণ"
+    "Select" : "সিলেক্ট"
 },
 "nplurals=2; plural=(n != 1);");

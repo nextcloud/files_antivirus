@@ -1,10 +1,10 @@
 { "translations": {
     "Saved" : "﻿ಉಳಿಸಿದ",
+    "Save" : "﻿ಉಳಿಸಿ",
+    "Edit" : "ಸಂಪಾದಿಸು",
+    "Delete" : "﻿ಅಳಿಸಿ",
     "Host" : "ಅತಿಥೆಯ-ಗಣಕ",
     "Port" : "﻿ರೇವು",
-    "Select" : "Select",
-    "Yes" : "﻿ಹೌದು",
-    "No" : "﻿ಇಲ್ಲ",
-    "Save" : "﻿ಉಳಿಸಿ"
+    "Select" : "Select"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

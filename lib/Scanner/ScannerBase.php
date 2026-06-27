@@ -7,10 +7,11 @@
  */
 namespace OCA\Files_Antivirus\Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Item;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
@@ -41,7 +42,7 @@ abstract class ScannerBase implements IScanner {
 
 	public function __construct(
 		private readonly IConfig $config,
-		protected readonly AppConfig $appConfig,
+		protected readonly IAppConfig $appConfig,
 		protected readonly LoggerInterface $logger,
 		private readonly StatusFactory $statusFactory,
 	) {
@@ -160,13 +161,13 @@ abstract class ScannerBase implements IScanner {
 			return;
 		}
 
-		$scanFirstBytes = (int)$this->appConfig->getAppValue('av_scan_first_bytes');
+		$scanFirstBytes = $this->appConfig->getAppValueInt(ConfigLexicon::AV_SCAN_FIRST_BYTES);
 		if ($scanFirstBytes > -1 && $this->byteCount >= $scanFirstBytes) {
 			return;
 		}
 
 		$dataLength = strlen($data);
-		$streamSizeLimit = (int)$this->appConfig->getAvStreamMaxLength();
+		$streamSizeLimit = $this->appConfig->getAppValueInt(ConfigLexicon::AV_STREAM_MAX_LENGTH);
 		if ($this->byteCount + $dataLength > $streamSizeLimit) {
 			$this->logger->debug(
 				'reinit scanner',

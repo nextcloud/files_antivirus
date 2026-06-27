@@ -2,6 +2,9 @@
 # SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
 # SPDX-License-Identifier: AGPL-3.0-only
 /build
+# generated
+/css
+/js
 
 # just sane ignores
 .*.sw[po]
@@ -47,6 +50,10 @@ nbproject
 # Mac OS
 .DS_Store
 
+/playwright-report
+/test-results
+
 tests/clover.xml
 *.cache
 vendor
+node_modules

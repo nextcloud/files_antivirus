@@ -1,9 +1,8 @@
 { "translations": {
-    "Select" : "Select",
-    "Yes" : "ہاں",
-    "No" : "نہیں",
+    "Description" : "تصریح",
     "Save" : "حفظ",
-    "Advanced" : "ایڈوانسڈ",
-    "Description" : "تصریح"
+    "Edit" : "تدوین کریں",
+    "Delete" : "حذف کریں",
+    "Select" : "Select"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

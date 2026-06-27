@@ -8,8 +8,9 @@
 namespace OCA\Files_Antivirus\Sabre;
 
 use OCA\DAV\Upload\FutureFile;
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -19,7 +20,7 @@ class PropfindPlugin extends ServerPlugin {
 
 
 	public function __construct(
-		private readonly AppConfig $appConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
@@ -37,7 +38,7 @@ class PropfindPlugin extends ServerPlugin {
 			return;
 		}
 
-		$avMaxFileSize = $this->appConfig->getAvMaxFileSize();
+		$avMaxFileSize = $this->appConfig->getAppValueInt(ConfigLexicon::AV_MAX_FILE_SIZE);
 		if ($avMaxFileSize > -1 && $sourceNode->getSize() > $avMaxFileSize) {
 			$this->eventDispatcher->dispatchTyped(
 				new ScanStateEvent(false)

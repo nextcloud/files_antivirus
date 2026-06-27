@@ -2,16 +2,19 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "บันทึกแล้ว",
+    "Advanced settings" : "การตั้งค่าขั้นสูง",
+    "Description" : "คำอธิบาย",
+    "Create" : "สร้าง",
+    "Save" : "บันทึก",
+    "Actions" : "การกระทำ",
+    "Edit" : "แก้ไข",
+    "Delete" : "ลบ",
+    "Delete file" : "ลบไฟล์",
+    "Failed to save settings" : "ไม่สามารถบันทึกการตั้งค่าได้",
     "Mode" : "โหมด",
     "Host" : "โฮสต์",
     "Port" : "พอร์ต",
-    "TLS" : "TLS",
     "Select" : "เลือก",
-    "Delete file" : "ลบไฟล์",
-    "Yes" : "ใช่",
-    "No" : "ไม่ตกลง",
-    "Save" : "บันทึก",
-    "Advanced" : "ขั้นสูง",
-    "Description" : "คำอธิบาย"
+    "Settings saved" : "บันทึกการตั้งค่าแล้ว"
 },
 "nplurals=1; plural=0;");

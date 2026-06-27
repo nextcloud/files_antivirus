@@ -2,11 +2,10 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "Disimpan",
-    "Select" : "Select",
-    "Yes" : "Ya",
-    "No" : "Tidak",
+    "Description" : "Keterangan",
     "Save" : "Simpan",
-    "Advanced" : "Maju",
-    "Description" : "Keterangan"
+    "Edit" : "Sunting",
+    "Delete" : "Padam",
+    "Select" : "Select"
 },
 "nplurals=1; plural=0;");

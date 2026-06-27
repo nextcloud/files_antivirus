@@ -1,19 +1,21 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving…" : "Зачувува ...",
     "Saved" : "Зачувано",
+    "Advanced settings" : "Напредни параметри",
+    "Description" : "Опис",
+    "Create" : "Креирај",
+    "Save" : "Зачувај",
+    "Actions" : "Акции",
+    "Edit" : "Уреди",
+    "Delete" : "Избриши",
+    "Delete file" : "Избриши датотека",
+    "Failed to save settings" : "Неуспешно зачувување на параметрите",
     "Mode" : "Мод",
     "Host" : "Домаќин",
     "Port" : "Порта",
-    "TLS" : "TLS",
     "Select" : "Select",
-    "bytes" : "бајти",
-    "Delete file" : "Избриши датотека",
-    "Yes" : "Да",
-    "No" : "Не",
-    "Save" : "Зачувај",
-    "Advanced" : "Напредно",
-    "Description" : "Опис"
+    "Settings saved" : "Параматрите се зачувани",
+    "Saving …" : "Зачувува  …"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

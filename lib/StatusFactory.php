@@ -7,17 +7,15 @@
 namespace OCA\Files_Antivirus;
 
 use OCA\Files_Antivirus\Db\RuleMapper;
+use OCP\AppFramework\Services\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 class StatusFactory {
-	private RuleMapper $ruleMapper;
-	private LoggerInterface $logger;
-	private AppConfig $config;
 
 	public function __construct(
-		RuleMapper $ruleMapper,
-		LoggerInterface $logger,
-		AppConfig $config,
+		private RuleMapper $ruleMapper,
+		private LoggerInterface $logger,
+		private IAppConfig $config,
 	) {
 		$this->ruleMapper = $ruleMapper;
 		$this->logger = $logger;

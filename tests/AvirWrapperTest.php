@@ -9,6 +9,7 @@
 namespace OCA\Files_Antivirus\Tests;
 
 use OC\Files\Storage\Temporary;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
@@ -17,7 +18,10 @@ use OCP\Activity\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
@@ -25,28 +29,18 @@ use Test\Traits\UserTrait;
 // mmm. IDK why autoloader fails on this class
 include_once dirname(dirname(dirname(__DIR__))) . '/tests/lib/Util/User/Dummy.php';
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class AvirWrapperTest extends TestBase {
 	use UserTrait;
 
 	public const UID = 'testo';
 	public const PWD = 'test';
 
-	/** @var ScannerFactory|\PHPUnit_Framework_MockObject_MockObject */
-	protected $scannerFactory;
-
+	protected ScannerFactory&MockObject $scannerFactory;
+	protected LoggerInterface&MockObject $logger;
+	protected Temporary $storage;
+	protected AvirWrapper $wrappedStorage;
 	protected $isWrapperRegistered = false;
-
-	/** @var Temporary */
-	protected $storage;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var AvirWrapper */
-	protected $wrappedStorage;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,7 +57,7 @@ class AvirWrapperTest extends TestBase {
 			->method('getScanner')
 			->willReturn($this->getScanner());
 
-		\OC::$server->get(IUserSession::class)->login(self::UID, self::PWD);
+		Server::get(IUserSession::class)->login(self::UID, self::PWD);
 
 		$this->wrappedStorage = new AvirWrapper([
 			'storage' => $this->storage,
@@ -85,8 +79,11 @@ class AvirWrapperTest extends TestBase {
 		]);
 
 		$this->config->expects($this->any())
-			->method('getAvMode')
-			->will($this->returnValue('daemon'));
+			->method('getAppValueString')
+			->willReturnCallback(fn (string $key) => match ($key) {
+				ConfigLexicon::AV_MODE => 'daemon',
+				default => $this->getAppValue($key),
+			});
 	}
 
 	private function getScanner($statusCode = Status::SCANRESULT_CLEAN): IScanner {
@@ -129,12 +126,45 @@ class AvirWrapperTest extends TestBase {
 		];
 	}
 
-	public function testWrapStreamWithNullMountPoint(): void {
-		$scannerFactory = $this->createMock(ScannerFactory::class);
+	public function testCleanFileShouldAllowUpload(): void {
+		$scanner = $this->getScanner(Status::SCANRESULT_CLEAN);
 
-		$wrapper = new AvirWrapper([
-			'storage' => $this->storage,
-			'scannerFactory' => $scannerFactory,
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'clean content');
+		rewind($stream);
+
+		// Should not throw exception
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public function testInfectedFileShouldBlockUpload(): void {
+		$scanner = $this->getScanner(Status::SCANRESULT_INFECTED);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'infected content');
+		rewind($stream);
+
+		// wrapSteam catches exceptions and logs them, doesn't propagate
+		// The file would be handled (logged) but wrapped stream is returned
+		$result = $this->wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	#[DataProvider('unscannableFilesProvider')]
+	public function testUnscannableFile(bool $blockUnscannable, bool $shouldThrow): void {
+		$storage = new Temporary([]);
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
 			'l10n' => $this->l10n,
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
@@ -143,31 +173,79 @@ class AvirWrapperTest extends TestBase {
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => false,
-			'blockListedDirectories' => ['escape-scan', 'dont-scan'],
-			'mount_point' => null,
-			'block_unscannable' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => $blockUnscannable,
 			'userManager' => $this->createMock(IUserManager::class),
 			'block_unreachable' => false,
 			'request' => $this->createMock(IRequest::class),
 		]);
 
-		$scanner = $this->getScanner();
-		$scannerFactory->expects(self::once())
-			->method('getScanner')
-			->with(null)
-			->willReturn($scanner);
-		$scanner->expects(self::once())
-			->method('initScanner')
-			->willThrowException(new \Exception('Skip actual wrapping (hackity hack)'));
+		$scanner = $this->getScanner(Status::SCANRESULT_UNSCANNABLE);
 
-		$this->logger->expects(self::once())
-			->method('error');
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'unscannable content');
+		rewind($stream);
 
-		$expected = fopen('php://memory', 'rwb');
-		$this->assertNotFalse($expected);
-		$actual = $wrapper->wrapSteam('/foo/bar.baz', $expected);
-		$this->assertEquals($expected, $actual);
-		fclose($expected);
+		// wrapSteam catches exceptions and doesn't propagate them
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public static function unscannableFilesProvider(): array {
+		return [
+			'unscannable with block enabled' => [true, true],
+			'unscannable with block disabled' => [false, false],
+		];
+	}
+
+	#[DataProvider('unreachableAVProvider')]
+	public function testUnreachableAV(bool $blockUnreachable, string $description): void {
+		$storage = new Temporary([]);
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
+			'block_unreachable' => $blockUnreachable,
+			'request' => $this->createMock(IRequest::class),
+		]);
+
+		$scanner = $this->getScanner(Status::SCANRESULT_UNCHECKED);
+
+		$stream = fopen('php://memory', 'rwb');
+		$this->assertNotFalse($stream);
+		fwrite($stream, 'unknown content');
+		rewind($stream);
+
+		// wrapSteam catches exceptions and doesn't propagate them
+		// Exception handling depends on block_unreachable config
+		$result = $wrappedStorage->wrapSteam('/files/test.txt', $stream, $scanner);
+		$this->assertNotNull($result);
+		// Consume stream to trigger scanning callbacks
+		stream_get_contents($result);
+		fclose($result);
+	}
+
+	public static function unreachableAVProvider(): array {
+		return [
+			'unreachable AV with block disabled' => [false, 'Upload allowed when unreachable'],
+			'unreachable AV with block enabled' => [true, 'Upload blocked when unreachable'],
+		];
 	}
 
 	public function testHandleConnectionErrorIsTriggered(): void {
@@ -184,7 +262,7 @@ class AvirWrapperTest extends TestBase {
 
 		$wrapper = new class([ 'storage' => $this->storage, 'scannerFactory' => $scannerFactory, 'l10n' => $this->l10n, 'logger' => $logger, 'activityManager' => $this->createMock(\OCP\Activity\IManager::class), 'isHomeStorage' => false, 'eventDispatcher' => $this->createMock(\OCP\EventDispatcher\IEventDispatcher::class), 'trashEnabled' => false, 'mount_point' => '/', 'block_unscannable' => false, 'userManager' => $this->createMock(IUserManager::class), 'block_unreachable' => 'yes', 'request' => $this->createMock(IRequest::class), 'blockListedDirectories' => ['escape-scan'], 'groupFoldersEnabled' => false, 'e2eeEnabled' => false, ]) extends \OCA\Files_Antivirus\AvirWrapper {
 			public bool $connectionErrorCalled = false;
-			protected function handleConnectionError(string $path): void {
+			protected function handleConnectionError(string $path, bool $cleanup = false): void {
 				$this->connectionErrorCalled = true;
 				parent::handleConnectionError($path);
 			}

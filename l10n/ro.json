@@ -1,16 +1,17 @@
 { "translations": {
-    "Saving…" : "Se salvează...",
     "Saved" : "Salvat",
+    "Advanced settings" : "Setări avansate",
+    "Description" : "Descriere",
+    "Create" : "Crează",
+    "Save" : "Salvează",
+    "Actions" : "Acțiuni",
+    "Edit" : "Editează",
+    "Delete" : "Șterge",
+    "Delete file" : "Șterge fișier",
     "Mode" : "Mod",
     "Host" : "Gazdă",
     "Port" : "Portul",
-    "TLS" : "TLS",
     "Select" : "Selectează",
-    "Delete file" : "Șterge fișier",
-    "Yes" : "Da",
-    "No" : "Nu",
-    "Save" : "Salvează",
-    "Advanced" : "Avansat",
-    "Description" : "Descriere"
+    "Settings saved" : "Setările au fost salvate"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

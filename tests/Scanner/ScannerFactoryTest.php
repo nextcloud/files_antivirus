@@ -9,28 +9,25 @@ declare(strict_types=1);
 
 namespace Scanner;
 
-use OCA\Files_Antivirus\AppConfig;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
-/**
- * @group DB
- */
+#[Group('DB')]
 class ScannerFactoryTest extends TestCase {
-	private IConfig $config;
-	private AppConfig $appConfig;
+	private IAppConfig $appConfig;
 	private IRequest $request;
 	private ScannerFactory $scannerFactory;
 
 	public function setUp(): void {
-		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getAppValue')
-			->with('files_antivirus', 'av_mode', 'executable')
-			->willReturn('daemon');
-
-		$this->appConfig = new AppConfig($this->config);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appConfig->method('getAppValueString')
+			->willReturnMap([
+				[ConfigLexicon::AV_MODE, '', 'daemon'],
+			]);
 
 		$this->request = $this->createMock(IRequest::class);
 

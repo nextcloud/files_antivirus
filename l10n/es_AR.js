@@ -1,16 +1,17 @@
 OC.L10N.register(
     "files_antivirus",
     {
-    "Saving…" : "Guardando...",
     "Saved" : "Guardado",
+    "Advanced settings" : "Configuraciones avanzadas",
+    "Description" : "Descripción",
+    "Save" : "Guardar",
+    "Actions" : "Acciones",
+    "Edit" : "Editar",
+    "Delete" : "Eliminar",
+    "Delete file" : "Borrar archivo",
     "Host" : "Servidor",
     "Port" : "Puerto",
-    "TLS" : "TLS",
     "Select" : "Seleccionar",
-    "Delete file" : "Borrar archivo",
-    "Yes" : "Sí",
-    "Save" : "Guardar",
-    "Advanced" : "Avanzado",
-    "Description" : "Descripción"
+    "Settings saved" : "Configuraciones guardadas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

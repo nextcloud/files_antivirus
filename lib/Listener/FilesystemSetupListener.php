@@ -10,8 +10,8 @@ namespace OCA\Files_Antivirus\Listener;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
-use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\AvirWrapper;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\GroupFolders\Mount\GroupFolderEncryptionJail;
@@ -40,16 +40,15 @@ class FilesystemSetupListener implements IEventListener {
 		private readonly ScannerFactory $scannerFactory,
 		private readonly LoggerInterface $logger,
 		private readonly IAppManager $appManager,
-		private readonly AppConfig $avAppConfig,
+		private readonly IAppConfig $appConfig,
 		private readonly IRequest $request,
 		private readonly IUserManager $userManager,
 		private readonly IEventDispatcher $eventDispatcher,
 		private readonly IActivityManager $activityManager,
 		IL10NFactory $l10nFactory,
-		IAppConfig $appConfig,
 	) {
 		$this->l10n = $l10nFactory->get(Application::APP_NAME);
-		$this->groupFolderEncryptionEnabled = $appConfig->getValueBool('groupfolders', 'enable_encryption');
+		$this->groupFolderEncryptionEnabled = $this->appConfig->getValueBool('groupfolders', 'enable_encryption');
 	}
 
 	#[\Override]
@@ -86,13 +85,13 @@ class FilesystemSetupListener implements IEventListener {
 					'eventDispatcher' => $this->eventDispatcher,
 					'trashEnabled' => $this->appManager->isEnabledForUser('files_trashbin'),
 					'mount_point' => $mountPoint,
-					'block_unscannable' => $this->avAppConfig->getAvBlockUnscannable(),
+					'block_unscannable' => $this->appConfig->getValueBool(Application::APP_NAME, ConfigLexicon::AV_BLOCK_UNSCANNABLE),
 					'userManager' => $this->userManager,
-					'block_unreachable' => $this->avAppConfig->getAvBlockUnreachable() === 'yes',
+					'block_unreachable' => $this->appConfig->getValueBool(Application::APP_NAME, ConfigLexicon::AV_BLOCK_UNREACHABLE),
 					'request' => $this->request,
 					'groupFoldersEnabled' => $this->appManager->isEnabledForUser('groupfolders'),
 					'e2eeEnabled' => $this->appManager->isEnabledForUser('end_to_end_encryption'),
-					'blockListedDirectories' => $this->avAppConfig->getAvBlocklistedDirectories(),
+					'blockListedDirectories' => $this->appConfig->getValueArray(Application::APP_NAME, ConfigLexicon::AV_BLOCKLISTED_DIRECTORIES),
 				]);
 			},
 			1,

@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Antivirus\AppInfo;
 
-use OCA\Files_Antivirus\AppConfig;
 use OCA\Files_Antivirus\Listener\FilesystemSetupListener;
 use OCA\Files_Antivirus\Scanner\ExternalClam;
 use OCA\Files_Antivirus\Scanner\ExternalKaspersky;
@@ -19,6 +18,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
@@ -35,10 +35,12 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
+		$context->registerConfigLexicon(ConfigLexicon::class);
+
 		$context->registerService(ExternalClam::class, function (ContainerInterface $c) {
 			return new ExternalClam(
 				$c->get(IConfig::class),
-				$c->get(AppConfig::class),
+				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
 			);
@@ -47,7 +49,7 @@ class Application extends App implements IBootstrap {
 		$context->registerService(LocalClam::class, function (ContainerInterface $c) {
 			return new LocalClam(
 				$c->get(IConfig::class),
-				$c->get(AppConfig::class),
+				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
 			);
@@ -56,7 +58,7 @@ class Application extends App implements IBootstrap {
 		$context->registerService(ExternalKaspersky::class, function (ContainerInterface $c) {
 			return new ExternalKaspersky(
 				$c->get(IConfig::class),
-				$c->get(AppConfig::class),
+				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
 				$c->get(IClientService::class),
@@ -66,7 +68,7 @@ class Application extends App implements IBootstrap {
 		$context->registerService(ICAP::class, function (ContainerInterface $c) {
 			return new ICAP(
 				$c->get(IConfig::class),
-				$c->get(AppConfig::class),
+				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
 				$c->get(ICertificateManager::class),

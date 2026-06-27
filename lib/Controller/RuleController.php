@@ -10,15 +10,20 @@ namespace OCA\Files_Antivirus\Controller;
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use OCP\AppFramework\Controller;
-
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class RuleController extends Controller {
-	/** @var RuleMapper */
-	private $ruleMapper;
 
-	public function __construct($appName, IRequest $request, RuleMapper $ruleMapper) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		private RuleMapper $ruleMapper,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
 		$this->ruleMapper = $ruleMapper;
 	}
@@ -95,8 +100,11 @@ class RuleController extends Controller {
 		try {
 			$rule = $this->ruleMapper->find($id);
 			$this->ruleMapper->delete($rule);
+		} catch (DoesNotExistException) {
+			return new JSONResponse(['error' => 'Rule not found'], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
-			//TODO: Handle
+			$this->logger->error('Failed to delete rule', ['exception' => $e]);
+			return new JSONResponse(['error' => 'Failed to delete rule'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 		return new JSONResponse($rule);
 	}
