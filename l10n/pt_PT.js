@@ -2,9 +2,11 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Antivirus" : "Antivírus",
+    "Antivirus detected a virus" : "O antivírus detectou um vírus",
     "Virus %s is detected in the file. Upload cannot be completed." : "O vírus %s foi detectado no arquivo. O upload não pode ser concluído.",
     "Saved" : "Guardado",
     "Rule deleted" : "Regra excluída",
+    "Failed to delete rule" : "Falha ao excluir a regra",
     "Failed to reset rules" : "Falha ao redefinir as regras",
     "Advanced settings" : "Definições Avançadas",
     "Description" : "Descrição",
@@ -14,6 +16,7 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Delete" : "Eliminar",
     "ClamAV Executable" : " Executável ClamAV",
+    "ClamAV Socket" : "Socket do ClamAV",
     "Delete file" : "Eliminar ficheiro",
     "Failed to save settings" : "Erro ao gravar as definições",
     "Host" : "Anfitrião",
@@ -24,6 +27,9 @@ OC.L10N.register(
     "Settings saved" : "Definições guardadas",
     "Saving …" : "A guardar ...",
     "Clean" : "Limpar",
-    "Scanner output" : "Saída do scanner"
+    "Infected" : "Infectado",
+    "Unchecked" : "Não marcado",
+    "Scanner output" : "Saída do scanner",
+    "File uploaded: {file}" : "Arquivo enviado: {file}"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
