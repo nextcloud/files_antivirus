@@ -17,6 +17,7 @@ OC.L10N.register(
     "Clear all" : "Effacer tout",
     "Reset to defaults" : "Réinitialiser les valeurs par défaut",
     "Add a rule" : "Ajouter une règle",
+    "Edit rule" : "Modifier la règle",
     "Match by" : "Correspondance par",
     "Mark as" : "Marqué comme",
     "Scanner exit status" : "Statut de l'analyse",
