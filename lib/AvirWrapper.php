@@ -169,7 +169,13 @@ class AvirWrapper extends Wrapper {
 			$parentId = $this->storage->getCache()->getParentId($path);
 			$rootFolder = \OCP\Server::get(IRootFolder::class);
 			$owner = $this->storage->getOwner($path);
-			if ($owner !== false) {
+			// For a received federated share getOwner() returns a cloud id
+			// (uuid@remote), which is not a local user. Resolving it via
+			// getUserFolder() would throw NoUserException and surface as an
+			// HTTP 500 on every read/download. Skip the E2EE check for a
+			// non-local owner: a federated file is not a local E2EE file, and
+			// normal scanning still applies below (fail toward scanning).
+			if ($owner !== false && $this->userManager->get($owner) !== null) {
 				$userFolder = $rootFolder->getUserFolder($owner);
 				$node = $userFolder->getFirstNodeById($parentId);
 				if ($node !== null && $node->isEncrypted()) {
