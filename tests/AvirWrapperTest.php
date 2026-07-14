@@ -248,6 +248,88 @@ class AvirWrapperTest extends TestBase {
 		];
 	}
 
+	/**
+	 * Regression for the federated-share 500 (NoUserException): with the E2EE app
+	 * enabled, shouldWrap() resolves the file owner. For a received federated share
+	 * getOwner() returns a cloud id (uuid@remote), which is not a local user, so
+	 * getUserFolder() used to throw and Sabre turned it into an HTTP 500 on every
+	 * read/download. The owner must be guarded so we skip E2EE detection instead of
+	 * throwing, and normal scanning still applies (fail toward scanning, not bypass).
+	 */
+	public function testShouldWrapFederatedOwnerDoesNotThrow(): void {
+		$storage = new class([]) extends Temporary {
+			public function getOwner(string $path): string|false {
+				return 'uuid@remote.example';
+			}
+		};
+
+		$userManager = $this->createMock(IUserManager::class);
+		// A federated cloud id does not resolve to a local user.
+		$userManager->method('get')->willReturn(null);
+
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => true,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => false,
+			'userManager' => $userManager,
+			'block_unreachable' => false,
+			'request' => $this->createMock(IRequest::class),
+		]);
+
+		// Must not throw NoUserException, and scanning must still apply.
+		self::assertTrue($wrappedStorage->shouldWrap('/files/shared.pdf'));
+	}
+
+	/**
+	 * A local owner is still resolved through the E2EE detection branch, and a
+	 * non-encrypted file still gets scanned (guarding the federated case must not
+	 * disable scanning for local content).
+	 */
+	public function testShouldWrapLocalOwnerStillScans(): void {
+		$storage = new class([]) extends Temporary {
+			public function getOwner(string $path): string|false {
+				return AvirWrapperTest::UID;
+			}
+		};
+
+		$userManager = $this->createMock(IUserManager::class);
+		$userManager->method('get')
+			->with(self::UID)
+			->willReturn($this->createMock(\OCP\IUser::class));
+
+		$wrappedStorage = new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $this->scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'trashEnabled' => true,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => true,
+			'blockListedDirectories' => [],
+			'mount_point' => '/' . self::UID . '/files/',
+			'block_unscannable' => false,
+			'userManager' => $userManager,
+			'block_unreachable' => false,
+			'request' => $this->createMock(IRequest::class),
+		]);
+
+		// Local owner, non-encrypted node: scanning still applies.
+		self::assertTrue($wrappedStorage->shouldWrap('/files/local.txt'));
+	}
+
 	public function testHandleConnectionErrorIsTriggered(): void {
 		// Simulate ScannerFactory throwing an exception
 		$scannerFactory = $this->createMock(ScannerFactory::class);
