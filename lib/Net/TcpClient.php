@@ -37,7 +37,7 @@ class TcpClient {
 			);
 		}
 
-		socket_set_timeout($stream, 600);
+		stream_set_timeout($stream, 600);
 
 		return $stream;
 	}
