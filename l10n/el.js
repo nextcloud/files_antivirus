@@ -31,6 +31,7 @@ OC.L10N.register(
     "ClamAV Daemon" : "Υπηρεσία ClamAV",
     "Only log" : "Μόνο αρχείο καταγραφής",
     "Delete file" : "Διαγραφή αρχείου",
+    "Settings saved successfully" : "Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς",
     "Failed to save settings" : "Αποτυχία αποθήκευσης ρυθμίσεων",
     "Mode" : "Κατάσταση",
     "Path to clamscan" : "Διαδρομή για το clamscan",
