@@ -4,6 +4,8 @@
 -->
 
 <script setup lang="ts">
+import type { Rule } from '../services/antivirusService.ts'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCanonicalLocale, t } from '@nextcloud/l10n'
 import { onBeforeMount, reactive, ref } from 'vue'
@@ -11,7 +13,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import AdvancedSettingsDialog from './AdvancedSettingsDialog.vue'
 import AdvancedSettingsTable from './AdvancedSettingsTable.vue'
-import antivirusService, { type Rule } from '../services/antivirusService.ts'
+import antivirusService from '../services/antivirusService.ts'
 import { logger } from '../services/logger.ts'
 
 const rules = ref<(Rule & { dirty?: boolean })[]>([])
