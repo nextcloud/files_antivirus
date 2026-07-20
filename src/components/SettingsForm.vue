@@ -4,6 +4,8 @@
 -->
 
 <script setup lang="ts">
+import type { Settings } from '../services/antivirusService.ts'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { computed, ref, toRaw, watch } from 'vue'
@@ -13,7 +15,7 @@ import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormGroup from '@nextcloud/vue/components/NcFormGroup'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcSelectNative from './NcSelectNative.vue'
-import antivirusService, { type Settings } from '../services/antivirusService.ts'
+import antivirusService from '../services/antivirusService.ts'
 import { logger } from '../services/logger.ts'
 
 const settings = defineModel<Settings>({ required: true })
