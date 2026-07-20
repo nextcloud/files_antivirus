@@ -98,5 +98,4 @@ class FilesystemSetupListener implements IEventListener {
 		);
 	}
 
-
 }

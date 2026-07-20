@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus;
 
 use Icewind\Streams\CallbackWrapper;

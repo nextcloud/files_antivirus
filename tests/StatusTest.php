@@ -60,7 +60,6 @@ class StatusTest extends TestBase {
 		$this->assertEquals(\OCA\Files_Antivirus\Status::SCANRESULT_UNCHECKED, $failedScan);
 		$this->assertEquals('Unknown option passed.', $testStatus->getDetails());
 
-
 		// Testing raw output (e.g. daemon mode)
 		$assertDetailsWithResponse = function ($response) use ($testStatus) {
 			$expected = "No matching rule for response [$response]. Please check antivirus rules configuration.";

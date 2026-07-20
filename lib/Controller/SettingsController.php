@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus\Controller;
 
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
@@ -15,7 +16,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\IL10N;
-
 use OCP\IRequest;
 
 class SettingsController extends Controller {

@@ -18,7 +18,6 @@ use Sabre\DAV\ServerPlugin;
 class PropfindPlugin extends ServerPlugin {
 	private Server $server;
 
-
 	public function __construct(
 		private readonly IAppConfig $appConfig,
 		private readonly IEventDispatcher $eventDispatcher,

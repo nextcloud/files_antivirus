@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus\Db;
 
 use OCP\AppFramework\Db\Entity;
