@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80a77db448fb12137c371b7065f79505",
+    "content-hash": "cdeb2232ff49aa60e1fd1682537b13eb",
     "packages": [
         {
             "name": "bamarni/composer-bin-plugin",
@@ -478,11 +478,11 @@
         },
         {
             "name": "icewind/streams",
-            "version": "v0.7.5",
+            "version": "v0.7.8",
             "source": {
                 "type": "git",
                 "url": "https://codeberg.org/icewind/streams",
-                "reference": "0c6aae16ebdadb257f0bd089c1e1e4cf5e20ddc2"
+                "reference": "cb2bd3ed41b516efb97e06e8da35a12ef58ba48b"
             },
             "require": {
                 "php": ">=7.1"
@@ -509,7 +509,7 @@
                 }
             ],
             "description": "A set of generic stream wrappers",
-            "time": "2021-06-14T14:02:48+00:00"
+            "time": "2024-12-05T14:36:22+00:00"
         },
         {
             "name": "nextcloud/ocp",

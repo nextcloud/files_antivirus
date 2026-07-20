@@ -23,7 +23,7 @@ class CallbackReadDataWrapper extends CallbackWrapper {
 	 * @param callable $write (optional)
 	 * @param callable $close (optional)
 	 * @param callable $readDir (optional)
-	 * @return resource|bool
+	 * @return resource|false
 	 *
 	 * @throws \BadMethodCallException
 	 */
