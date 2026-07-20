@@ -26,7 +26,6 @@ abstract class TestBase extends TestCase {
 	protected IAppConfig&MockObject $config;
 	protected IL10N&MockObject $l10n;
 
-
 	protected function setUp(): void {
 		parent::setUp();
 

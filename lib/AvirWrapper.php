@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus;
 
 use OC\Files\Storage\Wrapper\Wrapper;
@@ -308,7 +309,6 @@ class AvirWrapper extends Wrapper {
 				'userName' => $user?->getDisplayName(),
 				'file' => $path,
 			]);
-
 
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp(Application::APP_NAME)

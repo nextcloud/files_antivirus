@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Antivirus\BackgroundJob;
 
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
@@ -213,7 +214,6 @@ class BackgroundScanner extends TimedJob {
 		}
 	}
 
-
 	/**
 	 * Find files that have been updated since they got last scanned
 	 *
@@ -235,7 +235,6 @@ class BackgroundScanner extends TimedJob {
 		}
 	}
 
-
 	/**
 	 * Find files that have been last scanned more than 28 days ago
 	 *
@@ -254,7 +253,6 @@ class BackgroundScanner extends TimedJob {
 			$rescanDays = 28;
 		}
 		$yesterday = time() - ($rescanDays * 24 * 60 * 60);
-
 
 		$query = $this->db->getQueryBuilder();
 		$query->select('fc.fileid')
