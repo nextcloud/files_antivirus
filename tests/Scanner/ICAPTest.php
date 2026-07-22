@@ -20,13 +20,17 @@ use Psr\Log\LoggerInterface;
 #[Group('DB')]
 class ICAPTest extends ScannerBaseTestAbstract {
 
-	protected function getScanner(): ScannerBase {
+	protected function getScanner(?int $size = null): ScannerBase {
 		if (!getenv('ICAP_HOST') || !getenv('ICAP_PORT') || !getenv('ICAP_REQUEST') || !getenv('ICAP_HEADER') || !getenv('ICAP_MODE')) {
 			$this->markTestSkipped('Set ICAP_HOST, ICAP_PORT, ICAP_REQUEST, ICAP_MODE and ICAP_HEADER to enable icap tests');
 		}
 
 		$logger = $this->createMock(LoggerInterface::class);
-		return new ICAP($this->config, $logger, Server::get(StatusFactory::class), Server::get(ICertificateManager::class), false);
+		$scanner = new ICAP($this->config, $logger, Server::get(StatusFactory::class), Server::get(ICertificateManager::class), false);
+		if ($size) {
+			$scanner->setSize($size);
+		}
+		return $scanner;
 	}
 
 	protected static function configMock(string $key): mixed {

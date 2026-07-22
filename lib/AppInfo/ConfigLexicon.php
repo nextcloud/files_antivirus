@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Antivirus\AppInfo;
 
-use OCA\Files_Antivirus\ICAP\ICAPClient;
+use OCA\Files_Antivirus\Net\Icap\IcapClient;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
 use OCP\Config\Lexicon\Strictness;

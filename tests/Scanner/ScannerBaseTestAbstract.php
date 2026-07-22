@@ -17,8 +17,9 @@ use Test\TestCase;
 
 abstract class ScannerBaseTestAbstract extends TestCase {
 	protected IAppConfig&MockObject $config;
+	protected string $eicar;
 
-	abstract protected function getScanner(): ScannerBase;
+	abstract protected function getScanner(?int $size = null): ScannerBase;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -29,6 +30,8 @@ abstract class ScannerBaseTestAbstract extends TestCase {
 			->willReturnCallback($this::configMock(...));
 		$this->config->method('getAppValueBool')
 			->willReturnCallback($this::configMock(...));
+
+		$this->eicar = base64_decode(str_rot13('JQICVINyDRSDJmEpHScLAGDbHS4cA0AQXGq9WRIWD0SFYIAHDH5RDIWRYHSBIRyJFIWIHl1HEIAHYHMWGRHuWRteFPb='));
 	}
 
 	public function testScanClean() {
@@ -37,10 +40,21 @@ abstract class ScannerBaseTestAbstract extends TestCase {
 		$this->assertEquals($status->getNumericStatus(), Status::SCANRESULT_CLEAN);
 	}
 
+	public function testScanCleanKnownSize() {
+		$scanner = $this->getScanner(3);
+		$status = $scanner->scanString('foo');
+		$this->assertEquals($status->getNumericStatus(), Status::SCANRESULT_CLEAN);
+	}
+
 	public function testScanEicar() {
-		$eicar = base64_decode(str_rot13('JQICVINyDRSDJmEpHScLAGDbHS4cA0AQXGq9WRIWD0SFYIAHDH5RDIWRYHSBIRyJFIWIHl1HEIAHYHMWGRHuWRteFPb='));
 		$scanner = $this->getScanner();
-		$status = $scanner->scanString($eicar);
+		$status = $scanner->scanString($this->eicar);
+		$this->assertEquals($status->getNumericStatus(), Status::SCANRESULT_INFECTED);
+	}
+
+	public function testScanEicarKnownSize() {
+		$scanner = $this->getScanner(strlen($this->eicar));
+		$status = $scanner->scanString($this->eicar);
 		$this->assertEquals($status->getNumericStatus(), Status::SCANRESULT_INFECTED);
 	}
 
