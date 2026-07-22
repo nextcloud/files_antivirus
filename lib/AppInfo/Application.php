@@ -20,7 +20,6 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
-use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -57,7 +56,7 @@ class Application extends App implements IBootstrap {
 				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(StatusFactory::class),
-				$c->get(IClientService::class),
+				$c->get(ICertificateManager::class),
 			);
 		}, false);
 

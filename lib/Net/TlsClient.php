@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Files_Antivirus\ICAP;
+namespace OCA\Files_Antivirus\Net;
 
 use OCP\ICertificateManager;
 use RuntimeException;
 
-class ICAPTlsClient extends ICAPClient {
+class TlsClient extends TcpClient {
 	public function __construct(
 		string $host,
 		int $port,
@@ -23,12 +23,12 @@ class ICAPTlsClient extends ICAPClient {
 	}
 
 	/**
-	 * Connect to ICAP server
+	 * Connect to TLS server
 	 *
 	 * @return resource
 	 */
 	#[\Override]
-	protected function connect() {
+	public function connect() {
 		$ctx = stream_context_create([
 			'ssl' => [
 				'verify_peer' => $this->verifyTlsPeer,
