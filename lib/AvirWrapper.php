@@ -94,9 +94,9 @@ class AvirWrapper extends Wrapper {
 		});
 	}
 
-	private function getAvScanner(string $path): IScanner {
+	private function getAvScanner(string $path, ?int $size): IScanner {
 		try {
-			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path), $size);
 			$scanner->initScanner();
 			return $scanner;
 		} catch (\Exception $e) {
@@ -115,7 +115,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function fopen(string $path, string $mode) {
 		if ($this->shouldWrap($path) && $this->isWritingMode($mode)) {
-			$scanner = $this->getAvScanner($path);
+			$scanner = $this->getAvScanner($path, null);
 			$stream = $this->storage->fopen($path, $mode);
 			if (is_resource($stream)) {
 				$stream = $this->wrapSteam($path, $stream, $scanner);
@@ -128,7 +128,7 @@ class AvirWrapper extends Wrapper {
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->getAvScanner($path);
+			$scanner = $this->getAvScanner($path, $size);
 			$stream = $this->wrapSteam($path, $stream, $scanner);
 		}
 		return parent::writeStream($path, $stream, $size);
@@ -169,7 +169,13 @@ class AvirWrapper extends Wrapper {
 			$parentId = $this->storage->getCache()->getParentId($path);
 			$rootFolder = \OCP\Server::get(IRootFolder::class);
 			$owner = $this->storage->getOwner($path);
-			if ($owner !== false) {
+			// For a received federated share getOwner() returns a cloud id
+			// (uuid@remote), which is not a local user. Resolving it via
+			// getUserFolder() would throw NoUserException and surface as an
+			// HTTP 500 on every read/download. Skip the E2EE check for a
+			// non-local owner: a federated file is not a local E2EE file, and
+			// normal scanning still applies below (fail toward scanning).
+			if ($owner !== false && $this->userManager->get($owner) !== null) {
 				$userFolder = $rootFolder->getUserFolder($owner);
 				$node = $userFolder->getFirstNodeById($parentId);
 				if ($node !== null && $node->isEncrypted()) {
@@ -259,7 +265,7 @@ class AvirWrapper extends Wrapper {
 	 */
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		if ($this->shouldWrap($path)) {
-			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path));
+			$scanner = $this->scannerFactory->getScanner($this->getPathForScanner($path), strlen($data));
 			$scanner->initScanner();
 			$status = $scanner->scanString($data);
 			if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {

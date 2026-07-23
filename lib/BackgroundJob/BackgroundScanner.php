@@ -285,7 +285,7 @@ class BackgroundScanner extends TimedJob {
 		$this->eventDispatcher->dispatchTyped(new BeforeBackgroundScanEvent($file));
 
 		$item = $this->itemFactory->newItem($file, true);
-		$scanner = $this->scannerFactory->getScanner($file->getPath());
+		$scanner = $this->scannerFactory->getScanner($file->getPath(), $file->getSize());
 		$status = $scanner->scan($item);
 		$status->dispatch($item);
 	}

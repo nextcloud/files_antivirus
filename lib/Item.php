@@ -88,17 +88,24 @@ class Item {
 
 		$message = $shouldDelete ? Provider::MESSAGE_FILE_DELETED : '';
 
-		$userFolder = $this->rootFolder->getUserFolder($this->file->getOwner()->getUID());
-		$path = $userFolder->getRelativePath($this->file->getPath());
+		// A received federated share has a remote owner that does not resolve
+		// to a local user, so there is no local account to attribute the
+		// activity to. Skip the per-user activity in that case; the file is
+		// still logged and deleted/flagged below.
+		$owner = $this->file->getOwner();
+		if ($owner !== null) {
+			$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+			$path = $userFolder->getRelativePath($this->file->getPath());
 
-		$activity = $this->activityManager->generateEvent();
-		$activity->setApp(Application::APP_NAME)
-			->setSubject(Provider::SUBJECT_VIRUS_DETECTED_SCAN, [$status->getDetails()])
-			->setMessage($message)
-			->setObject('file', $this->file->getId(), $path ?? '')
-			->setAffectedUser($this->file->getOwner()->getUID())
-			->setType(Provider::TYPE_VIRUS_DETECTED);
-		$this->activityManager->publish($activity);
+			$activity = $this->activityManager->generateEvent();
+			$activity->setApp(Application::APP_NAME)
+				->setSubject(Provider::SUBJECT_VIRUS_DETECTED_SCAN, [$status->getDetails()])
+				->setMessage($message)
+				->setObject('file', $this->file->getId(), $path ?? '')
+				->setAffectedUser($owner->getUID())
+				->setType(Provider::TYPE_VIRUS_DETECTED);
+			$this->activityManager->publish($activity);
+		}
 
 		if ($shouldDelete) {
 			if ($this->isCron) {
@@ -246,8 +253,10 @@ class Item {
 	public function logDebug(string $message): void {
 		$this->logger->debug($message . $this->generateExtraInfo(), [
 			'app' => 'files_antivirus',
-			'userId' => $this->file->getOwner()->getUID(),
-			'userName' => $this->file->getOwner()->getDisplayName(),
+			// Owner is null for a received federated share (remote cloud id),
+			// so guard it like generateExtraInfo() above already does.
+			'userId' => $this->file->getOwner()?->getUID(),
+			'userName' => $this->file->getOwner()?->getDisplayName(),
 			'fileId' => $this->file->getId(),
 			'filePath' => $this->file->getPath(),
 			'fileName' => $this->file->getName(),
@@ -261,8 +270,8 @@ class Item {
 	public function logNotice(string $message): void {
 		$this->logger->notice($message . $this->generateExtraInfo(), [
 			'app' => 'files_antivirus',
-			'userId' => $this->file->getOwner()->getUID(),
-			'userName' => $this->file->getOwner()->getDisplayName(),
+			'userId' => $this->file->getOwner()?->getUID(),
+			'userName' => $this->file->getOwner()?->getDisplayName(),
 			'fileId' => $this->file->getId(),
 			'filePath' => $this->file->getPath(),
 			'fileName' => $this->file->getName(),
@@ -276,8 +285,8 @@ class Item {
 	public function logError(string $message): void {
 		$this->logger->error($message . $this->generateExtraInfo(), [
 			'app' => 'files_antivirus',
-			'userId' => $this->file->getOwner()->getUID(),
-			'userName' => $this->file->getOwner()->getDisplayName(),
+			'userId' => $this->file->getOwner()?->getUID(),
+			'userName' => $this->file->getOwner()?->getDisplayName(),
 			'fileId' => $this->file->getId(),
 			'filePath' => $this->file->getPath(),
 			'fileName' => $this->file->getName(),

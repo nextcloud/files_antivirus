@@ -90,7 +90,7 @@ class SettingsController extends Controller {
 		$this->appConfig->setAppValueString(ConfigLexicon::AV_ICAP_RESPONSE_HEADER, $avIcapResponseHeader);
 
 		try {
-			$scanner = $this->scannerFactory->getScanner('/self-test.txt');
+			$scanner = $this->scannerFactory->getScanner('/self-test.txt', strlen('dummy scan content'));
 			$result = $scanner->scanString('dummy scan content');
 			$success = $result->getNumericStatus() == Status::SCANRESULT_CLEAN;
 			$message = $success ? $this->l10n->t('Saved') : 'unexpected scan results for test content';
