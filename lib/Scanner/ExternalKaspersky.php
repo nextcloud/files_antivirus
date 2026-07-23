@@ -64,7 +64,6 @@ class ExternalKaspersky extends ScannerBase {
 		} else {
 			return new TcpClient($avHost, $avPort, $timout);
 		}
->>>>>>> nextcloud/stable6.3
 	}
 
 	#[\Override]

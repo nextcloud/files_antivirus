@@ -33,7 +33,7 @@ class LocalClam extends ScannerBase {
 		IConfig $config,
 		IAppConfig $appConfig,
 		LoggerInterface $logger,
-		StatusFactory $statusFactory
+		StatusFactory $statusFactory,
 	) {
 		parent::__construct($config, $appConfig, $logger, $statusFactory);
 
