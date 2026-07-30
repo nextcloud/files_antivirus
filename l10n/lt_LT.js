@@ -74,7 +74,7 @@ OC.L10N.register(
     "Block unscannable files (such as encrypted archives)" : "Blokuoti nenuskaitomus failus (pvz., užšifruotus archyvus)",
     "Settings saved" : "Nustatymai įrašyti",
     "Saving …" : "Įrašoma …",
-    "Antivirus for Files" : "Failų antivirusinė",
+    "Antivirus for Files" : "Antivirusinė skirta „Failai“",
     "Clean" : "Švarus",
     "Infected" : "Užkrėstas",
     "Unchecked" : "Nepažymėta",
