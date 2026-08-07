@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Lagra",
     "Advanced settings" : "Avanserte innstillingar",
     "Description" : "Skildring",
+    "Create" : "Opprett",
     "Save" : "Lagre",
     "Actions" : "Handlingar",
     "Edit" : "Rediger",
