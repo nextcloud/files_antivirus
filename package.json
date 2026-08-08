@@ -30,7 +30,7 @@
 		"vue": "^3.5.40"
 	},
 	"devDependencies": {
-		"@nextcloud/browserslist-config": "^2.2.0",
+		"@nextcloud/browserslist-config": "^3.1.2",
 		"@nextcloud/e2e-test-server": "^0.5.0",
 		"@nextcloud/eslint-config": "^9.0.1",
 		"@nextcloud/vite-config": "^2.5.4",
