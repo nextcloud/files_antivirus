@@ -8,6 +8,7 @@
 namespace OCA\Files_Antivirus\Activity;
 
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
 use OCP\IURLGenerator;
@@ -31,7 +32,7 @@ class Provider implements IProvider {
 	#[\Override]
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== Application::APP_NAME || $event->getType() !== self::TYPE_VIRUS_DETECTED) {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->languageFactory->get('files_antivirus', $language);
