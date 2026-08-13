@@ -18,6 +18,7 @@ use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ICAP extends ScannerBase {
@@ -38,13 +39,14 @@ class ICAP extends ScannerBase {
 	private $debugCallback;
 
 	public function __construct(
+		IConfig $config,
 		IAppConfig $appConfig,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		private readonly ICertificateManager $certificateManager,
 		private readonly bool $verifyTlsPeer = true,
 	) {
-		parent::__construct($appConfig, $logger, $statusFactory);
+		parent::__construct($config, $appConfig, $logger, $statusFactory);
 
 		$this->service = $appConfig->getAppValueString(ConfigLexicon::AV_ICAP_REQUEST_SERVICE);
 		$this->virusHeader = $appConfig->getAppValueString(ConfigLexicon::AV_ICAP_RESPONSE_HEADER);
