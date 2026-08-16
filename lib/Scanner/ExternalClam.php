@@ -22,7 +22,7 @@ class ExternalClam extends ScannerBase {
 	 */
 	private bool $useSocket;
 
-	public function __construct(IConfig $config, IAppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
+	public function __construct(IConfig $config, IAppConfig $appConfig, LoggerInterface $logger, StatusFactory $statusFactory) {
 		parent::__construct($config, $appConfig, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAppValueString(ConfigLexicon::AV_MODE) === 'socket';
 	}
