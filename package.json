@@ -36,7 +36,7 @@
 		"@nextcloud/vite-config": "^2.5.4",
 		"@playwright/test": "^1.62.1",
 		"@vue/tsconfig": "^0.9.1",
-		"eslint": "^10.8.0",
+		"eslint": "^10.8.1",
 		"jsdom": "^29.1.1",
 		"msw": "^2.15.0",
 		"typescript": "^6.0.3",
