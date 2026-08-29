@@ -18,6 +18,7 @@ use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\ICertificateManager;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ExternalKaspersky extends ScannerBase {
@@ -30,13 +31,14 @@ class ExternalKaspersky extends ScannerBase {
 	public const BODY_SUFFIX = '"}';
 
 	public function __construct(
+		IConfig $config,
 		IAppConfig $appConfig,
 		LoggerInterface $logger,
 		StatusFactory $statusFactory,
 		private readonly ICertificateManager $certificateManager,
 		private readonly bool $verifyTlsPeer = true,
 	) {
-		parent::__construct($appConfig, $logger, $statusFactory);
+		parent::__construct($config, $appConfig, $logger, $statusFactory);
 		// this is intentionally a multiple of 3 to hit the happy path for base64 chunking
 		// and a multiple of 8k, which is php's internal chunk size
 		$this->chunkSize = 30 * 8 * 1024;

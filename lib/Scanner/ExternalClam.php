@@ -13,6 +13,7 @@ use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
 use OCA\Files_Antivirus\Status;
 use OCA\Files_Antivirus\StatusFactory;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class ExternalClam extends ScannerBase {
@@ -21,8 +22,8 @@ class ExternalClam extends ScannerBase {
 	 */
 	private bool $useSocket;
 
-	public function __construct(IAppConfig $config, LoggerInterface $logger, StatusFactory $statusFactory) {
-		parent::__construct($config, $logger, $statusFactory);
+	public function __construct(IConfig $config, IAppConfig $appConfig, LoggerInterface $logger, StatusFactory $statusFactory) {
+		parent::__construct($config, $appConfig, $logger, $statusFactory);
 		$this->useSocket = $this->appConfig->getAppValueString(ConfigLexicon::AV_MODE) === 'socket';
 	}
 
