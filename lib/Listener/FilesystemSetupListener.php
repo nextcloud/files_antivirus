@@ -62,16 +62,7 @@ class FilesystemSetupListener implements IEventListener {
 		Filesystem::addStorageWrapper(
 			'oc_avir',
 			function (string $mountPoint, IStorage $storage) {
-				if (
-					$storage->instanceOfStorage(AvirWrapper::class)
-					&& $storage->instanceOfStorage(Jail::class) && (
-						$storage->instanceOfStorage(ISharedStorage::class)
-						|| !(
-							$this->groupFolderEncryptionEnabled
-							&& $storage->instanceOfStorage(GroupFolderEncryptionJail::class)
-						)
-					)
-				) {
+				if ($this->shouldSkipWrapping($storage)) {
 					// No reason to wrap jails again.
 					// Make an exception for encrypted group folders.
 					return $storage;
@@ -99,6 +90,22 @@ class FilesystemSetupListener implements IEventListener {
 			},
 			1,
 		);
+	}
+
+	private function shouldSkipWrapping(IStorage $storage): bool {
+		return $storage->instanceOfStorage(Jail::class)
+			&& (
+				// Check shared storage before AvirWrapper to avoid triggering
+				// lazy initialization while inspecting the wrapper chain.
+				$storage->instanceOfStorage(ISharedStorage::class)
+				|| (
+					$storage->instanceOfStorage(AvirWrapper::class)
+					&& !(
+						$this->groupFolderEncryptionEnabled
+						&& $storage->instanceOfStorage(GroupFolderEncryptionJail::class)
+					)
+				)
+			);
 	}
 
 }
