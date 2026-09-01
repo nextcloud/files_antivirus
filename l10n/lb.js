@@ -4,6 +4,7 @@ OC.L10N.register(
     "Saved" : "Gespäichert",
     "Advanced settings" : "Erweidert Astellungen",
     "Description" : "Beschreiwung",
+    "Create" : "Erstellen",
     "Save" : "Späicheren",
     "Actions" : "Aktiounen",
     "Edit" : "Änneren",
