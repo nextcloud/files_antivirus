@@ -9,8 +9,10 @@ OC.L10N.register(
     "Actions" : "Aktiounen",
     "Edit" : "Änneren",
     "Delete" : "Läschen",
+    "Failed to save settings" : "Späichere vun den Astellunge feelgeschloen",
     "Host" : "Host",
     "Port" : "Port",
-    "Select" : "Select"
+    "Select" : "Select",
+    "Settings saved" : "Astellunge gespäichert"
 },
 "nplurals=2; plural=(n != 1);");
