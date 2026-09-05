@@ -16,6 +16,7 @@ OC.L10N.register(
     "Clear all" : "Vyčistiť všetko",
     "Reset to defaults" : "Obnoviť predvolené",
     "Add a rule" : "Pridať pravidlo",
+    "Edit rule" : "Upraviť pravidlo",
     "Match by" : "Hľadať zhodu s",
     "Mark as" : "Označiť ako",
     "Scanner exit status" : "Stav ukončenia skenera",
