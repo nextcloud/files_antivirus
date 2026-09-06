@@ -31,6 +31,7 @@ OC.L10N.register(
     "ClamAV Daemon" : "ClamAV Démon",
     "Only log" : "Len zaznamenať",
     "Delete file" : "Zmazať súbor",
+    "Settings saved successfully" : "Nastavenia boli úspešne uložené",
     "Failed to save settings" : "Nepodarilo sa uložiť nastavenia",
     "Mode" : "Režim",
     "Path to clamscan" : "Cesta ku clamscan",
