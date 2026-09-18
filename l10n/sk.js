@@ -40,7 +40,7 @@ OC.L10N.register(
     "Delete" : "Odstrániť",
     "ClamAV Executable" : "ClamAV spustiteľný súbor",
     "ClamAV Daemon" : "ClamAV Démon",
-    "ClamAV Socket" : "Soket ClamAV",
+    "ClamAV Socket" : "Socket ClamAV",
     "Only log" : "Len zaznamenať",
     "Delete file" : "Zmazať súbor",
     "Settings saved successfully" : "Nastavenia boli úspešne uložené",
