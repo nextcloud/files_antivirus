@@ -10,10 +10,12 @@ OC.L10N.register(
     "Edit" : "Editează",
     "Delete" : "Șterge",
     "Delete file" : "Șterge fișier",
+    "Failed to save settings" : "Setările nu au putut fi salvate",
     "Mode" : "Mod",
     "Host" : "Gazdă",
     "Port" : "Portul",
     "Select" : "Selectează",
-    "Settings saved" : "Setările au fost salvate"
+    "Settings saved" : "Setările au fost salvate",
+    "Saving …" : "Se salvează …"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
