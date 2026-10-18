@@ -17,6 +17,7 @@ OC.L10N.register(
     "Clear all" : "Hapus semua",
     "Reset to defaults" : "Setel ulang ke default",
     "Add a rule" : "Tambah aturan",
+    "Edit rule" : "Edit aturan",
     "Match by" : "Cocokkan berdasarkan",
     "Mark as" : "Tandai sebagai",
     "Scanner exit status" : "Status keluar pemindai",
