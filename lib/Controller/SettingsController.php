@@ -9,12 +9,15 @@
 namespace OCA\Files_Antivirus\Controller;
 
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
+use OCA\Files_Antivirus\AuditLog\AuditEventFactory;
+use OCA\Files_Antivirus\AuditLog\Operation;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -27,6 +30,7 @@ class SettingsController extends Controller {
 		private IL10N $l10n,
 		private ScannerFactory $scannerFactory,
 		private ConfigLexicon $configLexicon,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -88,6 +92,17 @@ class SettingsController extends Controller {
 		$this->appConfig->setAppValueString(ConfigLexicon::AV_ICAP_MODE, $avIcapMode);
 		$this->appConfig->setAppValueString(ConfigLexicon::AV_ICAP_REQUEST_SERVICE, $avIcapRequestService);
 		$this->appConfig->setAppValueString(ConfigLexicon::AV_ICAP_RESPONSE_HEADER, $avIcapResponseHeader);
+
+		$this->eventDispatcher->dispatchTyped(AuditEventFactory::create(
+			Operation::SettingsUpdated,
+			'Antivirus settings were changed, mode: "%s", action on infected files: "%s"',
+			[
+				'avMode' => $avMode,
+				'avInfectedAction' => $avInfectedAction,
+				'avBlockUnscannable' => $avBlockUnscannable,
+				'avBlockUnreachable' => $avBlockUnreachable,
+			],
+		));
 
 		try {
 			$scanner = $this->scannerFactory->getScanner('/self-test.txt', strlen('dummy scan content'));
