@@ -21,6 +21,8 @@ enum Operation: string {
 	case RuleDeleted = 'files_antivirus.rule.deleted';
 	case RulesCleared = 'files_antivirus.rules.cleared';
 	case RulesReset = 'files_antivirus.rules.reset';
+	case InfectedFileDetected = 'files_antivirus.infected_file.detected';
+	case InfectedUploadBlocked = 'files_antivirus.infected_upload.blocked';
 
 	/**
 	 * Short description of when the operation is logged, used for the documentation
@@ -33,6 +35,8 @@ enum Operation: string {
 			self::RuleDeleted => 'A rule deciding how a scanner result is classified was deleted',
 			self::RulesCleared => 'All rules deciding how scanner results are classified were deleted',
 			self::RulesReset => 'The rules deciding how scanner results are classified were reset to the defaults',
+			self::InfectedFileDetected => 'The background scan found an infected file, and deleted it if configured so',
+			self::InfectedUploadBlocked => 'An infected upload was rejected and the partially written file was deleted',
 		};
 	}
 }

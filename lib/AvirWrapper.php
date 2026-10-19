@@ -11,6 +11,8 @@ namespace OCA\Files_Antivirus;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
+use OCA\Files_Antivirus\AuditLog\AuditEventFactory;
+use OCA\Files_Antivirus\AuditLog\Operation;
 use OCA\Files_Antivirus\Event\ScanStateEvent;
 use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
@@ -50,6 +52,7 @@ class AvirWrapper extends Wrapper {
 	private IRequest $request;
 	private array $blockListedDirectories;
 	private ScannedPathsRegistry $scannedPathsRegistry;
+	private IEventDispatcher $eventDispatcher;
 
 	/**
 	 * @psalm-suppress MoreSpecificImplementedParamType
@@ -91,9 +94,8 @@ class AvirWrapper extends Wrapper {
 		$this->blockListedDirectories = $parameters['blockListedDirectories'];
 		$this->scannedPathsRegistry = $parameters['scannedPathsRegistry'];
 
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $parameters['eventDispatcher'];
-		$eventDispatcher->addListener(ScanStateEvent::class, function (ScanStateEvent $event) {
+		$this->eventDispatcher = $parameters['eventDispatcher'];
+		$this->eventDispatcher->addListener(ScanStateEvent::class, function (ScanStateEvent $event) {
 			$this->shouldScan = $event->getState();
 		});
 	}
@@ -351,6 +353,17 @@ class AvirWrapper extends Wrapper {
 			$trashManager = Server::get(ITrashManager::class);
 			$trashManager->resumeTrash();
 		}
+
+		$this->eventDispatcher->dispatchTyped(AuditEventFactory::create(
+			Operation::InfectedUploadBlocked,
+			'Upload of infected file "%s" of "%s" was blocked',
+			[
+				'path' => $this->getRegistryPath($path),
+				'ownerId' => $owner === false ? null : $owner,
+				'details' => $status->getDetails(),
+				'unscannable' => $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE,
+			],
+		));
 
 		$this->logger->warning(
 			'Infected file deleted. ' . $status->getDetails() . ' Account: ' . $owner . ' Path: ' . $path, [

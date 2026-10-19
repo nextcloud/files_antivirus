@@ -16,6 +16,7 @@ use OCA\Files_Antivirus\Scanner\IScanner;
 use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -24,7 +25,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Traits\UserTrait;
 
 // mmm. IDK why autoloader fails on this class
@@ -67,7 +67,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => false,
@@ -171,7 +171,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => false,
@@ -216,7 +216,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => false,
@@ -278,7 +278,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => true,
@@ -319,7 +319,7 @@ class AvirWrapperTest extends TestBase {
 			'logger' => $this->logger,
 			'activityManager' => $this->createMock(IManager::class),
 			'isHomeStorage' => true,
-			'eventDispatcher' => $this->createMock(EventDispatcherInterface::class),
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
 			'trashEnabled' => true,
 			'groupFoldersEnabled' => false,
 			'e2eeEnabled' => true,

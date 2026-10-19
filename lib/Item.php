@@ -13,6 +13,8 @@ namespace OCA\Files_Antivirus;
 use OCA\Files_Antivirus\Activity\Provider;
 use OCA\Files_Antivirus\AppInfo\Application;
 use OCA\Files_Antivirus\AppInfo\ConfigLexicon;
+use OCA\Files_Antivirus\AuditLog\AuditEventFactory;
+use OCA\Files_Antivirus\AuditLog\Operation;
 use OCA\Files_Antivirus\Db\ItemMapper;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Activity\IManager as ActivityManager;
@@ -20,6 +22,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Server;
@@ -47,6 +50,7 @@ class Item {
 		private LoggerInterface $logger,
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
+		private IEventDispatcher $eventDispatcher,
 		private File $file,
 		private ITimeFactory $clock,
 		private bool $isCron,
@@ -122,6 +126,18 @@ class Item {
 		} else {
 			$this->updateCheckTime($this->clock->getTime());
 		}
+
+		$this->eventDispatcher->dispatchTyped(AuditEventFactory::create(
+			Operation::InfectedFileDetected,
+			$shouldDelete ? 'Infected file %s of "%s" was deleted' : 'Infected file %s of "%s" was found',
+			[
+				'fileId' => $this->file->getId(),
+				'ownerId' => $owner?->getUID(),
+				'details' => $status->getDetails(),
+				'unscannable' => $status->getNumericStatus() === Status::SCANRESULT_UNSCANNABLE,
+				'infectedAction' => $infectedAction,
+			],
+		));
 	}
 
 	/**
