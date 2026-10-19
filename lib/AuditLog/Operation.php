@@ -23,6 +23,7 @@ enum Operation: string {
 	case RulesReset = 'files_antivirus.rules.reset';
 	case InfectedFileDetected = 'files_antivirus.infected_file.detected';
 	case InfectedUploadBlocked = 'files_antivirus.infected_upload.blocked';
+	case ScanStateUpdated = 'files_antivirus.scan_state.updated';
 
 	/**
 	 * Short description of when the operation is logged, used for the documentation
@@ -37,6 +38,7 @@ enum Operation: string {
 			self::RulesReset => 'The rules deciding how scanner results are classified were reset to the defaults',
 			self::InfectedFileDetected => 'The background scan found an infected file, and deleted it if configured so',
 			self::InfectedUploadBlocked => 'An infected upload was rejected and the partially written file was deleted',
+			self::ScanStateUpdated => 'A file was marked as scanned, optionally excluding it from all future scans, or as unscanned through occ',
 		};
 	}
 }
