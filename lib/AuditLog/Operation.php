@@ -16,6 +16,11 @@ namespace OCA\Files_Antivirus\AuditLog;
  */
 enum Operation: string {
 	case SettingsUpdated = 'files_antivirus.settings.updated';
+	case RuleCreated = 'files_antivirus.rule.created';
+	case RuleUpdated = 'files_antivirus.rule.updated';
+	case RuleDeleted = 'files_antivirus.rule.deleted';
+	case RulesCleared = 'files_antivirus.rules.cleared';
+	case RulesReset = 'files_antivirus.rules.reset';
 
 	/**
 	 * Short description of when the operation is logged, used for the documentation
@@ -23,6 +28,11 @@ enum Operation: string {
 	public function description(): string {
 		return match ($this) {
 			self::SettingsUpdated => 'The scanner settings were changed in the admin settings',
+			self::RuleCreated => 'A rule deciding how a scanner result is classified was added',
+			self::RuleUpdated => 'A rule deciding how a scanner result is classified was changed',
+			self::RuleDeleted => 'A rule deciding how a scanner result is classified was deleted',
+			self::RulesCleared => 'All rules deciding how scanner results are classified were deleted',
+			self::RulesReset => 'The rules deciding how scanner results are classified were reset to the defaults',
 		};
 	}
 }
