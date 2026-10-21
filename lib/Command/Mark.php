@@ -9,7 +9,10 @@ declare(strict_types=1);
 namespace OCA\Files_Antivirus\Command;
 
 use OC\Core\Command\Base;
+use OCA\Files_Antivirus\AuditLog\AuditEventFactory;
+use OCA\Files_Antivirus\AuditLog\Operation;
 use OCA\Files_Antivirus\ItemFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -22,6 +25,7 @@ class Mark extends Base {
 	public function __construct(
 		private readonly IRootFolder $rootFolder,
 		private readonly ItemFactory $itemFactory,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct();
 	}
@@ -67,6 +71,16 @@ class Mark extends Base {
 		} else {
 			$item->processClean();
 		}
+
+		$this->eventDispatcher->dispatchTyped(AuditEventFactory::create(
+			Operation::ScanStateUpdated,
+			'File %s was marked as %s for the antivirus scan',
+			[
+				'fileId' => $node->getId(),
+				'mode' => $mode,
+				'forever' => $mode === 'scanned' && $forever,
+			],
+		));
 
 		return 0;
 	}
