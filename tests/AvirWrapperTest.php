@@ -17,6 +17,8 @@ use OCA\Files_Antivirus\Scanner\ScannerFactory;
 use OCA\Files_Antivirus\Status;
 use OCP\Activity\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\GenericFileException;
+use OCP\Files\InvalidContentException;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -361,6 +363,111 @@ class AvirWrapperTest extends TestBase {
 		$stream = fopen('php://memory', 'rwb');
 		$wrapper->writeStream('anyfile.txt', $stream);
 		$this->assertTrue($wrapper->connectionErrorCalled, 'Expected handleConnectionError to be called');
+	}
+
+	/**
+	 * Like ObjectStoreStorage::writeStream(), consume the stream and turn any
+	 * failure into a GenericFileException that keeps the original as previous.
+	 */
+	private function getObjectStoreLikeStorage(?\Exception $failure = null): Temporary {
+		return new class(['failure' => $failure]) extends Temporary {
+			private ?\Exception $failure;
+
+			public function __construct(array $parameters) {
+				parent::__construct($parameters);
+				$this->failure = $parameters['failure'];
+			}
+
+			public function writeStream(string $path, $stream, ?int $size = null): int {
+				try {
+					if ($this->failure !== null) {
+						throw $this->failure;
+					}
+					$written = strlen(stream_get_contents($stream));
+					fclose($stream);
+					return $written;
+				} catch (\Exception $e) {
+					throw new GenericFileException('Error while writing stream to object store', 0, $e);
+				}
+			}
+		};
+	}
+
+	private function getWrapperForObjectStore(Temporary $storage, int $scanResult): AvirWrapper {
+		$status = $this->createMock(Status::class);
+		$status->method('getNumericStatus')
+			->willReturn($scanResult);
+		$status->method('getDetails')
+			->willReturn('Eicar-Test-Signature');
+		$scanner = $this->createMock(IScanner::class);
+		$scanner->method('completeAsyncScan')
+			->willReturn($status);
+		$scannerFactory = $this->createMock(ScannerFactory::class);
+		$scannerFactory->method('getScanner')
+			->willReturn($scanner);
+
+		return new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
+			'trashEnabled' => false,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/files/',
+			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
+			'block_unreachable' => false,
+			'request' => $this->createMock(IRequest::class),
+			'scannedPathsRegistry' => new ScannedPathsRegistry(),
+		]);
+	}
+
+	/**
+	 * On object store primary storage the virus verdict used to be buried in a
+	 * GenericFileException, and WebDAV answered 400 "Expected filesize of N bytes
+	 * but read and wrote -1 bytes" instead of 415 with the scanner message.
+	 */
+	public function testInfectedUploadToObjectStoreKeepsVirusMessage(): void {
+		$wrapper = $this->getWrapperForObjectStore($this->getObjectStoreLikeStorage(), Status::SCANRESULT_INFECTED);
+
+		$stream = fopen('php://memory', 'rwb');
+		fwrite($stream, 'infected content');
+		rewind($stream);
+
+		$this->expectException(InvalidContentException::class);
+		$this->expectExceptionMessage('Virus %s is detected in the file. Upload cannot be completed.');
+		$wrapper->writeStream('files/test.txt', $stream);
+	}
+
+	public function testCleanUploadToObjectStoreIsWritten(): void {
+		$wrapper = $this->getWrapperForObjectStore($this->getObjectStoreLikeStorage(), Status::SCANRESULT_CLEAN);
+
+		$stream = fopen('php://memory', 'rwb');
+		fwrite($stream, 'clean content');
+		rewind($stream);
+
+		self::assertSame(13, $wrapper->writeStream('files/test.txt', $stream));
+	}
+
+	public function testObjectStoreFailureUnrelatedToScanIsNotHidden(): void {
+		$failure = new \RuntimeException('S3 is down');
+		$wrapper = $this->getWrapperForObjectStore($this->getObjectStoreLikeStorage($failure), Status::SCANRESULT_CLEAN);
+
+		$stream = fopen('php://memory', 'rwb');
+		fwrite($stream, 'clean content');
+		rewind($stream);
+
+		try {
+			$wrapper->writeStream('files/test.txt', $stream);
+			self::fail('Expected a GenericFileException');
+		} catch (GenericFileException $e) {
+			self::assertSame($failure, $e->getPrevious());
+		}
 	}
 
 }
