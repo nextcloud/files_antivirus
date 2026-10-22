@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Salvat",
     "Advanced settings" : "Setări avansate",
+    "Rules" : "Reguli",
     "Description" : "Descriere",
     "Create" : "Crează",
     "Save" : "Salvează",
