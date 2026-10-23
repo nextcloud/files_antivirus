@@ -21,6 +21,7 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCP\Activity\IManager;
 use OCP\Activity\IManager as ActivityManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
@@ -133,11 +134,27 @@ class AvirWrapper extends Wrapper {
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
-		if ($this->shouldWrap($path)) {
-			$scanner = $this->getAvScanner($path, $size);
-			$stream = $this->wrapSteam($path, $stream, $scanner);
+		if (!$this->shouldWrap($path)) {
+			return parent::writeStream($path, $stream, $size);
 		}
-		return parent::writeStream($path, $stream, $size);
+
+		$scanner = $this->getAvScanner($path, $size);
+		$stream = $this->wrapSteam($path, $stream, $scanner);
+		try {
+			return parent::writeStream($path, $stream, $size);
+		} catch (GenericFileException $e) {
+			// The object store storage rethrows anything raised while it consumes the
+			// stream as a GenericFileException. WebDAV then answers with a confusing
+			// size mismatch instead of the scan result, so hand the original back.
+			$previous = $e->getPrevious();
+			while ($previous !== null) {
+				if ($previous instanceof InvalidContentException) {
+					throw $previous;
+				}
+				$previous = $previous->getPrevious();
+			}
+			throw $e;
+		}
 	}
 
 	public function shouldWrap(string $path): bool {
