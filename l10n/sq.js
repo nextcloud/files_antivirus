@@ -18,6 +18,7 @@ OC.L10N.register(
     "Delete" : "Fshi",
     "Only log" : "Vetëm log",
     "Delete file" : "Fshi skedarin",
+    "Mode" : "Mënyra",
     "Host" : "Strehë",
     "Port" : "Porta",
     "Select" : "Zgjidhni",

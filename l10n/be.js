@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Захавана",
     "Advanced settings" : "Пашыраныя налады",
+    "Reset to defaults" : "Скінуць да прадвызначаных",
     "Description" : "Апісанне",
     "Create" : "Ствараць",
     "Save" : "Захаваць",
@@ -11,6 +12,7 @@ OC.L10N.register(
     "Delete" : "Выдаліць",
     "Delete file" : "Выдаліць файл",
     "Failed to save settings" : "Не ўдалося захаваць налады",
+    "Mode" : "Рэжым",
     "Host" : "Хост",
     "Port" : "Порт",
     "Select" : "Выбраць",

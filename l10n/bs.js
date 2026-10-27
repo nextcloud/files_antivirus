@@ -2,12 +2,14 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "Spremljeno",
+    "Reset to defaults" : "Vrati na zadano",
     "Description" : "Opis",
     "Create" : "Kreiraj",
     "Save" : "Spremi",
     "Actions" : "Radnje",
     "Edit" : "Izmjeni",
     "Delete" : "Obriši",
+    "Mode" : "Način",
     "Port" : "Priključak",
     "Select" : "Select"
 },

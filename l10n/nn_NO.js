@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Lagra",
     "Advanced settings" : "Avanserte innstillingar",
+    "Reset to defaults" : "Tilbakestill til standard",
     "Description" : "Skildring",
     "Create" : "Opprett",
     "Save" : "Lagre",
@@ -10,6 +11,7 @@ OC.L10N.register(
     "Edit" : "Rediger",
     "Delete" : "Slett",
     "Delete file" : "Slett fil",
+    "Mode" : "Modus",
     "Host" : "Tenar",
     "Port" : "Port",
     "Select" : "Vel",

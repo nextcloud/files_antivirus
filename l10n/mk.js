@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Зачувано",
     "Advanced settings" : "Напредни параметри",
+    "Reset to defaults" : "Ресетирај на стандардни",
     "Description" : "Опис",
     "Create" : "Креирај",
     "Save" : "Зачувај",
