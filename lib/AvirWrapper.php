@@ -122,9 +122,10 @@ class AvirWrapper extends Wrapper {
 	public function fopen(string $path, string $mode) {
 		if ($this->shouldWrap($path) && $this->isWritingMode($mode)) {
 			$scanner = $this->getAvScanner($path, null);
+			$isDisposable = $this->isDisposableTarget($path);
 			$stream = $this->storage->fopen($path, $mode);
 			if (is_resource($stream)) {
-				$stream = $this->wrapSteam($path, $stream, $scanner);
+				$stream = $this->wrapSteam($path, $stream, $scanner, $isDisposable);
 			}
 			return $stream;
 		} else {
@@ -135,9 +136,17 @@ class AvirWrapper extends Wrapper {
 	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($this->shouldWrap($path)) {
 			$scanner = $this->getAvScanner($path, $size);
-			$stream = $this->wrapSteam($path, $stream, $scanner);
+			$stream = $this->wrapSteam($path, $stream, $scanner, $this->isDisposableTarget($path));
 		}
 		return parent::writeStream($path, $stream, $size);
+	}
+
+	/**
+	 * Whether a write target only holds the data being written and may be removed when blocked:
+	 * true for part files and files that do not exist yet, false for existing files.
+	 */
+	private function isDisposableTarget(string $path): bool {
+		return pathinfo($path, PATHINFO_EXTENSION) === 'part' || !$this->storage->file_exists($path);
 	}
 
 	public function shouldWrap(string $path): bool {
@@ -248,7 +257,10 @@ class AvirWrapper extends Wrapper {
 		return substr($this->request->getPathInfo(), strlen($davFilesPrefix));
 	}
 
-	public function wrapSteam(string $path, $stream, IScanner $scanner) {
+	/**
+	 * @param bool $isDisposable whether the target may be removed if the scanner was unreachable
+	 */
+	public function wrapSteam(string $path, $stream, IScanner $scanner, bool $isDisposable = false) {
 		$amountRead = 0;
 		return CallbackReadDataWrapper::wrap(
 			$stream,
@@ -263,7 +275,7 @@ class AvirWrapper extends Wrapper {
 			function ($data) use ($scanner) {
 				$scanner->onAsyncData($data);
 			},
-			function () use ($scanner, $path) {
+			function () use ($scanner, $path, $isDisposable) {
 				$status = $scanner->completeAsyncScan();
 				if ($status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
 					$this->handleInfected($path, $status);
@@ -272,7 +284,7 @@ class AvirWrapper extends Wrapper {
 					$this->handleInfected($path, $status);
 				}
 				if ($this->blockUnReachable && $status->getNumericStatus() === Status::SCANRESULT_UNCHECKED) {
-					$this->handleConnectionError($path, true);
+					$this->handleConnectionError($path, $isDisposable);
 				}
 				// Register result only when the file is accepted (not blocked).
 				// UNCHECKED without block_unreachable means AV was unreachable — do NOT
