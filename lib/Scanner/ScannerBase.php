@@ -18,15 +18,25 @@ use Psr\Log\LoggerInterface;
 
 abstract class ScannerBase implements IScanner {
 	/**
-	 * Scan result
+	 * Severity of the scan results, the most severe result of all parts of a file is reported
+	 */
+	private const STATUS_SEVERITY = [
+		Status::SCANRESULT_CLEAN => 0,
+		Status::SCANRESULT_UNSCANNABLE => 1,
+		Status::SCANRESULT_UNCHECKED => 2,
+		Status::SCANRESULT_INFECTED => 3,
+	];
+
+	/**
+	 * Scan result of the current part
 	 */
 	protected Status $status;
 
 	/**
 	 * If scanning was done part by part
-	 * the first detected infected part is stored here
+	 * the most severe result of the previous parts is stored here
 	 */
-	protected ?Status $infectedStatus = null;
+	protected ?Status $previousStatus = null;
 
 	protected int $byteCount;
 
@@ -34,7 +44,7 @@ abstract class ScannerBase implements IScanner {
 	protected $writeHandle;
 
 	protected ?string $lastChunk = null;
-	protected bool $isLogUsed = false;
+	/** Set if data could not be written to the scanner, the file is then reported as unchecked */
 	protected bool $isAborted = false;
 	protected string $path = '';
 	protected ?int $size = null;
@@ -55,10 +65,18 @@ abstract class ScannerBase implements IScanner {
 
 	#[\Override]
 	public function getStatus(): Status {
-		if ($this->infectedStatus instanceof Status) {
-			return $this->infectedStatus;
+		if ($this->previousStatus !== null
+			&& self::getSeverity($this->previousStatus) >= self::getSeverity($this->status)) {
+			return $this->previousStatus;
 		}
 		return $this->status;
+	}
+
+	/**
+	 * Unknown results are handled like unchecked ones
+	 */
+	private static function getSeverity(Status $status): int {
+		return self::STATUS_SEVERITY[$status->getNumericStatus()] ?? self::STATUS_SEVERITY[Status::SCANRESULT_UNCHECKED];
 	}
 
 	/**
@@ -82,8 +100,7 @@ abstract class ScannerBase implements IScanner {
 			return $this->getStatus();
 		}
 
-		$this->shutdownScanner();
-		return $this->getStatus();
+		return $this->finishScan();
 	}
 
 	#[\Override]
@@ -92,8 +109,7 @@ abstract class ScannerBase implements IScanner {
 
 		$this->writeChunk($data);
 
-		$this->shutdownScanner();
-		return $this->getStatus();
+		return $this->finishScan();
 	}
 
 	/**
@@ -111,7 +127,20 @@ abstract class ScannerBase implements IScanner {
 	 */
 	#[\Override]
 	public function completeAsyncScan(): Status {
+		return $this->finishScan();
+	}
+
+	/**
+	 * Get the result of the scanner and report the file as unchecked
+	 * if not all data could be sent to the scanner.
+	 */
+	private function finishScan(): Status {
 		$this->shutdownScanner();
+		$numericStatus = $this->status->getNumericStatus();
+		if ($this->isAborted && $numericStatus !== Status::SCANRESULT_INFECTED && $numericStatus !== Status::SCANRESULT_UNCHECKED) {
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			$this->status->setDetails('Failed to send the file to the antivirus scanner');
+		}
 		return $this->getStatus();
 	}
 
@@ -121,9 +150,9 @@ abstract class ScannerBase implements IScanner {
 	#[\Override]
 	public function initScanner(): void {
 		$this->byteCount = 0;
-		if ($this->status->getNumericStatus() === Status::SCANRESULT_INFECTED) {
-			$this->infectedStatus = clone $this->status;
-		}
+		$this->lastChunk = null;
+		$this->isAborted = false;
+		$this->previousStatus = null;
 		$this->status = $this->statusFactory->newStatus();
 	}
 
@@ -151,31 +180,32 @@ abstract class ScannerBase implements IScanner {
 				['app' => 'files_antivirus']
 			);
 			$this->shutdownScanner();
-			$isReopenSuccessful = $this->retry();
+			$isReopenSuccessful = $this->reinitScanner();
 		} else {
 			$isReopenSuccessful = true;
 		}
 
+		// The data already sent to the scanner is lost when a write fails (e.g. the daemon closed the connection
+		// because its StreamMaxLength was reached), so the scan cannot be resumed on a new connection.
 		if (!$isReopenSuccessful || !$this->writeRaw($data)) {
-			if (!$this->isLogUsed) {
-				$this->isLogUsed = true;
-				$this->logger->warning(
-					'Failed to write a chunk. Check if Stream Length matches StreamMaxLength in anti virus daemon settings',
-					['app' => 'files_antivirus']
-				);
-			}
-			// retry on error
-			$isRetrySuccessful = $this->retry() && $this->writeRaw($data);
-			$this->isAborted = !$isRetrySuccessful;
+			$this->isAborted = true;
+			$this->logger->warning(
+				'Failed to write a chunk, the file is reported as unchecked. Check if Stream Length matches StreamMaxLength in anti virus daemon settings',
+				['app' => 'files_antivirus']
+			);
 		}
 	}
 
-	protected function retry(): bool {
+	/**
+	 * Start the scan of the next part of the file,
+	 * it begins with the last chunk of the previous part.
+	 */
+	private function reinitScanner(): bool {
+		$previousStatus = $this->getStatus();
+		$lastChunk = $this->lastChunk;
 		$this->initScanner();
-		if (!is_null($this->lastChunk)) {
-			return $this->writeRaw($this->lastChunk);
-		}
-		return true;
+		$this->previousStatus = $previousStatus;
+		return $lastChunk === null || $this->writeRaw($lastChunk);
 	}
 
 	protected function writeRaw(string $data): bool {
