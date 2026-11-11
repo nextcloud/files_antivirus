@@ -254,6 +254,83 @@ class AvirWrapperTest extends TestBase {
 		];
 	}
 
+	private function getUnreachableBlockingWrapper(Temporary $storage): AvirWrapper {
+		$status = $this->createMock(Status::class);
+		$status->method('getNumericStatus')
+			->willReturn(Status::SCANRESULT_UNCHECKED);
+		$scanner = $this->createMock(IScanner::class);
+		$scanner->method('completeAsyncScan')
+			->willReturn($status);
+		$scannerFactory = $this->createMock(ScannerFactory::class);
+		$scannerFactory->method('getScanner')
+			->willReturn($scanner);
+		$request = $this->createMock(IRequest::class);
+		$request->method('getPathInfo')
+			->willReturn('/dav/files/user/existing.txt');
+
+		return new AvirWrapper([
+			'storage' => $storage,
+			'scannerFactory' => $scannerFactory,
+			'l10n' => $this->l10n,
+			'logger' => $this->logger,
+			'activityManager' => $this->createMock(IManager::class),
+			'isHomeStorage' => true,
+			'eventDispatcher' => $this->createMock(IEventDispatcher::class),
+			'trashEnabled' => false,
+			'groupFoldersEnabled' => false,
+			'e2eeEnabled' => false,
+			'blockListedDirectories' => [],
+			'mount_point' => '/user/',
+			'block_unscannable' => false,
+			'userManager' => $this->createMock(IUserManager::class),
+			'block_unreachable' => true,
+			'request' => $request,
+			'scannedPathsRegistry' => new ScannedPathsRegistry(),
+		]);
+	}
+
+	public static function unreachableAVCleanupProvider(): array {
+		return [
+			'new file via fopen' => ['files/new.txt', false, 'fopen', false],
+			'new file via writeStream' => ['files/new.txt', false, 'writeStream', false],
+			'existing part file via fopen' => ['files/existing.txt.ocTransferId123.part', true, 'fopen', false],
+			'existing part file via writeStream' => ['files/existing.txt.ocTransferId123.part', true, 'writeStream', false],
+			'existing file via fopen' => ['files/existing.txt', true, 'fopen', true],
+			'existing file via writeStream' => ['files/existing.txt', true, 'writeStream', true],
+		];
+	}
+
+	#[DataProvider('unreachableAVCleanupProvider')]
+	public function testUnreachableAVOnlyRemovesDisposableTargets(string $path, bool $exists, string $method, bool $expectKept): void {
+		$storage = new Temporary([]);
+		$storage->mkdir('files');
+		if ($exists) {
+			$storage->file_put_contents($path, 'original content');
+		}
+		$wrappedStorage = $this->getUnreachableBlockingWrapper($storage);
+
+		try {
+			if ($method === 'fopen') {
+				$target = $wrappedStorage->fopen($path, 'a');
+				$this->assertIsResource($target);
+				fwrite($target, ' unchecked content');
+				fclose($target);
+			} else {
+				$source = fopen('php://memory', 'r+b');
+				fwrite($source, 'unchecked content');
+				rewind($source);
+				$wrappedStorage->writeStream($path, $source);
+			}
+			$this->fail('Expected the upload to be blocked');
+		} catch (InvalidContentException) {
+		}
+
+		$this->assertSame($expectKept, $storage->file_exists($path));
+		if ($expectKept && $method === 'fopen') {
+			$this->assertStringStartsWith('original content', $storage->file_get_contents($path));
+		}
+	}
+
 	/**
 	 * Regression for the federated-share 500 (NoUserException): with the E2EE app
 	 * enabled, shouldWrap() resolves the file owner. For a received federated share
