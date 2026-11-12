@@ -21,7 +21,7 @@ OC.L10N.register(
     "Failed to clear rules" : "Не удалось очистить правила",
     "Rules reset to defaults" : "Правила сброшены до значений по умолчанию",
     "Failed to reset rules" : "Не удалось сбросить правила",
-    "Advanced settings" : "Расширенные параметры",
+    "Advanced settings" : "Дополнительные параметры",
     "Rules" : "Правила",
     "Clear all" : "Очистить всё",
     "Reset to defaults" : "Сбросить до значений по умолчанию",
