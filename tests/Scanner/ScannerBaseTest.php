@@ -110,7 +110,7 @@ class ScannerBaseTest extends TestCase {
 		$scanner = $this->getScanner([Status::SCANRESULT_CLEAN], 0);
 		$status = $this->scanChunks($scanner);
 		$this->assertEquals(Status::SCANRESULT_UNCHECKED, $status->getNumericStatus());
-		$this->assertEquals('Failed to send the file to the antivirus scanner', $status->getDetails());
+		$this->assertEquals('Failed to send the file to the antivirus scanner, check that Stream Length is below the scanner\'s StreamMaxLength', $status->getDetails());
 		// the scan is not continued on a new connection
 		$this->assertCount(1, $scanner->parts);
 	}
@@ -130,7 +130,7 @@ class ScannerBaseTest extends TestCase {
 	public function testUncheckedResultOfFailedWriteIsKept(): void {
 		$status = $this->scanChunks($this->getScanner([Status::SCANRESULT_UNCHECKED], 0));
 		$this->assertEquals(Status::SCANRESULT_UNCHECKED, $status->getNumericStatus());
-		$this->assertEquals('', $status->getDetails());
+		$this->assertStringContainsString('Failed to send the file to the antivirus scanner', $status->getDetails());
 	}
 
 	public function testNewScanDoesNotKeepPreviousResult(): void {

@@ -34,9 +34,9 @@ abstract class ScannerBase implements IScanner {
 
 	/**
 	 * If scanning was done part by part
-	 * the most severe result of the previous parts is stored here
+	 * the most severe result of all parts before the current one is stored here
 	 */
-	protected ?Status $previousStatus = null;
+	protected ?Status $mostSevereStatus = null;
 
 	protected int $byteCount;
 
@@ -65,9 +65,9 @@ abstract class ScannerBase implements IScanner {
 
 	#[\Override]
 	public function getStatus(): Status {
-		if ($this->previousStatus !== null
-			&& self::getSeverity($this->previousStatus) >= self::getSeverity($this->status)) {
-			return $this->previousStatus;
+		if ($this->mostSevereStatus !== null
+			&& self::getSeverity($this->mostSevereStatus) >= self::getSeverity($this->status)) {
+			return $this->mostSevereStatus;
 		}
 		return $this->status;
 	}
@@ -137,9 +137,11 @@ abstract class ScannerBase implements IScanner {
 	private function finishScan(): Status {
 		$this->shutdownScanner();
 		$numericStatus = $this->status->getNumericStatus();
-		if ($this->isAborted && $numericStatus !== Status::SCANRESULT_INFECTED && $numericStatus !== Status::SCANRESULT_UNCHECKED) {
+		if ($this->isAborted && $numericStatus !== Status::SCANRESULT_INFECTED) {
+			$details = 'Failed to send the file to the antivirus scanner, check that Stream Length is below the scanner\'s StreamMaxLength';
+			$scannerDetails = trim((string)$this->status->getDetails());
 			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
-			$this->status->setDetails('Failed to send the file to the antivirus scanner');
+			$this->status->setDetails($scannerDetails === '' ? $details : $details . ' (' . $scannerDetails . ')');
 		}
 		return $this->getStatus();
 	}
@@ -152,7 +154,7 @@ abstract class ScannerBase implements IScanner {
 		$this->byteCount = 0;
 		$this->lastChunk = null;
 		$this->isAborted = false;
-		$this->previousStatus = null;
+		$this->mostSevereStatus = null;
 		$this->status = $this->statusFactory->newStatus();
 	}
 
@@ -201,10 +203,10 @@ abstract class ScannerBase implements IScanner {
 	 * it begins with the last chunk of the previous part.
 	 */
 	private function reinitScanner(): bool {
-		$previousStatus = $this->getStatus();
+		$mostSevereStatus = $this->getStatus();
 		$lastChunk = $this->lastChunk;
 		$this->initScanner();
-		$this->previousStatus = $previousStatus;
+		$this->mostSevereStatus = $mostSevereStatus;
 		return $lastChunk === null || $this->writeRaw($lastChunk);
 	}
 
