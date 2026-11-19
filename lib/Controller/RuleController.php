@@ -8,12 +8,15 @@
 
 namespace OCA\Files_Antivirus\Controller;
 
+use OCA\Files_Antivirus\AuditLog\AuditEventFactory;
+use OCA\Files_Antivirus\AuditLog\Operation;
 use OCA\Files_Antivirus\Db\Rule;
 use OCA\Files_Antivirus\Db\RuleMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -24,6 +27,7 @@ class RuleController extends Controller {
 		IRequest $request,
 		private RuleMapper $ruleMapper,
 		private LoggerInterface $logger,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 		$this->ruleMapper = $ruleMapper;
@@ -44,6 +48,7 @@ class RuleController extends Controller {
 	 */
 	public function clear() {
 		$this->ruleMapper->deleteAll();
+		$this->logAuditEvent(Operation::RulesCleared, 'All antivirus rules were deleted');
 		return new JSONResponse();
 	}
 
@@ -54,6 +59,7 @@ class RuleController extends Controller {
 	public function reset() {
 		$this->ruleMapper->deleteAll();
 		$this->ruleMapper->populate();
+		$this->logAuditEvent(Operation::RulesReset, 'Antivirus rules were reset to the defaults');
 		return new JSONResponse();
 	}
 
@@ -89,6 +95,12 @@ class RuleController extends Controller {
 			$newRule = $this->ruleMapper->insert($rule);
 		}
 
+		$this->logAuditEvent(
+			$id ? Operation::RuleUpdated : Operation::RuleCreated,
+			$id ? 'Antivirus rule %s was updated' : 'Antivirus rule %s was created',
+			$this->getRuleParameters($newRule),
+		);
+
 		return new JSONResponse($newRule);
 	}
 
@@ -107,6 +119,19 @@ class RuleController extends Controller {
 			$this->logger->error('Failed to delete rule', ['exception' => $e]);
 			return new JSONResponse(['error' => 'Failed to delete rule'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+		$this->logAuditEvent(Operation::RuleDeleted, 'Antivirus rule %s was deleted', $this->getRuleParameters($rule));
 		return new JSONResponse($rule);
+	}
+
+	private function getRuleParameters(Rule $rule): array {
+		return [
+			'ruleId' => $rule->getId(),
+			'statusType' => $rule->getStatusType(),
+			'status' => $rule->getStatus(),
+		];
+	}
+
+	private function logAuditEvent(Operation $operation, string $message, array $parameters = []): void {
+		$this->eventDispatcher->dispatchTyped(AuditEventFactory::create($operation, $message, $parameters));
 	}
 }

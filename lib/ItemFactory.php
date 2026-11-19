@@ -13,6 +13,7 @@ use OCP\Activity\IManager as ActivityManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ class ItemFactory {
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
 		private ITimeFactory $clock,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -38,6 +40,7 @@ class ItemFactory {
 			$this->logger,
 			$this->rootFolder,
 			$this->appManager,
+			$this->eventDispatcher,
 			$file,
 			$this->clock,
 			$isCron

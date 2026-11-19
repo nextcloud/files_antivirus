@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_antivirus",
     {
     "Saved" : "Saved",
+    "Reset to defaults" : "Standart sozlamalarga qaytarish",
     "Description" : "Tavsif",
     "Create" : "Yaratish",
     "Save" : "Saqlash",

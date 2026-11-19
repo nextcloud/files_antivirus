@@ -18,6 +18,7 @@ use OCP\AppFramework\Db\Entity;
  *
  * @method string getMatch()
  * @method int getStatus()
+ * @method int getStatusType()
  * @method setStatusType(int $type)
  * @method setDescription(string $description)
  * @method setStatus(int $status)

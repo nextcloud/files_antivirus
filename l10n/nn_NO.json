@@ -1,6 +1,7 @@
 { "translations": {
     "Saved" : "Lagra",
     "Advanced settings" : "Avanserte innstillingar",
+    "Reset to defaults" : "Tilbakestill til standard",
     "Description" : "Skildring",
     "Create" : "Opprett",
     "Save" : "Lagre",
@@ -8,6 +9,7 @@
     "Edit" : "Rediger",
     "Delete" : "Slett",
     "Delete file" : "Slett fil",
+    "Mode" : "Modus",
     "Host" : "Tenar",
     "Port" : "Port",
     "Select" : "Vel",
