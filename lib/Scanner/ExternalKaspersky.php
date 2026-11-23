@@ -25,6 +25,8 @@ class ExternalKaspersky extends ScannerBase {
 	private ?HttpRequest $httpRequest = null;
 	/** @var resource|null $stream */
 	private $stream = null;
+	private float $requestStartTime = 0;
+	private int $requestBodySize = 0;
 
 	public const BODY_PREFIX = '{"object":"';
 	public const BODY_SUFFIX = '"}';
@@ -67,11 +69,10 @@ class ExternalKaspersky extends ScannerBase {
 	#[\Override]
 	public function initScanner(): void {
 		parent::initScanner();
+		$this->httpRequest = null;
 
-		$transport = $this->getTransport();
-		$this->stream = $transport->connect();
-
-		// if the size isn't known, we need to buffer the entire file before we can send it
+		// if the size isn't known, we need to buffer the entire file before we can send it,
+		// the connection is only opened then so it doesn't idle while the file is buffered
 		if ($this->size !== null) {
 			$this->httpRequest = $this->startRequest($this->size);
 		}
@@ -84,6 +85,9 @@ class ExternalKaspersky extends ScannerBase {
 			+ (4 * (int)ceil($size / 3))
 			+ strlen(self::BODY_SUFFIX);
 		$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+		$this->stream = $this->getTransport()->connect();
+		$this->requestStartTime = microtime(true);
+		$this->requestBodySize = $encodedSize;
 
 		$request = new HttpRequest(
 			$this->stream,
@@ -102,6 +106,10 @@ class ExternalKaspersky extends ScannerBase {
 
 	#[\Override]
 	protected function writeChunk(string $chunk): void {
+		if ($this->httpRequest?->getWriteError() !== null) {
+			return;
+		}
+
 		// if the size isn't known, we couldn't start the request before the write is complete
 		// and we need to buffer the entire file before we can send it
 		if ($this->httpRequest && ftell($this->writeHandle) >= $this->chunkSize) {
@@ -130,35 +138,78 @@ class ExternalKaspersky extends ScannerBase {
 	#[\Override]
 	protected function shutdownScanner(): void {
 		$size = ftell($this->writeHandle);
-		if (!$this->httpRequest) {
-			$this->httpRequest = $this->startRequest($size);
-		}
-
-		rewind($this->writeHandle);
-		$chunkSize = (int)floor($this->chunkSize / 3) * 3;
-		while (($chunk = fread($this->writeHandle, $chunkSize)) !== false) {
-			if ($chunk === '') {
-				break;
+		try {
+			if (!$this->httpRequest) {
+				$this->httpRequest = $this->startRequest($size);
 			}
-			$enc = base64_encode($chunk);
-			$this->httpRequest->write($enc);
+
+			if ($this->httpRequest->getWriteError() === null) {
+				rewind($this->writeHandle);
+				$chunkSize = (int)floor($this->chunkSize / 3) * 3;
+				while (($chunk = fread($this->writeHandle, $chunkSize)) !== false) {
+					if ($chunk === '') {
+						break;
+					}
+					$enc = base64_encode($chunk);
+					$this->httpRequest->write($enc);
+				}
+				$this->httpRequest->write(self::BODY_SUFFIX);
+			}
+			$response = $this->httpRequest->finish();
+		} catch (\RuntimeException $e) {
+			$this->handleRequestError($e);
+			return;
 		}
-		$this->httpRequest->write(self::BODY_SUFFIX);
-		$response = $this->httpRequest->finish();
 
 		$this->handleResponse($response);
 	}
 
+	/**
+	 * Report the file as unchecked, with enough context to tell a scanner side limit or timeout from a network issue
+	 */
+	private function handleRequestError(\RuntimeException $e): void {
+		$message = 'Kaspersky scan failed: ' . $e->getMessage();
+		if ($this->httpRequest !== null) {
+			$writeError = $this->httpRequest->getWriteError();
+			$message .= ' (' . $this->getRequestProgress() . ($writeError !== null ? ', sending failed: ' . $writeError : '') . ')';
+		}
+
+		$this->logger->error($message, ['exception' => $e, 'app' => 'files_antivirus']);
+		$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+		$this->status->setDetails($message);
+	}
+
+	private function getRequestProgress(): string {
+		return sprintf(
+			'sent %d of %d bytes in %.1f seconds',
+			$this->httpRequest?->getBodyBytesSent() ?? 0,
+			$this->requestBodySize,
+			microtime(true) - $this->requestStartTime,
+		);
+	}
+
 	private function handleResponse(HttpResponse $response): void {
+		$context = '(' . $this->getRequestProgress() . ')';
+		$responseBody = (string)stream_get_contents($response->getBody());
+
 		if ($response->getStatus()->getCode() > 299) {
+			$details = 'Error(' . $response->getStatus()->getStatus() . '): ' . $responseBody;
+			$this->logger->error('Kaspersky responded with HTTP ' . $response->getStatus()->getCode() . ' ' . $context . ': ' . substr($responseBody, 0, 1000), ['app' => 'files_antivirus']);
 			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
-			$body = stream_get_contents($response->getBody());
-			$this->status->setDetails('Error(' . $response->getStatus()->getStatus() . '): ' . $body);
+			$this->status->setDetails($details);
 			return;
 		};
-		$responseBody = stream_get_contents($response->getBody());
+
+		$this->logger->debug('Kaspersky responded ' . $context . ': ' . substr($responseBody, 0, 1000), ['app' => 'files_antivirus']);
 
 		$responseBody = json_decode($responseBody, true);
+		if (!is_array($responseBody) || !is_string($responseBody['scanResult'] ?? null)) {
+			$message = 'Kaspersky scan failed: invalid response ' . $context;
+			$this->logger->error($message, ['app' => 'files_antivirus']);
+			$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+			$this->status->setDetails($message);
+			return;
+		}
 		$scanResult = $responseBody['scanResult'];
 
 		if (str_starts_with($scanResult, 'CLEAN') && $this->status->getNumericStatus() != Status::SCANRESULT_INFECTED) {

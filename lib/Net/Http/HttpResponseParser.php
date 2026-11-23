@@ -32,6 +32,12 @@ class HttpResponseParser {
 	protected function readStatusLine($stream): HttpResponseStatus {
 		$rawHeader = \fgets($stream);
 		if ($rawHeader === false) {
+			if (\stream_get_meta_data($stream)['timed_out']) {
+				throw new RuntimeException('Error reading response from server: timed out waiting for the response');
+			}
+			if (\feof($stream)) {
+				throw new RuntimeException('Error reading response from server: the connection was closed without a response');
+			}
 			throw new RuntimeException('Error reading response from server');
 		}
 		$httpHeader = \trim($rawHeader);
@@ -39,7 +45,9 @@ class HttpResponseParser {
 		if ($numValues !== 4) {
 			throw new RuntimeException("Unknown response: \"$httpHeader\"");
 		}
-		return new HttpResponseStatus("$v1.$v2", (int)$code, $status);
+		// the reason phrase can contain spaces, which sscanf doesn't capture
+		$reason = explode(' ', $httpHeader, 3)[2] ?? $status;
+		return new HttpResponseStatus("$v1.$v2", (int)$code, $reason);
 	}
 
 	protected function readHeaders($stream): array {
