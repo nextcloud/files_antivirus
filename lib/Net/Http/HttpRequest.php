@@ -11,6 +11,9 @@ namespace OCA\Files_Antivirus\Net\Http;
 class HttpRequest {
 	public const USER_AGENT = 'NC-AV-CLIENT';
 
+	private int $bodyBytesSent = 0;
+	private ?string $writeError = null;
+
 	/**
 	 * @param resource $stream
 	 */
@@ -49,14 +52,46 @@ class HttpRequest {
 	 * Write the headers
 	 */
 	public function init(): void {
-		fwrite($this->stream, $this->buildInitialRequest());
+		$this->send($this->buildInitialRequest());
 	}
 
 	/**
 	 * Write a chunk of data
 	 */
 	public function write(string $data): void {
-		fwrite($this->stream, $data);
+		$this->bodyBytesSent += $this->send($data);
+	}
+
+	/**
+	 * Once a write failed, further data is discarded, the server might still have sent a response explaining why
+	 *
+	 * @return int the number of bytes sent
+	 */
+	private function send(string $data): int {
+		if ($this->writeError !== null) {
+			return 0;
+		}
+
+		$length = strlen($data);
+		$sent = 0;
+		while ($sent < $length) {
+			error_clear_last();
+			$written = @fwrite($this->stream, $sent === 0 ? $data : substr($data, $sent));
+			if ($written === false || $written === 0) {
+				$this->writeError = error_get_last()['message'] ?? 'Failed to write to the server';
+				break;
+			}
+			$sent += $written;
+		}
+		return $sent;
+	}
+
+	public function getBodyBytesSent(): int {
+		return $this->bodyBytesSent;
+	}
+
+	public function getWriteError(): ?string {
+		return $this->writeError;
 	}
 
 	public function finish(): HttpResponse {

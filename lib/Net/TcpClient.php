@@ -11,6 +11,9 @@ namespace OCA\Files_Antivirus\Net;
 use RuntimeException;
 
 class TcpClient {
+	/** Seconds to wait for data from the server, this includes the time the server needs to scan the file */
+	public const READ_TIMEOUT = 600;
+
 	public function __construct(
 		public readonly string $host,
 		public readonly int $port,
@@ -37,7 +40,7 @@ class TcpClient {
 			);
 		}
 
-		stream_set_timeout($stream, 600);
+		stream_set_timeout($stream, self::READ_TIMEOUT);
 
 		return $stream;
 	}

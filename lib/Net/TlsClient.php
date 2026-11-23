@@ -52,6 +52,8 @@ class TlsClient extends TcpClient {
 			);
 		}
 
+		stream_set_timeout($stream, self::READ_TIMEOUT);
+
 		return $stream;
 	}
 }
