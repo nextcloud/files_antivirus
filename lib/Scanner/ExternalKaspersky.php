@@ -67,11 +67,10 @@ class ExternalKaspersky extends ScannerBase {
 	#[\Override]
 	public function initScanner(): void {
 		parent::initScanner();
+		$this->httpRequest = null;
 
-		$transport = $this->getTransport();
-		$this->stream = $transport->connect();
-
-		// if the size isn't known, we need to buffer the entire file before we can send it
+		// if the size isn't known, we need to buffer the entire file before we can send it,
+		// the connection is only opened then so it doesn't idle while the file is buffered
 		if ($this->size !== null) {
 			$this->httpRequest = $this->startRequest($this->size);
 		}
@@ -84,6 +83,7 @@ class ExternalKaspersky extends ScannerBase {
 			+ (4 * (int)ceil($size / 3))
 			+ strlen(self::BODY_SUFFIX);
 		$avHost = $this->appConfig->getAppValueString(ConfigLexicon::AV_HOST);
+		$this->stream = $this->getTransport()->connect();
 
 		$request = new HttpRequest(
 			$this->stream,
@@ -131,7 +131,14 @@ class ExternalKaspersky extends ScannerBase {
 	protected function shutdownScanner(): void {
 		$size = ftell($this->writeHandle);
 		if (!$this->httpRequest) {
-			$this->httpRequest = $this->startRequest($size);
+			try {
+				$this->httpRequest = $this->startRequest($size);
+			} catch (\RuntimeException $e) {
+				$this->logger->error($e->getMessage(), ['exception' => $e, 'app' => 'files_antivirus']);
+				$this->status->setNumericStatus(Status::SCANRESULT_UNCHECKED);
+				$this->status->setDetails($e->getMessage());
+				return;
+			}
 		}
 
 		rewind($this->writeHandle);
